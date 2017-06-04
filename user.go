@@ -1,16 +1,17 @@
 package main
 
 type Game struct {
+	ID    int64
 	Build int64
 	Map   string
-	ID    int64
 	Patch string
 }
 
 type Player struct {
+	ID     int64
+	Game   int64
 	Build  int64
 	Map    string
-	Game   int64
 	Hero   string
 	Name   string
 	Winner bool
@@ -18,9 +19,11 @@ type Player struct {
 }
 
 type Talent struct {
+	ID     int64
+	Game   int64
+	Player int64
 	Build  int64
 	Map    string
-	Game   int64
 	Hero   string
 	Tier   int
 	Name   string

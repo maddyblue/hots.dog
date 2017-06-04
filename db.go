@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"database/sql/driver"
 	"fmt"
+	"io"
 	"log"
 
 	"github.com/lib/pq"
@@ -21,7 +22,7 @@ func mustInitDB(dataSource string) *sql.DB {
 	return db
 }
 
-func logQuery(query string, args ...interface{}) {
+func logQuery(query string, args interface{}) {
 	log.Printf("Query: %v: %s", args, query)
 }
 
@@ -54,11 +55,13 @@ func (c *conn) BeginTx(ctx context.Context, opts driver.TxOptions) (driver.Tx, e
 
 func (c *conn) QueryContext(ctx context.Context, query string, args []driver.NamedValue) (driver.Rows, error) {
 	logQuery(query, args)
+	c.ExplainNamed(query, args)
 	return c.Conn.(driver.QueryerContext).QueryContext(ctx, query, args)
 }
 
 func (c *conn) Query(query string, args []driver.Value) (driver.Rows, error) {
 	logQuery(query, args)
+	c.Explain(query, args)
 	return c.Conn.(driver.Queryer).Query(query, args)
 }
 
@@ -72,7 +75,35 @@ func (c *conn) ExecContext(ctx context.Context, query string, args []driver.Name
 	return c.Conn.(driver.ExecerContext).ExecContext(ctx, query, args)
 }
 
-func makeValues(numArgs, argCount int) string {
+func (c *conn) ExplainNamed(query string, args []driver.NamedValue) {
+	values := make([]driver.Value, len(args))
+	for i, v := range args {
+		values[i] = v.Value
+	}
+	c.Explain(query, values)
+}
+
+func (c *conn) Explain(query string, args []driver.Value) {
+	fmt.Println("EXPLAIN", query, args)
+	rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN  "+query, args)
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+	var level int64
+	var typ, field, description string
+	values := []driver.Value{level, typ, field, description}
+	for {
+		if err := rows.Next(values); err == io.EOF {
+			return
+		} else if err != nil {
+			panic(err)
+		}
+		fmt.Println("EXPLAIN", values)
+	}
+}
+
+func makeValues(numArgs, argCount, skip int) string {
 	var buf bytes.Buffer
 	for i := 0; i < argCount; i++ {
 		m := i % numArgs
@@ -82,7 +113,7 @@ func makeValues(numArgs, argCount int) string {
 			}
 			buf.WriteString("(")
 		}
-		fmt.Fprintf(&buf, "$%d", i+1)
+		fmt.Fprintf(&buf, "$%d", i+1+skip)
 		if m == numArgs-1 {
 			buf.WriteString(")")
 		} else {

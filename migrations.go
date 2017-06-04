@@ -17,33 +17,130 @@ func mustMigrate(db *sql.DB) {
 			ID: "1",
 			Up: `
 				CREATE TABLE games (
+					id SERIAL PRIMARY KEY,
 					build INT,
 					map STRING,
-					id SERIAL,
-					patch STRING,
-					PRIMARY KEY (build, map, id)
+					patch STRING
 				);
 				CREATE TABLE players (
+					id SERIAL PRIMARY KEY,
+					game INT REFERENCES games,
 					build INT,
 					map STRING,
-					game INT,
 					hero STRING,
 					winner BOOL,
 					name STRING,
 					team INT,
-					PRIMARY KEY (build, map, game, hero, winner),
-					FOREIGN KEY (build, map, game) REFERENCES games
+					INDEX (map, hero) STORING (winner)
 				);
 				CREATE TABLE talents (
+					id SERIAL PRIMARY KEY,
+					game INT REFERENCES games,
+					player INT REFERENCES players,
 					build INT,
 					map STRING,
-					game INT,
 					hero STRING,
 					winner BOOL,
 					tier INT,
-					name STRING,
-					PRIMARY KEY (build, map, game, hero, winner, tier),
-					FOREIGN KEY (build, map, game, hero, winner) REFERENCES players
+					name STRING
+				);
+				CREATE TABLE maps (
+					name STRING PRIMARY KEY
+				);
+				INSERT INTO maps VALUES
+					('Battlefield of Eternity'),
+					('Blackheart''s Bay'),
+					('Braxis Holdout'),
+					('Cursed Hollow'),
+					('Dragon Shire'),
+					('Garden of Terror'),
+					('Hanamura'),
+					('Haunted Mines'),
+					('Infernal Shrines'),
+					('Sky Temple'),
+					('Tomb of the Spider Queen'),
+					('Towers of Doom'),
+					('Warhead Junction')
+				;
+				CREATE TABLE heroes (
+					name STRING PRIMARY KEY
+				);
+				INSERT INTO heroes VALUES
+					('Abathur'),
+					('Alarak'),
+					('Anub''arak'),
+					('Artanis'),
+					('Arthas'),
+					('Auriel'),
+					('Azmodan'),
+					('Brightwing'),
+					('Cassia'),
+					('Chen'),
+					('Cho'),
+					('Chromie'),
+					('Dehaka'),
+					('Diablo'),
+					('D.Va'),
+					('E.T.C.'),
+					('Falstad'),
+					('Gall'),
+					('Gazlowe'),
+					('Genji'),
+					('Greymane'),
+					('Gul''dan'),
+					('Illidan'),
+					('Jaina'),
+					('Johanna'),
+					('Kael''thas'),
+					('Kerrigan'),
+					('Kharazim'),
+					('Leoric'),
+					('Li Li'),
+					('Li-Ming'),
+					('Lt. Morales'),
+					('Lúcio'),
+					('Lunara'),
+					('Malfurion'),
+					('Malthael'),
+					('Medivh'),
+					('Muradin'),
+					('Murky'),
+					('Nazeebo'),
+					('Nova'),
+					('Probius'),
+					('Ragnaros'),
+					('Raynor'),
+					('Rehgar'),
+					('Rexxar'),
+					('Samuro'),
+					('Sgt. Hammer'),
+					('Sonya'),
+					('Stitches'),
+					('Sylvanas'),
+					('Tassadar'),
+					('The Butcher'),
+					('The Lost Vikings'),
+					('Thrall'),
+					('Tracer'),
+					('Tychus'),
+					('Tyrael'),
+					('Tyrande'),
+					('Uther'),
+					('Valeera'),
+					('Valla'),
+					('Varian'),
+					('Xul'),
+					('Zagara'),
+					('Zarya'),
+					('Zeratul'),
+					('Zul''jin')
+				;
+				CREATE TABLE translations (
+					orig STRING PRIMARY KEY,
+					type STRING,
+					translation STRING NULL,
+					known_bad BOOL,
+					INDEX (translation)
 				);
 			`,
 		},

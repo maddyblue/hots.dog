@@ -1,14 +1,24 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
 )
 
-func mustInitDevData(addr string) {
+func mustInitDevData(addr string, db *sql.DB) {
+	const name = "data.sql"
+	if f, err := ioutil.ReadFile(name); err == nil {
+		if _, err := db.Exec(string(f)); err != nil {
+			panic(err)
+		}
+		fmt.Println("imported", name)
+		return
+	}
 	matches, err := filepath.Glob("replays/*.StormReplay")
 	if err != nil {
 		panic(err)

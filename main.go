@@ -61,7 +61,7 @@ func main() {
 			ctx, _ := context.WithTimeout(context.Background(), time.Second*5)
 			res, err := f(ctx, r, ps)
 			if err != nil {
-				log.Println(err)
+				log.Printf("%+v", err)
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
@@ -72,7 +72,7 @@ func main() {
 			enc := json.NewEncoder(w)
 			enc.SetIndent("", "\t")
 			if err := enc.Encode(res); err != nil {
-				log.Printf("%+v", err)
+				log.Print(err)
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 			}
 		}
@@ -85,7 +85,7 @@ func main() {
 	const addr = "localhost:4001"
 
 	if *flagInit {
-		go mustInitDevData(addr)
+		go mustInitDevData(addr, db)
 	}
 
 	log.Fatal(http.ListenAndServe(addr, router))
@@ -115,37 +115,119 @@ func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request, _ httpro
 		limits[key] = values
 	}
 	var wheres []string
+	var args []interface{}
 	groups := []string{"hero", "winner"}
-	buf := bytes.NewBufferString("SELECT COUNT(*), hero, winner")
+	buf := bytes.NewBufferString("SELECT COUNT(*) count, hero, winner")
 	if v := limits["map"]; v != nil {
 		buf.WriteString(", map")
-		s := fmt.Sprintf(" map IN %s", makeValues(len(v), len(v)))
+		s := fmt.Sprintf(" map IN %s", makeValues(len(v), len(v), len(args)))
+		for _, d := range v {
+			args = append(args, d)
+		}
 		wheres = append(wheres, s)
 		groups = append(groups, "map")
 	}
-	if v := limits["hero"]; v != nil {
-		s := fmt.Sprintf(" hero IN %s", makeValues(len(v), len(v)))
-		wheres = append(wheres, s)
-	}
 	buf.WriteString(" FROM players")
-	if len(wheres) > 0 {
-		fmt.Fprintf(buf, " WHERE %s", strings.Join(wheres, ", "))
-	}
-	fmt.Fprintf(buf, " GROUP BY %s", strings.Join(groups, ", "))
-	fmt.Println(buf.String())
 
-	var players []Player
-	if err := h.x.Select(&players, buf.String()); err != nil {
-		return nil, err
+	type Total struct {
+		Hero   string
+		Map    string `json:",omitempty"`
+		Losses int
+		Wins   int
 	}
-	return nil, nil
+	type WinrateKey struct {
+		Hero string
+		Map  string
+	}
+	tally := make(map[WinrateKey]Total)
+	group := fmt.Sprintf(" GROUP BY %s", strings.Join(groups, ", "))
+	queryWinrates := func(query string, wheres []string, args []interface{}) error {
+		q := bytes.NewBufferString(query)
+		if len(wheres) > 0 {
+			fmt.Fprintf(q, " WHERE %s", strings.Join(wheres, " AND "))
+		}
+		q.WriteString(group)
+		query = q.String()
+		var winrates []struct {
+			Count  int
+			Hero   string
+			Winner bool
+			Map    string `json:",omitempty"`
+		}
+		if err := h.x.Select(&winrates, query, args...); err != nil {
+			return err
+		}
+		for _, wr := range winrates {
+			k := WinrateKey{Hero: wr.Hero, Map: wr.Map}
+			t := tally[k]
+			t.Hero = wr.Hero
+			t.Map = wr.Map
+			if wr.Winner {
+				t.Wins += wr.Count
+			} else {
+				t.Losses += wr.Count
+			}
+			tally[k] = t
+		}
+		return nil
+	}
+
+	query := buf.String()
+	if v := limits["hero"]; v != nil {
+		for _, val := range v {
+			heroArgs := append(args, val)
+			heroWheres := append(wheres, fmt.Sprintf(" hero = $%d", len(heroArgs)))
+			if err := queryWinrates(query, heroWheres, heroArgs); err != nil {
+				return nil, err
+			}
+		}
+	} else {
+		if err := queryWinrates(query, wheres, args); err != nil {
+			return nil, err
+		}
+	}
+
+	totals := make([]Total, 0, len(tally))
+	for _, t := range tally {
+		totals = append(totals, t)
+	}
+	return totals, nil
 }
 
 func (h *hotsContext) UploadReplay(ctx context.Context, r *http.Request, _ httprouter.Params) (interface{}, error) {
 	return h.uploadReplay(ctx, r.Body)
 }
 
+func (h *hotsContext) getNames(ctx context.Context) (maps, heroes map[string]bool, err error) {
+	var names []string
+	if err := h.x.Select(&names, "SELECT * from maps"); err != nil {
+		return nil, nil, err
+	}
+	maps = make(map[string]bool)
+	for _, n := range names {
+		maps[n] = true
+	}
+	if err := h.x.Select(&names, "SELECT * from heroes"); err != nil {
+		return nil, nil, err
+	}
+	heroes = make(map[string]bool)
+	for _, n := range names {
+		heroes[n] = true
+	}
+	return
+}
+
+func (h *hotsContext) unknownName(ctx context.Context, name, typ string) {
+	fmt.Printf("UNKNOWN %q\n", name)
+	h.db.ExecContext(ctx, `INSERT INTO translations (orig, type) VALUES ($1, $2)`, name, typ)
+}
+
 func (h *hotsContext) uploadReplay(ctx context.Context, r io.Reader) (interface{}, error) {
+	maps, heroes, err := h.getNames(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	dir, err := ioutil.TempDir("", "hots-replay")
 	if err != nil {
 		return nil, err
@@ -185,6 +267,12 @@ func (h *hotsContext) uploadReplay(ctx context.Context, r io.Reader) (interface{
 		return nil, err
 	}
 
+	unknown := false
+	if !maps[details.MTitle] {
+		unknown = true
+		h.unknownName(ctx, details.MTitle, "map")
+	}
+
 	g := Game{
 		Map:   details.MTitle,
 		Build: header.MVersion.MBuild,
@@ -203,6 +291,10 @@ func (h *hotsContext) uploadReplay(ctx context.Context, r io.Reader) (interface{
 	players := make(map[int64]Player)
 	var data []interface{}
 	for i, p := range details.MPlayerList {
+		if !heroes[p.MHero] {
+			unknown = true
+			h.unknownName(ctx, p.MHero, "hero")
+		}
 		player := Player{
 			Build:  g.Build,
 			Map:    g.Map,
@@ -219,12 +311,16 @@ func (h *hotsContext) uploadReplay(ctx context.Context, r io.Reader) (interface{
 		players[int64(i)+1] = player
 		data = append(data, player.Build, player.Map, player.Game, player.Hero, player.Name, player.Team, player.Winner)
 	}
+	if unknown {
+		// TODO: change this to return an error
+		return "unknown strings in replay; skipping", nil
+	}
 	if playerCount != 10 || winners != 5 {
 		return nil, errors.New("invalid file")
 	}
 	if _, err := tx.Exec(fmt.Sprintf(
 		`INSERT INTO players (build, map, game, hero, name, team, winner) VALUES %s`,
-		makeValues(7, len(data))),
+		makeValues(7, len(data), 0)),
 		data...); err != nil {
 		return nil, errors.Wrap(err, "insert players")
 	}
@@ -261,7 +357,7 @@ func (h *hotsContext) uploadReplay(ctx context.Context, r io.Reader) (interface{
 	}
 	if _, err := tx.Exec(fmt.Sprintf(
 		`INSERT INTO talents (build, map, game, hero, tier, winner, name) VALUES %s`,
-		makeValues(7, len(data))),
+		makeValues(7, len(data), 0)),
 		data...); err != nil {
 		return nil, errors.Wrap(err, "insert talents")
 	}
