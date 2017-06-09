@@ -18,31 +18,52 @@ func mustMigrate(db *sql.DB) {
 			Up: `
 				CREATE TABLE games (
 					id SERIAL PRIMARY KEY,
+
+					patch STRING,
+					seed INT,
+					time TIMESTAMP,
+
 					build INT,
+					length INT,
 					map STRING,
-					patch STRING
+					mode INT,
+
+					UNIQUE INDEX (build, map, mode, time, length, seed)
 				);
 				CREATE TABLE players (
 					id SERIAL PRIMARY KEY,
 					game INT REFERENCES games,
-					build INT,
-					map STRING,
+
 					hero STRING,
-					winner BOOL,
 					name STRING,
 					team INT,
-					INDEX (map, hero) STORING (winner)
+					winner BOOL,
+
+					build INT,
+					length INT,
+					map STRING,
+					mode INT,
+
+					INDEX (build, map, mode) STORING (hero, winner),
+					INDEX (mode, build) STORING (hero, winner),
+					INDEX (map, mode) STORING (hero, winner)
 				);
 				CREATE TABLE talents (
 					id SERIAL PRIMARY KEY,
 					game INT REFERENCES games,
 					player INT REFERENCES players,
-					build INT,
-					map STRING,
+
 					hero STRING,
+					name STRING,
 					winner BOOL,
 					tier INT,
-					name STRING
+
+					build INT,
+					length INT,
+					map STRING,
+					mode INT,
+
+					INDEX (map, hero) STORING (winner)
 				);
 				CREATE TABLE maps (
 					name STRING PRIMARY KEY

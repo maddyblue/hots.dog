@@ -1,31 +1,65 @@
 package main
 
+import "time"
+
 type Game struct {
-	ID    int64
-	Build int64
-	Map   string
+	ID int64
+
 	Patch string
+	Seed  int64
+	Time  time.Time
+
+	Build  int64
+	Length int64
+	Map    string
+	Mode   Mode
 }
 
 type Player struct {
-	ID     int64
-	Game   int64
-	Build  int64
-	Map    string
+	ID   int64
+	Game int64
+
 	Hero   string
 	Name   string
-	Winner bool
 	Team   int64
+	Winner bool
+
+	Build  int64
+	Length int64
+	Map    string
+	Mode   Mode
 }
 
 type Talent struct {
 	ID     int64
 	Game   int64
 	Player int64
-	Build  int64
-	Map    string
+
 	Hero   string
-	Tier   int
 	Name   string
+	Tier   int
 	Winner bool
+
+	Build  int64
+	Length int64
+	Map    string
+	Mode   Mode
+}
+
+type Mode int
+
+const (
+	ModeQuickMatch Mode = iota + 1
+	ModeBrawl
+	ModeUnrankedDraft
+	ModeHeroLeague
+	ModeTeamLeague
+)
+
+var modeMap = map[int64]Mode{
+	50001: ModeQuickMatch,
+	50031: ModeBrawl,
+	50051: ModeUnrankedDraft,
+	50061: ModeHeroLeague,
+	50071: ModeTeamLeague,
 }
