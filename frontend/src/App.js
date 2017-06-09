@@ -17,6 +17,7 @@ class App extends Component {
 	}
 	componentDidMount() {
 		fetch('/api/init').then(resp => resp.json().then(data => {
+			data.build = data.Builds[0].ID;
 			this.setState(data, this.update);
 		}));
 	}
@@ -43,6 +44,9 @@ class App extends Component {
 		this.setState(st, this.update);
 	}
 	render() {
+		if (!this.state.Builds.length) {
+			return <div>loading...</div>;
+		}
 		var maps = this.state.Maps.map(m => <option key={m}>{m}</option>);
 		maps.unshift(<option key=""></option>);
 		var builds = this.state.Builds.map(b => <option key={b.ID} value={b.ID}>
