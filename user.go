@@ -63,3 +63,11 @@ var modeMap = map[int64]Mode{
 	50061: ModeHeroLeague,
 	50071: ModeTeamLeague,
 }
+
+var modeNames = map[Mode]string{
+	ModeQuickMatch:    "Quick Match",
+	ModeBrawl:         "Brawl",
+	ModeUnrankedDraft: "Unranked Draft",
+	ModeHeroLeague:    "Hero League",
+	ModeTeamLeague:    "Team League",
+}

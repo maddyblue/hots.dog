@@ -27,6 +27,7 @@ import (
 
 var (
 	flagInit = flag.Bool("init", false, "drop database before starting")
+	initDB   = false
 )
 
 func main() {
@@ -50,8 +51,10 @@ func main() {
 			}
 		}()
 
-		if _, err := db.Exec(fmt.Sprintf("drop database if exists %s; create database %[1]s", dbName)); err != nil {
-			panic(err)
+		if initDB {
+			if _, err := db.Exec(fmt.Sprintf("drop database if exists %s; create database %[1]s", dbName)); err != nil {
+				panic(err)
+			}
 		}
 	}
 
@@ -81,11 +84,12 @@ func main() {
 
 	router := httprouter.New()
 	router.POST("/api/upload-replay", wrap(h.UploadReplay))
+	router.GET("/api/init", wrap(h.Init))
 	router.GET("/api/get-winrates", wrap(h.GetWinrates))
 
 	const addr = "localhost:4001"
 
-	if *flagInit {
+	if *flagInit && initDB {
 		go mustInitDevData(addr, db)
 	}
 
@@ -95,6 +99,28 @@ func main() {
 type hotsContext struct {
 	db *sql.DB
 	x  *sqlx.DB
+}
+
+func (h *hotsContext) Init(ctx context.Context, _ *http.Request, _ httprouter.Params) (interface{}, error) {
+	maps, heroes, err := h.getNames(ctx)
+	if err != nil {
+		return nil, err
+	}
+	builds, err := h.getBuilds(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return struct {
+		Modes  map[Mode]string
+		Builds map[int64]string
+		Maps   []string
+		Heroes []string
+	}{
+		Modes:  modeNames,
+		Builds: builds,
+		Maps:   maps,
+		Heroes: heroes,
+	}, err
 }
 
 func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request, _ httprouter.Params) (interface{}, error) {
@@ -157,23 +183,39 @@ func (h *hotsContext) UploadReplay(ctx context.Context, r *http.Request, _ httpr
 	return h.uploadReplay(ctx, r.Body)
 }
 
-func (h *hotsContext) getNames(ctx context.Context) (maps, heroes map[string]bool, err error) {
-	var names []string
-	if err := h.x.Select(&names, "SELECT * from maps"); err != nil {
+func (h *hotsContext) getBuilds(ctx context.Context) (builds map[int64]string, err error) {
+	var games []Game
+	if err := h.x.SelectContext(ctx, &games, "SELECT DISTINCT patch, build FROM games"); err != nil {
+		return nil, err
+	}
+	builds = make(map[int64]string)
+	for _, g := range games {
+		builds[g.Build] = g.Patch
+	}
+	return builds, nil
+}
+
+func (h *hotsContext) getNames(ctx context.Context) (maps, heroes []string, err error) {
+	if err := h.x.SelectContext(ctx, &maps, "SELECT * FROM maps ORDER BY name"); err != nil {
 		return nil, nil, err
 	}
-	maps = make(map[string]bool)
-	for _, n := range names {
-		maps[n] = true
-	}
-	if err := h.x.Select(&names, "SELECT * from heroes"); err != nil {
+	if err := h.x.SelectContext(ctx, &heroes, "SELECT * FROM heroes ORDER BY name"); err != nil {
 		return nil, nil, err
-	}
-	heroes = make(map[string]bool)
-	for _, n := range names {
-		heroes[n] = true
 	}
 	return
+}
+
+func (h *hotsContext) getNamesAsMaps(ctx context.Context) (maps, heroes map[string]bool, err error) {
+	mapNames, heroNames, err := h.getNames(ctx)
+	maps = make(map[string]bool)
+	for _, n := range mapNames {
+		maps[n] = true
+	}
+	heroes = make(map[string]bool)
+	for _, n := range heroNames {
+		heroes[n] = true
+	}
+	return maps, heroes, err
 }
 
 func (h *hotsContext) unknownName(ctx context.Context, name, typ string) {
@@ -189,7 +231,7 @@ func (h *hotsContext) uploadReplay(ctx context.Context, r io.Reader) (interface{
 	fmt.Println("DONE")
 	defer func() { <-uploadLimiter }()
 
-	maps, heroes, err := h.getNames(ctx)
+	maps, heroes, err := h.getNamesAsMaps(ctx)
 	if err != nil {
 		return nil, err
 	}

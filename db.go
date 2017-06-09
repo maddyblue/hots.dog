@@ -87,7 +87,7 @@ func (c *conn) Explain(query string, args []driver.Value) {
 	fmt.Println("EXPLAIN", query, args)
 	rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN  "+query, args)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
 	defer rows.Close()
 	var level int64
@@ -97,7 +97,7 @@ func (c *conn) Explain(query string, args []driver.Value) {
 		if err := rows.Next(values); err == io.EOF {
 			return
 		} else if err != nil {
-			panic(err)
+			fmt.Println(err)
 		}
 		fmt.Println("EXPLAIN", values)
 	}
