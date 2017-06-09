@@ -2,12 +2,17 @@ package main
 
 import "time"
 
+type Build struct {
+	ID            int64
+	Patch         string
+	Start, Finish time.Time
+}
+
 type Game struct {
 	ID int64
 
-	Patch string
-	Seed  int64
-	Time  time.Time
+	Seed int64
+	Time time.Time
 
 	Build  int64
 	Length int64

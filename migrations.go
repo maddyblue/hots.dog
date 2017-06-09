@@ -16,14 +16,19 @@ func mustMigrate(db *sql.DB) {
 		{
 			ID: "1",
 			Up: `
+				CREATE TABLE builds (
+					id INT PRIMARY KEY,
+					patch STRING,
+					start TIMESTAMP,
+					finish TIMESTAMP
+				);
 				CREATE TABLE games (
 					id SERIAL PRIMARY KEY,
 
-					patch STRING,
 					seed INT,
 					time TIMESTAMP,
 
-					build INT,
+					build INT REFERENCES builds,
 					length INT,
 					map STRING,
 					mode INT,
@@ -39,7 +44,7 @@ func mustMigrate(db *sql.DB) {
 					team INT,
 					winner BOOL,
 
-					build INT,
+					build INT REFERENCES builds,
 					length INT,
 					map STRING,
 					mode INT,
@@ -58,7 +63,7 @@ func mustMigrate(db *sql.DB) {
 					winner BOOL,
 					tier INT,
 
-					build INT,
+					build INT REFERENCES builds,
 					length INT,
 					map STRING,
 					mode INT,

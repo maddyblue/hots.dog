@@ -88,6 +88,7 @@ func (c *conn) Explain(query string, args []driver.Value) {
 	rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN  "+query, args)
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
 	defer rows.Close()
 	var level int64

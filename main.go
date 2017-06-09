@@ -27,7 +27,7 @@ import (
 
 var (
 	flagInit = flag.Bool("init", false, "drop database before starting")
-	initDB   = false
+	initDB   = true
 )
 
 func main() {
@@ -112,7 +112,7 @@ func (h *hotsContext) Init(ctx context.Context, _ *http.Request, _ httprouter.Pa
 	}
 	return struct {
 		Modes  map[Mode]string
-		Builds map[int64]string
+		Builds []Build
 		Maps   []string
 		Heroes []string
 	}{
@@ -183,16 +183,9 @@ func (h *hotsContext) UploadReplay(ctx context.Context, r *http.Request, _ httpr
 	return h.uploadReplay(ctx, r.Body)
 }
 
-func (h *hotsContext) getBuilds(ctx context.Context) (builds map[int64]string, err error) {
-	var games []Game
-	if err := h.x.SelectContext(ctx, &games, "SELECT DISTINCT patch, build FROM games"); err != nil {
-		return nil, err
-	}
-	builds = make(map[int64]string)
-	for _, g := range games {
-		builds[g.Build] = g.Patch
-	}
-	return builds, nil
+func (h *hotsContext) getBuilds(ctx context.Context) (builds []Build, err error) {
+	err = h.x.SelectContext(ctx, &builds, "SELECT * from builds ORDER BY id DESC")
+	return builds, err
 }
 
 func (h *hotsContext) getNames(ctx context.Context) (maps, heroes []string, err error) {
@@ -223,12 +216,45 @@ func (h *hotsContext) unknownName(ctx context.Context, name, typ string) {
 	h.db.ExecContext(ctx, `INSERT INTO translations (orig, type) VALUES ($1, $2)`, name, typ)
 }
 
+func (h *hotsContext) getBuild(ctx context.Context, header Header, start time.Time) (Build, error) {
+	var build Build
+	tx, err := h.x.BeginTxx(ctx, nil)
+	if err != nil {
+		return build, err
+	}
+
+	id := header.MVersion.MBuild
+	if err = tx.Get(&build, "SELECT * FROM builds WHERE id = $1", id); err == sql.ErrNoRows {
+		build.ID = id
+		build.Patch = fmt.Sprintf("%d.%d.%d", header.MVersion.MMajor, header.MVersion.MMinor, header.MVersion.MRevision)
+		build.Start = start
+		build.Finish = start
+		_, err = tx.Exec("INSERT INTO builds (id, patch, start, finish) VALUES ($1, $2, $3, $4)", build.ID, build.Patch, build.Start, build.Finish)
+	} else if err == nil {
+		buildChanged := false
+		if start.Before(build.Start) {
+			build.Start = start
+			buildChanged = true
+		}
+		if start.After(build.Finish) {
+			build.Finish = start
+			buildChanged = true
+		}
+		if buildChanged {
+			_, err = tx.Exec("UPDATE builds SET start = $1, finish = $2 WHERE id = $3", build.Start, build.Finish, id)
+		}
+	}
+	if err != nil {
+		tx.Rollback()
+		return build, err
+	}
+	return build, tx.Commit()
+}
+
 var uploadLimiter = make(chan struct{}, runtime.NumCPU())
 
 func (h *hotsContext) uploadReplay(ctx context.Context, r io.Reader) (interface{}, error) {
-	fmt.Println("WAITING")
 	uploadLimiter <- struct{}{}
-	fmt.Println("DONE")
 	defer func() { <-uploadLimiter }()
 
 	maps, heroes, err := h.getNamesAsMaps(ctx)
@@ -297,9 +323,8 @@ func (h *hotsContext) uploadReplay(ctx context.Context, r io.Reader) (interface{
 
 	desc := init.MSyncLobbyState.MGameDescription
 	g := Game{
-		Patch: fmt.Sprintf("%d.%d.%d", header.MVersion.MMajor, header.MVersion.MMinor, header.MVersion.MRevision),
-		Seed:  desc.MRandomValue,
-		Time:  fromFileTimeUTC(details.MTimeUTC),
+		Seed: desc.MRandomValue,
+		Time: fromFileTimeUTC(details.MTimeUTC),
 
 		Build:  header.MVersion.MBuild,
 		Length: header.MElapsedGameLoops / 16,
@@ -310,11 +335,15 @@ func (h *hotsContext) uploadReplay(ctx context.Context, r io.Reader) (interface{
 		return nil, errors.Errorf("unsupported game mode: %d", desc.MGameOptions.MAmmID)
 	}
 
+	if _, err := h.getBuild(ctx, header, g.Time); err != nil {
+		return nil, err
+	}
+
 	tx, err := h.x.BeginTxx(ctx, nil)
 	if err != nil {
 		return nil, err
 	}
-	if err := tx.Get(&g, `INSERT INTO games (map, patch, build, mode, seed, time, length) values ($1, $2, $3, $4, $5, $6, $7) RETURNING id`, g.Map, g.Patch, g.Build, g.Mode, g.Seed, g.Time, g.Length); err != nil {
+	if err := tx.Get(&g, `INSERT INTO games (map, build, mode, seed, time, length) values ($1, $2, $3, $4, $5, $6) RETURNING id`, g.Map, g.Build, g.Mode, g.Seed, g.Time, g.Length); err != nil {
 		return nil, errors.Wrap(err, "insert game")
 	}
 

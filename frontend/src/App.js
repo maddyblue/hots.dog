@@ -7,7 +7,7 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			Builds: {},
+			Builds: [],
 			Heroes: [],
 			Maps: [],
 			Modes: {},
@@ -45,9 +45,9 @@ class App extends Component {
 	render() {
 		var maps = this.state.Maps.map(m => <option key={m}>{m}</option>);
 		maps.unshift(<option key=""></option>);
-		var buildKeys = Object.keys(this.state.Builds);
-		buildKeys.sort().reverse();
-		var builds = buildKeys.map(k => <option key={k} value={k}>{this.state.Builds[k]}</option>);
+		var builds = this.state.Builds.map(b => <option key={b.ID} value={b.ID}>
+			{b.Patch} ({new Date(b.Start).toLocaleDateString()} - {new Date(b.Finish).toLocaleDateString()})
+		</option>);
 		var modeKeys = Object.keys(this.state.Modes);
 		modeKeys.sort().reverse();
 		var modes = modeKeys.map(k => <option key={k} value={k}>{this.state.Modes[k]}</option>);
