@@ -90,7 +90,7 @@ class App extends Component {
 					{modes}
 				</select>
 				<div>
-					<Winrates winrates={this.state.Winrates} />
+					<Winrates winrates={this.state.Winrates} heroes={this.state.Heroes} />
 				</div>
 			</div>
 		);
@@ -98,13 +98,29 @@ class App extends Component {
 }
 
 const Winrates = (props) => {
-	var winrates = Object.keys(props.winrates).map(hero => {
-		var wr = props.winrates[hero];
+	if (!props.winrates.Current) {
+		return null;
+	}
+	var winrates = props.heroes.map(hero => {
+		var wr = props.winrates.Current[hero];
+		var games, rate, prevRate;
+		if (wr) {
+			games = wr.Wins + wr.Losses;
+			var winRate = (wr.Wins / games * 100);
+			rate = winRate.toFixed(1) + '%';
+			var prev = props.winrates.Previous[hero];
+			if (prev) {
+				var prevGames = prev.Wins + prev.Losses;
+				var prevWinRate = prev.Wins / prevGames * 100;
+				prevRate = (winRate - prevWinRate).toFixed(1) + '%';
+			}
+		}
 		return (
 			<tr key={hero}>
 				<td className="pv1">{hero}</td>
-				<td>{wr.Wins}</td>
-				<td>{wr.Losses}</td>
+				<td>{games}</td>
+				<td>{rate}</td>
+				<td>{prevRate}</td>
 			</tr>
 		);
 	});
@@ -113,8 +129,9 @@ const Winrates = (props) => {
 			<thead>
 				<tr>
 					<th className="pv2 ph3">hero</th>
-					<th className="pv2 ph3">wins</th>
-					<th className="pv2 ph3">losses</th>
+					<th className="pv2 ph3">games</th>
+					<th className="pv2 ph3">winrate</th>
+					<th className="pv2 ph3">change since previous patch</th>
 				</tr>
 			</thead>
 			<tbody>

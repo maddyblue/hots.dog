@@ -27,7 +27,7 @@ import (
 
 var (
 	flagInit = flag.Bool("init", false, "drop database before starting")
-	initDB   = true
+	initDB   = false
 )
 
 func main() {
@@ -124,33 +124,51 @@ func (h *hotsContext) Init(ctx context.Context, _ *http.Request, _ httprouter.Pa
 }
 
 func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request, _ httprouter.Params) (interface{}, error) {
-	if err := r.ParseForm(); err != nil {
+	args := map[string]string{
+		"build": r.FormValue("build"),
+		"map":   r.FormValue("map"),
+		"mode":  r.FormValue("mode"),
+	}
+	wrs, err := h.getWinrates(ctx, args)
+	if err != nil {
 		return nil, err
+	}
+	prevBuild, err := h.getBuildBefore(ctx, args["build"])
+	if err != nil {
+		return nil, err
+	}
+	args["build"] = prevBuild
+	prevWrs, err := h.getWinrates(ctx, args)
+	if err != nil {
+		return nil, errors.Wrapf(err, "fetch previous build: %v", prevBuild)
+	}
+	return struct {
+		Current  map[string]Total
+		Previous map[string]Total
+	}{
+		Current:  wrs,
+		Previous: prevWrs,
+	}, err
+}
+
+func (h *hotsContext) getWinrates(ctx context.Context, args map[string]string) (map[string]Total, error) {
+	if args["build"] == "" {
+		return nil, errors.New("build required")
 	}
 
 	groups := []string{"hero", "winner"}
-	var args []interface{}
 	var wheres []string
-	hasBuild := false
-	for _, key := range []string{
-		"build",
-		"map",
-		"mode",
-	} {
-		v := r.FormValue(key)
+	var params []interface{}
+	for _, key := range []string{"build", "map", "mode"} {
+		v := args[key]
 		if v == "" {
 			continue
 		}
-		if key == "build" {
-			hasBuild = true
-		}
-		wheres = append(wheres, fmt.Sprintf("%s = $%d", key, len(args)+1))
+		wheres = append(wheres, fmt.Sprintf("%s = $%d", key, len(params)+1))
 		groups = append(groups, key)
-		args = append(args, v)
+		params = append(params, v)
 	}
-	if !hasBuild {
-		return nil, errors.New("build required")
-	}
+
 	buf := bytes.NewBufferString("SELECT COUNT(*) count, hero, winner")
 	buf.WriteString(" FROM players")
 	if len(wheres) > 0 {
@@ -160,9 +178,6 @@ func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request, _ httpro
 	buf.WriteString(strings.Join(groups, ", "))
 	query := buf.String()
 
-	type Total struct {
-		Wins, Losses int
-	}
 	tally := make(map[string]Total)
 
 	var winrates []struct {
@@ -171,7 +186,7 @@ func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request, _ httpro
 		Winner bool
 	}
 	fmt.Println("\n", query, "\n")
-	if err := h.x.Select(&winrates, query, args...); err != nil {
+	if err := h.x.Select(&winrates, query, params...); err != nil {
 		return nil, err
 	}
 	for _, wr := range winrates {
@@ -186,8 +201,24 @@ func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request, _ httpro
 	return tally, nil
 }
 
+type Total struct {
+	Wins, Losses int
+}
+
 func (h *hotsContext) UploadReplay(ctx context.Context, r *http.Request, _ httprouter.Params) (interface{}, error) {
 	return h.uploadReplay(ctx, r.Body)
+}
+
+func (h *hotsContext) getBuildBefore(ctx context.Context, id string) (string, error) {
+	var build string
+	err := h.x.GetContext(ctx, &build, `
+		SELECT id
+		FROM builds
+		WHERE id < $1
+		ORDER BY id DESC
+		LIMIT 1
+	`, id)
+	return build, err
 }
 
 func (h *hotsContext) getBuilds(ctx context.Context) (builds []Build, err error) {
