@@ -131,6 +131,7 @@ func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request, _ httpro
 	groups := []string{"hero", "winner"}
 	var args []interface{}
 	var wheres []string
+	hasBuild := false
 	for _, key := range []string{
 		"build",
 		"map",
@@ -140,9 +141,15 @@ func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request, _ httpro
 		if v == "" {
 			continue
 		}
+		if key == "build" {
+			hasBuild = true
+		}
 		wheres = append(wheres, fmt.Sprintf("%s = $%d", key, len(args)+1))
 		groups = append(groups, key)
 		args = append(args, v)
+	}
+	if !hasBuild {
+		return nil, errors.New("build required")
 	}
 	buf := bytes.NewBufferString("SELECT COUNT(*) count, hero, winner")
 	buf.WriteString(" FROM players")

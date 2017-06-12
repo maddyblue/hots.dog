@@ -50,8 +50,7 @@ func mustMigrate(db *sql.DB) {
 					mode INT,
 
 					INDEX (build, map, mode) STORING (hero, winner),
-					INDEX (mode, build) STORING (hero, winner),
-					INDEX (map, mode) STORING (hero, winner)
+					INDEX (mode, build) STORING (hero, winner)
 				);
 				CREATE TABLE talents (
 					id SERIAL PRIMARY KEY,
