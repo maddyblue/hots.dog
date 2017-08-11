@@ -1,40 +1,64 @@
 import React, { Component } from 'react';
+import {
+	Route,
+//	Link,
+	withRouter
+} from 'react-router-dom';
 //import logo from './logo.svg';
 import './App.css';
 import './tachyons.min.css';
 
-class App extends Component {
+class HotsApp extends Component {
 	constructor(props) {
 		super(props);
-		var state = {
-			Builds: [],
-			Heroes: [],
-			Maps: [],
-			Modes: {},
-			Winrates: {},
-		};
 		this.params = [
 			'build',
 			'map',
 			'mode',
 		];
+		this.state = this.searchState();
+		this.handleChange = this.handleChange.bind(this);
+	}
+	componentDidMount() {
+		fetch('/api/init').then(resp => resp.json().then(data => {
+			data.init = true;
+			if (!this.state.build) {
+				data.build = data.Builds[0].ID;
+				var search = window.location.search || '?';
+				this.props.history.replace({search: search + 'build=' + data.build});
+			}
+			this.setState(data);
+		}));
+	}
+	componentDidUpdate(prevProps, prevState) {
+		// This function attempts to sink the state with the URL when the URL changes,
+		// for use with back/forward navigation actions.
+		var locationChanged = this.props.location !== prevProps.location;
+		if (!locationChanged) {
+			return;
+		}
+		var st = this.searchState();
+		var updates = {};
+		this.params.forEach(key => {
+			if (st[key] !== this.state[key]) {
+				updates[key] = st[key] || '';
+			}
+		});
+		if (Object.keys(updates).length === 0) {
+			return;
+		}
+		this.setState(updates);
+	}
+	searchState() {
+		var st = {};
 		var search = new URLSearchParams(window.location.search);
 		this.params.forEach(key => {
 			if (!search.has(key)) {
 				return;
 			}
-			state[key] = search.get(key);
+			st[key] = search.get(key);
 		});
-		this.state = state;
-		this.handleChange = this.handleChange.bind(this);
-	}
-	componentDidMount() {
-		fetch('/api/init').then(resp => resp.json().then(data => {
-			if (!this.state.build) {
-				data.build = data.Builds[0].ID;
-			}
-			this.setState(data, this.update);
-		}));
+		return st;
 	}
 	getSearch() {
 		var params = [];
@@ -46,27 +70,18 @@ class App extends Component {
 			value = encodeURIComponent(value)
 			params.push(key + '=' + value);
 		});
-		return params.join('&');
-	}
-	update() {
-		var search = this.getSearch();
-		fetch('/api/get-winrates?' + search).then(resp => resp.json().then(data => {
-			if (this.getSearch() === search) {
-				this.setState({Winrates: data});
-			}
-		}));
+		return '?' + params.join('&');
 	}
 	handleChange(event) {
 		var st = {};
 		st[event.target.name] = event.target.value;
 		this.setState(st, () => {
 			var params = this.getSearch();
-			window.history.replaceState(null, null, '/?' + params);
-			this.update();
+			this.props.history.push({search: params});
 		});
 	}
 	render() {
-		if (!this.state.Builds.length) {
+		if (!this.state.build || !this.state.init) {
 			return <div>loading...</div>;
 		}
 		var maps = this.state.Maps.map(m => <option key={m}>{m}</option>);
@@ -79,29 +94,62 @@ class App extends Component {
 		var modes = modeKeys.map(k => <option key={k} value={k}>{this.state.Modes[k]}</option>);
 		modes.unshift(<option key=""></option>);
 		return (
-			<div className="sans-serif">
-				<select name="map" value={this.state.map} onChange={this.handleChange}>
-					{maps}
-				</select>
-				<select name="build" value={this.state.build} onChange={this.handleChange}>
-					{builds}
-				</select>
-				<select name="mode" value={this.state.mode} onChange={this.handleChange}>
-					{modes}
-				</select>
-				<div>
-					<Winrates winrates={this.state.Winrates} heroes={this.state.Heroes} />
+				<div className="sans-serif">
+					<a href="/">home</a>
+					<hr/>
+					<select name="map" value={this.state.map} onChange={this.handleChange}>
+						{maps}
+					</select>
+					<select name="build" value={this.state.build} onChange={this.handleChange}>
+						{builds}
+					</select>
+					<select name="mode" value={this.state.mode} onChange={this.handleChange}>
+						{modes}
+					</select>
+
+					<hr/>
+
+					<Route exact path="/" render={props => <HeroWinrates params={this.params} {...this.state} {...props} />}/>
 				</div>
-			</div>
 		);
 	}
 }
 
-const Winrates = (props) => {
-	if (!props.winrates.Current) {
-		return null;
+class HeroWinrates extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {};
 	}
-	var winrates = props.heroes.map(hero => {
+	componentDidMount() {
+		this.update();
+	}
+	componentDidUpdate(prevProps, prevState) {
+		this.update();
+	}
+	update() {
+		var search = window.location.search;
+		if (search === this.state.search) {
+			return;
+		}
+		fetch('/api/get-winrates' + search).then(resp => resp.json().then(data => {
+			if (search === window.location.search) {
+				this.setState({
+					winrates: data,
+					search: search,
+				});
+			}
+		}));
+	}
+	render() {
+		if (!this.state.winrates) {
+			return <div>loading...</div>;
+		}
+		return <Winrates winrates={this.state.winrates} Heroes={this.props.Heroes}/>;
+	}
+}
+
+const Winrates = (props) => {
+	var winrates = props.Heroes.map(hero => {
 		var wr = props.winrates.Current[hero];
 		var games, rate, prevRate;
 		if (wr) {
@@ -140,5 +188,7 @@ const Winrates = (props) => {
 		</table>
 	);
 };
+
+const App = withRouter(HotsApp);
 
 export default App;
