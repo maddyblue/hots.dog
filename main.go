@@ -11,7 +11,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	_ "net/http/pprof"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -45,8 +44,9 @@ func main() {
 	if *flagInit {
 		// Don't exit on panic; prevents modd from spinning.
 		defer func() {
+			return
 			if r := recover(); r != nil {
-				fmt.Printf("%+v\n", r)
+				fmt.Printf("%+v", r)
 				select {}
 			}
 		}()
@@ -86,6 +86,7 @@ func main() {
 	router.POST("/api/upload-replay", wrap(h.UploadReplay))
 	router.GET("/api/init", wrap(h.Init))
 	router.GET("/api/get-winrates", wrap(h.GetWinrates))
+	router.GET("/api/get-build-winrates/:hero", wrap(h.GetBuildWinrates))
 
 	const addr = "localhost:4001"
 
@@ -121,6 +122,91 @@ func (h *hotsContext) Init(ctx context.Context, _ *http.Request, _ httprouter.Pa
 		Maps:   maps,
 		Heroes: heroes,
 	}, err
+}
+
+func (h *hotsContext) GetBuildWinrates(ctx context.Context, r *http.Request, ps httprouter.Params) (interface{}, error) {
+	args := map[string]string{
+		"build": r.FormValue("build"),
+		"hero":  ps.ByName("hero"),
+		"map":   r.FormValue("map"),
+		"mode":  r.FormValue("mode"),
+	}
+	wrs, err := h.getBuildWinrates(ctx, args)
+	if err != nil {
+		return nil, err
+	}
+	prevBuild, err := h.getBuildBefore(ctx, args["build"])
+	if err != nil {
+		return nil, err
+	}
+	args["build"] = prevBuild
+	prevWrs, err := h.getBuildWinrates(ctx, args)
+	if err != nil {
+		return nil, errors.Wrapf(err, "fetch previous build: %v", prevBuild)
+	}
+	return struct {
+		Current  map[int]map[string]Total
+		Previous map[int]map[string]Total
+	}{
+		Current:  wrs,
+		Previous: prevWrs,
+	}, err
+}
+
+func (h *hotsContext) getBuildWinrates(ctx context.Context, args map[string]string) (map[int]map[string]Total, error) {
+	if args["build"] == "" {
+		return nil, errors.New("build required")
+	}
+	if args["hero"] == "" {
+		return nil, errors.New("hero required")
+	}
+
+	groups := []string{"name", "tier", "winner"}
+	var wheres []string
+	var params []interface{}
+	for _, key := range []string{"build", "hero", "map", "mode"} {
+		v := args[key]
+		if v == "" {
+			continue
+		}
+		wheres = append(wheres, fmt.Sprintf("%s = $%d", key, len(params)+1))
+		groups = append(groups, key)
+		params = append(params, v)
+	}
+
+	buf := bytes.NewBufferString(`SELECT COUNT(*) count, "name", winner, tier`)
+	buf.WriteString(" FROM talents")
+	if len(wheres) > 0 {
+		fmt.Fprintf(buf, " WHERE %s", strings.Join(wheres, " AND "))
+	}
+	buf.WriteString(" GROUP BY ")
+	buf.WriteString(strings.Join(groups, ", "))
+	query := buf.String()
+
+	tally := make(map[int]map[string]Total)
+	for i := 1; i <= 7; i++ {
+		tally[i] = make(map[string]Total)
+	}
+
+	var winrates []struct {
+		Count  int
+		Name   string
+		Tier   int
+		Winner bool
+	}
+	if err := h.x.Select(&winrates, query, params...); err != nil {
+		return nil, errors.Wrap(err, "select")
+	}
+	for _, wr := range winrates {
+		t := tally[wr.Tier][wr.Name]
+		if wr.Winner {
+			t.Wins += wr.Count
+		} else {
+			t.Losses += wr.Count
+		}
+		tally[wr.Tier][wr.Name] = t
+	}
+	return tally, nil
 }
 
 func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request, _ httprouter.Params) (interface{}, error) {

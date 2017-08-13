@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
 	Route,
-//	Link,
+	Link,
 	withRouter
 } from 'react-router-dom';
 //import logo from './logo.svg';
@@ -110,10 +110,106 @@ class HotsApp extends Component {
 					<hr/>
 
 					<Route exact path="/" render={props => <HeroWinrates params={this.params} {...this.state} {...props} />}/>
+					<Route path ="/talents/:hero" render={props => <TalentWinrates params={this.params} {...this.state} {...props} />}/>
 				</div>
 		);
 	}
 }
+
+class TalentWinrates extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
+	componentDidMount() {
+		this.update();
+	}
+	componentDidUpdate(prevProps, prevState) {
+		this.update();
+	}
+	update() {
+		const search = window.location.search;
+		if (search === this.state.search) {
+			return;
+		}
+		fetch('/api/get-build-winrates/' + this.props.match.params.hero + search).then(resp => resp.json().then(data => {
+			if (search === window.location.search) {
+				this.setState({
+					winrates: data,
+					search: search,
+				});
+			}
+		}));
+	}
+	render() {
+		if (!this.state.winrates) {
+			return <div>loading...</div>;
+		}
+		return <Builds winrates={this.state.winrates}/>;
+	}
+}
+
+const tierNames = {
+	1: 1,
+	2: 4,
+	3: 7,
+	4: 10,
+	5: 13,
+	6: 16,
+	7: 20,
+};
+
+const Builds = (props) => {
+	var builds = [];
+	for (let tier = 1; tier <= 7; tier++) {
+		const curTier = props.winrates.Current[tier];
+		const prevTier = props.winrates.Previous[tier];
+		const talents = Object.keys(curTier).sort().map(talent => {
+			const cur = curTier[talent];
+			const prev = prevTier[talent];
+			const games = cur.Wins + cur.Losses;
+			const winRate = (cur.Wins / games * 100);
+			const rate = winRate.toFixed(1) + '%';
+			let change;
+			if (prev) {
+				const prevGames = prev.Wins + prev.Losses;
+				const prevWinRate = prev.Wins / prevGames * 100;
+				change = (winRate - prevWinRate).toFixed(1) + '%';
+			}
+			return (
+				<tr key={talent}>
+					<td className="pv1">{talent}</td>
+					<td>{games}</td>
+					<td>{rate}</td>
+					<td>{change}</td>
+				</tr>
+			);
+		});
+		builds.push(
+			<div key={tier}>
+			Tier {tierNames[tier]}
+			<table className="ba br2 b--black-10 pv2 ph3">
+				<thead>
+					<tr>
+						<th className="pv2 ph3">hero</th>
+						<th className="pv2 ph3">games</th>
+						<th className="pv2 ph3">winrate</th>
+						<th className="pv2 ph3" title="change since previous patch">change</th>
+					</tr>
+				</thead>
+				<tbody>
+					{talents}
+				</tbody>
+			</table>
+			</div>
+		);
+	}
+	return (
+		<div>
+			{builds}
+		</div>
+	);
+};
 
 class HeroWinrates extends Component {
 	constructor(props) {
@@ -127,7 +223,7 @@ class HeroWinrates extends Component {
 		this.update();
 	}
 	update() {
-		var search = window.location.search;
+		const search = window.location.search;
 		if (search === this.state.search) {
 			return;
 		}
@@ -144,31 +240,31 @@ class HeroWinrates extends Component {
 		if (!this.state.winrates) {
 			return <div>loading...</div>;
 		}
-		return <Winrates winrates={this.state.winrates} Heroes={this.props.Heroes}/>;
+		return <Winrates winrates={this.state.winrates} search={this.state.search} Heroes={this.props.Heroes}/>;
 	}
 }
 
 const Winrates = (props) => {
 	var winrates = props.Heroes.map(hero => {
-		var wr = props.winrates.Current[hero];
-		var games, rate, prevRate;
+		const wr = props.winrates.Current[hero];
+		let games, rate, change;
 		if (wr) {
 			games = wr.Wins + wr.Losses;
 			var winRate = (wr.Wins / games * 100);
 			rate = winRate.toFixed(1) + '%';
-			var prev = props.winrates.Previous[hero];
+			const prev = props.winrates.Previous[hero];
 			if (prev) {
-				var prevGames = prev.Wins + prev.Losses;
-				var prevWinRate = prev.Wins / prevGames * 100;
-				prevRate = (winRate - prevWinRate).toFixed(1) + '%';
+				const prevGames = prev.Wins + prev.Losses;
+				const prevWinRate = prev.Wins / prevGames * 100;
+				change = (winRate - prevWinRate).toFixed(1) + '%';
 			}
 		}
 		return (
 			<tr key={hero}>
-				<td className="pv1">{hero}</td>
+				<td className="pv1"><Link to={"/talents/" + hero + props.search}>{hero}</Link></td>
 				<td>{games}</td>
 				<td>{rate}</td>
-				<td>{prevRate}</td>
+				<td>{change}</td>
 			</tr>
 		);
 	});
@@ -179,7 +275,7 @@ const Winrates = (props) => {
 					<th className="pv2 ph3">hero</th>
 					<th className="pv2 ph3">games</th>
 					<th className="pv2 ph3">winrate</th>
-					<th className="pv2 ph3">change since previous patch</th>
+					<th className="pv2 ph3" title="change since previous patch">change</th>
 				</tr>
 			</thead>
 			<tbody>
