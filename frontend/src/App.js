@@ -85,14 +85,14 @@ class HotsApp extends Component {
 			return <div>loading...</div>;
 		}
 		var maps = this.state.Maps.map(m => <option key={m}>{m}</option>);
-		maps.unshift(<option key=""></option>);
+		maps.unshift(<option key="">All Maps</option>);
 		var builds = this.state.Builds.map(b => <option key={b.ID} value={b.ID}>
 			{b.Patch} ({new Date(b.Start).toLocaleDateString()} - {new Date(b.Finish).toLocaleDateString()})
 		</option>);
 		var modeKeys = Object.keys(this.state.Modes);
 		modeKeys.sort().reverse();
 		var modes = modeKeys.map(k => <option key={k} value={k}>{this.state.Modes[k]}</option>);
-		modes.unshift(<option key=""></option>);
+		modes.unshift(<option key="">All Game Modes</option>);
 		return (
 				<div className="sans-serif">
 					<a href="/">home</a>
