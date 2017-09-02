@@ -4,6 +4,11 @@ import {
 	Link,
 	withRouter
 } from 'react-router-dom';
+import {
+	Table,
+	Td,
+	Tr,
+} from 'reactable';
 //import logo from './logo.svg';
 import './App.css';
 import './tachyons.min.css';
@@ -247,43 +252,46 @@ class HeroWinrates extends Component {
 const Winrates = (props) => {
 	var winrates = props.Heroes.map(hero => {
 		const wr = props.winrates.Current[hero];
-		let games, rate, change;
+		let games, change;
 		if (wr) {
 			games = wr.Wins + wr.Losses;
 			var winRate = (wr.Wins / games * 100);
-			rate = winRate.toFixed(1) + '%';
 			const prev = props.winrates.Previous[hero];
 			if (prev) {
 				const prevGames = prev.Wins + prev.Losses;
 				const prevWinRate = prev.Wins / prevGames * 100;
-				change = (winRate - prevWinRate).toFixed(1) + '%';
+				change = winRate - prevWinRate;
 			}
 		}
 		return (
-			<tr key={hero}>
-				<td className="pv1"><Link to={"/talents/" + hero + props.search}>{hero}</Link></td>
-				<td>{games}</td>
-				<td>{rate}</td>
-				<td>{change}</td>
-			</tr>
+			<Tr key={hero}>
+				<Td column="hero" value={hero} className="pv2 ph3"><Link to={"/talents/" + hero + props.search}>{hero}</Link></Td>
+				<Td column="games" className="pv2 ph3">{games || 0}</Td>
+				<Td column="winrate" value={winRate} className="pv2 ph3">{pct(winRate)}</Td>
+				<Td column="change" value={change} className="pv2 ph3">{pct(change)}</Td>
+			</Tr>
 		);
 	});
 	return (
-		<table className="ba br2 b--black-10 pv2 ph3">
-			<thead>
-				<tr>
-					<th className="pv2 ph3">hero</th>
-					<th className="pv2 ph3">games</th>
-					<th className="pv2 ph3">winrate</th>
-					<th className="pv2 ph3" title="change since previous patch">change</th>
-				</tr>
-			</thead>
-			<tbody>
-				{winrates}
-			</tbody>
-		</table>
+		<Table
+			sortable={true}
+			defaultSort={{
+				column: 'winrate',
+				direction: 'desc',
+			}}
+			className="ba br2 b--black-10 pv2 ph3"
+		>
+			{winrates}
+		</Table>
 	);
 };
+
+function pct(x) {
+	if (!x) {
+		return null;
+	}
+	return x.toFixed(1) + '%';
+}
 
 const App = withRouter(HotsApp);
 
