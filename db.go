@@ -104,22 +104,15 @@ func (c *conn) Explain(query string, args []driver.Value) {
 	}
 }
 
-func makeValues(numArgs, argCount, skip int) string {
+func makeValues(numArgs int) string {
 	var buf bytes.Buffer
-	for i := 0; i < argCount; i++ {
-		m := i % numArgs
-		if m == 0 {
-			if i > 0 {
-				buf.WriteString(", ")
-			}
-			buf.WriteString("(")
-		}
-		fmt.Fprintf(&buf, "$%d", i+1+skip)
-		if m == numArgs-1 {
-			buf.WriteString(")")
-		} else {
+	buf.WriteString("(")
+	for i := 1; i <= numArgs; i++ {
+		if i > 1 {
 			buf.WriteString(", ")
 		}
+		fmt.Fprintf(&buf, "$%d", i)
 	}
+	buf.WriteString(")")
 	return buf.String()
 }

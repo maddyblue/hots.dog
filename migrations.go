@@ -17,156 +17,50 @@ func mustMigrate(db *sql.DB) {
 			ID: "1",
 			Up: `
 				CREATE TABLE builds (
-					id INT PRIMARY KEY,
-					patch STRING,
+					id STRING PRIMARY KEY,
 					start TIMESTAMP,
 					finish TIMESTAMP
 				);
-				CREATE TABLE games (
-					id SERIAL PRIMARY KEY,
-
-					seed INT,
-					time TIMESTAMP,
-
-					build INT REFERENCES builds,
-					length INT,
-					map STRING,
-					mode INT,
-
-					UNIQUE INDEX (build, map, mode, time, length, seed)
-				);
-				CREATE TABLE players (
-					id SERIAL PRIMARY KEY,
-					game INT REFERENCES games,
-
-					hero STRING,
+				CREATE TABLE battletags (
+					id INT PRIMARY KEY,
 					name STRING,
-					team INT,
-					winner BOOL,
-
-					build INT REFERENCES builds,
-					length INT,
-					map STRING,
-					mode INT,
-
-					INDEX (build, map, mode) STORING (hero, winner),
-					INDEX (build, mode) STORING (hero, winner)
-				);
-				CREATE TABLE talents (
-					id SERIAL PRIMARY KEY,
-					game INT REFERENCES games,
-					player INT REFERENCES players,
-
-					hero STRING,
-					name STRING,
-					winner BOOL,
-					tier INT,
-
-					build INT REFERENCES builds,
-					length INT,
-					map STRING,
-					mode INT,
-
-					INDEX (build, hero, map, mode) STORING (name, tier, winner),
-					INDEX (build, hero, mode) STORING (name, tier, winner)
+					INDEX (name)
 				);
 				CREATE TABLE maps (
 					name STRING PRIMARY KEY
 				);
-				INSERT INTO maps VALUES
-					('Battlefield of Eternity'),
-					('Blackheart''s Bay'),
-					('Braxis Holdout'),
-					('Cursed Hollow'),
-					('Dragon Shire'),
-					('Garden of Terror'),
-					('Hanamura'),
-					('Haunted Mines'),
-					('Infernal Shrines'),
-					('Sky Temple'),
-					('Tomb of the Spider Queen'),
-					('Towers of Doom'),
-					('Warhead Junction')
-				;
 				CREATE TABLE heroes (
 					name STRING PRIMARY KEY
 				);
-				INSERT INTO heroes VALUES
-					('Abathur'),
-					('Alarak'),
-					('Anub''arak'),
-					('Artanis'),
-					('Arthas'),
-					('Auriel'),
-					('Azmodan'),
-					('Brightwing'),
-					('Cassia'),
-					('Chen'),
-					('Cho'),
-					('Chromie'),
-					('Dehaka'),
-					('Diablo'),
-					('D.Va'),
-					('E.T.C.'),
-					('Falstad'),
-					('Gall'),
-					('Gazlowe'),
-					('Genji'),
-					('Greymane'),
-					('Gul''dan'),
-					('Illidan'),
-					('Jaina'),
-					('Johanna'),
-					('Kael''thas'),
-					('Kerrigan'),
-					('Kharazim'),
-					('Leoric'),
-					('Li Li'),
-					('Li-Ming'),
-					('Lt. Morales'),
-					('Lúcio'),
-					('Lunara'),
-					('Malfurion'),
-					('Malthael'),
-					('Medivh'),
-					('Muradin'),
-					('Murky'),
-					('Nazeebo'),
-					('Nova'),
-					('Probius'),
-					('Ragnaros'),
-					('Raynor'),
-					('Rehgar'),
-					('Rexxar'),
-					('Samuro'),
-					('Sgt. Hammer'),
-					('Sonya'),
-					('Stitches'),
-					('Sylvanas'),
-					('Tassadar'),
-					('The Butcher'),
-					('The Lost Vikings'),
-					('Thrall'),
-					('Tracer'),
-					('Tychus'),
-					('Tyrael'),
-					('Tyrande'),
-					('Uther'),
-					('Valeera'),
-					('Valla'),
-					('Varian'),
-					('Xul'),
-					('Zagara'),
-					('Zarya'),
-					('Zeratul'),
-					('Zul''jin')
-				;
-				CREATE TABLE translations (
-					orig STRING PRIMARY KEY,
-					type STRING,
-					translation STRING NULL,
-					known_bad BOOL,
-					INDEX (translation)
+				CREATE TABLE games (
+					id INT PRIMARY KEY,
+					url STRING,
+					time TIMESTAMP,
+
+					build STRING,
+					length INT,
+					map STRING,
+					mode INT,
+					region INT
+				);
+				CREATE TABLE players (
+					id SERIAL PRIMARY KEY,
+					game INT REFERENCES games,
+					blizzid INT REFERENCES battletags,
+
+					hero STRING,
+					hero_level INT,
+					team INT,
+					winner BOOL,
+
+					build STRING,
+					length INT,
+					map STRING,
+					mode INT,
+					region INT,
+
+					INDEX (build, map, mode) STORING (hero, winner),
+					INDEX (build, mode) STORING (hero, winner)
 				);
 			`,
 		},

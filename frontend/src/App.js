@@ -92,7 +92,7 @@ class HotsApp extends Component {
 		var maps = this.state.Maps.map(m => <option key={m}>{m}</option>);
 		maps.unshift(<option key="">All Maps</option>);
 		var builds = this.state.Builds.map(b => <option key={b.ID} value={b.ID}>
-			{b.Patch} ({new Date(b.Start).toLocaleDateString()} - {new Date(b.Finish).toLocaleDateString()})
+			{b.ID} ({new Date(b.Start).toLocaleDateString()} - {new Date(b.Finish).toLocaleDateString()})
 		</option>);
 		var modeKeys = Object.keys(this.state.Modes);
 		modeKeys.sort().reverse();
@@ -256,7 +256,7 @@ const Winrates = (props) => {
 		if (wr) {
 			games = wr.Wins + wr.Losses;
 			var winRate = (wr.Wins / games * 100);
-			const prev = props.winrates.Previous[hero];
+			const prev = props.winrates.Previous && props.winrates.Previous[hero];
 			if (prev) {
 				const prevGames = prev.Wins + prev.Losses;
 				const prevWinRate = prev.Wins / prevGames * 100;

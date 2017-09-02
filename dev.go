@@ -3,13 +3,9 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
-	"path/filepath"
-	"sync"
 	"time"
 )
 
@@ -24,26 +20,11 @@ func mustInitDevData(addr string, db *sql.DB) {
 		fmt.Println("imported", name)
 		return
 	}
-	matches, err := filepath.Glob("replays/*.StormReplay")
-	if err != nil {
-		panic(err)
+	resp, err := http.Get("http://" + addr + "/api/next-block")
+	if resp != nil {
+		defer resp.Body.Close()
 	}
-	var wg sync.WaitGroup
-	for _, m := range matches {
-		wg.Add(1)
-		go func(m string) {
-			defer wg.Done()
-			replay, err := os.Open(m)
-			if err != nil {
-				panic(err)
-			}
-			resp, err := http.Post("http://"+addr+"/api/upload-replay", "", replay)
-			if err != nil || resp.StatusCode != 200 {
-				io.Copy(os.Stderr, resp.Body)
-				log.Print(err)
-			}
-			fmt.Println(resp.Status)
-		}(m)
+	if err != nil || resp.StatusCode != 200 {
+		log.Printf("DEV IMPORT ERROR: %v", err)
 	}
-	wg.Wait()
 }
