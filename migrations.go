@@ -16,6 +16,11 @@ func mustMigrate(db *sql.DB) {
 		{
 			ID: "1",
 			Up: `
+				CREATE TABLE config (
+					key STRING PRIMARY KEY,
+					i INT,
+					s STRING
+				);
 				CREATE TABLE builds (
 					id STRING PRIMARY KEY,
 					start TIMESTAMP,

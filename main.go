@@ -140,20 +140,30 @@ func (h *hotsContext) NextBlock(ctx context.Context, _ *http.Request, _ httprout
 
 func (h *hotsContext) nextBlock(ctx context.Context) error {
 	var lastID int
+	const configLastID = "last_id"
 	if err := h.x.GetContext(ctx, &lastID, `
-		SELECT id
-		FROM games
-		ORDER BY id DESC
-		LIMIT 1
-	`); err == sql.ErrNoRows {
+		SELECT i
+		FROM config
+		WHERE key = $1
+	`, configLastID); err == sql.ErrNoRows {
 		// lastID = 0
 	} else if err != nil {
 		return err
-	} else {
-		// Since min_id is the first result returned, we need to increment what was
-		// returned.
-		lastID++
 	}
+
+	var lastGameID int
+	if err := h.x.GetContext(ctx, &lastGameID, `
+	SELECT id
+		FROM games
+		ORDER BY id DESC
+		LIMIT 1
+	`); err == nil {
+		lastID = lastGameID
+	}
+
+	// Since min_id is the first result returned, we need to increment what was
+	// returned.
+	lastID++
 
 	resp, err := httpGet(ctx, fmt.Sprintf("http://hotsapi.net/api/v1/replays?min_id=%d", lastID))
 	if err != nil {
@@ -171,6 +181,7 @@ func (h *hotsContext) nextBlock(ctx context.Context) error {
 			if err := h.getReplay(gCtx, r); err != nil {
 				return err
 			}
+			lastID = r.ID
 		}
 		return nil
 	})
