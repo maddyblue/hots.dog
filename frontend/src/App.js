@@ -20,6 +20,7 @@ class HotsApp extends Component {
 			'build',
 			'map',
 			'mode',
+			'herolevel',
 		];
 		this.state = this.searchState();
 		this.handleChange = this.handleChange.bind(this);
@@ -68,20 +69,19 @@ class HotsApp extends Component {
 	getSearch() {
 		var params = [];
 		this.params.forEach(key => {
-			var value = this.state[key];
+			const value = this.state[key];
 			if (!value) {
 				return;
 			}
-			value = encodeURIComponent(value)
-			params.push(key + '=' + value);
+			params.push(key + '=' + encodeURIComponent(value));
 		});
 		return '?' + params.join('&');
 	}
 	handleChange(event) {
-		var st = {};
+		const st = {};
 		st[event.target.name] = event.target.value;
 		this.setState(st, () => {
-			var params = this.getSearch();
+			const params = this.getSearch();
 			this.props.history.push({search: params});
 		});
 	}
@@ -90,14 +90,15 @@ class HotsApp extends Component {
 			return <div>loading...</div>;
 		}
 		var maps = this.state.Maps.map(m => <option key={m}>{m}</option>);
-		maps.unshift(<option key="">All Maps</option>);
+		maps.unshift(<option key="" value="">All Maps</option>);
 		var builds = this.state.Builds.map(b => <option key={b.ID} value={b.ID}>
 			{b.ID} ({new Date(b.Start).toLocaleDateString()} - {new Date(b.Finish).toLocaleDateString()})
 		</option>);
 		var modeKeys = Object.keys(this.state.Modes);
 		modeKeys.sort().reverse();
 		var modes = modeKeys.map(k => <option key={k} value={k}>{this.state.Modes[k]}</option>);
-		modes.unshift(<option key="">All Game Modes</option>);
+		modes.unshift(<option key="" value="">All Game Modes</option>);
+		var heroLevels = [1, 5, 10, 20].map(v => <option key={v}>{v}</option>);
 		return (
 				<div className="sans-serif">
 					<a href="/">home</a>
@@ -110,6 +111,9 @@ class HotsApp extends Component {
 					</select>
 					<select name="mode" value={this.state.mode} onChange={this.handleChange}>
 						{modes}
+					</select>
+					<select name="herolevel" value={this.state.herolevel} onChange={this.handleChange}>
+						{heroLevels}
 					</select>
 
 					<hr/>

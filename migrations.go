@@ -64,8 +64,9 @@ func mustMigrate(db *sql.DB) {
 					mode INT,
 					region INT,
 
-					INDEX (build, map, mode) STORING (hero, winner),
-					INDEX (build, mode) STORING (hero, winner)
+					INDEX (blizzid),
+					INDEX (build, hero_level, map, mode) STORING (hero, winner),
+					INDEX (build, hero_level, mode) STORING (hero, winner)
 				);
 			`,
 		},
