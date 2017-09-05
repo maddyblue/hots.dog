@@ -205,7 +205,12 @@ func (h *hotsContext) nextBlock(ctx context.Context) error {
 		}
 		return nil
 	})
-	return group.Wait()
+	if err := group.Wait(); err != nil {
+		return err
+	}
+	_, err = h.db.ExecContext(ctx, `UPSERT INTO config (key, i) VALUES ($1, $2)`, configLastID, lastID)
+	return err
+}
 }
 
 func (h *hotsContext) getReplay(ctx context.Context, r *Replay) error {
