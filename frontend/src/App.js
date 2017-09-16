@@ -264,12 +264,12 @@ class HeroWinrates extends Component {
 
 const Winrates = (props) => {
 	var winrates = props.Heroes.map(hero => {
-		const wr = props.winrates.Current[hero];
+		const wr = props.winrates.Current[hero.Name];
 		let games, change;
 		if (wr) {
 			games = wr.Wins + wr.Losses;
 			var winRate = (wr.Wins / games * 100);
-			const prev = props.winrates.Previous && props.winrates.Previous[hero];
+			const prev = props.winrates.Previous && props.winrates.Previous[hero.Name];
 			if (prev) {
 				const prevGames = prev.Wins + prev.Losses;
 				const prevWinRate = prev.Wins / prevGames * 100;
@@ -277,8 +277,18 @@ const Winrates = (props) => {
 			}
 		}
 		return (
-			<Tr key={hero}>
-				<Td column="hero" value={hero} className="pv2 ph3"><Link to={"/talents/" + hero + props.search}>{hero}</Link></Td>
+			<Tr key={hero.Name}>
+				<Td column="hero" value={hero.Name} className="pv2 ph3">
+					<Link to={"/talents/" + hero.Name + props.search}>
+						<img src={hero.Icon} style={{
+							width: '40px',
+							height: '40px',
+							verticalAlign: 'middle',
+							marginRight: '1em',
+						}}/>
+						<span>{hero.Name}</span>
+					</Link>
+				</Td>
 				<Td column="games" className="pv2 ph3">{games || 0}</Td>
 				<Td column="winrate" value={winRate} className="pv2 ph3">{pct(winRate)}</Td>
 				<Td column="change" value={change} className="pv2 ph3">{pct(change)}</Td>

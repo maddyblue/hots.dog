@@ -35,7 +35,11 @@ func mustMigrate(db *sql.DB) {
 					name STRING PRIMARY KEY
 				);
 				CREATE TABLE heroes (
-					name STRING PRIMARY KEY
+					slug STRING PRIMARY KEY,
+					name STRING,
+					roles STRING,
+					icon STRING,
+					INDEX (name)
 				);
 				CREATE TABLE games (
 					id INT PRIMARY KEY,
