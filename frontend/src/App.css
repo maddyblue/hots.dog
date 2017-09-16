@@ -5,3 +5,45 @@ th.reactable-header-sort-asc::after {
 th.reactable-header-sort-desc::after {
 	content: "↑";
 }
+
+.wrapper {
+	display: block;
+	overflow: hidden;
+	position: relative;
+	width: 100%
+}
+
+.wrapper .container {
+	max-width: 80rem
+}
+
+.wrapper>.container {
+	padding-top: 7.5rem
+}
+
+.navigation {
+	background: #f4f5f6;
+	border-bottom: .1rem solid #d1d1d1;
+	display: block;
+	height: 5.2rem;
+	left: 0;
+	max-width: 100%;
+	position: fixed;
+	right: 0;
+	top: 0;
+	width: 100%;
+	z-index: 1
+}
+
+.navigation .container {
+	padding-bottom: 0;
+	padding-top: 0;
+}
+
+.navigation .navigation-link,.navigation .navigation-title,.navigation .title {
+	display: inline;
+	font-size: 1.6rem;
+	line-height: 5.2rem;
+	padding: 0;
+	text-decoration: none;
+}

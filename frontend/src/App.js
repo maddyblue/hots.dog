@@ -11,7 +11,8 @@ import {
 } from 'reactable';
 //import logo from './logo.svg';
 import './App.css';
-import './tachyons.min.css';
+import './normalize.css';
+import './milligram.css';
 
 class HotsApp extends Component {
 	constructor(props) {
@@ -100,27 +101,35 @@ class HotsApp extends Component {
 		modes.unshift(<option key="" value="">All Game Modes</option>);
 		var heroLevels = [1, 5, 10, 20].map(v => <option key={v}>{v}</option>);
 		return (
-				<div className="sans-serif">
-					<a href="/">home</a>
-					<hr/>
+			<main className="wrapper">
+				<nav className="navigation">
+					<section className="container">
+						<a href="/" className="navigation-title">home</a>
+					</section>
+				</nav>
+				<section className="container">
+					<label>Map</label>
 					<select name="map" value={this.state.map} onChange={this.handleChange}>
 						{maps}
 					</select>
+					<label>Patch</label>
 					<select name="build" value={this.state.build} onChange={this.handleChange}>
 						{builds}
 					</select>
+					<label>Game Type</label>
 					<select name="mode" value={this.state.mode} onChange={this.handleChange}>
 						{modes}
 					</select>
+					<label>Minimum Hero Level</label>
 					<select name="herolevel" value={this.state.herolevel} onChange={this.handleChange}>
 						{heroLevels}
 					</select>
-
-					<hr/>
-
+				</section>
+				<section className="container">
 					<Route exact path="/" render={props => <HeroWinrates params={this.params} {...this.state} {...props} />}/>
 					<Route path ="/talents/:hero" render={props => <TalentWinrates params={this.params} {...this.state} {...props} />}/>
-				</div>
+				</section>
+			</main>
 		);
 	}
 }
