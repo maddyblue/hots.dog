@@ -9,7 +9,6 @@ import {
 	Td,
 	Tr,
 } from 'reactable';
-//import logo from './logo.svg';
 import './App.css';
 import './normalize.css';
 import './milligram.css';
