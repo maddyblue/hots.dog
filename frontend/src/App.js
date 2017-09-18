@@ -280,7 +280,7 @@ const Winrates = (props) => {
 			<Tr key={hero.Name}>
 				<Td column="hero" value={hero.Name} className="pv2 ph3">
 					<Link to={"/talents/" + hero.Name + props.search}>
-						<img src={hero.Icon} style={{
+						<img src={hero.Icon} alt={hero.Name} style={{
 							width: '40px',
 							height: '40px',
 							verticalAlign: 'middle',
