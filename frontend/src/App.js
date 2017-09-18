@@ -196,7 +196,7 @@ const Builds = (props) => {
 			}
 			return (
 				<tr key={talent}>
-					<td className="pv1">{talent}</td>
+					<td>{talent}</td>
 					<td>{games}</td>
 					<td>{rate}</td>
 					<td>{change}</td>
@@ -206,13 +206,13 @@ const Builds = (props) => {
 		builds.push(
 			<div key={tier}>
 			Tier {tierNames[tier]}
-			<table className="ba br2 b--black-10 pv2 ph3">
+			<table>
 				<thead>
 					<tr>
-						<th className="pv2 ph3">hero</th>
-						<th className="pv2 ph3">games</th>
-						<th className="pv2 ph3">winrate</th>
-						<th className="pv2 ph3" title="change since previous patch">change</th>
+						<th>hero</th>
+						<th>games</th>
+						<th>winrate</th>
+						<th title="change since previous patch">change</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -278,7 +278,7 @@ const Winrates = (props) => {
 		}
 		return (
 			<Tr key={hero.Name}>
-				<Td column="hero" value={hero.Name} className="pv2 ph3">
+				<Td column="hero" value={hero.Name}>
 					<Link to={"/talents/" + hero.Name + props.search}>
 						<img src={hero.Icon} alt={hero.Name} style={{
 							width: '40px',
@@ -289,9 +289,9 @@ const Winrates = (props) => {
 						<span>{hero.Name}</span>
 					</Link>
 				</Td>
-				<Td column="games" className="pv2 ph3">{games || 0}</Td>
-				<Td column="winrate" value={winRate} className="pv2 ph3">{pct(winRate)}</Td>
-				<Td column="change" value={change} className="pv2 ph3">{pct(change)}</Td>
+				<Td column="games">{games || 0}</Td>
+				<Td column="winrate" value={winRate}>{pct(winRate)}</Td>
+				<Td column="change" value={change}>{pct(change)}</Td>
 			</Tr>
 		);
 	});
@@ -302,7 +302,6 @@ const Winrates = (props) => {
 				column: 'winrate',
 				direction: 'desc',
 			}}
-			className="ba br2 b--black-10 pv2 ph3"
 		>
 			{winrates}
 		</Table>
