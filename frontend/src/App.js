@@ -28,11 +28,6 @@ class HotsApp extends Component {
 	componentDidMount() {
 		fetch('/api/init').then(resp => resp.json().then(data => {
 			data.init = true;
-			if (!this.state.build) {
-				data.build = data.Builds[0].ID;
-				var search = window.location.search || '?';
-				this.props.history.replace({search: search + 'build=' + data.build});
-			}
 			this.setState(data);
 		}));
 	}
@@ -86,7 +81,7 @@ class HotsApp extends Component {
 		});
 	}
 	render() {
-		if (!this.state.build || !this.state.init) {
+		if (!this.state.init) {
 			return <div>loading...</div>;
 		}
 		var maps = this.state.Maps.map(m => <option key={m}>{m}</option>);
@@ -94,6 +89,7 @@ class HotsApp extends Component {
 		var builds = this.state.Builds.map(b => <option key={b.ID} value={b.ID}>
 			{b.ID} ({new Date(b.Start).toLocaleDateString()} - {new Date(b.Finish).toLocaleDateString()})
 		</option>);
+		builds.unshift(<option key='latest' value="">latest ({this.state.Builds[0].ID})</option>);
 		var modeKeys = Object.keys(this.state.Modes);
 		modeKeys.sort().reverse();
 		var modes = modeKeys.map(k => <option key={k} value={k}>{this.state.Modes[k]}</option>);
@@ -239,13 +235,27 @@ class HeroWinrates extends Component {
 	componentDidUpdate(prevProps, prevState) {
 		this.update();
 	}
+	makeSearch() {
+		let search = window.location.search;
+		if (!this.props.build) {
+			if (search === '') {
+				search = '?';
+			} else {
+				search += '&';
+			}
+			search += 'build=' + this.props.Builds[0].ID;
+		} else if (search.indexOf('build') === -1) {
+			return;
+		}
+		return search;
+	}
 	update() {
-		const search = window.location.search;
-		if (search === this.state.search) {
+		const search = this.makeSearch();
+		if (!search || search === this.state.search) {
 			return;
 		}
 		fetch('/api/get-winrates' + search).then(resp => resp.json().then(data => {
-			if (search === window.location.search) {
+			if (search === this.makeSearch()) {
 				this.setState({
 					winrates: data,
 					search: search,
