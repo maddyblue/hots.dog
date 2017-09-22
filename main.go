@@ -65,6 +65,9 @@ func main() {
 	if err := generateHeroes(db); err != nil {
 		panic(err)
 	}
+	if err := h.updateInit(context.Background()); err != nil {
+		panic(err)
+	}
 
 	wrap := func(f func(context.Context, *http.Request, httprouter.Params) (interface{}, error)) httprouter.Handle {
 		return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -101,34 +104,50 @@ func main() {
 		go mustInitDevData(addr, db)
 	}
 
+	go func() {
+		for range time.Tick(time.Hour) {
+			if err := h.updateInit(context.Background()); err != nil {
+				log.Printf("could not update init data: %+v", err)
+			}
+		}
+	}()
+
 	log.Fatal(http.ListenAndServe(addr, router))
 }
 
 type hotsContext struct {
-	db *sql.DB
-	x  *sqlx.DB
+	db   *sql.DB
+	x    *sqlx.DB
+	init initData
+}
+
+type initData struct {
+	Modes  map[Mode]string
+	Builds []Build
+	Maps   []string
+	Heroes []Hero
 }
 
 func (h *hotsContext) Init(ctx context.Context, _ *http.Request, _ httprouter.Params) (interface{}, error) {
+	return h.init, nil
+}
+
+func (h *hotsContext) updateInit(ctx context.Context) error {
 	maps, heroes, err := h.getNames(ctx)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	builds, err := h.getBuilds(ctx)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return struct {
-		Modes  map[Mode]string
-		Builds []Build
-		Maps   []string
-		Heroes []Hero
-	}{
+	h.init = initData{
 		Modes:  modeNames,
 		Builds: builds,
 		Maps:   maps,
 		Heroes: heroes,
-	}, err
+	}
+	return nil
 }
 
 func httpGet(ctx context.Context, url string) (*http.Response, error) {
@@ -356,7 +375,7 @@ func (h *hotsContext) GetBuildWinrates(ctx context.Context, r *http.Request, ps 
 	}{
 		Current: wrs,
 	}
-	if prevBuild, ok := h.getBuildBefore(ctx, args["build"]); ok {
+	if prevBuild, ok := h.getBuildBefore(args["build"]); ok {
 		args["build"] = prevBuild
 		prevWrs, err := h.getBuildWinrates(ctx, args)
 		if err != nil {
@@ -440,7 +459,7 @@ func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request, _ httpro
 	}{
 		Current: wrs,
 	}
-	if prevBuild, ok := h.getBuildBefore(ctx, args["build"]); ok {
+	if prevBuild, ok := h.getBuildBefore(args["build"]); ok {
 		args["build"] = prevBuild
 		prevWrs, err := h.getWinrates(ctx, args)
 		if err != nil {
@@ -511,15 +530,16 @@ type Total struct {
 	Wins, Losses int
 }
 
-func (h *hotsContext) getBuildBefore(ctx context.Context, id string) (build string, ok bool) {
-	err := h.x.GetContext(ctx, &build, `
-		SELECT id
-		FROM builds
-		WHERE id < $1
-		ORDER BY id DESC
-		LIMIT 1
-	`, id)
-	return build, err == nil
+func (h *hotsContext) getBuildBefore(id string) (build string, ok bool) {
+	for i, b := range h.init.Builds {
+		if b.ID == id {
+			if len(h.init.Builds) == i+1 {
+				return "", false
+			}
+			return h.init.Builds[i+1].ID, true
+		}
+	}
+	return "", false
 }
 
 func (h *hotsContext) getBuilds(ctx context.Context) (builds []Build, err error) {
