@@ -470,7 +470,7 @@ func (h *hotsContext) getWinrates(ctx context.Context, args map[string]string) (
 	}
 	hl := args["herolevel"]
 	if hl == "" {
-		hl = "1"
+		hl = "5"
 	}
 	wheres = append(wheres, fmt.Sprintf("hero_level >= $%d", len(params)+1))
 	params = append(params, hl)

@@ -22,6 +22,7 @@ class HotsApp extends Component {
 			'mode',
 			'herolevel',
 		];
+		this.defaultHeroLevel = '5';
 		this.state = this.searchState();
 		this.handleChange = this.handleChange.bind(this);
 	}
@@ -59,6 +60,9 @@ class HotsApp extends Component {
 			}
 			st[key] = search.get(key);
 		});
+		if (!st.herolevel) {
+			st.herolevel = this.defaultHeroLevel;
+		}
 		return st;
 	}
 	getSearch() {
@@ -66,6 +70,9 @@ class HotsApp extends Component {
 		this.params.forEach(key => {
 			const value = this.state[key];
 			if (!value) {
+				return;
+			}
+			if (key === 'herolevel' && value === this.defaultHeroLevel) {
 				return;
 			}
 			params.push(key + '=' + encodeURIComponent(value));
