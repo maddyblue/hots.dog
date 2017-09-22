@@ -11,7 +11,6 @@ type Mode int
 
 const (
 	ModeQuickMatch Mode = iota + 1
-	ModeBrawl
 	ModeUnrankedDraft
 	ModeHeroLeague
 	ModeTeamLeague
@@ -26,7 +25,6 @@ var gameModes = map[string]Mode{
 
 var modeNames = map[Mode]string{
 	ModeQuickMatch:    "Quick Match",
-	ModeBrawl:         "Brawl",
 	ModeUnrankedDraft: "Unranked Draft",
 	ModeHeroLeague:    "Hero League",
 	ModeTeamLeague:    "Team League",

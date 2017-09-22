@@ -175,7 +175,8 @@ func (h *hotsContext) nextBlock(ctx context.Context) error {
 	// returned.
 	lastID++
 
-	resp, err := httpGet(ctx, fmt.Sprintf("http://hotsapi.net/api/v1/replays?min_id=%d", lastID))
+	const HotsApi = "http://hotsapi.net/api/v1"
+	resp, err := httpGet(ctx, fmt.Sprintf(HotsApi+"/replays?min_id=%d", lastID))
 	if err != nil {
 		return err
 	}
@@ -198,7 +199,7 @@ func (h *hotsContext) nextBlock(ctx context.Context) error {
 	group.Go(func() error {
 		defer close(ch)
 		for _, r := range replays {
-			resp, err := httpGet(ctx, fmt.Sprintf("http://hotsapi.net/api/v1/replays/%d", r.ID))
+			resp, err := httpGet(ctx, fmt.Sprintf(HotsApi+"/replays/%d", r.ID))
 			if err != nil {
 				return err
 			}
