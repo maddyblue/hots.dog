@@ -295,7 +295,7 @@ const Winrates = (props) => {
 		return (
 			<Tr key={hero.Name}>
 				<Td column="hero" value={hero.Name}>
-					<Link to={"/talents/" + hero.Name + props.search}>
+					<div>
 						<img src={hero.Icon} alt={hero.Name} style={{
 							width: '40px',
 							height: '40px',
@@ -303,7 +303,7 @@ const Winrates = (props) => {
 							marginRight: '1em',
 						}}/>
 						<span>{hero.Name}</span>
-					</Link>
+					</div>
 				</Td>
 				<Td column="games">{games || 0}</Td>
 				<Td column="winrate" value={winRate}>{pct(winRate)}</Td>
