@@ -16,6 +16,7 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/jmoiron/sqlx"
@@ -69,12 +70,31 @@ func main() {
 		panic(err)
 	}
 
+	var cacheMu sync.RWMutex
+	type cache struct {
+		until int64
+		data  []byte
+	}
+	requestCache := map[string]cache{}
+
 	wrap := func(f func(context.Context, *http.Request, httprouter.Params) (interface{}, error)) httprouter.Handle {
 		return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+			url := r.URL.String()
+			start := time.Now()
+			defer func() { log.Printf("%s: %s", url, time.Since(start)) }()
+			cacheMu.RLock()
+			c, ok := requestCache[url]
+			cacheMu.RUnlock()
+			if ok && c.until > start.Unix() {
+				w.Header().Add("Content-Type", "application/json")
+				w.Write(c.data)
+				return
+			}
+
 			ctx, _ := context.WithTimeout(context.Background(), time.Second*60)
 			res, err := f(ctx, r, ps)
 			if err != nil {
-				log.Printf("%s: %+v", r.URL, err)
+				log.Printf("%s: %+v", url, err)
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
@@ -82,11 +102,20 @@ func main() {
 				return
 			}
 			w.Header().Add("Content-Type", "application/json")
-			enc := json.NewEncoder(w)
-			enc.SetIndent("", "\t")
-			if err := enc.Encode(res); err != nil {
-				log.Printf("%s: JSON encoding error: %v", r.URL, err)
+			b, err := json.Marshal(res)
+			if err != nil {
+				log.Printf("%s: JSON encoding error: %v", url, err)
 				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			w.Write(b)
+			if r.Method == "GET" {
+				cacheMu.Lock()
+				requestCache[url] = cache{
+					until: start.Add(time.Minute * 10).Unix(),
+					data:  b,
+				}
+				cacheMu.Unlock()
 			}
 		}
 	}
@@ -95,7 +124,7 @@ func main() {
 	router.GET("/api/init", wrap(h.Init))
 	router.GET("/api/get-winrates", wrap(h.GetWinrates))
 	router.GET("/api/get-build-winrates/:hero", wrap(h.GetBuildWinrates))
-	router.GET("/api/next-block", wrap(h.NextBlock))
+	router.POST("/api/next-block", wrap(h.NextBlock))
 
 	const addr = "localhost:4001"
 
