@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import {
 	Route,
-	Link,
 	withRouter
 } from 'react-router-dom';
-import {
-	Table,
-	Td,
-	Tr,
-} from 'reactable';
 import './App.css';
 import './normalize.css';
 import './milligram.css';
@@ -274,60 +268,132 @@ class HeroWinrates extends Component {
 		if (!this.state.winrates) {
 			return <div>loading...</div>;
 		}
-		return <Winrates winrates={this.state.winrates} search={this.state.search} Heroes={this.props.Heroes}/>;
+		const winrates = this.props.Heroes.map(hero => {
+			const wr = this.state.winrates.Current[hero.Name];
+			let games = 0;
+			let winrate = 0;
+			let change = 0;
+			if (wr) {
+				games = wr.Wins + wr.Losses;
+				winrate = (wr.Wins / games * 100);
+				const prev = this.state.winrates.Previous && this.state.winrates.Previous[hero.Name];
+				if (prev) {
+					const prevGames = prev.Wins + prev.Losses;
+					const prevWinRate = prev.Wins / prevGames * 100;
+					change = winrate - prevWinRate;
+				}
+			}
+			return {
+				hero: hero,
+				games: games,
+				winrate: winrate,
+				change: change,
+			};
+		})
+		return <Winrates winrates={winrates} />;
 	}
 }
 
-const Winrates = (props) => {
-	var winrates = props.Heroes.map(hero => {
-		const wr = props.winrates.Current[hero.Name];
-		let games, change;
-		if (wr) {
-			games = wr.Wins + wr.Losses;
-			var winRate = (wr.Wins / games * 100);
-			const prev = props.winrates.Previous && props.winrates.Previous[hero.Name];
-			if (prev) {
-				const prevGames = prev.Wins + prev.Losses;
-				const prevWinRate = prev.Wins / prevGames * 100;
-				change = winRate - prevWinRate;
+class Winrates extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			sort: 'winrate',
+			sortDir: true,
+		};
+		this.sort = this.sort.bind(this);
+		this.sortClass = this.sortClass.bind(this);
+	}
+	sort(ev) {
+		const sort = ev.target.innerText;
+		let dir;
+		if (this.state.sort === sort) {
+			dir = !this.state.sortDir;
+		} else {
+			switch (sort) {
+			case 'hero':
+				dir = false;
+				break;
+			case 'games':
+			case 'winrate':
+			case 'change':
+				dir = true;
+				break;
+			default:
+				console.log('unknown sort target:', sort);
+				return;
 			}
 		}
-		return (
-			<Tr key={hero.Name}>
-				<Td column="hero" value={hero.Name}>
-					<div>
-						<img src={hero.Icon} alt={hero.Name} style={{
+		this.setState({sort: sort, sortDir: dir});
+	}
+	sortClass(col) {
+		if (col !== this.state.sort) {
+			return '';
+		}
+		const dir = this.state.sortDir ? 'asc' : 'desc';
+		return 'sort-' + dir;
+	}
+	render() {
+		const sortedWinrates = this.props.winrates.concat();
+		sortedWinrates.sort((a, b) => {
+			switch (this.state.sort) {
+			case 'hero':
+				return a.hero.Name.localeCompare(b.hero.Name)
+			case 'games':
+			case 'winrate':
+			case 'change':
+				const as = a[this.state.sort];
+				const bs = b[this.state.sort];
+				return as - bs;
+			default:
+				console.log('unknown sort:', this.state.sort);
+				return 0;
+			}
+		});
+		if (this.state.sortDir) {
+			sortedWinrates.reverse();
+		}
+		const winrates = sortedWinrates.map(wr => {
+			return (
+				<tr key={wr.hero.Name}>
+					<td>
+						<img src={wr.hero.Icon} alt={wr.hero.Name} style={{
 							width: '40px',
 							height: '40px',
 							verticalAlign: 'middle',
 							marginRight: '1em',
 						}}/>
-						<span>{hero.Name}</span>
-					</div>
-				</Td>
-				<Td column="games">{games || 0}</Td>
-				<Td column="winrate" value={winRate}>{pct(winRate)}</Td>
-				<Td column="change" value={change}>{pct(change)}</Td>
-			</Tr>
+						<span>{wr.hero.Name}</span>
+					</td>
+					<td>{wr.games || 0}</td>
+					<td>{pct(wr.winrate)}</td>
+					<td>{pct(wr.change)}</td>
+				</tr>
+			);
+		});
+		return (
+			<table>
+				<thead>
+					<tr>
+						<th onClick={this.sort} className={this.sortClass('hero')}>hero</th>
+						<th onClick={this.sort} className={this.sortClass('games')}>games</th>
+						<th onClick={this.sort} className={this.sortClass('winrate')}>winrate</th>
+						<th
+							onClick={this.sort}
+							className={this.sortClass('change')}
+							title="percent change from previous patch"
+						>change</th>
+					</tr>
+				</thead>
+				<tbody>
+					{winrates}
+				</tbody>
+			</table>
 		);
-	});
-	return (
-		<Table
-			sortable={true}
-			defaultSort={{
-				column: 'winrate',
-				direction: 'desc',
-			}}
-		>
-			{winrates}
-		</Table>
-	);
-};
+	}
+}
 
 function pct(x) {
-	if (!x) {
-		return null;
-	}
 	return x.toFixed(1) + '%';
 }
 

@@ -4882,10 +4882,6 @@ react@^15.5.4:
     object-assign "^4.1.0"
     prop-types "^15.5.7"
 
-reactable@^0.14.1:
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/reactable/-/reactable-0.14.1.tgz#2ab9895e3df6da2498625de46d3691592d18c93b"
-
 read-all-stream@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/read-all-stream/-/read-all-stream-3.1.0.tgz#35c3e177f2078ef789ee4bfafa4373074eaef4fa"

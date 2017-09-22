@@ -1,8 +1,8 @@
-th.reactable-header-sort-asc::after {
+.sort-asc::after {
 	content: "↓";
 }
 
-th.reactable-header-sort-desc::after {
+.sort-desc::after {
 	content: "↑";
 }
 
