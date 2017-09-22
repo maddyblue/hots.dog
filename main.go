@@ -71,11 +71,10 @@ func main() {
 
 	wrap := func(f func(context.Context, *http.Request, httprouter.Params) (interface{}, error)) httprouter.Handle {
 		return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-			log.Printf("request: %s", r.URL)
 			ctx, _ := context.WithTimeout(context.Background(), time.Second*60)
 			res, err := f(ctx, r, ps)
 			if err != nil {
-				log.Printf("%+v", err)
+				log.Printf("%s: %+v", r.URL, err)
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
@@ -86,7 +85,7 @@ func main() {
 			enc := json.NewEncoder(w)
 			enc.SetIndent("", "\t")
 			if err := enc.Encode(res); err != nil {
-				log.Print(err)
+				log.Printf("%s: JSON encoding error: %v", r.URL, err)
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 			}
 		}
@@ -510,7 +509,6 @@ func (h *hotsContext) getWinrates(ctx context.Context, args map[string]string) (
 		Count  int
 		Winner bool
 	}
-	fmt.Println("\n", query, "\n")
 	if err := h.x.Select(&winrates, query, params...); err != nil {
 		return nil, errors.Wrap(err, "select from players")
 	}
