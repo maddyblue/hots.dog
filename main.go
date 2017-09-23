@@ -14,13 +14,15 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
+	"os"
+	"os/exec"
 	"regexp"
 	"strings"
 	"sync"
 	"time"
 
 	"github.com/jmoiron/sqlx"
-	"github.com/julienschmidt/httprouter"
 	"github.com/lib/pq"
 	"github.com/nfnt/resize"
 	"github.com/pkg/errors"
@@ -28,15 +30,44 @@ import (
 )
 
 var (
-	flagInit = flag.Bool("init", false, "drop database before starting")
-	initDB   = false
+	flagInit      = flag.Bool("init", false, "drop database before starting")
+	flagAddr      = flag.String("addr", ":4001", "address to serve")
+	flagCockroach = flag.String("cockroach", "postgresql://root@localhost:26257/?sslmode=disable", "cockroach connection URL")
+	flagExec      = flag.String("exec", "", "if present, executes the given command, with args separated by spaces; panics if the command fails")
+	initDB        = false
 )
 
 func main() {
 	flag.Parse()
 
+	if fromEnv := os.Getenv("ADDR"); fromEnv != "" {
+		*flagAddr = fromEnv
+	}
+	if fromEnv := os.Getenv("COCKROACH"); fromEnv != "" {
+		*flagCockroach = fromEnv
+	}
+	if fromEnv := os.Getenv("EXEC"); fromEnv != "" {
+		*flagExec = fromEnv
+	}
+	if *flagExec != "" {
+		sp := strings.Fields(*flagExec)
+		log.Printf("executing: %s", sp)
+		cmd := exec.Command(sp[0], sp[1:]...)
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		if err := cmd.Start(); err != nil {
+			log.Fatal(err)
+		}
+		log.Printf("executed")
+	}
+
 	const dbName = "hots"
-	db := mustInitDB(fmt.Sprintf("postgresql://root@localhost:26257/%s?sslmode=disable", dbName))
+	dbURL, err := url.Parse(*flagCockroach)
+	if err != nil {
+		log.Fatal(err)
+	}
+	dbURL.Path = dbName
+	db := mustInitDB(dbURL.String())
 	defer db.Close()
 
 	h := &hotsContext{
@@ -62,6 +93,18 @@ func main() {
 		}
 	}
 
+	// Loop to allow for the server to start up.
+	for i := 0; ; i++ {
+		_, err := db.Exec(fmt.Sprintf(`CREATE DATABASE IF NOT EXISTS %s`, dbName))
+		if err == nil {
+			break
+		}
+		if i > 10 {
+			panic(err)
+		}
+		fmt.Println("waiting:", err)
+		time.Sleep(time.Second)
+	}
 	mustMigrate(db)
 	if err := generateHeroes(db); err != nil {
 		panic(err)
@@ -77,8 +120,8 @@ func main() {
 	}
 	requestCache := map[string]cache{}
 
-	wrap := func(f func(context.Context, *http.Request, httprouter.Params) (interface{}, error)) httprouter.Handle {
-		return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	wrap := func(f func(context.Context, *http.Request) (interface{}, error)) http.HandlerFunc {
+		return func(w http.ResponseWriter, r *http.Request) {
 			url := r.URL.String()
 			start := time.Now()
 			defer func() { log.Printf("%s: %s", url, time.Since(start)) }()
@@ -92,7 +135,7 @@ func main() {
 			}
 
 			ctx, _ := context.WithTimeout(context.Background(), time.Second*60)
-			res, err := f(ctx, r, ps)
+			res, err := f(ctx, r)
 			if err != nil {
 				log.Printf("%s: %+v", url, err)
 				http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -120,16 +163,14 @@ func main() {
 		}
 	}
 
-	router := httprouter.New()
-	router.GET("/api/init", wrap(h.Init))
-	router.GET("/api/get-winrates", wrap(h.GetWinrates))
-	router.GET("/api/get-build-winrates/:hero", wrap(h.GetBuildWinrates))
-	router.POST("/api/next-block", wrap(h.NextBlock))
-
-	const addr = "localhost:4001"
+	http.Handle("/api/init", wrap(h.Init))
+	http.Handle("/api/get-winrates", wrap(h.GetWinrates))
+	//http.Handle("/api/get-build-winrates/:hero", wrap(h.GetBuildWinrates))
+	http.Handle("/api/next-block", wrap(h.NextBlock))
+	http.Handle("/", http.FileServer(http.Dir("/static")))
 
 	if *flagInit && initDB {
-		go mustInitDevData(addr, db)
+		go mustInitDevData(*flagAddr, db)
 	}
 
 	go func() {
@@ -140,7 +181,7 @@ func main() {
 		}
 	}()
 
-	log.Fatal(http.ListenAndServe(addr, router))
+	log.Fatal(http.ListenAndServe(*flagAddr, nil))
 }
 
 type hotsContext struct {
@@ -156,7 +197,7 @@ type initData struct {
 	Heroes []Hero
 }
 
-func (h *hotsContext) Init(ctx context.Context, _ *http.Request, _ httprouter.Params) (interface{}, error) {
+func (h *hotsContext) Init(ctx context.Context, _ *http.Request) (interface{}, error) {
 	return h.init, nil
 }
 
@@ -191,7 +232,7 @@ func httpGet(ctx context.Context, url string) (*http.Response, error) {
 	return http.DefaultClient.Do(req)
 }
 
-func (h *hotsContext) NextBlock(ctx context.Context, _ *http.Request, _ httprouter.Params) (interface{}, error) {
+func (h *hotsContext) NextBlock(ctx context.Context, _ *http.Request) (interface{}, error) {
 	return nil, h.nextBlock(ctx)
 }
 
@@ -386,7 +427,8 @@ func (h *hotsTime) UnmarshalText(text []byte) error {
 	return nil
 }
 
-func (h *hotsContext) GetBuildWinrates(ctx context.Context, r *http.Request, ps httprouter.Params) (interface{}, error) {
+/*
+func (h *hotsContext) GetBuildWinrates(ctx context.Context, r *http.Request) (interface{}, error) {
 	args := map[string]string{
 		"build": r.FormValue("build"),
 		"hero":  ps.ByName("hero"),
@@ -469,8 +511,9 @@ func (h *hotsContext) getBuildWinrates(ctx context.Context, args map[string]stri
 	}
 	return tally, nil
 }
+*/
 
-func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request, _ httprouter.Params) (interface{}, error) {
+func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request) (interface{}, error) {
 	args := map[string]string{
 		"build":     r.FormValue("build"),
 		"herolevel": r.FormValue("herolevel"),
