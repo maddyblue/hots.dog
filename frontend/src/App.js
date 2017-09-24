@@ -255,6 +255,10 @@ class HeroWinrates extends Component {
 		if (!search || search === this.state.search) {
 			return;
 		}
+		this.setState({
+			winrates: null,
+			search: search,
+		});
 		fetch('/api/get-winrates' + search).then(resp => resp.json().then(data => {
 			if (search === this.makeSearch()) {
 				this.setState({
