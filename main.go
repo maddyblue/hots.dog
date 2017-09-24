@@ -235,17 +235,41 @@ func (h *hotsContext) updateInit(ctx context.Context) error {
 	return nil
 }
 
-func httpGet(ctx context.Context, url string) (*http.Response, error) {
+var httpClient = &http.Client{
+	Timeout: time.Second * 10,
+}
+
+func httpGet(ctx context.Context, url string) ([]byte, error) {
 	start := time.Now()
 	defer func() {
 		log.Printf("GET %s took %s", url, time.Since(start))
 	}()
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return nil, err
+	for i := 0; i < 10; i++ {
+		req, err := http.NewRequest("GET", url, nil)
+		if err != nil {
+			return nil, errors.Wrap(err, url)
+		}
+		req = req.WithContext(ctx)
+		resp, err := httpClient.Do(req)
+		if err != nil {
+			return nil, errors.Wrap(err, url)
+		}
+		b, err := ioutil.ReadAll(resp.Body)
+		resp.Body.Close()
+		if err != nil {
+			return nil, errors.Wrap(err, url)
+		}
+		// Too many requests, backoff a bit.
+		if resp.StatusCode == 429 {
+			time.Sleep(time.Second * 5)
+			continue
+		}
+		if resp.StatusCode != 200 {
+			return nil, errors.Errorf("%s: %s: %s", url, resp.Status, b)
+		}
+		return b, nil
 	}
-	req = req.WithContext(ctx)
-	return http.DefaultClient.Do(req)
+	return nil, errors.Errorf("%s: too many retries", url)
 }
 
 func (h *hotsContext) ClearCache(ctx context.Context, _ *http.Request) (interface{}, error) {
@@ -287,15 +311,15 @@ func (h *hotsContext) nextBlock(ctx context.Context) error {
 	// returned.
 	lastID++
 
-	const HotsApi = "http://hotsapi.net/api/v1"
-	resp, err := httpGet(ctx, fmt.Sprintf(HotsApi+"/replays?min_id=%d", lastID))
+	const HotsApi = "https://hotsapi.net/api/v1"
+	url := fmt.Sprintf(HotsApi+"/replays?min_id=%d", lastID)
+	b, err := httpGet(ctx, url)
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
 	var replays Replays
-	if err := json.NewDecoder(resp.Body).Decode(&replays); err != nil {
-		return errors.Wrap(err, "decoding replays")
+	if err := json.Unmarshal(b, &replays); err != nil {
+		return errors.Wrapf(err, "JSON decoding replays, url: %s, body: %s", url, b)
 	}
 	ch := make(chan *Replay, 5)
 	group, gCtx := errgroup.WithContext(ctx)
@@ -311,13 +335,12 @@ func (h *hotsContext) nextBlock(ctx context.Context) error {
 	group.Go(func() error {
 		defer close(ch)
 		for _, r := range replays {
-			resp, err := httpGet(ctx, fmt.Sprintf(HotsApi+"/replays/%d", r.ID))
+			b, err := httpGet(ctx, fmt.Sprintf(HotsApi+"/replays/%d", r.ID))
 			if err != nil {
 				return err
 			}
-			defer resp.Body.Close()
 			var replay Replay
-			if err := json.NewDecoder(resp.Body).Decode(&replay); err != nil {
+			if err := json.Unmarshal(b, &replay); err != nil {
 				return errors.Wrap(err, "decoding replay")
 			}
 			select {
