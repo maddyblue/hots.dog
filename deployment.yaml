@@ -1,0 +1,19 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: website
+  labels:
+    app: website
+spec:
+  template:
+    metadata:
+      labels:
+        app: website
+        tier: web
+    spec:
+      containers:
+      - name: website
+        image: gcr.io/hots-cockroach/website:latest
+        ports:
+        - containerPort: 443
+        - containerPort: 8080

@@ -182,8 +182,10 @@ func main() {
 	}()
 
 	if *flagAutocert != "" {
+		log.Printf("AUTOCERT on: %s", *flagAutocert)
 		log.Fatal(http.Serve(autocert.NewListener(*flagAutocert), nil))
 	} else {
+		log.Printf("HTTP listen on addr: %s", *flagAddr)
 		log.Fatal(http.ListenAndServe(*flagAddr, nil))
 	}
 }

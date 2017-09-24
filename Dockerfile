@@ -21,7 +21,7 @@ RUN cd frontend && yarn run build
 
 # Build Go app, install cockroach
 
-FROM golang:alpine AS go
+FROM golang:1.9-alpine AS go
 
 RUN apk add --update curl && \
 	rm -rf /var/cache/apk/*
@@ -38,7 +38,9 @@ RUN go install website
 
 # Build final image
 
-FROM alpine
+FROM alpine:3.6
+# Add ssl certs for Go
+RUN apk add --no-cache ca-certificates
 COPY --from=static /frontend/build /static
 COPY --from=go /go/bin/website /website
 COPY --from=go /cockroach /cockroach
