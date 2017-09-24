@@ -30,7 +30,11 @@ type drv struct{}
 
 func (d drv) Open(name string) (driver.Conn, error) {
 	c, err := pq.Open(name)
-	return &conn{c}, err
+	if *flagInit {
+		// Verbose logging for local dev.
+		c = &conn{c}
+	}
+	return c, err
 }
 
 // conn implements a logging driver.Conn that logs queries.
