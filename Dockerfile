@@ -43,4 +43,7 @@ COPY --from=static /frontend/build /static
 COPY --from=go /go/bin/website /website
 COPY --from=go /cockroach /cockroach
 ENTRYPOINT ["/website"]
-CMD ["-exec", "/cockroach start --background --insecure"]
+CMD [ \
+	"-exec", "/cockroach start --background --insecure", \
+	"-autocert", "hots.mattjibson.com" \
+]

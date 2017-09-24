@@ -26,12 +26,14 @@ import (
 	"github.com/lib/pq"
 	"github.com/nfnt/resize"
 	"github.com/pkg/errors"
+	"golang.org/x/crypto/acme/autocert"
 	"golang.org/x/sync/errgroup"
 )
 
 var (
 	flagInit      = flag.Bool("init", false, "drop database before starting")
 	flagAddr      = flag.String("addr", ":4001", "address to serve")
+	flagAutocert  = flag.String("autocert", "", "domain name to autocert; ignores -addr if set")
 	flagCockroach = flag.String("cockroach", "postgresql://root@localhost:26257/?sslmode=disable", "cockroach connection URL")
 	flagExec      = flag.String("exec", "", "if present, executes the given command, with args separated by spaces; panics if the command fails")
 	initDB        = false
@@ -45,6 +47,9 @@ func main() {
 	}
 	if fromEnv := os.Getenv("COCKROACH"); fromEnv != "" {
 		*flagCockroach = fromEnv
+	}
+	if fromEnv := os.Getenv("AUTOCERT"); fromEnv != "" {
+		*flagAutocert = fromEnv
 	}
 	if fromEnv := os.Getenv("EXEC"); fromEnv != "" {
 		*flagExec = fromEnv
@@ -176,7 +181,11 @@ func main() {
 		}
 	}()
 
-	log.Fatal(http.ListenAndServe(*flagAddr, nil))
+	if *flagAutocert != "" {
+		log.Fatal(http.Serve(autocert.NewListener(*flagAutocert), nil))
+	} else {
+		log.Fatal(http.ListenAndServe(*flagAddr, nil))
+	}
 }
 
 type hotsContext struct {
