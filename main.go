@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"context"
+	"crypto/tls"
 	"database/sql"
 	"encoding/base64"
 	"encoding/json"
@@ -183,11 +184,46 @@ func main() {
 
 	if *flagAutocert != "" {
 		log.Printf("AUTOCERT on: %s", *flagAutocert)
-		log.Fatal(http.Serve(autocert.NewListener(*flagAutocert), nil))
+		m := autocert.Manager{
+			Prompt:     autocert.AcceptTOS,
+			HostPolicy: autocert.HostWhitelist(*flagAutocert),
+			Cache:      dbCache{db},
+		}
+		s := &http.Server{
+			Addr:      ":https",
+			TLSConfig: &tls.Config{GetCertificate: m.GetCertificate},
+		}
+		log.Fatal(s.ListenAndServeTLS("", ""))
 	} else {
 		log.Printf("HTTP listen on addr: %s", *flagAddr)
 		log.Fatal(http.ListenAndServe(*flagAddr, nil))
 	}
+}
+
+const autocertPrefix = "autocert-"
+
+type dbCache struct {
+	*sql.DB
+}
+
+func (db dbCache) Get(ctx context.Context, key string) ([]byte, error) {
+	var data []byte
+	if err := db.QueryRowContext(ctx, "SELECT s FROM config WHERE key = $1", autocertPrefix+key).Scan(&data); err == sql.ErrNoRows {
+		return nil, autocert.ErrCacheMiss
+	} else if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+func (db dbCache) Put(ctx context.Context, key string, data []byte) error {
+	_, err := db.ExecContext(ctx, "UPSERT INTO config (key, s) VALUES ($1, $2)", autocertPrefix+key, data)
+	return err
+}
+
+func (db dbCache) Delete(ctx context.Context, key string) error {
+	_, err := db.ExecContext(ctx, "DELETE FROM config WHERE key = $1", autocertPrefix+key)
+	return err
 }
 
 type hotsContext struct {
