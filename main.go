@@ -74,6 +74,7 @@ func main() {
 		db: db,
 		x:  sqlx.NewDb(db, "postgres"),
 	}
+	h.mu.cache = make(map[string]cache)
 
 	if *flagInit {
 		// Don't exit on panic; prevents modd from spinning.
@@ -113,21 +114,14 @@ func main() {
 		panic(err)
 	}
 
-	var cacheMu sync.RWMutex
-	type cache struct {
-		until int64
-		data  []byte
-	}
-	requestCache := map[string]cache{}
-
 	wrap := func(f func(context.Context, *http.Request) (interface{}, error)) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
 			url := r.URL.String()
 			start := time.Now()
 			defer func() { log.Printf("%s: %s", url, time.Since(start)) }()
-			cacheMu.RLock()
-			c, ok := requestCache[url]
-			cacheMu.RUnlock()
+			h.mu.RLock()
+			c, ok := h.mu.cache[url]
+			h.mu.RUnlock()
 			if ok && c.until > start.Unix() {
 				w.Header().Add("Content-Type", "application/json")
 				w.Write(c.data)
@@ -153,12 +147,12 @@ func main() {
 			}
 			w.Write(b)
 			if r.Method == "GET" {
-				cacheMu.Lock()
-				requestCache[url] = cache{
+				h.mu.Lock()
+				h.mu.cache[url] = cache{
 					until: start.Add(time.Minute * 10).Unix(),
 					data:  b,
 				}
-				cacheMu.Unlock()
+				h.mu.Unlock()
 			}
 		}
 	}
@@ -167,6 +161,7 @@ func main() {
 	http.Handle("/api/get-winrates", wrap(h.GetWinrates))
 	//http.Handle("/api/get-build-winrates/:hero", wrap(h.GetBuildWinrates))
 	http.Handle("/api/next-block", wrap(h.NextBlock))
+	http.Handle("/api/clear-cache", wrap(h.ClearCache))
 	http.Handle("/", http.FileServer(http.Dir("/static")))
 
 	if *flagInit && initDB {
@@ -188,6 +183,16 @@ type hotsContext struct {
 	db   *sql.DB
 	x    *sqlx.DB
 	init initData
+
+	mu struct {
+		sync.RWMutex
+		cache map[string]cache
+	}
+}
+
+type cache struct {
+	until int64
+	data  []byte
 }
 
 type initData struct {
@@ -230,6 +235,14 @@ func httpGet(ctx context.Context, url string) (*http.Response, error) {
 	}
 	req = req.WithContext(ctx)
 	return http.DefaultClient.Do(req)
+}
+
+func (h *hotsContext) ClearCache(ctx context.Context, _ *http.Request) (interface{}, error) {
+	if err := h.updateInit(ctx); err != nil {
+		return nil, err
+	}
+	h.mu.cache = make(map[string]cache)
+	return nil, nil
 }
 
 func (h *hotsContext) NextBlock(ctx context.Context, _ *http.Request) (interface{}, error) {
