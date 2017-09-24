@@ -14,6 +14,19 @@ spec:
       containers:
       - name: website
         image: gcr.io/hots-cockroach/website:latest
+        env:
+          - name: EXEC
+            value: "/cockroach start --background --insecure --store=/mnt/cockroach"
+          - name: AUTOCERT
+            value: "hots.mattjibson.com"
         ports:
         - containerPort: 443
         - containerPort: 8080
+        volumeMounts:
+        - name: cockroach-storage
+          mountPath: /mnt/cockroach
+      volumes:
+        - name: cockroach-storage
+          gcePersistentDisk:
+            pdName: hots-disk
+            fsType: ext4
