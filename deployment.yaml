@@ -16,7 +16,7 @@ spec:
         image: gcr.io/hots-cockroach/website:latest
         env:
           - name: EXEC
-            value: "/cockroach start --background --insecure --store=/mnt/cockroach"
+            value: "/cockroach start --background --insecure --store=/mnt/cockroach --max-sql-memory 50% --cache 50%"
           - name: AUTOCERT
             value: "hots.mattjibson.com"
         ports:
