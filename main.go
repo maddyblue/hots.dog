@@ -17,7 +17,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"os/exec"
 	"regexp"
 	"strings"
 	"sync"
@@ -27,16 +26,17 @@ import (
 	"github.com/lib/pq"
 	"github.com/nfnt/resize"
 	"github.com/pkg/errors"
+	"golang.org/x/crypto/acme"
 	"golang.org/x/crypto/acme/autocert"
 	"golang.org/x/sync/errgroup"
 )
 
 var (
 	flagInit      = flag.Bool("init", false, "drop database before starting")
-	flagAddr      = flag.String("addr", ":4001", "address to serve")
-	flagAutocert  = flag.String("autocert", "", "domain name to autocert; ignores -addr if set")
+	flagAddr      = flag.String("addr", ":4001", "address to serve; HTTP redirect address if -autocert is set")
+	flagAutocert  = flag.String("autocert", "", "domain name to autocert")
+	flagAcmedir   = flag.String("acmedir", "", "optional acme directory; can be used to configure dev letsencrypt")
 	flagCockroach = flag.String("cockroach", "postgresql://root@localhost:26257/?sslmode=disable", "cockroach connection URL")
-	flagExec      = flag.String("exec", "", "if present, executes the given command, with args separated by spaces; panics if the command fails")
 	initDB        = false
 )
 
@@ -52,19 +52,8 @@ func main() {
 	if fromEnv := os.Getenv("AUTOCERT"); fromEnv != "" {
 		*flagAutocert = fromEnv
 	}
-	if fromEnv := os.Getenv("EXEC"); fromEnv != "" {
-		*flagExec = fromEnv
-	}
-	if *flagExec != "" {
-		sp := strings.Fields(*flagExec)
-		log.Printf("executing: %s", sp)
-		cmd := exec.Command(sp[0], sp[1:]...)
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		if err := cmd.Start(); err != nil {
-			log.Fatal(err)
-		}
-		log.Printf("executed")
+	if fromEnv := os.Getenv("ACMEDIR"); fromEnv != "" {
+		*flagAcmedir = fromEnv
 	}
 
 	const dbName = "hots"
@@ -183,11 +172,29 @@ func main() {
 	}()
 
 	if *flagAutocert != "" {
+		go func() {
+			mux := http.NewServeMux()
+			mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+				u := r.URL
+				u.Scheme = "https"
+				u.Host = *flagAutocert
+				log.Printf("https redirect to %s", u)
+				// 301
+				http.Redirect(w, r, u.String(), http.StatusMovedPermanently)
+			})
+			log.Fatal(http.ListenAndServe(*flagAddr, mux))
+		}()
 		log.Printf("AUTOCERT on: %s", *flagAutocert)
+		if *flagAcmedir != "" {
+			log.Printf("ACMEDIR: %s", *flagAcmedir)
+		}
 		m := autocert.Manager{
 			Prompt:     autocert.AcceptTOS,
 			HostPolicy: autocert.HostWhitelist(*flagAutocert),
 			Cache:      dbCache{db},
+			Client: &acme.Client{
+				DirectoryURL: *flagAcmedir,
+			},
 		}
 		s := &http.Server{
 			Addr:      ":https",

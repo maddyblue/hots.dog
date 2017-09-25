@@ -22,17 +22,6 @@ RUN cd frontend && yarn run build
 # Build Go app, install cockroach
 
 FROM golang:1.9-alpine AS go
-
-RUN apk add --update curl && \
-	rm -rf /var/cache/apk/*
-
-RUN \
-	VERSION="v1.1-beta.20170921" && \
-	NAME="cockroach-${VERSION}.linux-musl-amd64" && \
-	curl https://s3.amazonaws.com/binaries-test.cockroachdb.com/${NAME}.tgz | \
-	tar xzv && \
-	mv ${NAME}/cockroach /cockroach
-
 COPY . /go/src/website
 RUN go install website
 
@@ -43,5 +32,4 @@ FROM alpine:3.6
 RUN apk add --no-cache ca-certificates
 COPY --from=static /frontend/build /static
 COPY --from=go /go/bin/website /website
-COPY --from=go /cockroach /cockroach
 ENTRYPOINT ["/website"]

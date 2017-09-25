@@ -1,0 +1,43 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: website
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: website
+    spec:
+      containers:
+      - name: website
+        image: gcr.io/hots-cockroach/website:latest
+        env:
+          - name: ADDR
+            value: ":80" # for https redirection
+          - name: AUTOCERT
+            value: "hots.mattjibson.com"
+          - name: COCKROACH
+            value: "postgres://root@cockroachdb-public:26257/?sslmode=disable"
+          - name: ACMEDIR
+            value: "https://acme-staging.api.letsencrypt.org/directory"
+        ports:
+        - containerPort: 443
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: website
+spec:
+  selector:
+    app: website
+  ports:
+  - port: 443
+    targetPort: 443
+    name: https
+  - port: 80
+    targetPort: 80
+    name: http
+  type: LoadBalancer
+  loadBalancerIP: "35.202.222.150"
