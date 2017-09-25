@@ -272,8 +272,12 @@ class HeroWinrates extends Component {
 		if (!this.state.winrates) {
 			return <div>loading...</div>;
 		}
-		const winrates = this.props.Heroes.map(hero => {
+		const winrates = [];
+		this.props.Heroes.forEach(hero => {
 			const wr = this.state.winrates.Current[hero.Name];
+			if (!wr) {
+				return;
+			}
 			let games = 0;
 			let winrate = 0;
 			let change = 0;
@@ -287,12 +291,12 @@ class HeroWinrates extends Component {
 					change = winrate - prevWinRate;
 				}
 			}
-			return {
+			winrates.push({
 				hero: hero,
 				games: games,
 				winrate: winrate,
 				change: change,
-			};
+			});
 		})
 		return <Winrates winrates={winrates} />;
 	}
