@@ -1,4 +1,4 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '--tag=gcr.io/$PROJECT_ID/website', '.']
-images: ['gcr.io/$PROJECT_ID/website']
+  args: ['build', '--tag=gcr.io/$PROJECT_ID/website:$REVISION_ID', '.']
+images: ['gcr.io/$PROJECT_ID/website:$REVISION_ID']
