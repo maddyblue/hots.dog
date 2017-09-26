@@ -155,7 +155,7 @@ const About = (props) => {
 			<ul>
 				<li>a fast, clean web experience</li>
 				<li>URL reflects current view; this means you can bookmark a specific filter view</li>
-				<li>open API for other to use</li>
+				<li>open API for others to use</li>
 			</ul>
 			<p>
 				Our future goals are:
