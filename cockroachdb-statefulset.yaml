@@ -28,7 +28,7 @@ metadata:
     app: website
 spec:
   selector:
-    app: website
+    app: cockroachdb
   ports:
   - port: 8080
     targetPort: 8080
@@ -88,6 +88,7 @@ metadata:
   name: cockroachdb
 spec:
   serviceName: "cockroachdb"
+  replicas: 3
   template:
     metadata:
       labels:
