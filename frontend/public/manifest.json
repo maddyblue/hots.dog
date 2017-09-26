@@ -1,6 +1,6 @@
 {
-  "short_name": "hots-cockroach",
-  "name": "hots-cockroach",
+  "short_name": "hots.dog",
+  "name": "hots.dog",
   "start_url": "./index.html",
   "display": "standalone",
   "theme_color": "#000000",

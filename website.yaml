@@ -16,11 +16,9 @@ spec:
           - name: ADDR
             value: ":80" # for https redirection
           - name: AUTOCERT
-            value: "hots.mattjibson.com"
+            value: "hots.dog"
           - name: COCKROACH
             value: "postgres://root@cockroachdb-public:26257/?sslmode=disable"
-          - name: ACMEDIR
-            value: "https://acme-staging.api.letsencrypt.org/directory"
         ports:
         - containerPort: 443
         - containerPort: 80
