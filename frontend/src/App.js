@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+	Link,
 	Route,
 	withRouter
 } from 'react-router-dom';
@@ -85,49 +86,96 @@ class HotsApp extends Component {
 		if (!this.state.init) {
 			return <div>loading...</div>;
 		}
-		var maps = this.state.Maps.map(m => <option key={m}>{m}</option>);
-		maps.unshift(<option key="" value="">All Maps</option>);
-		var builds = this.state.Builds.map(b => <option key={b.ID} value={b.ID}>
-			{b.ID} ({new Date(b.Start).toLocaleDateString()} - {new Date(b.Finish).toLocaleDateString()})
-		</option>);
-		builds.unshift(<option key='latest' value="">latest ({this.state.Builds[0].ID})</option>);
-		var modeKeys = Object.keys(this.state.Modes);
-		modeKeys.sort().reverse();
-		var modes = modeKeys.map(k => <option key={k} value={k}>{this.state.Modes[k]}</option>);
-		modes.unshift(<option key="" value="">All Game Modes</option>);
-		var heroLevels = [1, 5, 10, 20].map(v => <option key={v}>{v}</option>);
 		return (
 			<main className="wrapper">
 				<nav className="navigation">
 					<section className="container">
-						<a href="/" className="navigation-title">home</a>
+						<Link to="/" className="navigation-title">home</Link>
+						<ul className="navigation-list float-right">
+							<li className="navigation-item">
+								<Link className="navigation-link" to="/about">about</Link>
+							</li>
+						</ul>
 					</section>
 				</nav>
 				<section className="container">
-					<label>Map</label>
-					<select name="map" value={this.state.map} onChange={this.handleChange}>
-						{maps}
-					</select>
-					<label>Patch</label>
-					<select name="build" value={this.state.build} onChange={this.handleChange}>
-						{builds}
-					</select>
-					<label>Game Type</label>
-					<select name="mode" value={this.state.mode} onChange={this.handleChange}>
-						{modes}
-					</select>
-					<label>Minimum Hero Level</label>
-					<select name="herolevel" value={this.state.herolevel} onChange={this.handleChange}>
-						{heroLevels}
-					</select>
-				</section>
-				<section className="container">
-					<Route exact path="/" render={props => <HeroWinrates params={this.params} {...this.state} {...props} />}/>
-					<Route path ="/talents/:hero" render={props => <TalentWinrates params={this.params} {...this.state} {...props} />}/>
+					<Route exact path="/" render={props => <HeroWinrates params={this.params} handleChange={this.handleChange} {...this.state} {...props} />}/>
+					<Route exact path="/about" component={About}/>
 				</section>
 			</main>
 		);
 	}
+}
+
+const Filter = (props) => {
+	let maps = props.Maps.map(m => <option key={m}>{m}</option>);
+	maps.unshift(<option key="" value="">All Maps</option>);
+	let builds = props.Builds.map(b => <option key={b.ID} value={b.ID}>
+		{b.ID} ({new Date(b.Start).toLocaleDateString()} - {new Date(b.Finish).toLocaleDateString()})
+	</option>);
+	builds.unshift(<option key='latest' value="">latest ({props.Builds[0].ID})</option>);
+	let modeKeys = Object.keys(props.Modes);
+	modeKeys.sort().reverse();
+	let modes = modeKeys.map(k => <option key={k} value={k}>{props.Modes[k]}</option>);
+	modes.unshift(<option key="" value="">All Game Modes</option>);
+	let heroLevels = [1, 5, 10, 20].map(v => <option key={v}>{v}</option>);
+	return (
+		<div>
+			<label>Map</label>
+			<select name="map" value={props.map} onChange={props.handleChange}>
+				{maps}
+			</select>
+			<label>Patch</label>
+			<select name="build" value={props.build} onChange={props.handleChange}>
+				{builds}
+			</select>
+			<label>Game Type</label>
+			<select name="mode" value={props.mode} onChange={props.handleChange}>
+				{modes}
+			</select>
+			<label>Minimum Hero Level</label>
+			<select name="herolevel" value={props.herolevel} onChange={props.handleChange}>
+				{heroLevels}
+			</select>
+		</div>
+	);
+}
+
+const About = (props) => {
+	return (
+		<div>
+			<h2>about</h2>
+			<p>
+				This site is a <a href="http://us.battle.net/heroes/en/">Heroes of the Storm</a> game aggregator.
+				It fetches data from <a href="http://hotsapi.net/">HotsApi</a> and displays hero winrates with various filter options.
+			</p>
+			<p>
+				Our goals are:
+			</p>
+			<ul>
+				<li>a fast, clean web experience</li>
+				<li>URL reflects current view; this means you can bookmark a specific filter view</li>
+				<li>open API for other to use</li>
+			</ul>
+			<p>
+				Our future goals are:
+			</p>
+			<ul>
+				<li>data on talent picks</li>
+				<li>player MMR calculation</li>
+			</ul>
+			<p>
+				The code is free on GitHub at <a href="https://github.com/mjibson/hots-cockroach">github.com/mjibson/hots-cockroach</a>.
+				Technical details:
+			</p>
+			<ul>
+				<li>backend is written in <a href="https://golang.org/">Go</a></li>
+				<li>database is <a href="https://www.cockroachlabs.com/">CockroachDB</a></li>
+				<li>frontend is <a href="https://facebook.github.io/react/">React</a></li>
+				<li>site is deployed with <a href="https://kubernetes.io/">Kubernetes</a> on <a href="https://cloud.google.com/container-engine/">Google Container Engine</a></li>
+			</ul>
+		</div>
+	);
 }
 
 class TalentWinrates extends Component {
@@ -269,36 +317,44 @@ class HeroWinrates extends Component {
 		}));
 	}
 	render() {
+		let winrates;
 		if (!this.state.winrates) {
-			return <div>loading...</div>;
-		}
-		const winrates = [];
-		this.props.Heroes.forEach(hero => {
-			const wr = this.state.winrates.Current[hero.Name];
-			if (!wr) {
-				return;
-			}
-			let games = 0;
-			let winrate = 0;
-			let change = 0;
-			if (wr) {
-				games = wr.Wins + wr.Losses;
-				winrate = (wr.Wins / games * 100);
-				const prev = this.state.winrates.Previous && this.state.winrates.Previous[hero.Name];
-				if (prev) {
-					const prevGames = prev.Wins + prev.Losses;
-					const prevWinRate = prev.Wins / prevGames * 100;
-					change = winrate - prevWinRate;
+			winrates = <div>loading...</div>;
+		} else {
+			const rates = [];
+			this.props.Heroes.forEach(hero => {
+				const wr = this.state.winrates.Current[hero.Name];
+				if (!wr) {
+					return;
 				}
-			}
-			winrates.push({
-				hero: hero,
-				games: games,
-				winrate: winrate,
-				change: change,
-			});
-		})
-		return <Winrates winrates={winrates} />;
+				let games = 0;
+				let winrate = 0;
+				let change = 0;
+				if (wr) {
+					games = wr.Wins + wr.Losses;
+					winrate = (wr.Wins / games * 100);
+					const prev = this.state.winrates.Previous && this.state.winrates.Previous[hero.Name];
+					if (prev) {
+						const prevGames = prev.Wins + prev.Losses;
+						const prevWinRate = prev.Wins / prevGames * 100;
+						change = winrate - prevWinRate;
+					}
+				}
+				rates.push({
+					hero: hero,
+					games: games,
+					winrate: winrate,
+					change: change,
+				});
+			})
+			winrates = <Winrates winrates={rates}/>
+		}
+		return (
+			<div>
+				<Filter handleChange={this.props.handleChange} {...this.props}/>
+				{winrates}
+			</div>
+		);
 	}
 }
 

@@ -158,6 +158,9 @@ func main() {
 	http.Handle("/api/next-block", wrap(h.NextBlock))
 	http.Handle("/api/clear-cache", wrap(h.ClearCache))
 	http.Handle("/", http.FileServer(http.Dir("/static")))
+	http.HandleFunc("/about", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "/static/index.html")
+	})
 
 	if *flagInit && initDB {
 		go mustInitDevData(*flagAddr, db)

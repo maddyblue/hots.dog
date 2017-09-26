@@ -1,3 +1,7 @@
+body {
+	overflow-y: scroll;
+}
+
 .sort-asc::after {
 	content: "↓";
 }
@@ -10,15 +14,15 @@
 	display: block;
 	overflow: hidden;
 	position: relative;
-	width: 100%
+	width: 100%;
 }
 
 .wrapper .container {
-	max-width: 80rem
+	max-width: 80rem;
 }
 
 .wrapper>.container {
-	padding-top: 7.5rem
+	padding-top: 7.5rem;
 }
 
 .navigation {
@@ -32,12 +36,25 @@
 	right: 0;
 	top: 0;
 	width: 100%;
-	z-index: 1
+	z-index: 1;
 }
 
 .navigation .container {
 	padding-bottom: 0;
 	padding-top: 0;
+}
+
+.navigation .navigation-list {
+	list-style: none;
+	margin-bottom: 0;
+	margin-right: 0;
+}
+
+.navigation .navigation-item {
+	float: left;
+	margin-bottom: 0;
+	margin-left: 2.5rem;
+	position: relative;
 }
 
 .navigation .navigation-link,.navigation .navigation-title,.navigation .title {
