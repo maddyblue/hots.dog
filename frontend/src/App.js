@@ -121,22 +121,34 @@ const Filter = (props) => {
 	let heroLevels = [1, 5, 10, 20].map(v => <option key={v}>{v}</option>);
 	return (
 		<div>
-			<label>Map</label>
-			<select name="map" value={props.map} onChange={props.handleChange}>
-				{maps}
-			</select>
-			<label>Patch</label>
-			<select name="build" value={props.build} onChange={props.handleChange}>
-				{builds}
-			</select>
-			<label>Game Type</label>
-			<select name="mode" value={props.mode} onChange={props.handleChange}>
-				{modes}
-			</select>
-			<label>Minimum Hero Level</label>
-			<select name="herolevel" value={props.herolevel} onChange={props.handleChange}>
-				{heroLevels}
-			</select>
+			<div className="row">
+				<div className="column">
+					<label>Map</label>
+					<select name="map" value={props.map} onChange={props.handleChange}>
+						{maps}
+					</select>
+				</div>
+				<div className="column">
+					<label>Patch</label>
+					<select name="build" value={props.build} onChange={props.handleChange}>
+						{builds}
+					</select>
+				</div>
+			</div>
+			<div className="row">
+				<div className="column">
+					<label>Game Type</label>
+					<select name="mode" value={props.mode} onChange={props.handleChange}>
+						{modes}
+					</select>
+				</div>
+				<div className="column">
+					<label>Minimum Hero Level</label>
+					<select name="herolevel" value={props.herolevel} onChange={props.handleChange}>
+						{heroLevels}
+					</select>
+				</div>
+			</div>
 		</div>
 	);
 }
