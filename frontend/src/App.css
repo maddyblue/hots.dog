@@ -2,6 +2,10 @@ body {
 	overflow-y: scroll;
 }
 
+table th {
+	cursor: pointer;
+}
+
 .sort-asc::after {
 	content: "↓";
 }
