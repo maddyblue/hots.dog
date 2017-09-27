@@ -84,7 +84,7 @@ class HotsApp extends Component {
 	}
 	render() {
 		if (!this.state.init) {
-			return <div>loading...</div>;
+			return 'loading...';
 		}
 		return (
 			<main className="wrapper">
@@ -205,7 +205,7 @@ class TalentWinrates extends Component {
 	}
 	render() {
 		if (!this.state.winrates) {
-			return <div>loading...</div>;
+			return 'loading...';
 		}
 		return <Builds winrates={this.state.winrates}/>;
 	}
@@ -266,11 +266,7 @@ const Builds = (props) => {
 			</div>
 		);
 	}
-	return (
-		<div>
-			{builds}
-		</div>
-	);
+	return builds;
 };
 
 class HeroWinrates extends Component {
