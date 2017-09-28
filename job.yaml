@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: nextblock
+spec:
+  template:
+    metadata:
+      name: nextblock
+    spec:
+      containers:
+      - name: nextblock
+        image: gcr.io/hots-cockroach/website:latest
+        command: ["/website", "-update=https://hots.dog"]
+      restartPolicy: Never

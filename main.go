@@ -38,11 +38,19 @@ var (
 	flagAutocert  = flag.String("autocert", "", "domain name to autocert")
 	flagAcmedir   = flag.String("acmedir", "", "optional acme directory; can be used to configure dev letsencrypt")
 	flagCockroach = flag.String("cockroach", "postgresql://root@localhost:26257/?sslmode=disable", "cockroach connection URL")
+	flagUpdate    = flag.String("update", "", "hit /api/next-block until done")
 	initDB        = false
 )
 
 func main() {
 	flag.Parse()
+
+	if *flagUpdate != "" {
+		if err := update(*flagUpdate); err != nil {
+			log.Fatal(err)
+		}
+		return
+	}
 
 	if fromEnv := os.Getenv("ADDR"); fromEnv != "" {
 		*flagAddr = fromEnv
