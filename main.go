@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"compress/gzip"
 	"context"
 	"crypto/tls"
 	"database/sql"
@@ -113,13 +114,21 @@ func main() {
 		return func(w http.ResponseWriter, r *http.Request) {
 			url := r.URL.String()
 			start := time.Now()
+			useGzip := strings.Contains(r.Header.Get("Accept-Encoding"), "gzip")
+			if useGzip {
+				w.Header().Add("Content-Encoding", "gzip")
+			}
 			defer func() { log.Printf("%s: %s", url, time.Since(start)) }()
 			h.mu.RLock()
 			c, ok := h.mu.cache[url]
 			h.mu.RUnlock()
 			if ok && c.until > start.Unix() {
 				w.Header().Add("Content-Type", "application/json")
-				w.Write(c.data)
+				if useGzip {
+					w.Write(c.gzip)
+				} else {
+					w.Write(c.data)
+				}
 				return
 			}
 
@@ -140,12 +149,29 @@ func main() {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
-			w.Write(b)
+			var gz bytes.Buffer
+			gzw, _ := gzip.NewWriterLevel(&gz, gzip.BestCompression)
+			if _, err := gzw.Write(b); err != nil {
+				log.Printf("%s: gzip write error: %v", url, err)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			if err := gzw.Close(); err != nil {
+				log.Printf("%s: gzip close error: %v", url, err)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			if useGzip {
+				w.Write(gz.Bytes())
+			} else {
+				w.Write(b)
+			}
 			if r.Method == "GET" {
 				h.mu.Lock()
 				h.mu.cache[url] = cache{
 					until: start.Add(time.Minute * 10).Unix(),
 					data:  b,
+					gzip:  gz.Bytes(),
 				}
 				h.mu.Unlock()
 			}
@@ -250,6 +276,7 @@ type hotsContext struct {
 type cache struct {
 	until int64
 	data  []byte
+	gzip  []byte
 }
 
 type initData struct {
