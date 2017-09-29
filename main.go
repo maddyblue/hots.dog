@@ -23,6 +23,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/jackc/pgx"
 	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
 	"github.com/nfnt/resize"
@@ -39,6 +40,7 @@ var (
 	flagAcmedir   = flag.String("acmedir", "", "optional acme directory; can be used to configure dev letsencrypt")
 	flagCockroach = flag.String("cockroach", "postgresql://root@localhost:26257/?sslmode=disable", "cockroach connection URL")
 	flagUpdate    = flag.String("update", "", "hit /api/next-block until done")
+	flagElo       = flag.Bool("elo", false, "run elo update")
 	initDB        = false
 )
 
@@ -71,6 +73,24 @@ func main() {
 		log.Fatal(err)
 	}
 	dbURL.Path = dbName
+
+	if *flagElo {
+		config, err := pgx.ParseURI(dbURL.String())
+		if err != nil {
+			log.Fatal(err)
+		}
+		db, err := pgx.NewConnPool(pgx.ConnPoolConfig{ConnConfig: config})
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer db.Close()
+
+		if err := elo(db); err != nil {
+			log.Fatalf("%+v", err)
+		}
+		return
+	}
+
 	db := mustInitDB(dbURL.String())
 	defer db.Close()
 

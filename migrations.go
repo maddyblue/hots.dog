@@ -78,11 +78,17 @@ func mustMigrate(db *sql.DB) {
 			ID: "2",
 			Up: `
 					CREATE TABLE cache (
-						id string PRIMARY KEY,
+						id STRING PRIMARY KEY,
 						until TIMESTAMP,
 						data BYTES,
 						gzip BYTES
 					);
+				`,
+		},
+		{
+			ID: "3",
+			Up: `
+					ALTER TABLE players ADD COLUMN skill INT;
 				`,
 		},
 	}
