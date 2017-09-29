@@ -12,10 +12,13 @@ import (
 func update(addr string) error {
 	url := fmt.Sprintf("%s/api/next-block", addr)
 	log.Printf("running update for: %s", addr)
+	client := &http.Client{
+		Timeout: time.Minute,
+	}
 
 	for {
 		start := time.Now()
-		resp, err := http.Get(url)
+		resp, err := client.Get(url)
 		if err != nil {
 			return err
 		}
