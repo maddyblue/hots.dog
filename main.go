@@ -735,8 +735,7 @@ func (h *hotsContext) getWinrates(ctx context.Context, args map[string]string) (
 	wheres = append(wheres, fmt.Sprintf("hero_level >= $%d", len(params)+1))
 	params = append(params, hl)
 
-	buf := bytes.NewBufferString("SELECT COUNT(*) count, hero, winner")
-	buf.WriteString(" FROM players")
+	buf := bytes.NewBufferString("SELECT COUNT(*) count, hero, winner FROM players")
 	if len(wheres) > 0 {
 		fmt.Fprintf(buf, " WHERE %s", strings.Join(wheres, " AND "))
 	}
