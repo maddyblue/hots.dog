@@ -13,7 +13,7 @@ func update(addr string) error {
 	url := fmt.Sprintf("%s/api/next-block", addr)
 	log.Printf("running update for: %s", addr)
 	client := &http.Client{
-		Timeout: time.Minute,
+		Timeout: time.Minute * 2,
 	}
 
 	for {
