@@ -2,10 +2,22 @@
 
 
 [[projects]]
+  name = "github.com/jackc/pgx"
+  packages = [".","chunkreader","internal/sanitize","pgio","pgproto3","pgtype"]
+  revision = "66918e80dfde8d5cb09af9aebf40e2cce2eb0cc0"
+  version = "v3.0.1"
+
+[[projects]]
   branch = "master"
   name = "github.com/jmoiron/sqlx"
   packages = [".","reflectx"]
   revision = "d9bd385d68c068f1fabb5057e3dedcbcbb039d0f"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/kortemy/elo-go"
+  packages = ["."]
+  revision = "9a4b59568d675a6b3f952d804220389d9f23751c"
 
 [[projects]]
   branch = "master"
@@ -46,6 +58,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "0780a1b9f88362446e472d09167beaefaf6876ce8c2b389a5f777ef74d61659a"
+  inputs-digest = "e488c8fd10f2a946226e08e8924a57b67d9e6af665478a336dc8831f4884facb"
   solver-name = "gps-cdcl"
   solver-version = 1
