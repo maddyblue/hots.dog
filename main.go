@@ -120,27 +120,51 @@ func main() {
 
 	wrap := func(f func(context.Context, *http.Request) (interface{}, error)) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
+			ctx, _ := context.WithTimeout(context.Background(), time.Second*60)
 			url := r.URL.String()
 			start := time.Now()
 			useGzip := strings.Contains(r.Header.Get("Accept-Encoding"), "gzip")
 			if useGzip {
 				w.Header().Add("Content-Encoding", "gzip")
 			}
+			canCache := r.Method == "GET"
 			defer func() { log.Printf("%s: %s", url, time.Since(start)) }()
-			h.mu.RLock()
-			c, ok := h.mu.cache[url]
-			h.mu.RUnlock()
-			if ok && c.until > start.Unix() {
-				w.Header().Add("Content-Type", "application/json")
-				if useGzip {
-					w.Write(c.gzip)
-				} else {
-					w.Write(c.data)
+			if canCache {
+				h.mu.RLock()
+				c, ok := h.mu.cache[url]
+				h.mu.RUnlock()
+				if ok && c.until > start.Unix() {
+					w.Header().Add("Content-Type", "application/json")
+					if useGzip {
+						w.Write(c.gzip)
+					} else {
+						w.Write(c.data)
+					}
+					return
 				}
-				return
+				var data, gz []byte
+				var until time.Time
+				if err := h.db.QueryRowContext(ctx,
+					"SELECT data, gzip, until FROM cache WHERE id = $1 AND until > now()",
+					url,
+				).Scan(&data, &gz, &until); err == nil {
+					w.Header().Add("Content-Type", "application/json")
+					if useGzip {
+						w.Write(gz)
+					} else {
+						w.Write(data)
+					}
+					h.mu.Lock()
+					h.mu.cache[url] = cache{
+						until: until.Unix(),
+						data:  data,
+						gzip:  gz,
+					}
+					h.mu.Unlock()
+					return
+				}
 			}
 
-			ctx, _ := context.WithTimeout(context.Background(), time.Second*60)
 			res, err := f(ctx, r)
 			if err != nil {
 				log.Printf("%s: %+v", url, err)
@@ -174,14 +198,25 @@ func main() {
 			} else {
 				w.Write(b)
 			}
-			if r.Method == "GET" {
+			if canCache {
+				until := start.Add(time.Minute * 10)
 				h.mu.Lock()
 				h.mu.cache[url] = cache{
-					until: start.Add(time.Minute * 10).Unix(),
+					until: until.Unix(),
 					data:  b,
 					gzip:  gz.Bytes(),
 				}
 				h.mu.Unlock()
+				go func() {
+					if _, err := h.db.Exec("UPSERT INTO cache (id, until, data, gzip) VALUES ($1, $2, $3, $4)",
+						url,
+						until,
+						b,
+						gz.Bytes(),
+					); err != nil {
+						log.Printf("update cache table: %s: %v", url, err)
+					}
+				}()
 			}
 		}
 	}

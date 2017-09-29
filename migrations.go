@@ -74,6 +74,17 @@ func mustMigrate(db *sql.DB) {
 				);
 			`,
 		},
+		{
+			ID: "2",
+			Up: `
+					CREATE TABLE cache (
+						id string PRIMARY KEY,
+						until TIMESTAMP,
+						data BYTES,
+						gzip BYTES
+					);
+				`,
+		},
 	}
 
 	const migrateTable = "migrations"
