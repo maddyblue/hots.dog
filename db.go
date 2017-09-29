@@ -23,7 +23,11 @@ func mustInitDB(dataSource string) *sql.DB {
 }
 
 func logQuery(query string, args interface{}) {
-	log.Printf("Query: %v: %s", args, query)
+	as := fmt.Sprint(args)
+	if len(as) > 100 {
+		as = as[:100] + "..."
+	}
+	log.Printf("Query: %v: %s", as, query)
 }
 
 type drv struct{}
