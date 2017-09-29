@@ -80,7 +80,10 @@ func main() {
 	}
 	h.mu.cache = make(map[string]cache)
 
+	cacheTime := time.Minute * 10
+
 	if *flagInit {
+		cacheTime = -time.Second
 		// Don't exit on panic; prevents modd from spinning.
 		defer func() {
 			return
@@ -89,6 +92,10 @@ func main() {
 				select {}
 			}
 		}()
+
+		if _, err := db.Exec("delete from cache"); err != nil {
+			panic(err)
+		}
 
 		if initDB {
 			time.Sleep(time.Second * 2)
@@ -199,7 +206,7 @@ func main() {
 				w.Write(b)
 			}
 			if canCache {
-				until := start.Add(time.Minute * 10)
+				until := start.Add(cacheTime)
 				h.mu.Lock()
 				h.mu.cache[url] = cache{
 					until: until.Unix(),
