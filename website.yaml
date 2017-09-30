@@ -22,8 +22,8 @@ spec:
         ports:
         - containerPort: 443
         - containerPort: 80
-      nodeSelector:
-        beta.kubernetes.io/instance-type: g1-small
+      #nodeSelector:
+        #beta.kubernetes.io/instance-type: g1-small
 ---
 apiVersion: v1
 kind: Service

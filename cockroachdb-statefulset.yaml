@@ -176,8 +176,8 @@ spec:
       - name: datadir
         persistentVolumeClaim:
           claimName: datadir
-      nodeSelector:
-        beta.kubernetes.io/instance-type: g1-small
+      #nodeSelector:
+        #beta.kubernetes.io/instance-type: g1-small
   volumeClaimTemplates:
   - metadata:
       name: datadir
