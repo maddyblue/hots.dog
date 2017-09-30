@@ -10,5 +10,5 @@ spec:
       containers:
       - name: nextblock
         image: gcr.io/hots-cockroach/website:latest
-        command: ["/website", "-update=https://hots.dog"]
+        command: ["/website", "-update", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
       restartPolicy: Never
