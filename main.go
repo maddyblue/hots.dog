@@ -23,7 +23,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/jackc/pgx"
 	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
 	"github.com/nfnt/resize"
@@ -68,17 +67,7 @@ func main() {
 	dbURL.Path = dbName
 
 	if *flagElo {
-		config, err := pgx.ParseURI(dbURL.String())
-		if err != nil {
-			log.Fatal(err)
-		}
-		db, err := pgx.NewConnPool(pgx.ConnPoolConfig{ConnConfig: config})
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer db.Close()
-
-		if err := elo(db); err != nil {
+		if err := elo(dbURL.String()); err != nil {
 			log.Fatalf("%+v", err)
 		}
 		return

@@ -2,6 +2,12 @@
 
 
 [[projects]]
+  name = "github.com/VividCortex/gohistogram"
+  packages = ["."]
+  revision = "51564d9861991fb0ad0f531c99ef602d0f9866e6"
+  version = "v1.0.0"
+
+[[projects]]
   name = "github.com/jackc/pgx"
   packages = [".","chunkreader","internal/sanitize","pgio","pgproto3","pgtype"]
   revision = "66918e80dfde8d5cb09af9aebf40e2cce2eb0cc0"
@@ -58,6 +64,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e488c8fd10f2a946226e08e8924a57b67d9e6af665478a336dc8831f4884facb"
+  inputs-digest = "1d9e1be52947f8d3baf732e76642b0b20664680e7cc2cbba95e63066320142f3"
   solver-name = "gps-cdcl"
   solver-version = 1

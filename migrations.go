@@ -89,6 +89,19 @@ func mustMigrate(db *sql.DB) {
 			ID: "3",
 			Up: `
 					ALTER TABLE players ADD COLUMN skill INT;
+					CREATE TABLE playerskills (
+						blizzid INT REFERENCES battletags,
+						build STRING,
+						mode INT,
+						skill INT,
+						PRIMARY KEY (blizzid, build, mode)
+					);
+					CREATE TABLE skillstats (
+						build STRING,
+						mode INT,
+						data BYTES,
+						PRIMARY KEY (build, mode)
+					);
 				`,
 		},
 	}
