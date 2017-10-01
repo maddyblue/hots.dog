@@ -17,7 +17,7 @@ import (
 func (h *hotsContext) update() error {
 	for {
 		start := time.Now()
-		ctx, _ := context.WithTimeout(context.Background(), time.Minute*2)
+		ctx, _ := context.WithTimeout(context.Background(), time.Minute*20)
 		n, err := h.nextBlock(ctx)
 		if err != nil {
 			log.Println("update error:", err)

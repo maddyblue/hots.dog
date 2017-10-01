@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: update
+spec:
+  template:
+    metadata:
+      name: update
+    spec:
+      containers:
+      - name: update
+        image: gcr.io/hots-cockroach/website:latest
+        command: ["/website", "-update", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
+      restartPolicy: Never
