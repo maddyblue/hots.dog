@@ -102,7 +102,15 @@ func mustMigrate(db *sql.DB) {
 					data BYTES,
 					PRIMARY KEY (build, mode)
 				);
-
+			`,
+		},
+		{
+			ID: "4",
+			Up: `
+				CREATE INDEX ON players (build, hero_level, map, mode, skill) STORING (hero, winner);
+				CREATE INDEX ON players (build, hero_level, mode, skill) STORING (hero, winner);
+				DROP INDEX players@players_build_hero_level_map_mode_idx;
+				DROP INDEX players@players_build_hero_level_mode_idx;
 			`,
 		},
 	}

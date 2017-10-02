@@ -8,6 +8,16 @@ import './App.css';
 import './normalize.css';
 import './milligram.css';
 
+const skillPercentiles = [
+	0,
+	30,
+	50,
+	70,
+	90,
+	95,
+	100,
+];
+
 class HotsApp extends Component {
 	constructor(props) {
 		super(props);
@@ -16,8 +26,12 @@ class HotsApp extends Component {
 			'map',
 			'mode',
 			'herolevel',
+			'skill_low',
+			'skill_high',
 		];
 		this.defaultHeroLevel = '5';
+		this.defaultSkillLow = '0';
+		this.defaultSkillHigh = '100';
 		this.state = this.searchState();
 		this.handleChange = this.handleChange.bind(this);
 	}
@@ -58,6 +72,12 @@ class HotsApp extends Component {
 		if (!st.herolevel) {
 			st.herolevel = this.defaultHeroLevel;
 		}
+		if (!st.skill_low) {
+			st.skill_low = this.defaultSkillLow;
+		}
+		if (!st.skill_high) {
+			st.skill_high = this.defaultSkillHigh;
+		}
 		return st;
 	}
 	getSearch() {
@@ -70,6 +90,12 @@ class HotsApp extends Component {
 			if (key === 'herolevel' && value === this.defaultHeroLevel) {
 				return;
 			}
+			if (key === 'skill_low' && (value === this.defaultSkillLow || !this.state.mode)) {
+				return;
+			}
+			if (key === 'skill_high' && (value === this.defaultSkillHigh || !this.state.mode)) {
+				return;
+			}
 			params.push(key + '=' + encodeURIComponent(value));
 		});
 		return '?' + params.join('&');
@@ -77,6 +103,21 @@ class HotsApp extends Component {
 	handleChange(event) {
 		const st = {};
 		st[event.target.name] = event.target.value;
+		const ev = +event.target.value;
+		switch (event.target.name) {
+		case 'skill_low':
+			if (ev >= +this.state.skill_high) {
+				st['skill_high'] = skillPercentiles[skillPercentiles.indexOf(ev) + 1];
+			}
+			break;
+		case 'skill_high':
+			if (ev <= +this.state.skill_low) {
+				st['skill_low'] = skillPercentiles[skillPercentiles.indexOf(ev) - 1];
+			}
+			break;
+		default:
+			break;
+		}
 		this.setState(st, () => {
 			const params = this.getSearch();
 			this.props.history.push({search: params});
@@ -119,6 +160,8 @@ const Filter = (props) => {
 	let modes = modeKeys.map(k => <option key={k} value={k}>{props.Modes[k]}</option>);
 	modes.unshift(<option key="" value="">All Game Modes</option>);
 	let heroLevels = [1, 5, 10, 20].map(v => <option key={v}>{v}</option>);
+	const skills = skillPercentiles.map(v => <option key={v} value={v}>{v + 'th'}</option>);
+	const disableSkill = !props.mode;
 	return (
 		<div>
 			<div className="row">
@@ -137,7 +180,7 @@ const Filter = (props) => {
 			</div>
 			<div className="row">
 				<div className="column">
-					<label>Game Type</label>
+					<label>Game Mode</label>
 					<select name="mode" value={props.mode} onChange={props.handleChange}>
 						{modes}
 					</select>
@@ -147,6 +190,16 @@ const Filter = (props) => {
 					<select name="herolevel" value={props.herolevel} onChange={props.handleChange}>
 						{heroLevels}
 					</select>
+				</div>
+			</div>
+			<div className="row">
+				<div className="column column-25">
+					<label title="Enabled when a game mode is selected.">Skill Percentile from</label>
+					<select name="skill_low" value={props.skill_low} onChange={props.handleChange} disabled={disableSkill}>{skills.slice(0, -1)}</select>
+				</div>
+				<div className="column column-25">
+					<label>to</label>
+					<select name="skill_high" value={props.skill_high} onChange={props.handleChange} disabled={disableSkill}>{skills.slice(1)}</select>
 				</div>
 			</div>
 		</div>

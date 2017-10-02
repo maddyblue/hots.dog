@@ -19,6 +19,7 @@ import (
 	"net/url"
 	"os"
 	"regexp"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -102,10 +103,6 @@ func main() {
 				select {}
 			}
 		}()
-
-		if _, err := db.Exec("delete from cache"); err != nil {
-			panic(err)
-		}
 
 		if initDB {
 			time.Sleep(time.Second * 2)
@@ -339,10 +336,11 @@ type cache struct {
 }
 
 type initData struct {
-	Modes  map[Mode]string
-	Builds []Build
-	Maps   []string
-	Heroes []Hero
+	Modes      map[Mode]string
+	Builds     []Build
+	Maps       []string
+	Heroes     []Hero
+	buildStats map[string]map[Mode]Stats
 }
 
 func (h *hotsContext) Init(ctx context.Context, _ *http.Request) (interface{}, error) {
@@ -358,11 +356,39 @@ func (h *hotsContext) updateInit(ctx context.Context) error {
 	if err != nil {
 		return err
 	}
+	bs := make(map[string]map[Mode]Stats)
+	{
+		rows, err := h.db.QueryContext(ctx, "SELECT * FROM skillstats")
+		if err != nil {
+			return err
+		}
+		defer rows.Close()
+		for rows.Next() {
+			var build string
+			var mode Mode
+			var data []byte
+			if err := rows.Scan(&build, &mode, &data); err != nil {
+				return err
+			}
+			var s Stats
+			if err := json.Unmarshal(data, &s); err != nil {
+				return err
+			}
+			if _, ok := bs[build]; !ok {
+				bs[build] = make(map[Mode]Stats)
+			}
+			bs[build][mode] = s
+		}
+		if err := rows.Err(); err != nil {
+			return err
+		}
+	}
 	h.init = initData{
-		Modes:  modeNames,
-		Builds: builds,
-		Maps:   maps,
-		Heroes: heroes,
+		Modes:      modeNames,
+		Builds:     builds,
+		Maps:       maps,
+		Heroes:     heroes,
+		buildStats: bs,
 	}
 	return nil
 }
@@ -523,10 +549,12 @@ func (h *hotsContext) getBuildWinrates(ctx context.Context, args map[string]stri
 
 func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request) (interface{}, error) {
 	args := map[string]string{
-		"build":     r.FormValue("build"),
-		"herolevel": r.FormValue("herolevel"),
-		"map":       r.FormValue("map"),
-		"mode":      r.FormValue("mode"),
+		"build":      r.FormValue("build"),
+		"herolevel":  r.FormValue("herolevel"),
+		"map":        r.FormValue("map"),
+		"mode":       r.FormValue("mode"),
+		"skill_low":  r.FormValue("skill_low"),
+		"skill_high": r.FormValue("skill_high"),
 	}
 	wrs, err := h.getWinrates(ctx, args)
 	if err != nil {
@@ -572,6 +600,33 @@ func (h *hotsContext) getWinrates(ctx context.Context, args map[string]string) (
 	}
 	wheres = append(wheres, fmt.Sprintf("hero_level >= $%d", len(params)+1))
 	params = append(params, hl)
+	if m, sl, sh := args["mode"], args["skill_low"], args["skill_high"]; m != "" && (sl != "" || sh != "") {
+		i, err := strconv.Atoi(m)
+		if err != nil {
+			return nil, err
+		}
+		modes, ok := h.init.buildStats[args["build"]]
+		if !ok {
+			return nil, errors.Errorf("unknown build: %s", args["build"])
+		}
+		quantiles := modes[Mode(i)].Quantile
+		if sl != "" {
+			wheres = append(wheres, fmt.Sprintf("skill >= $%d", len(params)+1))
+			i, err = strconv.Atoi(sl)
+			if err != nil {
+				return nil, err
+			}
+			params = append(params, quantiles[i])
+		}
+		if sh != "" {
+			wheres = append(wheres, fmt.Sprintf("skill <= $%d", len(params)+1))
+			i, err = strconv.Atoi(sh)
+			if err != nil {
+				return nil, err
+			}
+			params = append(params, quantiles[i])
+		}
+	}
 
 	buf := bytes.NewBufferString("SELECT COUNT(*) count, hero, winner FROM players")
 	if len(wheres) > 0 {
