@@ -41,6 +41,7 @@ var (
 	flagCockroach = flag.String("cockroach", "postgresql://root@localhost:26257/?sslmode=disable", "cockroach connection URL")
 	flagUpdate    = flag.Bool("update", false, "run hotsapi updater")
 	flagElo       = flag.Bool("elo", false, "run elo update")
+	flagMigrate   = flag.Bool("migrate", false, "run migration")
 	initDB        = false
 )
 
@@ -112,22 +113,16 @@ func main() {
 		}
 	}
 
-	// Loop to allow for the server to start up.
-	for i := 0; ; i++ {
-		_, err := db.Exec(fmt.Sprintf(`CREATE DATABASE IF NOT EXISTS %s`, dbName))
-		if err == nil {
-			break
-		}
-		if i > 10 {
+	if *flagMigrate || *flagInit {
+		mustMigrate(db)
+		if err := generateHeroes(db); err != nil {
 			panic(err)
 		}
-		fmt.Println("waiting:", err)
-		time.Sleep(time.Second)
+		if !*flagInit {
+			return
+		}
 	}
-	mustMigrate(db)
-	if err := generateHeroes(db); err != nil {
-		panic(err)
-	}
+
 	if err := h.updateInit(context.Background()); err != nil {
 		panic(err)
 	}
