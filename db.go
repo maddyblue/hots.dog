@@ -36,7 +36,7 @@ func (d drv) Open(name string) (driver.Conn, error) {
 	c, err := pq.Open(name)
 	if *flagInit {
 		// Verbose logging for local dev.
-		c = &conn{c}
+		//c = &conn{c}
 	}
 	return c, err
 }

@@ -113,6 +113,12 @@ func mustMigrate(db *sql.DB) {
 				DROP INDEX players@players_build_hero_level_mode_idx;
 			`,
 		},
+		{
+			ID: "5",
+			Up: `
+				ALTER TABLE cache ADD COLUMN last_hit TIMESTAMP;
+			`,
+		},
 	}
 
 	const migrateTable = "migrations"

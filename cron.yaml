@@ -1,0 +1,15 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cron
+spec:
+  schedule: "@hourly"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cron
+            image: gcr.io/hots-cockroach/website:latest
+            command: ["/website", "-cron", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
+          restartPolicy: OnFailure

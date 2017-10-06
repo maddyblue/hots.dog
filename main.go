@@ -4,9 +4,11 @@ import (
 	"bytes"
 	"compress/gzip"
 	"context"
+	crypto_rand "crypto/rand"
 	"crypto/tls"
 	"database/sql"
 	"encoding/base64"
+	"encoding/binary"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -15,6 +17,7 @@ import (
 	"image/png"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"net/url"
 	"os"
@@ -42,6 +45,7 @@ var (
 	flagUpdate    = flag.Bool("update", false, "run hotsapi updater")
 	flagElo       = flag.Bool("elo", false, "run elo update")
 	flagMigrate   = flag.Bool("migrate", false, "run migration")
+	flagCron      = flag.Bool("cron", false, "run cronjob")
 	initDB        = false
 )
 
@@ -59,6 +63,12 @@ func main() {
 	}
 	if fromEnv := os.Getenv("ACMEDIR"); fromEnv != "" {
 		*flagAcmedir = fromEnv
+	}
+
+	{
+		var seed int64
+		_ = binary.Read(crypto_rand.Reader, binary.LittleEndian, &seed)
+		rand.Seed(seed)
 	}
 
 	const dbName = "hots"
@@ -83,19 +93,43 @@ func main() {
 		x:  sqlx.NewDb(db, "postgres"),
 	}
 
+	/*
+	   The database cache has two timestamps: until and last_hit. last_hit is
+	   the last time a user request hit the URL. until is the time after which
+	   the request should be re-processed. A cron job routinely clears out
+	   old cache entries whose last_hit field is older than some threshold
+	   (2 days or so?). The same cron job also re-processes entries whose
+	   until time has passed, and resets the until time for some small
+	   threshold in the future (1 hour)?. Thus, the user code should never
+	   consult any timestamps in the cache table.
+
+	   When the in-memory cache is used, the table's last_hit column is not
+	   updated. That field is only updated when the cache table is consulted
+	   for a hit. This means that writes don't have to happen in most user
+	   requests, and at worst the last_hit field will be out-of-date for
+	   whatever the until length (1 hour) is.
+	*/
+	h.cacheTime = time.Hour
+	if *flagInit {
+		h.cacheTime = time.Second * 5
+	}
+
 	if *flagUpdate {
 		if err := h.update(); err != nil {
 			log.Fatal(err)
 		}
 		return
 	}
+	if *flagCron {
+		if err := h.cron(); err != nil {
+			log.Fatalf("%+v", err)
+		}
+		return
+	}
 
 	h.mu.cache = make(map[string]cache)
 
-	cacheTime := time.Minute * 10
-
 	if *flagInit {
-		cacheTime = -time.Second
 		// Don't exit on panic; prevents modd from spinning.
 		defer func() {
 			return
@@ -104,7 +138,6 @@ func main() {
 				select {}
 			}
 		}()
-
 		if initDB {
 			time.Sleep(time.Second * 2)
 			if _, err := db.Exec(fmt.Sprintf("drop database if exists %s cascade; create database %[1]s", dbName)); err != nil {
@@ -121,111 +154,40 @@ func main() {
 		if !*flagInit {
 			return
 		}
+		h.ClearCache(nil, nil)
 	}
 
 	if err := h.updateInit(context.Background()); err != nil {
 		panic(err)
 	}
 
+	const enableCache = true
+
 	wrap := func(f func(context.Context, *http.Request) (interface{}, error)) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
 			ctx, _ := context.WithTimeout(context.Background(), time.Second*60)
 			url := r.URL.String()
 			start := time.Now()
-			useGzip := strings.Contains(r.Header.Get("Accept-Encoding"), "gzip")
-			if useGzip {
-				w.Header().Add("Content-Encoding", "gzip")
+			//defer func() { log.Printf("%s: %s", url, time.Since(start)) }()
+			defer fmt.Println()
+			if enableCache && h.CheckCache(ctx, start, w, r, url) {
+				return
 			}
-			canCache := r.Method == "GET"
-			defer func() { log.Printf("%s: %s", url, time.Since(start)) }()
-			if canCache {
-				h.mu.RLock()
-				c, ok := h.mu.cache[url]
-				h.mu.RUnlock()
-				if ok && c.until > start.Unix() {
-					w.Header().Add("Content-Type", "application/json")
-					if useGzip {
-						w.Write(c.gzip)
-					} else {
-						w.Write(c.data)
-					}
-					return
-				}
-				var data, gz []byte
-				var until time.Time
-				if err := h.db.QueryRowContext(ctx,
-					"SELECT data, gzip, until FROM cache WHERE id = $1 AND until > now()",
-					url,
-				).Scan(&data, &gz, &until); err == nil {
-					w.Header().Add("Content-Type", "application/json")
-					if useGzip {
-						w.Write(gz)
-					} else {
-						w.Write(data)
-					}
-					h.mu.Lock()
-					h.mu.cache[url] = cache{
-						until: until.Unix(),
-						data:  data,
-						gzip:  gz,
-					}
-					h.mu.Unlock()
-					return
-				}
-			}
-
 			res, err := f(ctx, r)
 			if err != nil {
 				log.Printf("%s: %+v", url, err)
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
-			if res == nil {
-				return
-			}
-			w.Header().Add("Content-Type", "application/json")
-			b, err := json.Marshal(res)
+			data, gzip, err := resultToBytes(res)
 			if err != nil {
-				log.Printf("%s: JSON encoding error: %v", url, err)
+				log.Printf("%s: %v", url, err)
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
-			var gz bytes.Buffer
-			gzw, _ := gzip.NewWriterLevel(&gz, gzip.BestCompression)
-			if _, err := gzw.Write(b); err != nil {
-				log.Printf("%s: gzip write error: %v", url, err)
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-			if err := gzw.Close(); err != nil {
-				log.Printf("%s: gzip close error: %v", url, err)
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-			if useGzip {
-				w.Write(gz.Bytes())
-			} else {
-				w.Write(b)
-			}
-			if canCache {
-				until := start.Add(cacheTime)
-				h.mu.Lock()
-				h.mu.cache[url] = cache{
-					until: until.Unix(),
-					data:  b,
-					gzip:  gz.Bytes(),
-				}
-				h.mu.Unlock()
-				go func() {
-					if _, err := h.db.Exec("UPSERT INTO cache (id, until, data, gzip) VALUES ($1, $2, $3, $4)",
-						url,
-						until,
-						b,
-						gz.Bytes(),
-					); err != nil {
-						log.Printf("update cache table: %s: %v", url, err)
-					}
-				}()
+			writeDataGzip(w, r, data, gzip)
+			if enableCache {
+				go h.WriteCache(url, start, data, gzip)
 			}
 		}
 	}
@@ -233,7 +195,9 @@ func main() {
 	http.Handle("/api/init", wrap(h.Init))
 	http.Handle("/api/get-winrates", wrap(h.GetWinrates))
 	//http.Handle("/api/get-build-winrates/:hero", wrap(h.GetBuildWinrates))
-	http.Handle("/api/clear-cache", wrap(h.ClearCache))
+	if *flagInit {
+		http.HandleFunc("/api/clear-cache", h.ClearCache)
+	}
 	http.Handle("/", http.FileServer(http.Dir("static")))
 	http.HandleFunc("/about", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "static/index.html")
@@ -243,11 +207,21 @@ func main() {
 		go mustInitDevData(*flagAddr, db)
 	}
 
+	// k8s cron jobs on GKE don't work, so do it here instead. To prevent dog
+	// piling, wait a random amount of time before starting.
 	go func() {
-		for range time.Tick(time.Hour) {
-			if err := h.updateInit(context.Background()); err != nil {
+		const cronTime = time.Hour
+		wait := time.Duration(float64(cronTime) * rand.Float64())
+		fmt.Println("waiting", wait)
+		time.Sleep(wait)
+		for {
+			start := time.Now()
+			log.Println("starting cron")
+			if err := h.cron(); err != nil {
 				log.Printf("could not update init data: %+v", err)
 			}
+			log.Printf("cron finished in %s", time.Since(start))
+			time.Sleep(cronTime)
 		}
 	}()
 
@@ -287,6 +261,96 @@ func main() {
 	}
 }
 
+func resultToBytes(res interface{}) (data, gzipped []byte, err error) {
+	data, err = json.Marshal(res)
+	if err != nil {
+		return nil, nil, errors.Wrap(err, "json marshal")
+	}
+	var gz bytes.Buffer
+	gzw, _ := gzip.NewWriterLevel(&gz, gzip.BestCompression)
+	if _, err := gzw.Write(data); err != nil {
+		return nil, nil, errors.Wrap(err, "gzip")
+	}
+	if err := gzw.Close(); err != nil {
+		return nil, nil, errors.Wrap(err, "gzip close")
+	}
+	return data, gz.Bytes(), nil
+}
+
+func (h *hotsContext) CheckCache(ctx context.Context, start time.Time, w http.ResponseWriter, r *http.Request, url string) (done bool) {
+	h.mu.RLock()
+	c, ok := h.mu.cache[url]
+	h.mu.RUnlock()
+	if ok && c.until > start.Unix() {
+		fmt.Println("HIT MEM CACHE", url)
+		writeDataGzip(w, r, c.data, c.gzip)
+		return true
+	}
+	var data, gz []byte
+	if err := h.db.QueryRowContext(ctx,
+		"SELECT data, gzip FROM cache WHERE id = $1",
+		url,
+	).Scan(&data, &gz); err == nil {
+		fmt.Println("HIT DB CACHE", url)
+		writeDataGzip(w, r, data, gz)
+		h.mu.Lock()
+		h.mu.cache[url] = cache{
+			until: start.Add(h.cacheTime).Unix(),
+			data:  data,
+			gzip:  gz,
+		}
+		h.mu.Unlock()
+		// Don't block user return on db writes.
+		go func() {
+			if err := retry(func() error {
+				_, err := h.db.Exec(`UPDATE cache SET last_hit = $1 WHERE id = $2`, start, url)
+				return err
+			}); err != nil {
+				log.Printf("couldn't update cache last_hit: %s: %s", url, err)
+			}
+		}()
+		return true
+	}
+	return false
+}
+
+func (h *hotsContext) WriteCache(url string, start time.Time, data, gzip []byte) {
+	until := start.Add(h.cacheTime)
+	h.mu.Lock()
+	fmt.Println("WRITE MEM CACHE", url, until, "FOR", time.Since(until))
+	h.mu.cache[url] = cache{
+		until: until.Unix(),
+		data:  data,
+		gzip:  gzip,
+	}
+	h.mu.Unlock()
+	if url == "/api/init" {
+		return
+	}
+	if err := retry(func() error {
+		_, err := h.db.Exec("UPSERT INTO cache (id, data, gzip, last_hit, until) VALUES ($1, $2, $3, $4, NULL)",
+			url,
+			data,
+			gzip,
+			start,
+		)
+		return err
+	}); err != nil {
+		log.Printf("update cache table: %s: %v", url, err)
+	}
+	fmt.Println("WRITE DB CACHE", url, until)
+}
+
+func writeDataGzip(w http.ResponseWriter, r *http.Request, data, gzip []byte) {
+	w.Header().Add("Content-Type", "application/json")
+	if strings.Contains(r.Header.Get("Accept-Encoding"), "gzip") {
+		w.Header().Add("Content-Encoding", "gzip")
+		w.Write(gzip)
+	} else {
+		w.Write(data)
+	}
+}
+
 const autocertPrefix = "autocert-"
 
 type dbCache struct {
@@ -314,13 +378,14 @@ func (db dbCache) Delete(ctx context.Context, key string) error {
 }
 
 type hotsContext struct {
-	db   *sql.DB
-	x    *sqlx.DB
-	init initData
+	db        *sql.DB
+	x         *sqlx.DB
+	cacheTime time.Duration
 
 	mu struct {
 		sync.RWMutex
 		cache map[string]cache
+		init  initData
 	}
 }
 
@@ -339,7 +404,10 @@ type initData struct {
 }
 
 func (h *hotsContext) Init(ctx context.Context, _ *http.Request) (interface{}, error) {
-	return h.init, nil
+	h.mu.RLock()
+	init := h.mu.init
+	h.mu.RUnlock()
+	return init, nil
 }
 
 func (h *hotsContext) updateInit(ctx context.Context) error {
@@ -378,13 +446,15 @@ func (h *hotsContext) updateInit(ctx context.Context) error {
 			return err
 		}
 	}
-	h.init = initData{
+	h.mu.Lock()
+	h.mu.init = initData{
 		Modes:      modeNames,
 		Builds:     builds,
 		Maps:       maps,
 		Heroes:     heroes,
 		buildStats: bs,
 	}
+	h.mu.Unlock()
 	return nil
 }
 
@@ -425,12 +495,19 @@ func httpGet(ctx context.Context, url string) ([]byte, error) {
 	return nil, errors.Errorf("%s: too many retries", url)
 }
 
-func (h *hotsContext) ClearCache(ctx context.Context, _ *http.Request) (interface{}, error) {
-	if err := h.updateInit(ctx); err != nil {
-		return nil, err
-	}
+func (h *hotsContext) ClearCache(_ http.ResponseWriter, _ *http.Request) {
+	h.mu.Lock()
 	h.mu.cache = make(map[string]cache)
-	return nil, nil
+	if err := retry(func() error {
+		_, err := h.db.Exec("TRUNCATE TABLE cache")
+		return err
+	}); err != nil {
+		log.Println(err)
+	}
+	h.mu.Unlock()
+	if err := h.updateInit(context.Background()); err != nil {
+		log.Println(err)
+	}
 }
 
 // txn executes a transaction. If the database returns a retryable error,
@@ -454,6 +531,24 @@ func (h *hotsContext) txn(ctx context.Context, fn func(txn *sqlx.Tx) error) erro
 		}
 		return err
 	}
+}
+
+// retry executes fn, but retries it if fn returns a retryable postgres error.
+func retry(fn func() error) error {
+	for count := 0; count < 10; count++ {
+		err := fn()
+		if err == nil {
+			return nil
+		}
+
+		// Check if this was a retryable error.
+		pqErr, ok := err.(*pq.Error)
+		if ok && pqErr.Code == "40001" {
+			continue
+		}
+		return err
+	}
+	return errors.New("retry limit exhausted")
 }
 
 /*
@@ -551,7 +646,10 @@ func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request) (interfa
 		"skill_low":  r.FormValue("skill_low"),
 		"skill_high": r.FormValue("skill_high"),
 	}
-	wrs, err := h.getWinrates(ctx, args)
+	h.mu.RLock()
+	init := h.mu.init
+	h.mu.RUnlock()
+	wrs, err := h.getWinrates(ctx, init, args)
 	if err != nil {
 		return nil, errors.Wrap(err, "getWinrates")
 	}
@@ -561,9 +659,9 @@ func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request) (interfa
 	}{
 		Current: wrs,
 	}
-	if prevBuild, ok := h.getBuildBefore(args["build"]); ok {
+	if prevBuild, ok := h.getBuildBefore(init, args["build"]); ok {
 		args["build"] = prevBuild
-		prevWrs, err := h.getWinrates(ctx, args)
+		prevWrs, err := h.getWinrates(ctx, init, args)
 		if err != nil {
 			return nil, errors.Wrapf(err, "getWinrates previous: %v", prevBuild)
 		}
@@ -572,7 +670,7 @@ func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request) (interfa
 	return ret, nil
 }
 
-func (h *hotsContext) getWinrates(ctx context.Context, args map[string]string) (map[string]Total, error) {
+func (h *hotsContext) getWinrates(ctx context.Context, init initData, args map[string]string) (map[string]Total, error) {
 	if args["build"] == "" {
 		return nil, errors.New("build required")
 	}
@@ -600,7 +698,7 @@ func (h *hotsContext) getWinrates(ctx context.Context, args map[string]string) (
 		if err != nil {
 			return nil, err
 		}
-		modes, ok := h.init.buildStats[args["build"]]
+		modes, ok := init.buildStats[args["build"]]
 		if !ok {
 			return nil, errors.Errorf("unknown build: %s", args["build"])
 		}
@@ -657,13 +755,13 @@ type Total struct {
 	Wins, Losses int
 }
 
-func (h *hotsContext) getBuildBefore(id string) (build string, ok bool) {
-	for i, b := range h.init.Builds {
+func (h *hotsContext) getBuildBefore(init initData, id string) (build string, ok bool) {
+	for i, b := range init.Builds {
 		if b.ID == id {
-			if len(h.init.Builds) == i+1 {
+			if len(init.Builds) == i+1 {
 				return "", false
 			}
-			return h.init.Builds[i+1].ID, true
+			return init.Builds[i+1].ID, true
 		}
 	}
 	return "", false
