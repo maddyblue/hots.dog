@@ -161,7 +161,14 @@ const Filter = (props) => {
 	modes.unshift(<option key="" value="">All Game Modes</option>);
 	let heroLevels = [1, 5, 10, 20].map(v => <option key={v}>{v}</option>);
 	const skills = skillPercentiles.map(v => <option key={v} value={v}>{v + 'th'}</option>);
-	const disableSkill = !props.mode;
+	const build = props.build === 'latest' ? props.Builds[0].ID : props.build;
+	const buildStats = props.BuildStats[build];
+	const modeStats = buildStats && buildStats[props.mode];
+	const disableSkill = !modeStats || !props.mode;
+	let skillTitle = 'Enabled when a game mode is selected.';
+	if (!modeStats) {
+		skillTitle = 'Skill ratings not yet calculated.';
+	}
 	return (
 		<div>
 			<div className="row">
@@ -194,7 +201,7 @@ const Filter = (props) => {
 			</div>
 			<div className="row">
 				<div className="column column-25">
-					<label title="Enabled when a game mode is selected.">Skill Percentile from</label>
+					<label title={skillTitle}>Skill Percentile from</label>
 					<select name="skill_low" value={props.skill_low} onChange={props.handleChange} disabled={disableSkill}>{skills.slice(0, -1)}</select>
 				</div>
 				<div className="column column-25">

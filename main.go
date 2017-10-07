@@ -400,7 +400,7 @@ type initData struct {
 	Builds     []Build
 	Maps       []string
 	Heroes     []Hero
-	buildStats map[string]map[Mode]Stats
+	BuildStats map[string]map[Mode]Stats
 }
 
 func (h *hotsContext) Init(ctx context.Context, _ *http.Request) (interface{}, error) {
@@ -452,7 +452,7 @@ func (h *hotsContext) updateInit(ctx context.Context) error {
 		Builds:     builds,
 		Maps:       maps,
 		Heroes:     heroes,
-		buildStats: bs,
+		BuildStats: bs,
 	}
 	h.mu.Unlock()
 	return nil
@@ -698,7 +698,7 @@ func (h *hotsContext) getWinrates(ctx context.Context, init initData, args map[s
 		if err != nil {
 			return nil, err
 		}
-		modes, ok := init.buildStats[args["build"]]
+		modes, ok := init.BuildStats[args["build"]]
 		if !ok {
 			return nil, errors.Errorf("unknown build: %s", args["build"])
 		}
