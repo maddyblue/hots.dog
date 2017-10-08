@@ -109,6 +109,9 @@ func (h *hotsContext) nextBlock(ctx context.Context) (int, error) {
 }
 
 func (h *hotsContext) getReplay(ctx context.Context, r *Replay) error {
+	ctx, _ = context.WithTimeout(ctx, time.Second*30)
+	log.Println("getReplay START", r.ID)
+	defer log.Println("getReplay DONE", r.ID)
 	mode, ok := gameModes[r.GameType]
 	if !ok {
 		log.Printf("unknown game type: %s", r.GameType)
@@ -117,7 +120,7 @@ func (h *hotsContext) getReplay(ctx context.Context, r *Replay) error {
 	if _, err := h.addBuild(ctx, r); err != nil {
 		return err
 	}
-	if _, err := h.db.Exec(`UPSERT INTO maps (name) VALUES ($1) RETURNING NOTHING`, r.GameMap); err != nil {
+	if _, err := h.db.ExecContext(ctx, `UPSERT INTO maps (name) VALUES ($1) RETURNING NOTHING`, r.GameMap); err != nil {
 		return err
 	}
 	return h.txn(ctx, func(txn *sqlx.Tx) error {
