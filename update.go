@@ -74,7 +74,7 @@ func (h *hotsContext) nextBlock(ctx context.Context) (int, error) {
 	group.Go(func() error {
 		defer close(ch)
 		for _, r := range replays {
-			b, err := httpGet(ctx, fmt.Sprintf(HotsApi+"/replays/%d", r.ID))
+			b, err := httpGet(gCtx, fmt.Sprintf(HotsApi+"/replays/%d", r.ID))
 			if err != nil {
 				return err
 			}
@@ -85,7 +85,7 @@ func (h *hotsContext) nextBlock(ctx context.Context) (int, error) {
 			select {
 			case ch <- &replay:
 			case <-gCtx.Done():
-				return ctx.Err()
+				return gCtx.Err()
 			}
 		}
 		return nil
@@ -102,7 +102,7 @@ func (h *hotsContext) nextBlock(ctx context.Context) (int, error) {
 		return nil
 	})
 	if err := group.Wait(); err != nil {
-		return 0, err
+		return n, err
 	}
 	_, err = h.db.ExecContext(ctx, `UPSERT INTO config (key, i) VALUES ($1, $2)`, configLastID, lastID)
 	return n, err

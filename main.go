@@ -33,6 +33,7 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/acme"
 	"golang.org/x/crypto/acme/autocert"
+	"golang.org/x/net/context/ctxhttp"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -468,12 +469,9 @@ func httpGet(ctx context.Context, url string) ([]byte, error) {
 		log.Printf("GET %s took %s", url, time.Since(start))
 	}()
 	for i := 0; i < 10; i++ {
-		req, err := http.NewRequest("GET", url, nil)
-		if err != nil {
-			return nil, errors.Wrap(err, url)
-		}
-		req = req.WithContext(ctx)
-		resp, err := httpClient.Do(req)
+		ctx, _ := context.WithTimeout(ctx, time.Minute)
+		log.Println("START GET", i, url)
+		resp, err := ctxhttp.Get(ctx, httpClient, url)
 		if err != nil {
 			return nil, errors.Wrap(err, url)
 		}
@@ -484,6 +482,7 @@ func httpGet(ctx context.Context, url string) ([]byte, error) {
 		}
 		// Too many requests, backoff a bit.
 		if resp.StatusCode == 429 {
+			log.Println(resp.Status)
 			time.Sleep(time.Second * 5)
 			continue
 		}
