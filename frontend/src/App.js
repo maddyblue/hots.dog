@@ -166,7 +166,7 @@ const Filter = (props) => {
 	const modeStats = buildStats && buildStats[props.mode];
 	const disableSkill = !modeStats || !props.mode;
 	let skillTitle = 'Enabled when a game mode is selected.';
-	if (!modeStats) {
+	if (!buildStats || (!modeStats && props.mode)) {
 		skillTitle = 'Skill ratings not yet calculated.';
 	}
 	return (
