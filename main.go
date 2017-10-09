@@ -169,8 +169,7 @@ func main() {
 			ctx, _ := context.WithTimeout(context.Background(), time.Second*60)
 			url := r.URL.String()
 			start := time.Now()
-			//defer func() { log.Printf("%s: %s", url, time.Since(start)) }()
-			defer fmt.Println()
+			defer func() { log.Printf("%s: %s", url, time.Since(start)) }()
 			if enableCache && h.CheckCache(ctx, start, w, r, url) {
 				return
 			}
@@ -288,7 +287,6 @@ func (h *hotsContext) CheckCache(ctx context.Context, start time.Time, w http.Re
 	c, ok := h.mu.cache[url]
 	h.mu.RUnlock()
 	if ok && c.until > start.Unix() {
-		fmt.Println("HIT MEM CACHE", url)
 		writeDataGzip(w, r, c.data, c.gzip)
 		return true
 	}
@@ -297,7 +295,6 @@ func (h *hotsContext) CheckCache(ctx context.Context, start time.Time, w http.Re
 		"SELECT data, gzip FROM cache WHERE id = $1",
 		url,
 	).Scan(&data, &gz); err == nil {
-		fmt.Println("HIT DB CACHE", url)
 		writeDataGzip(w, r, data, gz)
 		h.mu.Lock()
 		h.mu.cache[url] = cache{
@@ -323,7 +320,6 @@ func (h *hotsContext) CheckCache(ctx context.Context, start time.Time, w http.Re
 func (h *hotsContext) WriteCache(url string, start time.Time, data, gzip []byte) {
 	until := start.Add(h.cacheTime)
 	h.mu.Lock()
-	fmt.Println("WRITE MEM CACHE", url, until, "FOR", time.Since(until))
 	h.mu.cache[url] = cache{
 		until: until.Unix(),
 		data:  data,
@@ -344,7 +340,6 @@ func (h *hotsContext) WriteCache(url string, start time.Time, data, gzip []byte)
 	}); err != nil {
 		log.Printf("update cache table: %s: %v", url, err)
 	}
-	fmt.Println("WRITE DB CACHE", url, until)
 }
 
 func writeDataGzip(w http.ResponseWriter, r *http.Request, data, gzip []byte) {
