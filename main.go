@@ -202,9 +202,8 @@ func main() {
 		http.HandleFunc("/api/clear-cache", h.ClearCache)
 	}
 	http.Handle("/", http.FileServer(http.Dir("static")))
-	http.HandleFunc("/about", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "static/index.html")
-	})
+	http.HandleFunc("/about/", serveIndex)
+	http.HandleFunc("/players/", serveIndex)
 
 	if *flagInit && initDB {
 		go mustInitDevData(*flagAddr, db)
@@ -262,6 +261,10 @@ func main() {
 		log.Printf("HTTP listen on addr: %s", *flagAddr)
 		log.Fatal(http.ListenAndServe(*flagAddr, nil))
 	}
+}
+
+func serveIndex(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "static/index.html")
 }
 
 func resultToBytes(res interface{}) (data, gzipped []byte, err error) {
