@@ -200,7 +200,23 @@ func main() {
 	if *flagInit {
 		http.HandleFunc("/api/clear-cache", h.ClearCache)
 	}
-	http.Handle("/", http.FileServer(http.Dir("static")))
+
+	fileServer := http.FileServer(http.Dir("static"))
+	serveFiles := func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasPrefix(r.URL.Path, "/static") {
+			// These have unique names and shouldn't ever change.
+			w.Header().Add("Cache-Control", "max-age=31536000")
+		} else {
+			w.Header().Add("Cache-Control", "max-age=3600")
+		}
+		fileServer.ServeHTTP(w, r)
+	}
+	serveIndex := func(w http.ResponseWriter, r *http.Request) {
+		r.URL.Path = "/"
+		serveFiles(w, r)
+	}
+
+	http.HandleFunc("/", serveFiles)
 	http.HandleFunc("/about/", serveIndex)
 	http.HandleFunc("/players/", serveIndex)
 
@@ -260,10 +276,6 @@ func main() {
 		log.Printf("HTTP listen on addr: %s", *flagAddr)
 		log.Fatal(http.ListenAndServe(*flagAddr, nil))
 	}
-}
-
-func serveIndex(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "static/index.html")
 }
 
 func resultToBytes(res interface{}) (data, gzipped []byte, err error) {
