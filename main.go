@@ -718,25 +718,31 @@ func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request) (interfa
 	h.mu.RLock()
 	init := h.mu.init
 	h.mu.RUnlock()
-	wrs, err := h.getWinrates(ctx, init, args)
-	if err != nil {
-		return nil, errors.Wrap(err, "getWinrates")
-	}
-	ret := struct {
+	var res struct {
 		Current  map[string]Total
 		Previous map[string]Total
-	}{
-		Current: wrs,
 	}
-	if prevBuild, ok := h.getBuildBefore(init, args["build"]); ok {
-		args["build"] = prevBuild
-		prevWrs, err := h.getWinrates(ctx, init, args)
-		if err != nil {
-			return nil, errors.Wrapf(err, "getWinrates previous: %v", prevBuild)
+	g, ctx := errgroup.WithContext(ctx)
+	g.Go(func() error {
+		var err error
+		res.Current, err = h.getWinrates(ctx, init, args)
+		return errors.Wrap(err, "getWinrates current build")
+	})
+	g.Go(func() error {
+		if prevBuild, ok := h.getBuildBefore(init, args["build"]); ok {
+			argsPrev := make(map[string]string, len(args))
+			for k, v := range args {
+				argsPrev[k] = v
+			}
+			var err error
+			argsPrev["build"] = prevBuild
+			res.Previous, err = h.getWinrates(ctx, init, argsPrev)
+			return errors.Wrap(err, "getWinrates previous build")
 		}
-		ret.Previous = prevWrs
-	}
-	return ret, nil
+		return nil
+	})
+	err := g.Wait()
+	return res, err
 }
 
 func (h *hotsContext) getWinrates(ctx context.Context, init initData, args map[string]string) (map[string]Total, error) {
