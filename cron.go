@@ -49,13 +49,16 @@ func (h *hotsContext) cron() error {
 		var res interface{}
 		switch url.Path {
 		case "/api/get-winrates":
-			var err error
 			res, err = h.GetWinrates(ctx, req)
-			if err != nil {
-				return errors.Wrap(err, "get winrates")
-			}
+		case "/api/get-player-by-name":
+			res, err = h.GetPlayerName(ctx, req)
+		case "/api/get-player-data":
+			res, err = h.GetPlayerData(ctx, req)
 		default:
 			return errors.Errorf("unknown path: %s", u)
+		}
+		if err != nil {
+			return errors.Wrap(err, u)
 		}
 		data, gzip, err := resultToBytes(res)
 		if err != nil {
