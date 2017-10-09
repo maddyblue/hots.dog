@@ -7,11 +7,11 @@ table th {
 }
 
 .sort-asc::after {
-	content: "↓";
+	content: '↓';
 }
 
 .sort-desc::after {
-	content: "↑";
+	content: '↑';
 }
 
 .wrapper {
@@ -25,13 +25,13 @@ table th {
 	max-width: 80rem;
 }
 
-.wrapper>.container {
+.wrapper > .container {
 	padding-top: 7.5rem;
 }
 
 .navigation {
 	background: #f4f5f6;
-	border-bottom: .1rem solid #d1d1d1;
+	border-bottom: 0.1rem solid #d1d1d1;
 	display: block;
 	height: 5.2rem;
 	left: 0;
@@ -61,7 +61,9 @@ table th {
 	position: relative;
 }
 
-.navigation .navigation-link,.navigation .navigation-title,.navigation .title {
+.navigation .navigation-link,
+.navigation .navigation-title,
+.navigation .title {
 	display: inline;
 	font-size: 1.6rem;
 	line-height: 5.2rem;
