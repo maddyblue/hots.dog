@@ -195,6 +195,8 @@ func main() {
 
 	http.Handle("/api/init", wrap(h.Init))
 	http.Handle("/api/get-winrates", wrap(h.GetWinrates))
+	http.Handle("/api/get-player-by-name", wrap(h.GetPlayerName))
+	http.Handle("/api/get-player-data", wrap(h.GetPlayerData))
 	//http.Handle("/api/get-build-winrates/:hero", wrap(h.GetBuildWinrates))
 	if *flagInit {
 		http.HandleFunc("/api/clear-cache", h.ClearCache)
@@ -635,6 +637,63 @@ func (h *hotsContext) getBuildWinrates(ctx context.Context, args map[string]stri
 	return tally, nil
 }
 */
+
+func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (interface{}, error) {
+	name := r.FormValue("name")
+	if name == "" {
+		return nil, errors.New("no name parameter")
+	}
+	var res []struct {
+		ID   int64
+		Name string
+	}
+	err := h.x.SelectContext(ctx, &res, `
+		SELECT id, name FROM battletags
+		WHERE name LIKE $1
+		LIMIT 50
+		`, name+"%")
+	return res, err
+}
+
+func (h *hotsContext) GetPlayerData(ctx context.Context, r *http.Request) (interface{}, error) {
+	id := r.FormValue("id")
+	if id == "" {
+		return nil, errors.New("no id parameter")
+	}
+	var res struct {
+		Skills []struct {
+			Build string
+			Mode  Mode
+			Skill int
+		}
+		Games []struct {
+			Hero      string
+			HeroLevel int `db:"hero_level"`
+			Build     string
+			Winner    bool
+			Length    int
+			Map       string
+			Mode      Mode
+			Skill     *int
+		}
+	}
+	if err := h.x.SelectContext(ctx, &res.Skills, `
+		SELECT build, mode, skill FROM playerskills
+		WHERE blizzid = $1
+		`, id); err != nil {
+		return nil, err
+	}
+	if err := h.x.SelectContext(ctx, &res.Games, `
+		SELECT hero, hero_level, build, winner, length, map, mode, skill
+		FROM players
+		WHERE blizzid = $1
+		LIMIT 1000
+		`, id); err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
 
 func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request) (interface{}, error) {
 	args := map[string]string{

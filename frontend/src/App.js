@@ -18,6 +18,21 @@ const skillPercentiles = [
 	100,
 ];
 
+function Fetch(url, success, error) {
+	if (!error) {
+		error = alert;
+	}
+	fetch(url)
+	.then(resp => {
+		if (resp.status !== 200) {
+			resp.text().then(error, error);
+			return;
+		}
+		resp.json().then(success, error);
+	})
+	.catch(error);
+}
+
 class HotsApp extends Component {
 	constructor(props) {
 		super(props);
@@ -36,10 +51,12 @@ class HotsApp extends Component {
 		this.handleChange = this.handleChange.bind(this);
 	}
 	componentDidMount() {
-		fetch('/api/init').then(resp => resp.json().then(data => {
-			data.init = true;
-			this.setState(data);
-		}));
+		Fetch('/api/init',
+			data => {
+				data.init = true;
+				this.setState(data);
+			},
+		);
 	}
 	componentDidUpdate(prevProps, prevState) {
 		// This function attempts to sink the state with the URL when the URL changes,
@@ -134,6 +151,9 @@ class HotsApp extends Component {
 						<Link to="/" className="navigation-title">home</Link>
 						<ul className="navigation-list float-right">
 							<li className="navigation-item">
+								<Link className="navigation-title" to="/players">players</Link>
+							</li>
+							<li className="navigation-item">
 								<Link className="navigation-link" to="/about">about</Link>
 							</li>
 						</ul>
@@ -142,6 +162,8 @@ class HotsApp extends Component {
 				<section className="container">
 					<Route exact path="/" render={props => <HeroWinrates params={this.params} handleChange={this.handleChange} {...this.state} {...props} />}/>
 					<Route exact path="/about" component={About}/>
+					<Route exact path="/players" component={Players}/>
+					<Route exact path="/players/:id" render={props => <Player {...props} Modes={this.state.Modes}/>}/>
 				</section>
 			</main>
 		);
@@ -250,6 +272,118 @@ const About = (props) => {
 	);
 }
 
+class Players extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			name: '',
+			ids: [],
+		};
+		this.update = this.update.bind(this);
+		this.onSubmit = this.onSubmit.bind(this);
+	}
+	update(ev) {
+		const st = {};
+		st[ev.target.name] = ev.target.value;
+		this.setState(st);
+	}
+	onSubmit(ev) {
+		ev.preventDefault();
+		if (!this.state.name) {
+			return;
+		}
+		Fetch('/api/get-player-by-name?name=' + encodeURIComponent(this.state.name),
+			data => this.setState({ids: data}),
+		);
+	}
+	render() {
+		const names = this.state.ids.map(e =>
+			<li key={e.ID}>
+				<Link to={"/players/" + e.ID}>{e.Name}: {e.ID}</Link>
+			</li>
+		);
+		return (
+			<div>
+				<form onSubmit={this.onSubmit}>
+					<label>Search for player by name</label>
+					<input type="text" name="name" value={this.state.name} onChange={this.update}/>
+					<input className="button-primary" type="submit" value="search"/>
+				</form>
+				<ul>
+					{names}
+				</ul>
+			</div>
+		);
+	}
+}
+
+class Player extends Component {
+	componentDidMount() {
+		Fetch('/api/get-player-data?id=' + encodeURIComponent(this.props.match.params.id),
+			data => {
+				if (!data.Skills) {
+					data.Skills = [];
+				}
+				this.setState(data);
+			},
+		);
+	}
+	render() {
+		if (!this.state) {
+			return 'loading...';
+		}
+		const skills = this.state.Skills.map((s, i) =>
+			<tr key={i}>
+				<td>{s.Build}</td>
+				<td>{this.props.Modes[s.Mode]}</td>
+				<td>{s.Skill}</td>
+			</tr>
+		);
+		const games = this.state.Games.map((g, i) =>
+			<tr key={i}>
+				<td>{g.Build}</td>
+				<td>{g.Hero}</td>
+				<td>{g.HeroLevel}</td>
+				<td>{g.Winner ? 'win' : 'loss'}</td>
+				<td>{toLength(g.Length)}</td>
+				<td>{g.Map}</td>
+				<td>{this.props.Modes[g.Mode]}</td>
+				<td>{g.Skill}</td>
+			</tr>
+		);
+		return (
+			<div>
+				<p>Skill rating at the end of each patch with played games:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Patch</th>
+							<th>Game Mode</th>
+							<th>Skill Rating</th>
+						</tr>
+					</thead>
+					<tbody>{skills}</tbody>
+				</table>
+				<table>
+					<thead>
+						<tr>
+							<th>Patch</th>
+							<th>Hero</th>
+							<th title="Hero level">Level</th>
+							<th>Won</th>
+							<th title="Game length">Length</th>
+							<th>Map</th>
+							<th>Game Mode</th>
+							<th>Skill Rating</th>
+						</tr>
+					</thead>
+					<tbody>{games}</tbody>
+				</table>
+			</div>
+		);
+	}
+}
+
 class TalentWinrates extends Component {
 	constructor(props) {
 		super(props);
@@ -266,14 +400,16 @@ class TalentWinrates extends Component {
 		if (search === this.state.search) {
 			return;
 		}
-		fetch('/api/get-build-winrates/' + this.props.match.params.hero + search).then(resp => resp.json().then(data => {
-			if (search === window.location.search) {
-				this.setState({
-					winrates: data,
-					search: search,
-				});
-			}
-		}));
+		Fetch('/api/get-build-winrates' + this.props.match.params.hero + search,
+			data => {
+				if (search === window.location.search) {
+					this.setState({
+						winrates: data,
+						search: search,
+					});
+				}
+			},
+		);
 	}
 	render() {
 		if (!this.state.winrates) {
@@ -375,14 +511,16 @@ class HeroWinrates extends Component {
 			winrates: null,
 			search: search,
 		});
-		fetch('/api/get-winrates' + search).then(resp => resp.json().then(data => {
-			if (search === this.makeSearch()) {
-				this.setState({
-					winrates: data,
-					search: search,
-				});
-			}
-		}));
+		Fetch('/api/get-winrates' + search,
+			data => {
+				if (search === this.makeSearch()) {
+					this.setState({
+						winrates: data,
+						search: search,
+					});
+				}
+			},
+		);
 	}
 	render() {
 		let winrates;
@@ -527,6 +665,15 @@ class Winrates extends Component {
 
 function pct(x) {
 	return x.toFixed(1) + '%';
+}
+
+function toLength(l) {
+	const mins = Math.trunc(l / 60);
+	let secs = (l % 60).toString();
+	if (secs.length < 2) {
+		secs = '0' + secs;
+	}
+	return mins + ':' + secs;
 }
 
 const App = withRouter(HotsApp);
