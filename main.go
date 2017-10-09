@@ -344,6 +344,7 @@ func (h *hotsContext) WriteCache(url string, start time.Time, data, gzip []byte)
 
 func writeDataGzip(w http.ResponseWriter, r *http.Request, data, gzip []byte) {
 	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Cache-Control", "max-age=3600")
 	if strings.Contains(r.Header.Get("Accept-Encoding"), "gzip") {
 		w.Header().Add("Content-Encoding", "gzip")
 		w.Write(gzip)
