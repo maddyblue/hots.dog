@@ -267,7 +267,7 @@ const Filter = props => {
 				</div>
 			</div>
 			<div className="row">
-				<div className="column column-25">
+				<div className="column">
 					<label title={skillTitle}>Skill Percentile from</label>
 					<select
 						name="skill_low"
@@ -278,7 +278,7 @@ const Filter = props => {
 						{skills.slice(0, -1)}
 					</select>
 				</div>
-				<div className="column column-25">
+				<div className="column">
 					<label>to</label>
 					<select
 						name="skill_high"
