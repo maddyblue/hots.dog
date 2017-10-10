@@ -137,7 +137,7 @@ spec:
       containers:
       - name: cockroachdb
         image: gcr.io/hots-cockroach/cockroach:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 26257
           name: grpc
@@ -182,10 +182,10 @@ spec:
   - metadata:
       name: datadir
       annotations:
-        volume.alpha.kubernetes.io/storage-class: anything
+        volume.alpha.kubernetes.io/storage-class: ssd
     spec:
       accessModes:
         - "ReadWriteOnce"
       resources:
         requests:
-          storage: 1Gi
+          storage: 5Gi
