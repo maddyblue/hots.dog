@@ -19,6 +19,7 @@ import (
 	"net/url"
 	"os"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"sync"
@@ -665,14 +666,27 @@ func (h *hotsContext) GetPlayerData(ctx context.Context, r *http.Request) (inter
 		`, id); err != nil {
 		return nil, err
 	}
-	if err := h.x.SelectContext(ctx, &res.Games, `
-		SELECT hero, hero_level, build, winner, length, map, mode, skill
-		FROM players
-		WHERE blizzid = $1
-		LIMIT 1000
-		`, id); err != nil {
-		return nil, err
-	}
+	sort.Slice(res.Skills, func(i, j int) bool {
+		a := res.Skills[j]
+		b := res.Skills[i]
+		if a.Build != b.Build {
+			return a.Build < b.Build
+		}
+		return a.Mode < b.Mode
+	})
+
+	// Due to limited join support in cockroach, we cannot quickly fetch the
+	// game date, so leave out game data until we can do something better.
+	/*
+		if err := h.x.SelectContext(ctx, &res.Games, `
+			SELECT hero, hero_level, build, winner, length, map, mode, skill
+			FROM players
+			WHERE blizzid = $1
+			LIMIT 1000
+			`, id); err != nil {
+			return nil, err
+		}
+	*/
 
 	return res, nil
 }

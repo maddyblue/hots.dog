@@ -176,7 +176,13 @@ class HotsApp extends Component {
 					<Route
 						exact
 						path="/players/:id"
-						render={props => <Player {...props} Modes={this.state.Modes} />}
+						render={props => (
+							<Player
+								{...props}
+								Modes={this.state.Modes}
+								BuildStats={this.state.BuildStats}
+							/>
+						)}
 					/>
 				</section>
 			</main>
@@ -409,9 +415,42 @@ class Player extends Component {
 				if (!data.Skills) {
 					data.Skills = [];
 				}
+				if (!data.Games) {
+					data.Games = [];
+				}
 				this.setState(data);
 			}
 		);
+	}
+	percentile(s) {
+		const modes = this.props.BuildStats[s.Build];
+		if (!modes) {
+			return;
+		}
+		const stats = modes[s.Mode];
+		if (!stats) {
+			return;
+		}
+		const qs = Object.keys(stats.Quantile);
+		qs.sort((a, b) => a - b);
+		if (s.Skill < stats.Quantile[qs[0]]) {
+			return pct(0, 0);
+		}
+		for (let i = 1; i < qs.length; i++) {
+			const q1 = qs[i];
+			const p1 = stats.Quantile[q1];
+			if (p1 >= s.Skill) {
+				const q0 = qs[i - 1];
+				const p0 = stats.Quantile[q0];
+				// If p lies a fraction f of the way from p{i} to p{i+1}, define the pth
+				// quantile to be:
+				// Q(p) = (1-f)Q(p{i}) + fQ(p{i+1})
+				const f = (s.Skill - p0) / (p1 - p0);
+				const qp = (1 - f) * q0 + f * q1;
+				return pct(qp, 0);
+			}
+		}
+		return pct(100, 0);
 	}
 	render() {
 		if (!this.state) {
@@ -422,6 +461,7 @@ class Player extends Component {
 				<td>{s.Build}</td>
 				<td>{this.props.Modes[s.Mode]}</td>
 				<td>{s.Skill}</td>
+				<td>{this.percentile(s)}</td>
 			</tr>
 		));
 		const games = this.state.Games.map((g, i) => (
@@ -436,19 +476,9 @@ class Player extends Component {
 				<td>{g.Skill}</td>
 			</tr>
 		));
-		return (
-			<div>
-				<p>Skill rating at the end of each patch with played games:</p>
-				<table>
-					<thead>
-						<tr>
-							<th>Patch</th>
-							<th>Game Mode</th>
-							<th>Skill Rating</th>
-						</tr>
-					</thead>
-					<tbody>{skills}</tbody>
-				</table>
+		let game;
+		if (games.length) {
+			game = (
 				<table>
 					<thead>
 						<tr>
@@ -464,6 +494,23 @@ class Player extends Component {
 					</thead>
 					<tbody>{games}</tbody>
 				</table>
+			);
+		}
+		return (
+			<div>
+				<p>Skill rating at the end of each patch with played games:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Patch</th>
+							<th>Game Mode</th>
+							<th>Skill Rating</th>
+							<th>Percentile</th>
+						</tr>
+					</thead>
+					<tbody>{skills}</tbody>
+				</table>
+				{game}
 			</div>
 		);
 	}
@@ -763,8 +810,8 @@ class Winrates extends Component {
 	}
 }
 
-function pct(x) {
-	return x.toFixed(1) + '%';
+function pct(x, n = 1) {
+	return x.toFixed(n) + '%';
 }
 
 function toLength(l) {
