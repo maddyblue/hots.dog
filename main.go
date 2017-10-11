@@ -4,11 +4,9 @@ import (
 	"bytes"
 	"compress/gzip"
 	"context"
-	crypto_rand "crypto/rand"
 	"crypto/tls"
 	"database/sql"
 	"encoding/base64"
-	"encoding/binary"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -17,7 +15,6 @@ import (
 	"image/png"
 	"io/ioutil"
 	"log"
-	"math/rand"
 	"net/http"
 	"net/url"
 	"os"
@@ -66,12 +63,6 @@ func main() {
 		*flagAcmedir = fromEnv
 	}
 
-	{
-		var seed int64
-		_ = binary.Read(crypto_rand.Reader, binary.LittleEndian, &seed)
-		rand.Seed(seed)
-	}
-
 	const dbName = "hots"
 	dbURL, err := url.Parse(*flagCockroach)
 	if err != nil {
@@ -117,12 +108,12 @@ func main() {
 
 	if *flagUpdate {
 		if err := h.update(); err != nil {
-			log.Fatal(err)
+			log.Fatalf("%+v", err)
 		}
 		return
 	}
 	if *flagCron {
-		if err := h.cron(); err != nil {
+		if err := h.cronLoop(); err != nil {
 			log.Fatalf("%+v", err)
 		}
 		return
@@ -135,7 +126,7 @@ func main() {
 		defer func() {
 			return
 			if r := recover(); r != nil {
-				fmt.Printf("%+v", r)
+				fmt.Printf("%+v\n", r)
 				select {}
 			}
 		}()
@@ -169,7 +160,7 @@ func main() {
 			ctx, _ := context.WithTimeout(context.Background(), time.Second*60)
 			url := r.URL.String()
 			start := time.Now()
-			defer func() { log.Printf("%s: %s", url, time.Since(start)) }()
+			defer func() { fmt.Printf("%s: %s\n", url, time.Since(start)) }()
 			if enableCache && h.CheckCache(ctx, start, w, r, url) {
 				return
 			}
@@ -224,24 +215,6 @@ func main() {
 		go mustInitDevData(*flagAddr, db)
 	}
 
-	// k8s cron jobs on GKE don't work, so do it here instead. To prevent dog
-	// piling, wait a random amount of time before starting.
-	go func() {
-		const cronTime = time.Hour
-		wait := time.Duration(float64(cronTime) * rand.Float64())
-		fmt.Println("waiting", wait)
-		time.Sleep(wait)
-		for {
-			start := time.Now()
-			log.Println("starting cron")
-			if err := h.cron(); err != nil {
-				log.Printf("could not update init data: %+v", err)
-			}
-			log.Printf("cron finished in %s", time.Since(start))
-			time.Sleep(cronTime)
-		}
-	}()
-
 	if *flagAutocert != "" {
 		go func() {
 			mux := http.NewServeMux()
@@ -249,15 +222,14 @@ func main() {
 				u := r.URL
 				u.Scheme = "https"
 				u.Host = *flagAutocert
-				log.Printf("https redirect to %s", u)
 				// 301
 				http.Redirect(w, r, u.String(), http.StatusMovedPermanently)
 			})
 			log.Fatal(http.ListenAndServe(*flagAddr, mux))
 		}()
-		log.Printf("AUTOCERT on: %s", *flagAutocert)
+		fmt.Println("AUTOCERT on:", *flagAutocert)
 		if *flagAcmedir != "" {
-			log.Printf("ACMEDIR: %s", *flagAcmedir)
+			fmt.Println("ACMEDIR:", *flagAcmedir)
 		}
 		m := autocert.Manager{
 			Prompt:     autocert.AcceptTOS,
@@ -273,7 +245,7 @@ func main() {
 		}
 		log.Fatal(s.ListenAndServeTLS("", ""))
 	} else {
-		log.Printf("HTTP listen on addr: %s", *flagAddr)
+		fmt.Println("HTTP listen on addr:", *flagAddr)
 		log.Fatal(http.ListenAndServe(*flagAddr, nil))
 	}
 }
@@ -479,11 +451,10 @@ var httpClient = &http.Client{
 func httpGet(ctx context.Context, url string) ([]byte, error) {
 	start := time.Now()
 	defer func() {
-		log.Printf("GET %s took %s", url, time.Since(start))
+		fmt.Println("GET", url, "took", time.Since(start))
 	}()
 	for i := 0; i < 10; i++ {
 		ctx, _ := context.WithTimeout(ctx, time.Minute)
-		log.Println("START GET", i, url)
 		resp, err := ctxhttp.Get(ctx, httpClient, url)
 		if err != nil {
 			return nil, errors.Wrap(err, url)
@@ -495,7 +466,7 @@ func httpGet(ctx context.Context, url string) ([]byte, error) {
 		}
 		// Too many requests, backoff a bit.
 		if resp.StatusCode == 429 {
-			log.Println(resp.Status)
+			log.Println(resp.Status, url)
 			time.Sleep(time.Second * 5)
 			continue
 		}

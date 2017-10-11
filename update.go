@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"log"
 	"time"
 
 	"golang.org/x/sync/errgroup"
@@ -20,14 +19,13 @@ func (h *hotsContext) update() error {
 		ctx, _ := context.WithTimeout(context.Background(), time.Minute*20)
 		n, err := h.nextBlock(ctx)
 		if err != nil {
-			log.Println("update error:", err)
-		} else {
-			log.Println("updated", n)
+			return err
 		}
-		log.Println("update took", time.Since(start))
+		fmt.Println("update", n, "in", time.Since(start))
 		if n == 0 {
-			log.Println("sleeping")
-			time.Sleep(time.Minute)
+			const sleepTime = time.Minute
+			fmt.Println("sleeping for", sleepTime)
+			time.Sleep(sleepTime)
 		}
 	}
 }
@@ -94,8 +92,9 @@ func (h *hotsContext) nextBlock(ctx context.Context) (int, error) {
 	group.Go(func() error {
 		for r := range ch {
 			if err := h.getReplay(gCtx, r); err != nil {
-				return err
+				return errors.Wrapf(err, "getReplay %v", r.ID)
 			}
+			fmt.Println("processed replay", r.ID)
 			lastID = r.ID
 			n++
 		}
@@ -110,11 +109,9 @@ func (h *hotsContext) nextBlock(ctx context.Context) (int, error) {
 
 func (h *hotsContext) getReplay(ctx context.Context, r *Replay) error {
 	ctx, _ = context.WithTimeout(ctx, time.Second*30)
-	log.Println("getReplay START", r.ID)
-	defer log.Println("getReplay DONE", r.ID)
 	mode, ok := gameModes[r.GameType]
 	if !ok {
-		log.Printf("unknown game type: %s", r.GameType)
+		fmt.Printf("unknown game type: %v: %s\n", r.ID, r.GameType)
 		return nil
 	}
 	if _, err := h.addBuild(ctx, r); err != nil {

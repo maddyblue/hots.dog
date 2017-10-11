@@ -2,13 +2,28 @@ package main
 
 import (
 	"context"
-	"log"
+	"fmt"
 	"net/http"
 	"net/url"
 	"time"
 
 	"github.com/pkg/errors"
 )
+
+// k8s cron jobs on GKE don't work, so do it here instead.
+func (h *hotsContext) cronLoop() error {
+	const cronTime = time.Minute * 10
+	for {
+		start := time.Now()
+		fmt.Println("starting cron")
+		if err := h.cron(); err != nil {
+			return err
+		}
+		fmt.Println("cron finished in", time.Since(start))
+		fmt.Println("sleeping for", cronTime)
+		time.Sleep(cronTime)
+	}
+}
 
 func (h *hotsContext) cron() error {
 	if err := h.updateInit(context.Background()); err != nil {
@@ -47,6 +62,7 @@ func (h *hotsContext) cron() error {
 		req := &http.Request{URL: url}
 		ctx, _ := context.WithTimeout(context.Background(), time.Minute)
 		var res interface{}
+		start := time.Now()
 		switch url.Path {
 		case "/api/get-winrates":
 			res, err = h.GetWinrates(ctx, req)
@@ -70,9 +86,9 @@ func (h *hotsContext) cron() error {
 			)
 			return err
 		}); err != nil {
-			return errors.Wrap(err, "empty cache")
+			return errors.Wrap(err, "update cache")
 		}
-		log.Printf("recached %s", url)
+		fmt.Println("recached", url, "in", time.Since(start))
 	}
 	if err := doGenerateHeroes(h.db); err != nil {
 		return err
