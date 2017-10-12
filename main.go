@@ -497,7 +497,7 @@ func (h *hotsContext) ClearCache(_ http.ResponseWriter, _ *http.Request) {
 // txn executes a transaction. If the database returns a retryable error,
 // fn is re-invoked. fn should not call Commit or Rollback.
 func (h *hotsContext) txn(ctx context.Context, fn func(txn *sqlx.Tx) error) error {
-	for {
+	return retry(func() error {
 		txn, err := h.x.BeginTxx(ctx, nil)
 		if err != nil {
 			return err
@@ -507,14 +507,8 @@ func (h *hotsContext) txn(ctx context.Context, fn func(txn *sqlx.Tx) error) erro
 			return txn.Commit()
 		}
 		txn.Rollback()
-
-		// Check if this was a retryable error.
-		pqErr, ok := err.(*pq.Error)
-		if ok && pqErr.Code == "40001" {
-			continue
-		}
 		return err
-	}
+	})
 }
 
 // retry executes fn, but retries it if fn returns a retryable postgres error.
@@ -525,14 +519,27 @@ func retry(fn func() error) error {
 			return nil
 		}
 
-		// Check if this was a retryable error.
-		pqErr, ok := err.(*pq.Error)
-		if ok && pqErr.Code == "40001" {
+		if retryable(err) {
 			continue
 		}
 		return err
 	}
 	return errors.New("retry limit exhausted")
+}
+
+func retryable(err error) bool {
+	err = errors.Cause(err)
+
+	pqErr, ok := err.(*pq.Error)
+	if ok && pqErr.Code == "40001" {
+		return true
+	}
+
+	if strings.Contains(err.Error(), "connection reset by peer") {
+		return true
+	}
+
+	return false
 }
 
 /*
