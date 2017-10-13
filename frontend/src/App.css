@@ -2,6 +2,13 @@ body {
 	overflow-y: scroll;
 }
 
+.anchor {
+	display: block;
+	position: relative;
+	top: -5.2rem;
+	visibility: hidden;
+}
+
 table th {
 	cursor: pointer;
 }

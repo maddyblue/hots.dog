@@ -184,20 +184,25 @@ class HotsApp extends Component {
 							/>
 						)}
 					/>
+					<Route
+						exact
+						path="/hero/:hero"
+						render={props => (
+							<Hero
+								handleChange={this.handleChange}
+								{...this.state}
+								{...props}
+							/>
+						)}
+					/>
 				</section>
 			</main>
 		);
 	}
 }
 
-const Filter = props => {
-	let maps = props.Maps.map(m => <option key={m}>{m}</option>);
-	maps.unshift(
-		<option key="" value="">
-			All Maps
-		</option>
-	);
-	let builds = props.Builds.map(b => (
+const BuildsOpts = props => {
+	let builds = props.builds.map(b => (
 		<option key={b.ID} value={b.ID}>
 			{b.ID} ({new Date(b.Start).toLocaleDateString()} -{' '}
 			{new Date(b.Finish).toLocaleDateString()})
@@ -205,7 +210,17 @@ const Filter = props => {
 	));
 	builds.unshift(
 		<option key="latest" value="">
-			latest ({props.Builds[0].ID})
+			latest ({props.builds[0].ID})
+		</option>
+	);
+	return builds;
+};
+
+const Filter = props => {
+	let maps = props.Maps.map(m => <option key={m}>{m}</option>);
+	maps.unshift(
+		<option key="" value="">
+			All Maps
 		</option>
 	);
 	let modeKeys = Object.keys(props.Modes);
@@ -250,7 +265,7 @@ const Filter = props => {
 						value={props.build}
 						onChange={props.handleChange}
 					>
-						{builds}
+						<BuildsOpts builds={props.Builds} />
 					</select>
 				</div>
 			</div>
@@ -354,6 +369,151 @@ const About = props => {
 		</div>
 	);
 };
+
+class Hero extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {};
+		this.changeHero = this.changeHero.bind(this);
+	}
+	changeHero(ev) {
+		this.props.history.push({
+			pathname: '/hero/' + encodeURI(ev.target.value),
+			search: this.props.history.location.search,
+		});
+	}
+	componentDidMount() {
+		this.update();
+	}
+	componentDidUpdate(prevProps, prevState) {
+		this.update();
+	}
+	update() {
+		const build = this.props.build || this.props.Builds[0].ID;
+		const search =
+			'/api/get-hero-data?hero=' +
+			encodeURIComponent(this.props.match.params.hero) +
+			'&build=' +
+			encodeURIComponent(build);
+		if (this.state.search === search) {
+			return;
+		}
+		this.setState({ Base: null, search: search });
+		Fetch(search, data => this.setState(data));
+	}
+	makeTable(name, prop, basewr, displayFn) {
+		if (!displayFn) {
+			displayFn = v => v;
+		}
+		const obj = this.state[prop];
+		const elems = Object.keys(obj).map(k => {
+			const v = obj[k];
+			const total = v.Wins + v.Losses;
+			const wr = v.Wins / total * 100;
+			return (
+				<tr key={k}>
+					<td>{displayFn(k)}</td>
+					<td>{v.Wins}</td>
+					<td>{v.Losses}</td>
+					<td>{pct(wr)}</td>
+					<td>{pct(wr - basewr)}</td>
+				</tr>
+			);
+		});
+		return (
+			<div>
+				<div className="anchor" id={prop.toLowerCase()} />
+				<table>
+					<thead>
+						<tr>
+							<th>{name}</th>
+							<th>Wins</th>
+							<th>Losses</th>
+							<th>Winrate</th>
+							<th>Relative to base</th>
+						</tr>
+					</thead>
+					<tbody>{elems}</tbody>
+				</table>
+			</div>
+		);
+	}
+	render() {
+		let main = 'loading...';
+		if (this.state.Base) {
+			const basewins = this.state.Base[''].Wins;
+			const baselosses = this.state.Base[''].Losses;
+			const basetotal = basewins + baselosses;
+			const basewr = basewins / basetotal * 100 || 0;
+			main = (
+				<div>
+					<p>
+						<a href="#maps">[maps]</a>&nbsp;
+						<a href="#modes">[game modes]</a>&nbsp;
+						<a href="#lengths">[game lengths]</a>&nbsp;
+						<a href="#levels">[hero levels]</a>
+					</p>
+					<table>
+						<thead>
+							<tr>
+								<th>Wins</th>
+								<th>Losses</th>
+								<th>Winrate</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>{basewins}</td>
+								<td>{baselosses}</td>
+								<td>{pct(basewr)}</td>
+							</tr>
+						</tbody>
+					</table>
+					{this.makeTable('Map', 'Maps', basewr)}
+					{this.makeTable(
+						'Game Mode',
+						'Modes',
+						basewr,
+						m => this.props.Modes[m]
+					)}
+					{this.makeTable('Game Length', 'Lengths', basewr, toLength)}
+					{this.makeTable('Hero Level', 'Levels', basewr)}
+				</div>
+			);
+		}
+		const heroes = this.props.Heroes.map(h => (
+			<option key={h.Name}>{h.Name}</option>
+		));
+		return (
+			<div>
+				<h2>{this.props.match.params.hero}</h2>
+				<div className="row">
+					<div className="column">
+						<label>Hero</label>
+						<select
+							name="hero"
+							value={this.props.match.params.hero}
+							onChange={this.changeHero}
+						>
+							{heroes}
+						</select>
+					</div>
+					<div className="column">
+						<label>Patch</label>
+						<select
+							name="build"
+							value={this.props.build}
+							onChange={this.props.handleChange}
+						>
+							<BuildsOpts builds={this.props.Builds} />
+						</select>
+					</div>
+				</div>
+				{main}
+			</div>
+		);
+	}
+}
 
 class Players extends Component {
 	constructor(props) {
@@ -690,7 +850,7 @@ class HeroWinrates extends Component {
 					change: change,
 				});
 			});
-			winrates = <Winrates winrates={rates} />;
+			winrates = <Winrates winrates={rates} build={this.props.build} />;
 		}
 		return (
 			<div>
@@ -760,6 +920,9 @@ class Winrates extends Component {
 		if (this.state.sortDir) {
 			sortedWinrates.reverse();
 		}
+		const build = this.props.build
+			? '?build=' + encodeURIComponent(this.props.build)
+			: '';
 		const winrates = sortedWinrates.map(wr => {
 			return (
 				<tr key={wr.hero.Name}>
@@ -774,7 +937,9 @@ class Winrates extends Component {
 								marginRight: '1em',
 							}}
 						/>
-						<span>{wr.hero.Name}</span>
+						<Link to={'/hero/' + encodeURI(wr.hero.Name) + build}>
+							{wr.hero.Name}
+						</Link>
 					</td>
 					<td>{wr.games || 0}</td>
 					<td>{pct(wr.winrate)}</td>

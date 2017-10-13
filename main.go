@@ -186,6 +186,7 @@ func main() {
 
 	http.Handle("/api/init", wrap(h.Init))
 	http.Handle("/api/get-winrates", wrap(h.GetWinrates))
+	http.Handle("/api/get-hero-data", wrap(h.GetHero))
 	http.Handle("/api/get-player-by-name", wrap(h.GetPlayerName))
 	http.Handle("/api/get-player-data", wrap(h.GetPlayerData))
 	//http.Handle("/api/get-build-winrates/:hero", wrap(h.GetBuildWinrates))
@@ -210,6 +211,7 @@ func main() {
 
 	http.HandleFunc("/", serveFiles)
 	http.HandleFunc("/about/", serveIndex)
+	http.HandleFunc("/hero/", serveIndex)
 	http.HandleFunc("/players/", serveIndex)
 
 	if *flagInit && initDB {
@@ -698,6 +700,106 @@ func (h *hotsContext) GetPlayerData(ctx context.Context, r *http.Request) (inter
 	return res, nil
 }
 
+func (h *hotsContext) GetHero(ctx context.Context, r *http.Request) (interface{}, error) {
+	params := []interface{}{
+		r.FormValue("build"),
+		r.FormValue("hero"),
+	}
+	var res struct {
+		Base    map[string]Total
+		Lengths map[string]Total
+		Levels  map[string]Total
+		Maps    map[string]Total
+		Modes   map[string]Total
+	}
+	g, ctx := errgroup.WithContext(ctx)
+	g.Go(func() error {
+		var err error
+		res.Base, err = h.countWins(ctx, `
+			SELECT COUNT(*) count, winner, '' counter
+			FROM players
+			WHERE build = $1 AND hero = $2
+			GROUP BY winner
+		`, params)
+		if len(res.Base) == 0 {
+			res.Base[""] = Total{}
+		}
+		return errors.Wrap(err, "base")
+	})
+	g.Go(func() error {
+		var err error
+		res.Maps, err = h.countWins(ctx, `
+			SELECT COUNT(*) count, winner, map counter
+			FROM players
+			WHERE build = $1 AND hero = $2
+			GROUP BY winner, map
+		`, params)
+		return errors.Wrap(err, "maps")
+	})
+	g.Go(func() error {
+		var err error
+		res.Modes, err = h.countWins(ctx, `
+			SELECT COUNT(*) count, winner, mode counter
+			FROM players
+			WHERE build = $1 AND hero = $2
+			GROUP BY winner, mode
+		`, params)
+		return errors.Wrap(err, "modes")
+	})
+	g.Go(func() error {
+		var err error
+		// Group hero levels  minute blocks.
+		res.Levels, err = h.countWins(ctx, `
+			SELECT count(*) count, winner, counter * 5 as counter
+			FROM (
+				SELECT winner, round(hero_level / 5) counter
+				FROM players
+				WHERE build = $1 AND hero = $2
+			)
+			GROUP BY winner, counter
+		`, params)
+		return errors.Wrap(err, "hero level")
+	})
+	g.Go(func() error {
+		var err error
+		// Group game lengths in 5 minute blocks.
+		res.Lengths, err = h.countWins(ctx, `
+			SELECT count(*) count, winner, counter * 60 * 5 as counter
+			FROM (
+				SELECT winner, round(length / 60 / 5) as counter
+				FROM players
+				WHERE build = $1 AND hero = $2
+			)
+			GROUP BY winner, counter
+		`, params)
+		return errors.Wrap(err, "length")
+	})
+	err := g.Wait()
+	return res, err
+}
+
+func (h *hotsContext) countWins(ctx context.Context, query string, params []interface{}) (map[string]Total, error) {
+	tally := make(map[string]Total)
+	var winrates []struct {
+		Counter string
+		Count   int
+		Winner  bool
+	}
+	if err := h.x.Select(&winrates, query, params...); err != nil {
+		return nil, errors.Wrap(err, "select wins")
+	}
+	for _, wr := range winrates {
+		t := tally[wr.Counter]
+		if wr.Winner {
+			t.Wins += wr.Count
+		} else {
+			t.Losses += wr.Count
+		}
+		tally[wr.Counter] = t
+	}
+	return tally, nil
+}
+
 func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request) (interface{}, error) {
 	args := map[string]string{
 		"build":      r.FormValue("build"),
@@ -788,34 +890,14 @@ func (h *hotsContext) getWinrates(ctx context.Context, init initData, args map[s
 		}
 	}
 
-	buf := bytes.NewBufferString("SELECT COUNT(*) count, hero, winner FROM players")
+	buf := bytes.NewBufferString("SELECT COUNT(*) count, hero counter, winner FROM players")
 	if len(wheres) > 0 {
 		fmt.Fprintf(buf, " WHERE %s", strings.Join(wheres, " AND "))
 	}
 	buf.WriteString(" GROUP BY ")
 	buf.WriteString(strings.Join(groups, ", "))
-	query := buf.String()
 
-	tally := make(map[string]Total)
-
-	var winrates []struct {
-		Hero   string
-		Count  int
-		Winner bool
-	}
-	if err := h.x.Select(&winrates, query, params...); err != nil {
-		return nil, errors.Wrap(err, "select from players")
-	}
-	for _, wr := range winrates {
-		t := tally[wr.Hero]
-		if wr.Winner {
-			t.Wins += wr.Count
-		} else {
-			t.Losses += wr.Count
-		}
-		tally[wr.Hero] = t
-	}
-	return tally, nil
+	return h.countWins(ctx, buf.String(), params)
 }
 
 type Total struct {

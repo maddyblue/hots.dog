@@ -70,6 +70,8 @@ func (h *hotsContext) cron() error {
 			res, err = h.GetPlayerName(ctx, req)
 		case "/api/get-player-data":
 			res, err = h.GetPlayerData(ctx, req)
+		case "/api/get-hero-data":
+			res, err = h.GetHero(ctx, req)
 		default:
 			return errors.Errorf("unknown path: %s", u)
 		}

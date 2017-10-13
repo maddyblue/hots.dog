@@ -119,6 +119,12 @@ func mustMigrate(db *sql.DB) {
 				ALTER TABLE cache ADD COLUMN last_hit TIMESTAMP;
 			`,
 		},
+		{
+			ID: "6",
+			Up: `
+				CREATE INDEX ON players (build, hero) STORING (winner, hero_level, length, map);
+			`,
+		},
 	}
 
 	const migrateTable = "migrations"
