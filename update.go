@@ -109,6 +109,8 @@ func (h *hotsContext) nextBlock(ctx context.Context) (int, error) {
 
 func (h *hotsContext) getReplay(ctx context.Context, r *Replay) error {
 	ctx, _ = context.WithTimeout(ctx, time.Second*30)
+	fmt.Printf("getReplay %d\n", r.ID)
+	defer fmt.Printf("done getReplay %d\n", r.ID)
 	mode, ok := gameModes[r.GameType]
 	if !ok {
 		fmt.Printf("unknown game type: %v: %s\n", r.ID, r.GameType)

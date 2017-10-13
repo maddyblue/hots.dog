@@ -1,4 +1,5 @@
 cockroach
 cockroach-data
+cockroach-data-full
 data.sql
 replays
