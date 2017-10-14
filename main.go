@@ -196,7 +196,9 @@ func main() {
 
 	fileServer := http.FileServer(http.Dir("static"))
 	serveFiles := func(w http.ResponseWriter, r *http.Request) {
-		if strings.HasPrefix(r.URL.Path, "/static") {
+		if r.URL.Path == "/service-worker.js" {
+			w.Header().Add("Cache-Control", "no-cache")
+		} else if strings.HasPrefix(r.URL.Path, "/static") {
 			// These have unique names and shouldn't ever change.
 			w.Header().Add("Cache-Control", "max-age=31536000")
 		} else {
