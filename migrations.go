@@ -161,6 +161,9 @@ func mustMigrate(db *sql.DB) {
 
 		mustExec(db, "INSERT INTO "+migrateTable+" (id) VALUES ($1)", migration.ID)
 	}
+	// Clear the cache because implementations may have changed. This assumes
+	// the cron job is running the correct image, which may not be true.
+	mustExec(db, `UPDATE cache SET until = NULL`)
 	log.Printf("applied %d migrations", n)
 }
 
