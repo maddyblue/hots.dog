@@ -16,113 +16,26 @@ func mustMigrate(db *sql.DB) {
 		{
 			ID: "1",
 			Up: `
-				CREATE TABLE config (
-					key STRING PRIMARY KEY,
-					i INT,
-					s STRING
-				);
-				CREATE TABLE builds (
-					id STRING PRIMARY KEY,
-					start TIMESTAMP,
-					finish TIMESTAMP
-				);
-				CREATE TABLE battletags (
-					id INT PRIMARY KEY,
-					name STRING,
-					INDEX (name)
-				);
-				CREATE TABLE maps (
-					name STRING PRIMARY KEY
-				);
-				CREATE TABLE heroes (
-					slug STRING PRIMARY KEY,
-					name STRING,
-					roles STRING,
-					icon STRING,
-					INDEX (name)
-				);
-				CREATE TABLE games (
-					id INT PRIMARY KEY,
-					url STRING,
-					time TIMESTAMP,
-
-					build STRING,
-					length INT,
-					map STRING,
-					mode INT,
-					region INT
-				);
-				CREATE TABLE players (
-					id SERIAL PRIMARY KEY,
-					game INT REFERENCES games,
-					blizzid INT REFERENCES battletags,
-
-					hero STRING,
-					hero_level INT,
-					team INT,
-					winner BOOL,
-
-					build STRING,
-					length INT,
-					map STRING,
-					mode INT,
-					region INT,
-
-					INDEX (blizzid),
-					INDEX (build, hero_level, map, mode) STORING (hero, winner),
-					INDEX (build, hero_level, mode) STORING (hero, winner)
-				);
-			`,
-		},
-		{
-			ID: "2",
-			Up: `
 				CREATE TABLE cache (
 					id STRING PRIMARY KEY,
 					until TIMESTAMP,
 					data BYTES,
-					gzip BYTES
+					gzip BYTES,
+					last_hit TIMESTAMP
 				);
-			`,
-		},
-		{
-			ID: "3",
-			Up: `
-				ALTER TABLE players ADD COLUMN skill INT;
-				CREATE TABLE playerskills (
-					blizzid INT REFERENCES battletags,
-					build STRING,
-					mode INT,
-					skill INT,
-					PRIMARY KEY (blizzid, build, mode)
+
+				CREATE TABLE config (
+					key STRING PRIMARY KEY,
+					i INT NULL,
+					s STRING NULL
 				);
-				CREATE TABLE skillstats (
-					build STRING,
-					mode INT,
-					data BYTES,
-					PRIMARY KEY (build, mode)
+
+				CREATE TABLE heroes (
+					"name" STRING PRIMARY KEY,
+					slug STRING,
+					roles STRING[],
+					icon BYTES
 				);
-			`,
-		},
-		{
-			ID: "4",
-			Up: `
-				CREATE INDEX ON players (build, hero_level, map, mode, skill) STORING (hero, winner);
-				CREATE INDEX ON players (build, hero_level, mode, skill) STORING (hero, winner);
-				DROP INDEX players@players_build_hero_level_map_mode_idx;
-				DROP INDEX players@players_build_hero_level_mode_idx;
-			`,
-		},
-		{
-			ID: "5",
-			Up: `
-				ALTER TABLE cache ADD COLUMN last_hit TIMESTAMP;
-			`,
-		},
-		{
-			ID: "6",
-			Up: `
-				CREATE INDEX ON players (build, hero) STORING (winner, hero_level, length, map);
 			`,
 		},
 	}
@@ -165,10 +78,4 @@ func mustMigrate(db *sql.DB) {
 	// the cron job is running the correct image, which may not be true.
 	mustExec(db, `UPDATE cache SET until = NULL`)
 	log.Printf("applied %d migrations", n)
-}
-
-func mustExec(db *sql.DB, stmt string, args ...interface{}) {
-	if _, err := db.Exec(stmt, args...); err != nil {
-		panic(err)
-	}
 }

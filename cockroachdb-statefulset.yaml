@@ -152,7 +152,7 @@ spec:
           - |
             # The use of qualified `hostname -f` is crucial:
             # Other nodes aren't able to look up the unqualified hostname.
-            CRARGS=("start" "--logtostderr" "--insecure" "--host" "$(hostname -f)" "--http-host" "0.0.0.0")
+            CRARGS=("start" "--logtostderr" "--insecure" "--host" "$(hostname -f)" "--http-host" "0.0.0.0" "--cache" "40%" "--max-sql-memory" "25%")
             # We only want to initialize a new cluster (by omitting the join flag)
             # if we're sure that we're the first node (i.e. index 0) and that
             # there aren't any other nodes running as part of the cluster that
@@ -176,16 +176,14 @@ spec:
       - name: datadir
         persistentVolumeClaim:
           claimName: datadir
-      #nodeSelector:
-        #beta.kubernetes.io/instance-type: g1-small
   volumeClaimTemplates:
   - metadata:
       name: datadir
       annotations:
-        volume.alpha.kubernetes.io/storage-class: ssd
+        volume.beta.kubernetes.io/storage-class: ssd
     spec:
       accessModes:
         - "ReadWriteOnce"
       resources:
         requests:
-          storage: 5Gi
+          storage: 10Gi

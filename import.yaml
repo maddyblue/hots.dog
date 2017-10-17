@@ -1,14 +1,14 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: update
+  name: import
 spec:
   template:
     metadata:
-      name: update
+      name: import
     spec:
       containers:
-      - name: update
+      - name: import
         image: gcr.io/hots-cockroach/website:latest
-        command: ["/website", "-updatenew", "csv.hots.dog"]
+        command: ["/website", "-importnum", "3840000", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
       restartPolicy: OnFailure

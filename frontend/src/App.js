@@ -186,9 +186,20 @@ class HotsApp extends Component {
 					/>
 					<Route
 						exact
-						path="/hero/:hero"
+						path="/heroes/:hero"
 						render={props => (
 							<Hero
+								handleChange={this.handleChange}
+								{...this.state}
+								{...props}
+							/>
+						)}
+					/>
+					<Route
+						exact
+						path="/talents/:hero"
+						render={props => (
+							<TalentWinrates
 								handleChange={this.handleChange}
 								{...this.state}
 								{...props}
@@ -236,6 +247,7 @@ const Filter = props => {
 		</option>
 	);
 	let heroLevels = [1, 5, 10, 20].map(v => <option key={v}>{v}</option>);
+	/*
 	const skills = skillPercentiles.map(v => (
 		<option key={v} value={v}>
 			{v + 'th'}
@@ -249,6 +261,7 @@ const Filter = props => {
 	if (!buildStats || (!modeStats && props.mode)) {
 		skillTitle = 'Skill ratings not yet calculated.';
 	}
+	*/
 	return (
 		<div>
 			<div className="row">
@@ -287,6 +300,7 @@ const Filter = props => {
 					</select>
 				</div>
 			</div>
+			{/*
 			<div className="row">
 				<div className="column">
 					<label title={skillTitle}>Skill Percentile from</label>
@@ -311,6 +325,7 @@ const Filter = props => {
 					</select>
 				</div>
 			</div>
+			*/}
 		</div>
 	);
 };
@@ -378,7 +393,7 @@ class Hero extends Component {
 	}
 	changeHero(ev) {
 		this.props.history.push({
-			pathname: '/hero/' + encodeURI(ev.target.value),
+			pathname: '/heroes/' + encodeURI(ev.target.value),
 			search: this.props.history.location.search,
 		});
 	}
@@ -430,7 +445,7 @@ class Hero extends Component {
 							<th>Wins</th>
 							<th>Losses</th>
 							<th>Winrate</th>
-							<th>Relative to base</th>
+							<th>Relative to Base</th>
 						</tr>
 					</thead>
 					<tbody>{elems}</tbody>
@@ -447,18 +462,12 @@ class Hero extends Component {
 			const basewr = basewins / basetotal * 100 || 0;
 			main = (
 				<div>
-					<p>
-						<a href="#maps">[maps]</a>&nbsp;
-						<a href="#modes">[game modes]</a>&nbsp;
-						<a href="#lengths">[game lengths]</a>&nbsp;
-						<a href="#levels">[hero levels]</a>
-					</p>
 					<table>
 						<thead>
 							<tr>
 								<th>Wins</th>
 								<th>Losses</th>
-								<th>Winrate</th>
+								<th>Base Winrate</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -484,9 +493,25 @@ class Hero extends Component {
 		const heroes = this.props.Heroes.map(h => (
 			<option key={h.Name}>{h.Name}</option>
 		));
+		const heroSearch = this.props.build
+			? '?build=' + encodeURIComponent(this.props.build)
+			: '';
 		return (
 			<div>
 				<h2>{this.props.match.params.hero}</h2>
+				<p>
+					<Link
+						to={
+							'/talents/' + encodeURI(this.props.match.params.hero) + heroSearch
+						}
+					>
+						[talents]
+					</Link>
+					<a href="#maps">[maps]</a>&nbsp;
+					<a href="#modes">[game modes]</a>&nbsp;
+					<a href="#lengths">[game lengths]</a>&nbsp;
+					<a href="#levels">[hero levels]</a>
+				</p>
 				<div className="row">
 					<div className="column">
 						<label>Hero</label>
@@ -541,13 +566,16 @@ class Players extends Component {
 		);
 	}
 	render() {
-		const names = this.state.ids.map(e => (
-			<li key={e.ID}>
-				<Link to={'/players/' + e.ID}>
-					{e.Name}: {e.ID}
-				</Link>
-			</li>
-		));
+		let names;
+		if (!this.state.ids) {
+			names = 'No matches.';
+		} else {
+			names = this.state.ids.map(e => (
+				<li key={e.ID}>
+					<Link to={'/players/' + e.ID}>{e.Name}</Link>
+				</li>
+			));
+		}
 		return (
 			<div>
 				<form onSubmit={this.onSubmit}>
@@ -627,29 +655,49 @@ class Player extends Component {
 		const games = this.state.Games.map((g, i) => (
 			<tr key={i}>
 				<td>{g.Build}</td>
-				<td>{g.Hero}</td>
+				<td>{new Date(g.Date).toLocaleString()}</td>
+				<td>
+					<Link to={'/heroes/' + encodeURI(g.Hero)}>{g.Hero}</Link>
+				</td>
 				<td>{g.HeroLevel}</td>
 				<td>{g.Winner ? 'win' : 'loss'}</td>
 				<td>{toLength(g.Length)}</td>
 				<td>{g.Map}</td>
 				<td>{this.props.Modes[g.Mode]}</td>
-				<td>{g.Skill}</td>
 			</tr>
 		));
-		let game;
+		let game, skill;
+		if (skills.length) {
+			skill = (
+				<div>
+					<p>Skill rating at the end of each patch with played games:</p>
+					<table>
+						<thead>
+							<tr>
+								<th>Patch</th>
+								<th>Game Mode</th>
+								<th>Skill Rating</th>
+								<th>Percentile</th>
+							</tr>
+						</thead>
+						<tbody>{skills}</tbody>
+					</table>
+				</div>
+			);
+		}
 		if (games.length) {
 			game = (
 				<table>
 					<thead>
 						<tr>
 							<th>Patch</th>
+							<th>Date</th>
 							<th>Hero</th>
 							<th title="Hero level">Level</th>
 							<th>Won</th>
 							<th title="Game length">Length</th>
 							<th>Map</th>
 							<th>Game Mode</th>
-							<th>Skill Rating</th>
 						</tr>
 					</thead>
 					<tbody>{games}</tbody>
@@ -658,18 +706,8 @@ class Player extends Component {
 		}
 		return (
 			<div>
-				<p>Skill rating at the end of each patch with played games:</p>
-				<table>
-					<thead>
-						<tr>
-							<th>Patch</th>
-							<th>Game Mode</th>
-							<th>Skill Rating</th>
-							<th>Percentile</th>
-						</tr>
-					</thead>
-					<tbody>{skills}</tbody>
-				</table>
+				<h2>{this.state.Battletag}</h2>
+				{skill}
 				{game}
 			</div>
 		);
@@ -680,6 +718,14 @@ class TalentWinrates extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
+		this.changeHero = this.changeHero.bind(this);
+		this.makeSearch = this.makeSearch.bind(this);
+	}
+	changeHero(ev) {
+		this.props.history.push({
+			pathname: '/talents/' + encodeURI(ev.target.value),
+			search: this.props.history.location.search,
+		});
 	}
 	componentDidMount() {
 		this.update();
@@ -687,28 +733,86 @@ class TalentWinrates extends Component {
 	componentDidUpdate(prevProps, prevState) {
 		this.update();
 	}
+	makeSearch() {
+		let search = window.location.search;
+		if (search) {
+			search += '&';
+		} else {
+			search = '?';
+		}
+		search += 'hero=' + encodeURIComponent(this.props.match.params.hero);
+		if (search.indexOf('build') !== -1) {
+			return search;
+		}
+		if (!this.props.build) {
+			if (search === '') {
+				search = '?';
+			} else {
+				search += '&';
+			}
+			search += 'build=' + this.props.Builds[0].ID;
+		}
+		return search;
+	}
 	update() {
-		const search = window.location.search;
-		if (search === this.state.search) {
+		const search = this.makeSearch();
+		if (!search || search === this.state.search) {
 			return;
 		}
-		Fetch(
-			'/api/get-build-winrates' + this.props.match.params.hero + search,
-			data => {
-				if (search === window.location.search) {
-					this.setState({
-						winrates: data,
-						search: search,
-					});
+		this.setState({
+			winrates: null,
+			search: search,
+		});
+		Fetch('/api/get-build-winrates' + search, data => {
+			if (search === this.makeSearch()) {
+				if (!data.Previous) {
+					data.Previous = {};
 				}
+				this.setState({
+					winrates: data,
+				});
 			}
-		);
+		});
 	}
 	render() {
 		if (!this.state.winrates) {
 			return 'loading...';
 		}
-		return <Builds winrates={this.state.winrates} />;
+		const heroes = this.props.Heroes.map(h => (
+			<option key={h.Name}>{h.Name}</option>
+		));
+		const heroSearch = this.props.build
+			? '?build=' + encodeURIComponent(this.props.build)
+			: '';
+		return (
+			<div>
+				<h2>{this.props.match.params.hero}</h2>
+				<p>
+					<Link
+						to={
+							'/heroes/' + encodeURI(this.props.match.params.hero) + heroSearch
+						}
+					>
+						[relative winrates]
+					</Link>
+				</p>
+				<div className="row">
+					<div className="column">
+						<label>Hero</label>
+						<select
+							name="hero"
+							value={this.props.match.params.hero}
+							onChange={this.changeHero}
+						>
+							{heroes}
+						</select>
+					</div>
+					<div className="column" />
+				</div>
+				<Filter handleChange={this.props.handleChange} {...this.props} />
+				<Builds winrates={this.state.winrates} />
+			</div>
+		);
 	}
 }
 
@@ -726,7 +830,7 @@ const Builds = props => {
 	var builds = [];
 	for (let tier = 1; tier <= 7; tier++) {
 		const curTier = props.winrates.Current[tier];
-		const prevTier = props.winrates.Previous[tier];
+		const prevTier = props.winrates.Previous[tier] || {};
 		const talents = Object.keys(curTier)
 			.sort()
 			.map(talent => {
@@ -741,9 +845,10 @@ const Builds = props => {
 					const prevWinRate = prev.Wins / prevGames * 100;
 					change = (winRate - prevWinRate).toFixed(1) + '%';
 				}
+				const name = talent.match(/[A-Z][a-z]+/g).join(' ');
 				return (
 					<tr key={talent}>
-						<td>{talent}</td>
+						<td>{name}</td>
 						<td>{games}</td>
 						<td>{rate}</td>
 						<td>{change}</td>
@@ -756,7 +861,7 @@ const Builds = props => {
 				<table>
 					<thead>
 						<tr>
-							<th>hero</th>
+							<th>talent</th>
 							<th>games</th>
 							<th>winrate</th>
 							<th title="change since previous patch">change</th>
@@ -787,6 +892,9 @@ class HeroWinrates extends Component {
 	}
 	makeSearch() {
 		let search = window.location.search;
+		if (search.indexOf('build') !== -1) {
+			return search;
+		}
 		if (!this.props.build) {
 			if (search === '') {
 				search = '?';
@@ -794,8 +902,6 @@ class HeroWinrates extends Component {
 				search += '&';
 			}
 			search += 'build=' + this.props.Builds[0].ID;
-		} else if (search.indexOf('build') === -1) {
-			return;
 		}
 		return search;
 	}
@@ -937,7 +1043,7 @@ class Winrates extends Component {
 								marginRight: '1em',
 							}}
 						/>
-						<Link to={'/hero/' + encodeURI(wr.hero.Name) + build}>
+						<Link to={'/heroes/' + encodeURI(wr.hero.Name) + build}>
 							{wr.hero.Name}
 						</Link>
 					</td>

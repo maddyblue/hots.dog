@@ -2,192 +2,392 @@ package main
 
 import (
 	"context"
-	"database/sql"
+	"encoding/csv"
 	"encoding/json"
 	"fmt"
+	"log"
+	"path"
+	"strconv"
+	"strings"
+	"sync"
 	"time"
 
 	"golang.org/x/sync/errgroup"
 
-	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
+
+	"cloud.google.com/go/storage"
 )
 
-func (h *hotsContext) update() error {
-	for {
-		start := time.Now()
-		ctx, _ := context.WithTimeout(context.Background(), time.Minute*20)
-		n, err := h.nextBlock(ctx)
-		if err != nil {
-			return err
-		}
-		fmt.Println("update", n, "in", time.Since(start))
-		if n == 0 {
-			const sleepTime = time.Minute
-			fmt.Println("sleeping for", sleepTime)
-			time.Sleep(sleepTime)
-		}
-	}
-}
+const (
+	HotsApi        = "https://hotsapi.net/api/v1"
+	configJSON     = "config.json"
+	dirGame        = "game"
+	dirPlayer      = "player"
+	dirUnprocessed = "unprocessed"
+	perFile        = 10000
+	perRequest     = 100
+	configBase     = "%09d.csv"
+)
 
-func (h *hotsContext) nextBlock(ctx context.Context) (int, error) {
-	var lastID int
-	const configLastID = "last_id"
-	if err := h.x.GetContext(ctx, &lastID, `
-		SELECT i
-		FROM config
-		WHERE key = $1
-	`, configLastID); err == sql.ErrNoRows {
-		// lastID = 0
-	} else if err != nil {
-		return 0, err
-	}
-
-	var lastGameID int
-	if err := h.x.GetContext(ctx, &lastGameID, `
-	SELECT id
-		FROM games
-		ORDER BY id DESC
-		LIMIT 1
-	`); err == nil {
-		lastID = lastGameID
-	}
-
-	// Since min_id is the first result returned, we need to increment what was
-	// returned.
-	lastID++
-
-	const HotsApi = "https://hotsapi.net/api/v1"
-	url := fmt.Sprintf(HotsApi+"/replays?min_id=%d", lastID)
-	b, err := httpGet(ctx, url)
+func updateNew(bucketName string) error {
+	ctx := context.Background()
+	cl, err := storage.NewClient(ctx)
 	if err != nil {
-		return 0, err
+		return errors.Wrap(err, "new client")
 	}
-	var replays Replays
-	if err := json.Unmarshal(b, &replays); err != nil {
-		return 0, errors.Wrapf(err, "JSON decoding replays, url: %s, body: %s", url, b)
+	bucket := cl.Bucket(bucketName)
+	config, err := getConfig(ctx, bucket)
+	if err != nil {
+		return errors.Wrap(err, "get config")
 	}
-	ch := make(chan *Replay, 5)
-	group, gCtx := errgroup.WithContext(ctx)
-	group.Go(func() error {
-		defer close(ch)
-		for _, r := range replays {
-			b, err := httpGet(gCtx, fmt.Sprintf(HotsApi+"/replays/%d", r.ID))
-			if err != nil {
-				return err
-			}
-			var replay Replay
-			if err := json.Unmarshal(b, &replay); err != nil {
-				return errors.Wrap(err, "decoding replay")
-			}
-			select {
-			case ch <- &replay:
-			case <-gCtx.Done():
-				return gCtx.Err()
-			}
+	for {
+		_, err := updateNextGroup(ctx, bucket, config)
+		if err == ErrNotEnough {
+			fmt.Println("next block not done, sleeping")
+			time.Sleep(time.Hour)
+		} else if err != nil {
+			log.Println(err)
+			time.Sleep(time.Hour)
 		}
-		return nil
-	})
-	n := 0
-	group.Go(func() error {
-		for r := range ch {
-			if err := h.getReplay(gCtx, r); err != nil {
-				return errors.Wrapf(err, "getReplay %v", r.ID)
-			}
-			fmt.Println("processed replay", r.ID)
-			lastID = r.ID
-			n++
-		}
-		return nil
-	})
-	if err := group.Wait(); err != nil {
-		return n, err
 	}
-	_, err = h.db.ExecContext(ctx, `UPSERT INTO config (key, i) VALUES ($1, $2)`, configLastID, lastID)
-	return n, err
 }
 
-func (h *hotsContext) getReplay(ctx context.Context, r *Replay) error {
-	ctx, _ = context.WithTimeout(ctx, time.Second*30)
-	fmt.Printf("getReplay %d\n", r.ID)
-	defer fmt.Printf("done getReplay %d\n", r.ID)
-	mode, ok := gameModes[r.GameType]
+var ErrNotEnough = errors.New("not enough results")
+
+func updateNextGroup(ctx context.Context, bucket *storage.BucketHandle, config *groupConfig) (int, error) {
+	start := config.NextID
+	until := start + perFile
+	fmt.Println("UNG", start, until)
+	if start%perFile != 0 {
+		return 0, errors.Errorf("bad start id: %d", start)
+	}
+	base := fmt.Sprintf(configBase, start)
+	gw := bucket.Object(path.Join(dirGame, base)).NewWriter(ctx)
+	pw := bucket.Object(path.Join(dirPlayer, base)).NewWriter(ctx)
+	gc := csv.NewWriter(gw)
+	pc := csv.NewWriter(pw)
+	{
+		idCh := make(chan int)
+		replaysCh := make(chan []byte, 5)
+		replayCh := make(chan Replay, 100)
+		g, ctx := errgroup.WithContext(ctx)
+		done := ctx.Done()
+		// Generate IDs.
+		g.Go(func() error {
+			defer close(idCh)
+			for id := start; id < start+perFile; id += perRequest {
+				select {
+				case <-done:
+					return ctx.Err()
+				case idCh <- id:
+				}
+			}
+			return nil
+		})
+		// Fetch blocks of data, send just bytes on the chan so we can start next request asap.
+		g.Go(func() error {
+			defer close(replaysCh)
+			return groupWorkers(ctx, cap(replaysCh), func(ctx context.Context) error {
+				for id := range idCh {
+					url := fmt.Sprintf(HotsApi+"/replays?with_players=true&min_id=%d", id)
+					b, err := httpGet(ctx, url)
+					if err != nil {
+						return errors.Wrapf(err, "http get: %s", b)
+					}
+					select {
+					case <-done:
+						return ctx.Err()
+					case replaysCh <- b:
+					}
+				}
+				return nil
+			})
+		})
+		// Unmarshal bytes, send as replays.
+		g.Go(func() error {
+			defer close(replayCh)
+			for b := range replaysCh {
+				var replays Replays
+				if err := json.Unmarshal(b, &replays); err != nil {
+					return errors.Wrap(err, "json decode")
+				}
+				for _, r := range replays {
+					if r.ID >= until {
+						return nil
+					}
+					select {
+					case <-done:
+						return ctx.Err()
+					case replayCh <- r:
+					}
+				}
+				if len(replays) != perRequest {
+					return ErrNotEnough
+				}
+			}
+			return nil
+		})
+		g.Go(func() error {
+			seen := make(map[int]bool)
+			for r := range replayCh {
+				if seen[r.ID] {
+					continue
+				}
+				seen[r.ID] = true
+				mode, ok := gameModes[r.GameType]
+				if !ok {
+					continue
+				}
+				/*
+					if !r.Processed {
+						if err := bucket.Object(path.Join(dirUnprocessed, strconv.Itoa(r.ID))).NewWriter(ctx).Close(); err != nil {
+							return errors.Wrapf(err, "write unprocessed: %d", r.ID)
+						}
+						continue
+					}
+				*/
+				var bans []string
+				for _, bs := range r.Bans {
+					for _, b := range bs {
+						if b != "" {
+							bans = append(bans, config.hero(b))
+						}
+					}
+				}
+				config.addBuild(r.GameVersion, time.Time(r.GameDate))
+				common := []string{
+					fmt.Sprint(r.ID),
+					fmt.Sprint(mode),
+					time.Time(r.GameDate).Format(time.RFC3339Nano),
+					config.gamemap(r.GameMap),
+					fmt.Sprint(r.GameLength),
+					config.build(r.GameVersion),
+				}
+				if err := gc.Write(append(common,
+					fmt.Sprintf("{%s}", strings.Join(bans, ",")),
+				)); err != nil {
+					return errors.Wrap(err, "gc write")
+				}
+				for _, p := range r.Players {
+					var talents []string
+					for _, t := range []string{
+						p.Talents.Num1,
+						p.Talents.Num4,
+						p.Talents.Num7,
+						p.Talents.Num10,
+						p.Talents.Num13,
+						p.Talents.Num16,
+						p.Talents.Num20,
+					} {
+						if t == "" {
+							break
+						}
+						talents = append(talents, config.talent(t))
+					}
+					if err := pc.Write(append(common,
+						config.hero(p.Hero),
+						fmt.Sprint(p.HeroLevel),
+						fmt.Sprint(p.Team),
+						fmt.Sprint(p.Winner),
+						fmt.Sprint(p.BlizzID),
+						"0", // skill
+						p.Battletag,
+						fmt.Sprintf("{%s}", strings.Join(talents, ",")),
+					)); err != nil {
+						return errors.Wrap(err, "gc write")
+					}
+				}
+			}
+			return nil
+		})
+		if err := g.Wait(); err != nil {
+			gw.CloseWithError(err)
+			pw.CloseWithError(err)
+			return 0, err
+		}
+	}
+	gc.Flush()
+	pc.Flush()
+	if err := gc.Error(); err != nil {
+		return 0, errors.Wrap(err, "gc flush")
+	}
+	if err := pc.Error(); err != nil {
+		return 0, errors.Wrap(err, "pc flush")
+	}
+	if err := gw.Close(); err != nil {
+		return 0, errors.Wrap(err, "gw close")
+	}
+	if err := pw.Close(); err != nil {
+		return 0, errors.Wrap(err, "pw close")
+	}
+	cw := bucket.Object(configJSON).NewWriter(ctx)
+	config.NextID = until
+	if err := json.NewEncoder(cw).Encode(config); err != nil {
+		return 0, errors.Wrap(err, "json encode")
+	}
+	if err := cw.Close(); err != nil {
+		return 0, errors.Wrap(err, "write config")
+	}
+	return config.NextID, nil
+}
+
+// groupWorkers creates num worker go routines in an error group.
+func groupWorkers(ctx context.Context, num int, f func(context.Context) error) error {
+	group, ctx := errgroup.WithContext(ctx)
+	for i := 0; i < num; i++ {
+		group.Go(func() error {
+			return f(ctx)
+		})
+	}
+	return group.Wait()
+}
+
+type groupConfig struct {
+	sync.Mutex
+	readonly bool
+	NextID   int
+	Map      map[string]map[string]string
+	Builds   map[string]dateRange
+}
+
+type dateRange struct {
+	Start time.Time
+	End   time.Time
+}
+
+func (g *groupConfig) addBuild(name string, date time.Time) {
+	if g.Builds == nil {
+		g.Builds = make(map[string]dateRange)
+	}
+	b, ok := g.Builds[name]
 	if !ok {
-		fmt.Printf("unknown game type: %v: %s\n", r.ID, r.GameType)
-		return nil
+		b.Start = date
+		b.End = date
+	} else if date.Before(b.Start) {
+		b.Start = date
+	} else if date.After(b.End) {
+		b.End = date
 	}
-	if _, err := h.addBuild(ctx, r); err != nil {
-		return err
-	}
-	if _, err := h.db.ExecContext(ctx, `UPSERT INTO maps (name) VALUES ($1) RETURNING NOTHING`, r.GameMap); err != nil {
-		return err
-	}
-	return h.txn(ctx, func(txn *sqlx.Tx) error {
-		if _, err := txn.Exec(fmt.Sprintf(
-			`INSERT INTO games (id, url, time, length, build, map, mode, region) VALUES %s RETURNING NOTHING`,
-			makeValues(8)),
-			r.ID, r.URL, time.Time(r.GameDate), r.GameLength, r.GameVersion, r.GameMap, mode, r.Region,
-		); err != nil {
-			return errors.Wrap(err, "insert into games")
+	g.Builds[name] = b
+}
+
+func (g *groupConfig) build(name string) string {
+	return g.get("build", name)
+}
+
+func (g *groupConfig) gamemap(name string) string {
+	return g.get("map", name)
+}
+
+func (g *groupConfig) talent(name string) string {
+	return g.get("talent", name)
+}
+
+func (g *groupConfig) hero(name string) string {
+	return g.get("hero", name)
+}
+
+func (g *groupConfig) get(group, name string) string {
+	if !g.readonly {
+		g.Lock()
+		defer g.Unlock()
+		if g.Map == nil {
+			g.Map = make(map[string]map[string]string)
 		}
-		for _, p := range r.Players {
-			if _, err := txn.Exec(`UPSERT INTO battletags (id, name) VALUES ($1, $2) RETURNING NOTHING`, p.BlizzID, p.Battletag); err != nil {
-				return err
-			}
-			if _, err := txn.Exec(fmt.Sprintf(`INSERT INTO players (
-			game,
-			blizzid,
-			hero,
-			hero_level,
-			team,
-			winner,
-			build,
-			length,
-			map,
-			mode,
-			region
-		) VALUES %s RETURNING NOTHING`, makeValues(11)),
-				r.ID,
-				p.BlizzID,
-				p.Hero,
-				p.HeroLevel,
-				p.Team,
-				p.Winner,
-				r.GameVersion,
-				r.GameLength,
-				r.GameMap,
-				mode,
-				r.Region,
-			); err != nil {
-				return err
-			}
+		if g.Map[group] == nil {
+			g.Map[group] = make(map[string]string)
 		}
-		return nil
-	})
+	} else {
+		if g.Map == nil || g.Map[group] == nil {
+			return name
+		}
+	}
+	id := g.Map[group][name]
+	if !g.readonly && id == "" {
+		id = strconv.Itoa(len(g.Map[group]) + 1)
+		g.Map[group][name] = id
+	}
+	return id
+}
+
+func (g *groupConfig) toMap(group string) map[string]string {
+	return g.Map[group]
+}
+
+func getConfig(ctx context.Context, bucket *storage.BucketHandle) (*groupConfig, error) {
+	var config groupConfig
+	r, err := bucket.Object(configJSON).NewReader(ctx)
+	if err == storage.ErrObjectNotExist {
+		// ignore
+	} else if err != nil {
+		return nil, errors.Wrap(err, "read config")
+	} else if err := json.NewDecoder(r).Decode(&config); err != nil {
+		return nil, errors.Wrap(err, "decode config")
+	}
+	return &config, nil
 }
 
 type Replays []Replay
 
 type Replay struct {
-	ID          int      `json:"id"`
-	Filename    string   `json:"filename"`
-	Size        int      `json:"size"`
-	GameType    string   `json:"game_type"`
-	GameDate    hotsTime `json:"game_date"`
-	GameLength  int      `json:"game_length"`
-	GameMap     string   `json:"game_map"`
-	GameVersion string   `json:"game_version"`
-	Region      int      `json:"region"`
-	Fingerprint string   `json:"fingerprint"`
-	URL         string   `json:"url"`
+	ID          int        `json:"id"`
+	Filename    string     `json:"filename"`
+	Size        int        `json:"size"`
+	GameType    string     `json:"game_type"`
+	GameDate    hotsTime   `json:"game_date"`
+	GameMap     string     `json:"game_map"`
+	GameLength  int        `json:"game_length"`
+	GameVersion string     `json:"game_version"`
+	Fingerprint string     `json:"fingerprint"`
+	Region      int        `json:"region"`
+	Processed   bool       `json:"processed"`
+	URL         string     `json:"url"`
+	CreatedAt   string     `json:"created_at"`
+	UpdatedAt   string     `json:"updated_at"`
+	Bans        [][]string `json:"bans"`
 	Players     []struct {
-		Battletag string `json:"battletag"`
 		Hero      string `json:"hero"`
 		HeroLevel int    `json:"hero_level"`
 		Team      int    `json:"team"`
 		Winner    bool   `json:"winner"`
-		Region    int    `json:"region"`
 		BlizzID   int    `json:"blizz_id"`
+		Party     int    `json:"party"`
+		Silenced  bool   `json:"silenced"`
+		Battletag string `json:"battletag"`
+		Talents   struct {
+			Num1  string `json:"1"`
+			Num4  string `json:"4"`
+			Num7  string `json:"7"`
+			Num10 string `json:"10"`
+			Num13 string `json:"13"`
+			Num16 string `json:"16"`
+			Num20 string `json:"20"`
+		} `json:"talents"`
+		Score struct {
+			Level                  int         `json:"level"`
+			Kills                  int         `json:"kills"`
+			Assists                int         `json:"assists"`
+			Takedowns              int         `json:"takedowns"`
+			Deaths                 int         `json:"deaths"`
+			HighestKillStreak      int         `json:"highest_kill_streak"`
+			HeroDamage             int         `json:"hero_damage"`
+			SiegeDamage            int         `json:"siege_damage"`
+			StructureDamage        int         `json:"structure_damage"`
+			MinionDamage           int         `json:"minion_damage"`
+			CreepDamage            int         `json:"creep_damage"`
+			SummonDamage           int         `json:"summon_damage"`
+			TimeCcEnemyHeroes      int         `json:"time_cc_enemy_heroes"`
+			Healing                int         `json:"healing"`
+			SelfHealing            int         `json:"self_healing"`
+			DamageTaken            interface{} `json:"damage_taken"`
+			ExperienceContribution int         `json:"experience_contribution"`
+			TownKills              int         `json:"town_kills"`
+			TimeSpentDead          int         `json:"time_spent_dead"`
+			MercCampCaptures       int         `json:"merc_camp_captures"`
+			WatchTowerCaptures     int         `json:"watch_tower_captures"`
+			MetaExperience         int         `json:"meta_experience"`
+		} `json:"score"`
 	} `json:"players"`
 }
 
@@ -201,34 +401,4 @@ func (h *hotsTime) UnmarshalText(text []byte) error {
 	}
 	*h = hotsTime(t)
 	return nil
-}
-
-func (h *hotsContext) addBuild(ctx context.Context, replay *Replay) (Build, error) {
-	var build Build
-	err := h.txn(ctx, func(txn *sqlx.Tx) error {
-		id := replay.GameVersion
-		start := time.Time(replay.GameDate)
-		var err error
-		if err = txn.Get(&build, "SELECT * FROM builds WHERE id = $1", id); err == sql.ErrNoRows {
-			build.ID = id
-			build.Start = start
-			build.Finish = start
-			_, err = txn.Exec("INSERT INTO builds (id, start, finish) VALUES ($1, $2, $3)", build.ID, build.Start, build.Finish)
-		} else if err == nil {
-			buildChanged := false
-			if start.Before(build.Start) {
-				build.Start = start
-				buildChanged = true
-			}
-			if start.After(build.Finish) {
-				build.Finish = start
-				buildChanged = true
-			}
-			if buildChanged {
-				_, err = txn.Exec("UPDATE builds SET start = $1, finish = $2 WHERE id = $3", build.Start, build.Finish, id)
-			}
-		}
-		return err
-	})
-	return build, err
 }

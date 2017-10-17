@@ -41,10 +41,12 @@ var (
 	flagAutocert  = flag.String("autocert", "", "domain name to autocert")
 	flagAcmedir   = flag.String("acmedir", "", "optional acme directory; can be used to configure dev letsencrypt")
 	flagCockroach = flag.String("cockroach", "postgresql://root@localhost:26257/?sslmode=disable", "cockroach connection URL")
-	flagUpdate    = flag.Bool("update", false, "run hotsapi updater")
 	flagElo       = flag.Bool("elo", false, "run elo update")
 	flagMigrate   = flag.Bool("migrate", false, "run migration")
 	flagCron      = flag.Bool("cron", false, "run cronjob")
+	flagUpdateNew = flag.String("updatenew", "", "run new update to specified gs bucket")
+	flagImport    = flag.String("import", "csv.hots.dog", "import from bucket")
+	flagImportNum = flag.Int("importnum", -1, "max id to import; set to 0 for first block only")
 	initDB        = false
 )
 
@@ -62,6 +64,13 @@ func main() {
 	}
 	if fromEnv := os.Getenv("ACMEDIR"); fromEnv != "" {
 		*flagAcmedir = fromEnv
+	}
+
+	if *flagUpdateNew != "" {
+		if err := updateNew(*flagUpdateNew); err != nil {
+			log.Fatalf("%+v", err)
+		}
+		return
 	}
 
 	const dbName = "hots"
@@ -86,6 +95,17 @@ func main() {
 		x:  sqlx.NewDb(db, "postgres"),
 	}
 
+	if *flagImportNum >= 0 {
+		mustMigrate(db)
+		if err := h.Import(*flagImport, *flagImportNum); err != nil {
+			log.Fatalf("%+v", err)
+		}
+		if err := generateHeroes(db); err != nil {
+			log.Fatalf("%+v", err)
+		}
+		return
+	}
+
 	/*
 	   The database cache has two timestamps: until and last_hit. last_hit is
 	   the last time a user request hit the URL. until is the time after which
@@ -107,12 +127,6 @@ func main() {
 		h.cacheTime = time.Second * 5
 	}
 
-	if *flagUpdate {
-		if err := h.update(); err != nil {
-			log.Fatalf("%+v", err)
-		}
-		return
-	}
 	if *flagCron {
 		if err := h.cronLoop(); err != nil {
 			log.Fatalf("%+v", err)
@@ -133,14 +147,17 @@ func main() {
 		}()
 		if initDB {
 			time.Sleep(time.Second * 2)
-			if _, err := db.Exec(fmt.Sprintf("drop database if exists %s cascade; create database %[1]s", dbName)); err != nil {
-				panic(err)
-			}
+			mustExec(db, fmt.Sprintf("drop database if exists %s cascade; create database %[1]s", dbName))
 		}
 	}
 
 	if *flagMigrate || *flagInit {
 		mustMigrate(db)
+		if initDB {
+			if err := h.Import(*flagImport, *flagImportNum); err != nil {
+				log.Fatalf("%+v", err)
+			}
+		}
 		if err := generateHeroes(db); err != nil {
 			panic(err)
 		}
@@ -151,10 +168,10 @@ func main() {
 	}
 
 	if err := h.updateInit(context.Background()); err != nil {
-		panic(err)
+		panic(fmt.Sprintf("%+v", err))
 	}
 
-	const enableCache = true
+	enableCache := !*flagInit
 
 	wrap := func(f func(context.Context, *http.Request) (interface{}, error)) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
@@ -189,7 +206,7 @@ func main() {
 	http.Handle("/api/get-hero-data", wrap(h.GetHero))
 	http.Handle("/api/get-player-by-name", wrap(h.GetPlayerName))
 	http.Handle("/api/get-player-data", wrap(h.GetPlayerData))
-	//http.Handle("/api/get-build-winrates/:hero", wrap(h.GetBuildWinrates))
+	http.Handle("/api/get-build-winrates", wrap(h.GetBuildWinrates))
 	if *flagInit {
 		http.HandleFunc("/api/clear-cache", h.ClearCache)
 	}
@@ -213,12 +230,8 @@ func main() {
 
 	http.HandleFunc("/", serveFiles)
 	http.HandleFunc("/about/", serveIndex)
-	http.HandleFunc("/hero/", serveIndex)
+	http.HandleFunc("/heroes/", serveIndex)
 	http.HandleFunc("/players/", serveIndex)
-
-	if *flagInit && initDB {
-		go mustInitDevData(*flagAddr, db)
-	}
 
 	if *flagAutocert != "" {
 		go func() {
@@ -392,6 +405,8 @@ type initData struct {
 	Maps       []string
 	Heroes     []Hero
 	BuildStats map[string]map[Mode]Stats
+	config     groupConfig
+	lookups    map[string]func(string) string
 }
 
 func (h *hotsContext) Init(ctx context.Context, _ *http.Request) (interface{}, error) {
@@ -402,55 +417,85 @@ func (h *hotsContext) Init(ctx context.Context, _ *http.Request) (interface{}, e
 }
 
 func (h *hotsContext) updateInit(ctx context.Context) error {
-	maps, heroes, err := h.getNames(ctx)
-	if err != nil {
+	var heroes []Hero
+	if err := h.x.SelectContext(ctx, &heroes, "SELECT name, roles, icon FROM heroes"); err != nil {
 		return err
 	}
-	builds, err := h.getBuilds(ctx)
-	if err != nil {
+	var maps []byte
+	if err := h.x.GetContext(ctx, &maps, "SELECT s FROM config WHERE key = $1", cacheConfig); err != nil {
+		return errors.Wrap(err, "get config")
+	}
+	var c groupConfig
+	if err := json.Unmarshal(maps, &c); err != nil {
 		return err
 	}
+	c.readonly = true
 	bs := make(map[string]map[Mode]Stats)
-	{
-		rows, err := h.db.QueryContext(ctx, "SELECT * FROM skillstats")
-		if err != nil {
-			return err
-		}
-		defer rows.Close()
-		for rows.Next() {
-			var build string
-			var mode Mode
-			var data []byte
-			if err := rows.Scan(&build, &mode, &data); err != nil {
+	/*
+		{
+			rows, err := h.db.QueryContext(ctx, "SELECT * FROM skillstats")
+			if err != nil {
 				return err
 			}
-			var s Stats
-			if err := json.Unmarshal(data, &s); err != nil {
+			defer rows.Close()
+			for rows.Next() {
+				var build string
+				var mode Mode
+				var data []byte
+				if err := rows.Scan(&build, &mode, &data); err != nil {
+					return err
+				}
+				var s Stats
+				if err := json.Unmarshal(data, &s); err != nil {
+					return err
+				}
+				if _, ok := bs[build]; !ok {
+					bs[build] = make(map[Mode]Stats)
+				}
+				bs[build][mode] = s
+			}
+			if err := rows.Err(); err != nil {
 				return err
 			}
-			if _, ok := bs[build]; !ok {
-				bs[build] = make(map[Mode]Stats)
-			}
-			bs[build][mode] = s
 		}
-		if err := rows.Err(); err != nil {
-			return err
-		}
-	}
+	*/
 	h.mu.Lock()
 	h.mu.init = initData{
 		Modes:      modeNames,
-		Builds:     builds,
-		Maps:       maps,
 		Heroes:     heroes,
 		BuildStats: bs,
+		config:     c,
+		lookups:    make(map[string]func(string) string),
+	}
+	for m := range c.Map["map"] {
+		h.mu.init.Maps = append(h.mu.init.Maps, m)
+	}
+	sort.Strings(h.mu.init.Maps)
+	for n, b := range c.Builds {
+		h.mu.init.Builds = append(h.mu.init.Builds, Build{
+			ID:     n,
+			Start:  b.Start,
+			Finish: b.End,
+		})
+	}
+	sort.Slice(h.mu.init.Builds, func(i, j int) bool {
+		return h.mu.init.Builds[i].ID > h.mu.init.Builds[j].ID
+	})
+	for group, m := range c.Map {
+		lookup := make(map[string]string)
+		for k, v := range m {
+			lookup[v] = k
+		}
+		h.mu.init.lookups[group] = func(name string) string {
+			return lookup[name]
+		}
 	}
 	h.mu.Unlock()
 	return nil
 }
 
 var httpClient = &http.Client{
-	Timeout: time.Second * 10,
+	Timeout: time.Minute,
 }
 
 func httpGet(ctx context.Context, url string) ([]byte, error) {
@@ -487,7 +532,7 @@ func (h *hotsContext) ClearCache(_ http.ResponseWriter, _ *http.Request) {
 	h.mu.Lock()
 	h.mu.cache = make(map[string]cache)
 	if err := retry(func() error {
-		_, err := h.db.Exec("TRUNCATE TABLE cache")
+		_, err := h.db.Exec("DELETE FROM cache")
 		return err
 	}); err != nil {
 		log.Println(err)
@@ -546,36 +591,43 @@ func retryable(err error) bool {
 	return false
 }
 
-/*
 func (h *hotsContext) GetBuildWinrates(ctx context.Context, r *http.Request) (interface{}, error) {
 	args := map[string]string{
-		"build": r.FormValue("build"),
-		"hero":  ps.ByName("hero"),
-		"map":   r.FormValue("map"),
-		"mode":  r.FormValue("mode"),
+		"build":     r.FormValue("build"),
+		"hero":      r.FormValue("hero"),
+		"herolevel": r.FormValue("herolevel"),
+		"map":       r.FormValue("map"),
+		"mode":      r.FormValue("mode"),
 	}
-	wrs, err := h.getBuildWinrates(ctx, args)
-	if err != nil {
-		return nil, errors.Wrap(err, "getBuildWinrates")
-	}
-	ret := struct {
+	init := h.getInit()
+	var res struct {
 		Current  map[int]map[string]Total
 		Previous map[int]map[string]Total
-	}{
-		Current: wrs,
 	}
-	if prevBuild, ok := h.getBuildBefore(args["build"]); ok {
-		args["build"] = prevBuild
-		prevWrs, err := h.getBuildWinrates(ctx, args)
-		if err != nil {
-			return nil, errors.Wrapf(err, "fetch previous build: %v", prevBuild)
+	g, ctx := errgroup.WithContext(ctx)
+	g.Go(func() error {
+		var err error
+		res.Current, err = h.getBuildWinrates(ctx, init, args)
+		return errors.Wrap(err, "getBuildWinrates")
+	})
+	g.Go(func() error {
+		if prevBuild, ok := h.getBuildBefore(init, args["build"]); ok {
+			argsPrev := make(map[string]string, len(args))
+			for k, v := range args {
+				argsPrev[k] = v
+			}
+			var err error
+			argsPrev["build"] = prevBuild
+			res.Previous, err = h.getBuildWinrates(ctx, init, argsPrev)
+			return errors.Wrapf(err, "fetch previous build: %v", prevBuild)
 		}
-		ret.Previous = prevWrs
-	}
-	return ret, nil
+		return nil
+	})
+	err := g.Wait()
+	return res, err
 }
 
-func (h *hotsContext) getBuildWinrates(ctx context.Context, args map[string]string) (map[int]map[string]Total, error) {
+func (h *hotsContext) getBuildWinrates(ctx context.Context, init initData, args map[string]string) (map[int]map[string]Total, error) {
 	if args["build"] == "" {
 		return nil, errors.New("build required")
 	}
@@ -583,7 +635,7 @@ func (h *hotsContext) getBuildWinrates(ctx context.Context, args map[string]stri
 		return nil, errors.New("hero required")
 	}
 
-	groups := []string{"name", "tier", "winner"}
+	groups := []string{"talents", "winner"}
 	var wheres []string
 	var params []interface{}
 	for _, key := range []string{"build", "hero", "map", "mode"} {
@@ -591,13 +643,26 @@ func (h *hotsContext) getBuildWinrates(ctx context.Context, args map[string]stri
 		if v == "" {
 			continue
 		}
+		if m, ok := init.config.Map[key]; ok {
+			v = m[v]
+			if v == "" {
+				return nil, errors.Errorf("unrecognized %s: %s", key, args[key])
+			}
+		}
 		wheres = append(wheres, fmt.Sprintf("%s = $%d", key, len(params)+1))
 		groups = append(groups, key)
 		params = append(params, v)
 	}
+	hl := args["herolevel"]
+	if hl == "" {
+		hl = defaultHerolevel
+	}
+	wheres = append(wheres, fmt.Sprintf("hero_level >= $%d", len(params)+1))
+	params = append(params, hl)
 
-	buf := bytes.NewBufferString(`SELECT COUNT(*) count, "name", winner, tier`)
-	buf.WriteString(" FROM talents")
+	buf := bytes.NewBufferString(`SELECT COUNT(*) count, winner, talents`)
+	buf.WriteString(" FROM players")
+	wheres = append(wheres, "array_length(talents, 1) > 0")
 	if len(wheres) > 0 {
 		fmt.Fprintf(buf, " WHERE %s", strings.Join(wheres, " AND "))
 	}
@@ -611,58 +676,106 @@ func (h *hotsContext) getBuildWinrates(ctx context.Context, args map[string]stri
 	}
 
 	var winrates []struct {
-		Count  int
-		Name   string
-		Tier   int
-		Winner bool
+		Count   int
+		Talents string
+		Winner  bool
 	}
 	if err := h.x.Select(&winrates, query, params...); err != nil {
 		return nil, errors.Wrap(err, "select")
 	}
+	total := make(map[string]struct {
+		Total int
+		Won   int
+	})
 	for _, wr := range winrates {
-		t := tally[wr.Tier][wr.Name]
+		talents := wr.Talents[1 : len(wr.Talents)-1]
+		t := total[talents]
+		t.Total += wr.Count
 		if wr.Winner {
-			t.Wins += wr.Count
-		} else {
-			t.Losses += wr.Count
+			t.Won += wr.Count
 		}
-		tally[wr.Tier][wr.Name] = t
+		total[talents] = t
+		for tier, talent := range strings.Split(talents, ",") {
+			tier += 1
+			talent := string(init.lookups["talent"](string(talent)))
+			t := tally[tier][talent]
+			if wr.Winner {
+				t.Wins += wr.Count
+			} else {
+				t.Losses += wr.Count
+			}
+			tally[tier][talent] = t
+		}
 	}
+	/*
+		var totals []int
+		var winners []float
+		for _, t := range total {
+			totals= append(totals, t.Total)
+			if t.Won > 10 {
+				wr := float64(t.Won) / float64(t.Total)
+				winners = append(winner, wr)
+			}
+		}
+		sort.Ints(totals)
+		sort.Float64s(winners)
+		if len(totals) > 5 {
+			totals = totals[:5]
+		}
+		if len(winners) > 5 {
+			winners = winners[:5]
+		}
+	*/
 	return tally, nil
 }
-*/
 
 func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (interface{}, error) {
 	name := r.FormValue("name")
 	if name == "" {
 		return nil, errors.New("no name parameter")
 	}
-	var res []struct {
+	type entry struct {
 		ID   int64
 		Name string
 	}
-	err := h.x.SelectContext(ctx, &res, `
-		SELECT id, name FROM battletags
-		WHERE name LIKE $1
-		LIMIT 50
-		`, name+"%")
-	return res, err
+	var res []entry
+	var last string
+	for i := 0; i < 20; i++ {
+		var e entry
+		err := h.x.GetContext(ctx, &e, `
+			SELECT blizzid id , battletag "name" FROM players
+			WHERE battletag LIKE $1
+			AND battletag > $2
+			LIMIT 1
+		`, name+"%", last)
+		if err == sql.ErrNoRows {
+			break
+		} else if err != nil {
+			return nil, err
+		}
+		last = e.Name
+		res = append(res, e)
+	}
+	return res, nil
 }
 
 func (h *hotsContext) GetPlayerData(ctx context.Context, r *http.Request) (interface{}, error) {
 	id := r.FormValue("id")
+	init := h.getInit()
 	if id == "" {
 		return nil, errors.New("no id parameter")
 	}
 	var res struct {
-		Skills []struct {
+		Battletag string
+		Skills    []struct {
 			Build string
 			Mode  Mode
 			Skill int
 		}
 		Games []struct {
 			Hero      string
-			HeroLevel int `db:"hero_level"`
+			HeroLevel int    `db:"hero_level"`
+			Date      string `db:"time"`
 			Build     string
 			Winner    bool
 			Length    int
@@ -671,41 +784,57 @@ func (h *hotsContext) GetPlayerData(ctx context.Context, r *http.Request) (inter
 			Skill     *int
 		}
 	}
-	if err := h.x.SelectContext(ctx, &res.Skills, `
-		SELECT build, mode, skill FROM playerskills
-		WHERE blizzid = $1
-		`, id); err != nil {
-		return nil, err
-	}
-	sort.Slice(res.Skills, func(i, j int) bool {
-		a := res.Skills[j]
-		b := res.Skills[i]
-		if a.Build != b.Build {
-			return a.Build < b.Build
-		}
-		return a.Mode < b.Mode
-	})
-
-	// Due to limited join support in cockroach, we cannot quickly fetch the
-	// game date, so leave out game data until we can do something better.
 	/*
-		if err := h.x.SelectContext(ctx, &res.Games, `
-			SELECT hero, hero_level, build, winner, length, map, mode, skill
-			FROM players
+		if err := h.x.SelectContext(ctx, &res.Skills, `
+			SELECT build, mode, skill FROM playerskills
 			WHERE blizzid = $1
-			LIMIT 1000
 			`, id); err != nil {
 			return nil, err
 		}
+		sort.Slice(res.Skills, func(i, j int) bool {
+			a := res.Skills[j]
+			b := res.Skills[i]
+			if a.Build != b.Build {
+				return a.Build < b.Build
+			}
+			return a.Mode < b.Mode
+		})
 	*/
+
+	if err := h.x.GetContext(ctx, &res.Battletag, `
+			SELECT battletag
+			FROM players
+			WHERE blizzid = $1
+			ORDER BY time DESC
+			LIMIT 1
+			`, id); err != nil {
+		return nil, err
+	}
+
+	if err := h.x.SelectContext(ctx, &res.Games, `
+			SELECT hero, hero_level, build, winner, length, map, mode, time
+			FROM players
+			WHERE blizzid = $1
+			ORDER BY time DESC
+			LIMIT 1000
+			`, id); err != nil {
+		return nil, err
+	}
+	for i, g := range res.Games {
+		g.Hero = init.lookups["hero"](g.Hero)
+		g.Map = init.lookups["map"](g.Map)
+		g.Build = init.lookups["build"](g.Build)
+		res.Games[i] = g
+	}
 
 	return res, nil
 }
 
 func (h *hotsContext) GetHero(ctx context.Context, r *http.Request) (interface{}, error) {
+	init := h.getInit()
 	params := []interface{}{
-		r.FormValue("build"),
-		r.FormValue("hero"),
+		init.config.build(r.FormValue("build")),
+		init.config.hero(r.FormValue("hero")),
 	}
 	var res struct {
 		Base    map[string]Total
@@ -717,7 +846,7 @@ func (h *hotsContext) GetHero(ctx context.Context, r *http.Request) (interface{}
 	g, ctx := errgroup.WithContext(ctx)
 	g.Go(func() error {
 		var err error
-		res.Base, err = h.countWins(ctx, `
+		res.Base, err = h.countWins(ctx, nil, `
 			SELECT COUNT(*) count, winner, '' counter
 			FROM players
 			WHERE build = $1 AND hero = $2
@@ -730,7 +859,7 @@ func (h *hotsContext) GetHero(ctx context.Context, r *http.Request) (interface{}
 	})
 	g.Go(func() error {
 		var err error
-		res.Maps, err = h.countWins(ctx, `
+		res.Maps, err = h.countWins(ctx, init.lookups["map"], `
 			SELECT COUNT(*) count, winner, map counter
 			FROM players
 			WHERE build = $1 AND hero = $2
@@ -740,7 +869,7 @@ func (h *hotsContext) GetHero(ctx context.Context, r *http.Request) (interface{}
 	})
 	g.Go(func() error {
 		var err error
-		res.Modes, err = h.countWins(ctx, `
+		res.Modes, err = h.countWins(ctx, nil, `
 			SELECT COUNT(*) count, winner, mode counter
 			FROM players
 			WHERE build = $1 AND hero = $2
@@ -751,7 +880,7 @@ func (h *hotsContext) GetHero(ctx context.Context, r *http.Request) (interface{}
 	g.Go(func() error {
 		var err error
 		// Group hero levels  minute blocks.
-		res.Levels, err = h.countWins(ctx, `
+		res.Levels, err = h.countWins(ctx, nil, `
 			SELECT count(*) count, winner, counter * 5 as counter
 			FROM (
 				SELECT winner, round(hero_level / 5) counter
@@ -765,7 +894,7 @@ func (h *hotsContext) GetHero(ctx context.Context, r *http.Request) (interface{}
 	g.Go(func() error {
 		var err error
 		// Group game lengths in 5 minute blocks.
-		res.Lengths, err = h.countWins(ctx, `
+		res.Lengths, err = h.countWins(ctx, nil, `
 			SELECT count(*) count, winner, counter * 60 * 5 as counter
 			FROM (
 				SELECT winner, round(length / 60 / 5) as counter
@@ -780,7 +909,7 @@ func (h *hotsContext) GetHero(ctx context.Context, r *http.Request) (interface{}
 	return res, err
 }
 
-func (h *hotsContext) countWins(ctx context.Context, query string, params []interface{}) (map[string]Total, error) {
+func (h *hotsContext) countWins(ctx context.Context, nameFn func(string) string, query string, params []interface{}) (map[string]Total, error) {
 	tally := make(map[string]Total)
 	var winrates []struct {
 		Counter string
@@ -791,15 +920,26 @@ func (h *hotsContext) countWins(ctx context.Context, query string, params []inte
 		return nil, errors.Wrap(err, "select wins")
 	}
 	for _, wr := range winrates {
-		t := tally[wr.Counter]
+		n := wr.Counter
+		if nameFn != nil {
+			n = nameFn(n)
+		}
+		t := tally[n]
 		if wr.Winner {
 			t.Wins += wr.Count
 		} else {
 			t.Losses += wr.Count
 		}
-		tally[wr.Counter] = t
+		tally[n] = t
 	}
 	return tally, nil
+}
+
+func (h *hotsContext) getInit() initData {
+	h.mu.RLock()
+	init := h.mu.init
+	h.mu.RUnlock()
+	return init
 }
 
 func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request) (interface{}, error) {
@@ -811,9 +951,7 @@ func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request) (interfa
 		"skill_low":  r.FormValue("skill_low"),
 		"skill_high": r.FormValue("skill_high"),
 	}
-	h.mu.RLock()
-	init := h.mu.init
-	h.mu.RUnlock()
+	init := h.getInit()
 	var res struct {
 		Current  map[string]Total
 		Previous map[string]Total
@@ -841,6 +979,8 @@ func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request) (interfa
 	return res, err
 }
 
+const defaultHerolevel = "5"
+
 func (h *hotsContext) getWinrates(ctx context.Context, init initData, args map[string]string) (map[string]Total, error) {
 	if args["build"] == "" {
 		return nil, errors.New("build required")
@@ -854,13 +994,19 @@ func (h *hotsContext) getWinrates(ctx context.Context, init initData, args map[s
 		if v == "" {
 			continue
 		}
+		if m, ok := init.config.Map[key]; ok {
+			v = m[v]
+			if v == "" {
+				return nil, errors.Errorf("unrecognized %s: %s", key, args[key])
+			}
+		}
 		wheres = append(wheres, fmt.Sprintf("%s = $%d", key, len(params)+1))
 		groups = append(groups, key)
 		params = append(params, v)
 	}
 	hl := args["herolevel"]
 	if hl == "" {
-		hl = "5"
+		hl = defaultHerolevel
 	}
 	wheres = append(wheres, fmt.Sprintf("hero_level >= $%d", len(params)+1))
 	params = append(params, hl)
@@ -899,7 +1045,7 @@ func (h *hotsContext) getWinrates(ctx context.Context, init initData, args map[s
 	buf.WriteString(" GROUP BY ")
 	buf.WriteString(strings.Join(groups, ", "))
 
-	return h.countWins(ctx, buf.String(), params)
+	return h.countWins(ctx, init.lookups["hero"], buf.String(), params)
 }
 
 type Total struct {
@@ -916,21 +1062,6 @@ func (h *hotsContext) getBuildBefore(init initData, id string) (build string, ok
 		}
 	}
 	return "", false
-}
-
-func (h *hotsContext) getBuilds(ctx context.Context) (builds []Build, err error) {
-	err = h.x.SelectContext(ctx, &builds, "SELECT * from builds ORDER BY id DESC")
-	return builds, err
-}
-
-func (h *hotsContext) getNames(ctx context.Context) (maps []string, heroes []Hero, err error) {
-	if err := h.x.SelectContext(ctx, &maps, "SELECT * FROM maps ORDER BY name"); err != nil {
-		return nil, nil, err
-	}
-	if err := h.x.SelectContext(ctx, &heroes, "SELECT name, roles, icon FROM heroes"); err != nil {
-		return nil, nil, err
-	}
-	return
 }
 
 type Hero struct {
@@ -1022,10 +1153,10 @@ func doGenerateHeroes(db *sql.DB) error {
 			_, err = db.Exec("UPSERT INTO heroes (slug, name, roles, icon) VALUES ($1, $2, $3, $4)",
 				h.Slug,
 				h.Name,
-				strings.Join(roles, ","),
+				fmt.Sprintf("{%s}", strings.Join(roles, ",")),
 				h.icon,
 			)
-			return err
+			return errors.Wrap(err, "upsert")
 		})
 	}
 	return g.Wait()

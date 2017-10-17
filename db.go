@@ -5,11 +5,15 @@ import (
 	"context"
 	"database/sql"
 	"database/sql/driver"
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
 
+	"cloud.google.com/go/storage"
+
 	"github.com/lib/pq"
+	"github.com/pkg/errors"
 )
 
 func mustInitDB(dataSource string) *sql.DB {
@@ -20,6 +24,12 @@ func mustInitDB(dataSource string) *sql.DB {
 		panic(err)
 	}
 	return db
+}
+
+func mustExec(db *sql.DB, query string, params ...interface{}) {
+	if _, err := db.Exec(query, params...); err != nil {
+		panic(err)
+	}
 }
 
 func logQuery(query string, args interface{}) {
@@ -124,3 +134,95 @@ func makeValues(numArgs int) string {
 	buf.WriteString(")")
 	return buf.String()
 }
+
+func (h *hotsContext) Import(bucket string, max int) error {
+	mustExec(h.db, `SET CLUSTER SETTING experimental.importcsv.enabled = true`)
+	count := max/perFile + 1
+	args := make([]interface{}, count+1)
+	for i := 0; i < count; i++ {
+		args[i] = fmt.Sprintf("gs://%s/game/"+configBase, bucket, i*perFile)
+	}
+	args[count] = fmt.Sprintf("gs://%s/temp/game", bucket)
+	if _, err := h.db.Exec(fmt.Sprintf(`
+			IMPORT TABLE games (
+				id INT PRIMARY KEY,
+				mode INT,
+				time TIMESTAMP,
+				map INT,
+				length INT,
+				build INT,
+
+				bans INT[],
+
+				INDEX (build, map, mode) STORING (bans)
+			) CSV DATA %s
+			WITH TEMP = $%d
+		`, makeValues(count), count+1),
+		args...); err != nil {
+		return errors.Wrap(err, "import games")
+	}
+	for i := 0; i < count; i++ {
+		args[i] = fmt.Sprintf("gs://%s/player/"+configBase, bucket, i*perFile)
+	}
+	args[count] = fmt.Sprintf("gs://%s/temp/player", bucket)
+	if _, err := h.db.Exec(fmt.Sprintf(`
+			IMPORT TABLE players (
+				game INT,
+				mode INT,
+				time TIMESTAMP,
+				map INT,
+				length INT,
+				build INT,
+
+				hero INT,
+				hero_level INT,
+				team INT,
+				winner BOOL,
+				blizzid INT,
+				skill INT,
+				battletag STRING,
+				talents INT[],
+
+				INDEX (game),
+				INDEX (blizzid, time DESC),
+				INDEX (battletag),
+
+				INDEX (build, map, mode, hero_level) STORING (hero, winner),
+				INDEX (build, map, hero_level) STORING (hero, winner),
+				INDEX (build, mode, hero_level) STORING (hero, winner),
+				INDEX (build, hero_level) STORING (hero, winner),
+				INDEX (build, hero) STORING (winner, hero_level, length, map, mode),
+				INDEX (build, hero, map, mode, hero_level) STORING (winner, talents),
+				INDEX (build, hero, map, hero_level) STORING (winner, talents),
+				INDEX (build, hero, mode, hero_level) STORING (winner, talents),
+				INDEX (build, hero, hero_level) STORING (winner, talents)
+			) CSV DATA %s
+			WITH TEMP = $%d
+		`, makeValues(count), count+1),
+		args...); err != nil {
+		return errors.Wrap(err, "import games")
+	}
+	ctx := context.Background()
+	cl, err := storage.NewClient(ctx)
+	if err != nil {
+		return errors.Wrap(err, "new client")
+	}
+	handle := cl.Bucket(bucket)
+	config, err := getConfig(ctx, handle)
+	if err != nil {
+		return errors.Wrap(err, "get config")
+	}
+	b, err := json.Marshal(&config)
+	if err != nil {
+		return errors.Wrap(err, "encode config")
+	}
+	if _, err := h.db.Exec(`UPSERT INTO config (key, s) VALUES ($1, $2)`, cacheConfig, b); err != nil {
+		return errors.Wrap(err, "upsert config")
+	}
+	return nil
+}
+
+const cacheConfig = "cacheconfig"
+
+// import table games ( id int primary key, mode INt, time timestamp, map int, length int, build int, bans int[]) csv data ('gs://csv.hots.dog/game/00000.csv') with temp='gs://csv.hots.dog/temp';
+// import table players ( game int, mode INt, time timestamp, map int, length int, build int, hero int, level int, team int, winner bool, blizzid int, skill int, battletag string, talents int[]) csv data ('gs://csv.hots.dog/player/00000.csv') with temp='gs://csv.hots.dog/temp';
