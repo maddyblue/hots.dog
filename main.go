@@ -95,7 +95,7 @@ func main() {
 		x:  sqlx.NewDb(db, "postgres"),
 	}
 
-	if *flagImportNum >= 0 {
+	if *flagImportNum != -1 {
 		mustMigrate(db)
 		if err := h.Import(*flagImport, *flagImportNum); err != nil {
 			log.Fatalf("%+v", err)

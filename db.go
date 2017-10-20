@@ -137,13 +137,14 @@ func makeValues(numArgs int) string {
 
 func (h *hotsContext) Import(bucket string, max int) error {
 	mustExec(h.db, `SET CLUSTER SETTING experimental.importcsv.enabled = true`)
-	count := max/perFile + 1
-	args := make([]interface{}, count+1)
-	for i := 0; i < count; i++ {
-		args[i] = fmt.Sprintf("gs://%s/game/"+configBase, bucket, i*perFile)
-	}
-	args[count] = fmt.Sprintf("gs://%s/temp/game", bucket)
-	if _, err := h.db.Exec(fmt.Sprintf(`
+	if max >= 0 {
+		count := max/perFile + 1
+		args := make([]interface{}, count+1)
+		for i := 0; i < count; i++ {
+			args[i] = fmt.Sprintf("gs://%s/game/"+configBase, bucket, i*perFile)
+		}
+		args[count] = fmt.Sprintf("gs://%s/temp/game", bucket)
+		if _, err := h.db.Exec(fmt.Sprintf(`
 			IMPORT TABLE games (
 				id INT PRIMARY KEY,
 				mode INT,
@@ -158,14 +159,14 @@ func (h *hotsContext) Import(bucket string, max int) error {
 			) CSV DATA %s
 			WITH TEMP = $%d
 		`, makeValues(count), count+1),
-		args...); err != nil {
-		return errors.Wrap(err, "import games")
-	}
-	for i := 0; i < count; i++ {
-		args[i] = fmt.Sprintf("gs://%s/player/"+configBase, bucket, i*perFile)
-	}
-	args[count] = fmt.Sprintf("gs://%s/temp/player", bucket)
-	if _, err := h.db.Exec(fmt.Sprintf(`
+			args...); err != nil {
+			return errors.Wrap(err, "import games")
+		}
+		for i := 0; i < count; i++ {
+			args[i] = fmt.Sprintf("gs://%s/player/"+configBase, bucket, i*perFile)
+		}
+		args[count] = fmt.Sprintf("gs://%s/temp/player", bucket)
+		if _, err := h.db.Exec(fmt.Sprintf(`
 			IMPORT TABLE players (
 				game INT,
 				mode INT,
@@ -199,8 +200,9 @@ func (h *hotsContext) Import(bucket string, max int) error {
 			) CSV DATA %s
 			WITH TEMP = $%d
 		`, makeValues(count), count+1),
-		args...); err != nil {
-		return errors.Wrap(err, "import games")
+			args...); err != nil {
+			return errors.Wrap(err, "import games")
+		}
 	}
 	ctx := context.Background()
 	cl, err := storage.NewClient(ctx)
