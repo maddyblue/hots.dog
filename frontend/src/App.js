@@ -506,7 +506,7 @@ class Hero extends Component {
 						}
 					>
 						[talents]
-					</Link>
+					</Link>&nbsp;
 					<a href="#maps">[maps]</a>&nbsp;
 					<a href="#modes">[game modes]</a>&nbsp;
 					<a href="#lengths">[game lengths]</a>&nbsp;
@@ -794,7 +794,9 @@ class TalentWinrates extends Component {
 						}
 					>
 						[relative winrates]
-					</Link>
+					</Link>&nbsp;
+					<a href="#popular">[popular builds]</a>&nbsp;
+					<a href="#winning">[winning builds]</a>
 				</p>
 				<div className="row">
 					<div className="column">
@@ -827,7 +829,7 @@ const tierNames = {
 };
 
 const Builds = props => {
-	var builds = [];
+	let builds = [];
 	for (let tier = 1; tier <= 7; tier++) {
 		const curTier = props.winrates.Current[tier];
 		const prevTier = props.winrates.Previous[tier] || {};
@@ -872,7 +874,47 @@ const Builds = props => {
 			</div>
 		);
 	}
-	return builds;
+	function buildList(builds) {
+		if (!builds) {
+			return;
+		}
+		const list = builds.map((b, i) => (
+			<tr key={i}>
+				<td>
+					<ul>{b.Build.map(v => <li key={v}>{v}</li>)}</ul>
+				</td>
+				<td>{b.Total}</td>
+				<td>{pct(b.Winrate * 100)}</td>
+			</tr>
+		));
+		return (
+			<table>
+				<thead>
+					<tr>
+						<th>build</th>
+						<th>games</th>
+						<th>winrate</th>
+					</tr>
+				</thead>
+				<tbody>{list}</tbody>
+			</table>
+		);
+	}
+	const popular = buildList(props.winrates.PopularBuilds);
+	const winning = buildList(props.winrates.WinningBuilds);
+	return [
+		<div key="builds">{builds}</div>,
+		<div key="popular">
+			<div className="anchor" id="popular" />
+			<h3>Popular Builds</h3>
+			{popular}
+		</div>,
+		<div key="winning">
+			<div className="anchor" id="winning" />
+			<h3>Winning Builds</h3>
+			{winning}
+		</div>,
+	];
 };
 
 class HeroWinrates extends Component {

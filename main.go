@@ -601,13 +601,15 @@ func (h *hotsContext) GetBuildWinrates(ctx context.Context, r *http.Request) (in
 	}
 	init := h.getInit()
 	var res struct {
-		Current  map[int]map[string]Total
-		Previous map[int]map[string]Total
+		Current       map[int]map[string]Total
+		Previous      map[int]map[string]Total
+		PopularBuilds []build
+		WinningBuilds []build
 	}
 	g, ctx := errgroup.WithContext(ctx)
 	g.Go(func() error {
 		var err error
-		res.Current, err = h.getBuildWinrates(ctx, init, args)
+		res.Current, res.PopularBuilds, res.WinningBuilds, err = h.getBuildWinrates(ctx, init, args)
 		return errors.Wrap(err, "getBuildWinrates")
 	})
 	g.Go(func() error {
@@ -618,7 +620,7 @@ func (h *hotsContext) GetBuildWinrates(ctx context.Context, r *http.Request) (in
 			}
 			var err error
 			argsPrev["build"] = prevBuild
-			res.Previous, err = h.getBuildWinrates(ctx, init, argsPrev)
+			res.Previous, _, _, err = h.getBuildWinrates(ctx, init, argsPrev)
 			return errors.Wrapf(err, "fetch previous build: %v", prevBuild)
 		}
 		return nil
@@ -627,12 +629,18 @@ func (h *hotsContext) GetBuildWinrates(ctx context.Context, r *http.Request) (in
 	return res, err
 }
 
-func (h *hotsContext) getBuildWinrates(ctx context.Context, init initData, args map[string]string) (map[int]map[string]Total, error) {
+type build struct {
+	Build   []string
+	Total   int
+	Winrate float64
+}
+
+func (h *hotsContext) getBuildWinrates(ctx context.Context, init initData, args map[string]string) (map[int]map[string]Total, []build, []build, error) {
 	if args["build"] == "" {
-		return nil, errors.New("build required")
+		return nil, nil, nil, errors.New("build required")
 	}
 	if args["hero"] == "" {
-		return nil, errors.New("hero required")
+		return nil, nil, nil, errors.New("hero required")
 	}
 
 	groups := []string{"talents", "winner"}
@@ -646,7 +654,7 @@ func (h *hotsContext) getBuildWinrates(ctx context.Context, init initData, args 
 		if m, ok := init.config.Map[key]; ok {
 			v = m[v]
 			if v == "" {
-				return nil, errors.Errorf("unrecognized %s: %s", key, args[key])
+				return nil, nil, nil, errors.Errorf("unrecognized %s: %s", key, args[key])
 			}
 		}
 		wheres = append(wheres, fmt.Sprintf("%s = $%d", key, len(params)+1))
@@ -681,7 +689,7 @@ func (h *hotsContext) getBuildWinrates(ctx context.Context, init initData, args 
 		Winner  bool
 	}
 	if err := h.x.Select(&winrates, query, params...); err != nil {
-		return nil, errors.Wrap(err, "select")
+		return nil, nil, nil, errors.Wrap(err, "select")
 	}
 	total := make(map[string]struct {
 		Total int
@@ -707,26 +715,46 @@ func (h *hotsContext) getBuildWinrates(ctx context.Context, init initData, args 
 			tally[tier][talent] = t
 		}
 	}
-	/*
-		var totals []int
-		var winners []float
-		for _, t := range total {
-			totals= append(totals, t.Total)
-			if t.Won > 10 {
-				wr := float64(t.Won) / float64(t.Total)
-				winners = append(winner, wr)
-			}
+	var builds []build
+	for n, t := range total {
+		talents := strings.Split(n, ",")
+		var talentNames []string
+		for _, talent := range talents {
+			talentNames = append(talentNames, init.lookups["talent"](talent))
 		}
-		sort.Ints(totals)
-		sort.Float64s(winners)
-		if len(totals) > 5 {
-			totals = totals[:5]
+		b := build{
+			Build: talentNames,
+			Total: t.Total,
 		}
-		if len(winners) > 5 {
-			winners = winners[:5]
+		if t.Won > 2 {
+			b.Winrate = float64(t.Won) / float64(t.Total)
 		}
-	*/
-	return tally, nil
+		builds = append(builds, b)
+	}
+	n := 5
+	if n > len(builds) {
+		n = len(builds)
+	}
+	var popularBuilds, winningBuilds []build
+	sort.Slice(builds, func(i, j int) bool {
+		return builds[i].Total > builds[j].Total
+	})
+	for i := 0; i < n; i++ {
+		b := builds[i]
+		if b.Total > 5 {
+			popularBuilds = append(popularBuilds, b)
+		}
+	}
+	sort.Slice(builds, func(i, j int) bool {
+		return builds[i].Winrate > builds[j].Winrate
+	})
+	for i := 0; i < n; i++ {
+		b := builds[i]
+		if b.Winrate > 0 {
+			winningBuilds = append(winningBuilds, b)
+		}
+	}
+	return tally, popularBuilds, winningBuilds, nil
 }
 
 func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (interface{}, error) {
