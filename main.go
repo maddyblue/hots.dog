@@ -249,17 +249,37 @@ func main() {
 		if *flagAcmedir != "" {
 			fmt.Println("ACMEDIR:", *flagAcmedir)
 		}
-		m := autocert.Manager{
-			Prompt:     autocert.AcceptTOS,
-			HostPolicy: autocert.HostWhitelist(*flagAutocert),
-			Cache:      dbCache{db},
-			Client: &acme.Client{
-				DirectoryURL: *flagAcmedir,
-			},
+		const cloudflareOrigin = "cloudflare-origin"
+		var tlsConfig *tls.Config
+		if *flagAcmedir == cloudflareOrigin {
+			var certfile, keyfile []byte
+			if err := h.x.Get(&certfile, `SELECT s FROM config WHERE key = $1`, cloudflareOrigin+"-cert"); err != nil {
+				log.Fatalf("could not get certfile origin: %v", err)
+			}
+			if err := h.x.Get(&keyfile, `SELECT s FROM config WHERE key = $1`, cloudflareOrigin+"-key"); err != nil {
+				log.Fatalf("could not get keyfile origin: %v", err)
+			}
+			cert, err := tls.X509KeyPair(certfile, keyfile)
+			if err != nil {
+				log.Fatalf("cert: %v", err)
+			}
+			tlsConfig = &tls.Config{
+				Certificates: []tls.Certificate{cert},
+			}
+		} else {
+			m := autocert.Manager{
+				Prompt:     autocert.AcceptTOS,
+				HostPolicy: autocert.HostWhitelist(*flagAutocert),
+				Cache:      dbCache{db},
+				Client: &acme.Client{
+					DirectoryURL: *flagAcmedir,
+				},
+			}
+			tlsConfig = &tls.Config{GetCertificate: m.GetCertificate}
 		}
 		s := &http.Server{
 			Addr:      ":https",
-			TLSConfig: &tls.Config{GetCertificate: m.GetCertificate},
+			TLSConfig: tlsConfig,
 		}
 		log.Fatal(s.ListenAndServeTLS("", ""))
 	} else {

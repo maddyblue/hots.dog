@@ -21,13 +21,13 @@ spec:
             value: ":80" # for https redirection
           - name: AUTOCERT
             value: "hots.dog"
+          - name: ACMEDIR
+            value: "cloudflare-origin"
           - name: COCKROACH
             value: "postgres://root@cockroachdb-public:26257/?sslmode=disable"
         ports:
         - containerPort: 443
         - containerPort: 80
-      #nodeSelector:
-        #beta.kubernetes.io/instance-type: g1-small
 ---
 apiVersion: v1
 kind: Service
