@@ -159,7 +159,10 @@ func main() {
 			}
 		}
 		if err := generateHeroes(db); err != nil {
-			panic(err)
+			log.Fatalf("%+v", err)
+		}
+		if err := h.syncConfig(*flagImport); err != nil {
+			log.Fatalf("%+v", err)
 		}
 		if !*flagInit {
 			return

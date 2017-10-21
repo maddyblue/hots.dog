@@ -137,14 +137,13 @@ func makeValues(numArgs int) string {
 
 func (h *hotsContext) Import(bucket string, max int) error {
 	mustExec(h.db, `SET CLUSTER SETTING experimental.importcsv.enabled = true`)
-	if max >= 0 {
-		count := max/perFile + 1
-		args := make([]interface{}, count+1)
-		for i := 0; i < count; i++ {
-			args[i] = fmt.Sprintf("gs://%s/game/"+configBase, bucket, i*perFile)
-		}
-		args[count] = fmt.Sprintf("gs://%s/temp/game", bucket)
-		if _, err := h.db.Exec(fmt.Sprintf(`
+	count := max/perFile + 1
+	args := make([]interface{}, count+1)
+	for i := 0; i < count; i++ {
+		args[i] = fmt.Sprintf("gs://%s/game/"+configBase, bucket, i*perFile)
+	}
+	args[count] = fmt.Sprintf("gs://%s/dist/game", bucket)
+	if _, err := h.db.Exec(fmt.Sprintf(`
 			IMPORT TABLE games (
 				id INT PRIMARY KEY,
 				mode INT,
@@ -157,16 +156,16 @@ func (h *hotsContext) Import(bucket string, max int) error {
 
 				INDEX (build, map, mode) STORING (bans)
 			) CSV DATA %s
-			WITH TEMP = $%d
+			WITH TEMP = $%d, distributed
 		`, makeValues(count), count+1),
-			args...); err != nil {
-			return errors.Wrap(err, "import games")
-		}
-		for i := 0; i < count; i++ {
-			args[i] = fmt.Sprintf("gs://%s/player/"+configBase, bucket, i*perFile)
-		}
-		args[count] = fmt.Sprintf("gs://%s/temp/player", bucket)
-		if _, err := h.db.Exec(fmt.Sprintf(`
+		args...); err != nil {
+		return errors.Wrap(err, "import games")
+	}
+	for i := 0; i < count; i++ {
+		args[i] = fmt.Sprintf("gs://%s/player/"+configBase, bucket, i*perFile)
+	}
+	args[count] = fmt.Sprintf("gs://%s/dist/player", bucket)
+	if _, err := h.db.Exec(fmt.Sprintf(`
 			IMPORT TABLE players (
 				game INT,
 				mode INT,
@@ -198,12 +197,15 @@ func (h *hotsContext) Import(bucket string, max int) error {
 				INDEX (build, hero, mode, hero_level) STORING (winner, talents),
 				INDEX (build, hero, hero_level) STORING (winner, talents)
 			) CSV DATA %s
-			WITH TEMP = $%d
+			WITH TEMP = $%d, distributed
 		`, makeValues(count), count+1),
-			args...); err != nil {
-			return errors.Wrap(err, "import games")
-		}
+		args...); err != nil {
+		return errors.Wrap(err, "import games")
 	}
+	return nil
+}
+
+func (h *hotsContext) syncConfig(bucket string) error {
 	ctx := context.Background()
 	cl, err := storage.NewClient(ctx)
 	if err != nil {
