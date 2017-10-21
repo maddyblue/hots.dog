@@ -657,7 +657,7 @@ class Player extends Component {
 				<td>{g.Build}</td>
 				<td>{new Date(g.Date).toLocaleString()}</td>
 				<td>
-					<Link to={'/heroes/' + encodeURI(g.Hero)}>{g.Hero}</Link>
+					<Link to={'/talents/' + encodeURI(g.Hero)}>{g.Hero}</Link>
 				</td>
 				<td>{g.HeroLevel}</td>
 				<td>{g.Winner ? 'win' : 'loss'}</td>
