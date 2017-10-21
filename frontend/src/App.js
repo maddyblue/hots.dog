@@ -828,6 +828,22 @@ const tierNames = {
 	7: 20,
 };
 
+const TalentImg = props => {
+	const words = props.name.match(/[A-Z][a-z]+/g);
+	words.shift();
+	const name = words.join(' ');
+	return [
+		<img
+			key={props.name}
+			src={'/img/talent/' + words.join('')}
+			alt={name}
+			title={name}
+			style={{ verticalAlign: 'middle', paddingRight: '2px' }}
+		/>,
+		props.text ? name : null,
+	];
+};
+
 const Builds = props => {
 	let builds = [];
 	for (let tier = 1; tier <= 7; tier++) {
@@ -847,10 +863,11 @@ const Builds = props => {
 					const prevWinRate = prev.Wins / prevGames * 100;
 					change = (winRate - prevWinRate).toFixed(1) + '%';
 				}
-				const name = talent.match(/[A-Z][a-z]+/g).join(' ');
 				return (
 					<tr key={talent}>
-						<td>{name}</td>
+						<td>
+							<TalentImg name={talent} text={true} />
+						</td>
 						<td>{games}</td>
 						<td>{rate}</td>
 						<td>{change}</td>
@@ -880,9 +897,7 @@ const Builds = props => {
 		}
 		const list = builds.map((b, i) => (
 			<tr key={i}>
-				<td>
-					<ul>{b.Build.map(v => <li key={v}>{v}</li>)}</ul>
-				</td>
+				<td>{b.Build.map(v => <TalentImg key={v} name={v} />)}</td>
 				<td>{b.Total}</td>
 				<td>{pct(b.Winrate * 100)}</td>
 			</tr>

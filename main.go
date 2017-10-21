@@ -25,12 +25,15 @@ import (
 	"sync"
 	"time"
 
+	"github.com/golang/freetype"
+	"github.com/golang/freetype/truetype"
 	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
 	"github.com/nfnt/resize"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/acme"
 	"golang.org/x/crypto/acme/autocert"
+	"golang.org/x/image/font/gofont/goregular"
 	"golang.org/x/net/context/ctxhttp"
 	"golang.org/x/sync/errgroup"
 )
@@ -231,10 +234,11 @@ func main() {
 		serveFiles(w, r)
 	}
 
-	http.HandleFunc("/", serveFiles)
+	http.HandleFunc("/img/talent/", makeTalentImg)
 	http.HandleFunc("/about/", serveIndex)
 	http.HandleFunc("/heroes/", serveIndex)
 	http.HandleFunc("/players/", serveIndex)
+	http.HandleFunc("/", serveFiles)
 
 	if *flagAutocert != "" {
 		go func() {
@@ -1227,4 +1231,45 @@ func toDataURI(b []byte) (string, error) {
 		format,
 		base64.StdEncoding.EncodeToString(buf.Bytes()),
 	), nil
+}
+
+var capsRE = regexp.MustCompile(`[A-Z][a-z]+`)
+var font *truetype.Font
+
+func init() {
+	var err error
+	font, err = freetype.ParseFont(goregular.TTF)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func makeTalentImg(w http.ResponseWriter, r *http.Request) {
+	idx := strings.LastIndexByte(r.URL.Path, '/')
+	name := r.URL.Path[idx+1:]
+	words := capsRE.FindAllStringSubmatch(name, 4)
+	i := image.NewRGBA(image.Rect(0, 0, 40, 40))
+
+	const size = 10
+	c := freetype.NewContext()
+	c.SetFont(font)
+	c.SetFontSize(size)
+	c.SetClip(i.Bounds())
+	c.SetDst(i)
+	c.SetSrc(image.Black)
+
+	for i, w := range words {
+		if _, err := c.DrawString(w[0], freetype.Pt(1, (i+1)*size-2)); err != nil {
+			log.Printf("%s: %+v", r.URL.Path, err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+
+	w.Header().Add("Cache-Control", "max-age=3600")
+	if err := png.Encode(w, i); err != nil {
+		log.Printf("%s: %+v", r.URL.Path, err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
