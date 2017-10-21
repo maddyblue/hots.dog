@@ -1085,7 +1085,7 @@ class Winrates extends Component {
 								marginRight: '1em',
 							}}
 						/>
-						<Link to={'/heroes/' + encodeURI(wr.hero.Name) + build}>
+						<Link to={'/talents/' + encodeURI(wr.hero.Name) + build}>
 							{wr.hero.Name}
 						</Link>
 					</td>
