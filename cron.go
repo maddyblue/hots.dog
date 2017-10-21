@@ -72,6 +72,8 @@ func (h *hotsContext) cron() error {
 			res, err = h.GetPlayerData(ctx, req)
 		case "/api/get-hero-data":
 			res, err = h.GetHero(ctx, req)
+		case "/api/get-build-winrates":
+			res, err = h.GetBuildWinrates(ctx, req)
 		default:
 			return errors.Errorf("unknown path: %s", u)
 		}
