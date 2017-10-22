@@ -420,18 +420,29 @@ class Hero extends Component {
 		if (!displayFn) {
 			displayFn = v => v;
 		}
-		const obj = this.state[prop];
+		const obj = this.state.Current[prop];
 		const elems = Object.keys(obj).map(k => {
 			const v = obj[k];
 			const total = v.Wins + v.Losses;
 			const wr = v.Wins / total * 100;
+			let change = 0;
+			if (this.state.Previous.Base) {
+				const prev = this.state.Previous[prop][k];
+				if (prev) {
+					const prevtotal = prev.Wins + prev.Losses;
+					const prevwr = prev.Wins / prevtotal * 100;
+					if (prevwr) {
+						change = wr - prevwr;
+					}
+				}
+			}
 			return (
 				<tr key={k}>
 					<td>{displayFn(k)}</td>
-					<td>{v.Wins}</td>
-					<td>{v.Losses}</td>
+					<td>{total}</td>
 					<td>{pct(wr)}</td>
-					<td>{pct(wr - basewr)}</td>
+					<td>{pct(basewr - wr)}</td>
+					<td>{pct(change)}</td>
 				</tr>
 			);
 		});
@@ -441,11 +452,11 @@ class Hero extends Component {
 				<table>
 					<thead>
 						<tr>
-							<th>{name}</th>
-							<th>Wins</th>
-							<th>Losses</th>
-							<th>Winrate</th>
-							<th>Relative to Base</th>
+							<th>{name.toLowerCase()}</th>
+							<th>games</th>
+							<th>winrate</th>
+							<th title="winrate relative to base winrate">relative</th>
+							<th title="change since previous patch">change</th>
 						</tr>
 					</thead>
 					<tbody>{elems}</tbody>
@@ -455,26 +466,36 @@ class Hero extends Component {
 	}
 	render() {
 		let main = 'loading...';
-		if (this.state.Base) {
-			const basewins = this.state.Base[''].Wins;
-			const baselosses = this.state.Base[''].Losses;
+		if (this.state.Current) {
+			const basewins = this.state.Current.Base[''].Wins;
+			const baselosses = this.state.Current.Base[''].Losses;
 			const basetotal = basewins + baselosses;
 			const basewr = basewins / basetotal * 100 || 0;
+
+			let change = 0;
+			if (this.state.Previous.Base) {
+				const prevwins = this.state.Previous.Base[''].Wins;
+				const prevlosses = this.state.Previous.Base[''].Losses;
+				const prevtotal = prevwins + prevlosses;
+				const prevwr = prevwins / prevtotal * 100 || 0;
+				change = basewr - prevwr;
+			}
+
 			main = (
 				<div>
 					<table>
 						<thead>
 							<tr>
-								<th>Wins</th>
-								<th>Losses</th>
-								<th>Base Winrate</th>
+								<th>games</th>
+								<th>base winrate</th>
+								<th title="change since previous patch">change</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td>{basewins}</td>
-								<td>{baselosses}</td>
+								<td>{basetotal}</td>
 								<td>{pct(basewr)}</td>
+								<td>{pct(change)}</td>
 							</tr>
 						</tbody>
 					</table>

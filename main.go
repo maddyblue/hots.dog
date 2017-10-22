@@ -885,11 +885,44 @@ func (h *hotsContext) GetPlayerData(ctx context.Context, r *http.Request) (inter
 	return res, nil
 }
 
+type heroData struct {
+	Base    map[string]Total
+	Lengths map[string]Total
+	Levels  map[string]Total
+	Maps    map[string]Total
+	Modes   map[string]Total
+}
+
 func (h *hotsContext) GetHero(ctx context.Context, r *http.Request) (interface{}, error) {
 	init := h.getInit()
+	build := init.config.build(r.FormValue("build"))
+	hero := init.config.hero(r.FormValue("hero"))
+	var res struct {
+		Current  heroData
+		Previous heroData
+	}
+	g, ctx := errgroup.WithContext(ctx)
+	g.Go(func() error {
+		var err error
+		res.Current, err = h.getHero(ctx, init, build, hero)
+		return errors.Wrap(err, "getHero current build")
+	})
+	g.Go(func() error {
+		if prevBuild, ok := h.getBuildBefore(init, r.FormValue("build")); ok {
+			var err error
+			res.Previous, err = h.getHero(ctx, init, init.config.build(prevBuild), hero)
+			return errors.Wrap(err, "getHero previous build")
+		}
+		return nil
+	})
+	err := g.Wait()
+	return res, err
+}
+
+func (h *hotsContext) getHero(ctx context.Context, init initData, build, hero string) (heroData, error) {
 	params := []interface{}{
-		init.config.build(r.FormValue("build")),
-		init.config.hero(r.FormValue("hero")),
+		build,
+		hero,
 	}
 	var res struct {
 		Base    map[string]Total
