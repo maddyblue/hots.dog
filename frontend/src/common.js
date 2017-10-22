@@ -1,0 +1,186 @@
+import React from 'react';
+
+const skillPercentiles = [0, 30, 50, 70, 90, 95, 100];
+
+const BuildsOpts = props => {
+	let builds = props.builds.map(b => (
+		<option key={b.ID} value={b.ID}>
+			{b.ID} ({new Date(b.Start).toLocaleDateString()} -{' '}
+			{new Date(b.Finish).toLocaleDateString()})
+		</option>
+	));
+	builds.unshift(
+		<option key="latest" value="">
+			latest ({props.builds[0].ID})
+		</option>
+	);
+	return builds;
+};
+
+const Filter = props => {
+	let maps = props.Maps.map(m => <option key={m}>{m}</option>);
+	maps.unshift(
+		<option key="" value="">
+			All Maps
+		</option>
+	);
+	let modeKeys = Object.keys(props.Modes);
+	modeKeys.sort().reverse();
+	let modes = modeKeys.map(k => (
+		<option key={k} value={k}>
+			{props.Modes[k]}
+		</option>
+	));
+	modes.unshift(
+		<option key="" value="">
+			All Game Modes
+		</option>
+	);
+	let heroLevels = [1, 5, 10, 20].map(v => <option key={v}>{v}</option>);
+	/*
+	const skills = skillPercentiles.map(v => (
+		<option key={v} value={v}>
+			{v + 'th'}
+		</option>
+	));
+	const build = props.build === 'latest' ? props.Builds[0].ID : props.build;
+	const buildStats = props.BuildStats[build];
+	const modeStats = buildStats && buildStats[props.mode];
+	const disableSkill = !modeStats || !props.mode;
+	let skillTitle = 'Enabled when a game mode is selected.';
+	if (!buildStats || (!modeStats && props.mode)) {
+		skillTitle = 'Skill ratings not yet calculated.';
+	}
+	*/
+	return (
+		<div>
+			<div className="row">
+				<div className="column">
+					<label>Map</label>
+					<select name="map" value={props.map} onChange={props.handleChange}>
+						{maps}
+					</select>
+				</div>
+				<div className="column">
+					<label>Patch</label>
+					<select
+						name="build"
+						value={props.build}
+						onChange={props.handleChange}
+					>
+						<BuildsOpts builds={props.Builds} />
+					</select>
+				</div>
+			</div>
+			<div className="row">
+				<div className="column">
+					<label>Game Mode</label>
+					<select name="mode" value={props.mode} onChange={props.handleChange}>
+						{modes}
+					</select>
+				</div>
+				<div className="column">
+					<label>Minimum Hero Level</label>
+					<select
+						name="herolevel"
+						value={props.herolevel}
+						onChange={props.handleChange}
+					>
+						{heroLevels}
+					</select>
+				</div>
+			</div>
+			{/*
+			<div className="row">
+				<div className="column">
+					<label title={skillTitle}>Skill Percentile from</label>
+					<select
+						name="skill_low"
+						value={props.skill_low}
+						onChange={props.handleChange}
+						disabled={disableSkill}
+					>
+						{skills.slice(0, -1)}
+					</select>
+				</div>
+				<div className="column">
+					<label>to</label>
+					<select
+						name="skill_high"
+						value={props.skill_high}
+						onChange={props.handleChange}
+						disabled={disableSkill}
+					>
+						{skills.slice(1)}
+					</select>
+				</div>
+			</div>
+			*/}
+		</div>
+	);
+};
+
+function Fetch(url, success, error) {
+	if (!error) {
+		error = alert;
+	}
+	fetch(url)
+		.then(resp => {
+			if (resp.status !== 200) {
+				resp.text().then(error, error);
+				return;
+			}
+			resp.json().then(success, error);
+		})
+		.catch(error);
+}
+
+function pct(x, n = 1) {
+	return x.toFixed(n) + '%';
+}
+
+function toLength(l) {
+	const mins = Math.trunc(l / 60);
+	let secs = (l % 60).toString();
+	if (secs.length < 2) {
+		secs = '0' + secs;
+	}
+	return mins + ':' + secs;
+}
+
+// Modified from https://www.quirksmode.org/js/cookies.html.
+function createCookie(name, value, days) {
+	let expires = '';
+	if (days) {
+		const date = new Date();
+		date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+		expires = '; expires=' + date.toGMTString();
+	}
+	document.cookie = name + '=' + value + expires + '; path=/';
+}
+
+function readCookie(name) {
+	const nameEQ = name + '=';
+	const ca = document.cookie.split(';');
+	for (let i = 0; i < ca.length; i++) {
+		let c = ca[i];
+		while (c.charAt(0) === ' ') {
+			c = c.substring(1, c.length);
+		}
+		if (c.indexOf(nameEQ) === 0) {
+			return c.substring(nameEQ.length, c.length);
+		}
+	}
+	return null;
+}
+
+export {
+	BuildsOpts,
+	createCookie,
+	Fetch,
+	Filter,
+	pct,
+	readCookie,
+	skillPercentiles,
+	toLength,
+};
