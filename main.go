@@ -1258,8 +1258,8 @@ func makeTalentImg(w http.ResponseWriter, r *http.Request) {
 	c.SetDst(i)
 	c.SetSrc(image.Black)
 
-	for i, w := range words {
-		if _, err := c.DrawString(w[0], freetype.Pt(1, (i+1)*size-2)); err != nil {
+	for i, word := range words {
+		if _, err := c.DrawString(word[0], freetype.Pt(1, (i+1)*size-2)); err != nil {
 			log.Printf("%s: %+v", r.URL.Path, err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
