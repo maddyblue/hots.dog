@@ -9,7 +9,7 @@ body {
 	visibility: hidden;
 }
 
-table th {
+.sorted th {
 	cursor: pointer;
 }
 

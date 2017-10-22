@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Fetch, pct, readCookie, Filter } from './common';
+import SortedTable from './SortedTable';
 
 class HeroWinrates extends Component {
 	constructor(props) {
@@ -95,115 +96,53 @@ class HeroWinrates extends Component {
 }
 
 class Winrates extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			sort: 'winrate',
-			sortDir: true,
-		};
-		this.sort = this.sort.bind(this);
-		this.sortClass = this.sortClass.bind(this);
-	}
-	sort(ev) {
-		const sort = ev.target.innerText;
-		let dir;
-		if (this.state.sort === sort) {
-			dir = !this.state.sortDir;
-		} else {
-			switch (sort) {
-				case 'hero':
-					dir = false;
-					break;
-				case 'games':
-				case 'winrate':
-				case 'change':
-					dir = true;
-					break;
-				default:
-					console.log('unknown sort target:', sort);
-					return;
-			}
-		}
-		this.setState({ sort: sort, sortDir: dir });
-	}
-	sortClass(col) {
-		if (col !== this.state.sort) {
-			return '';
-		}
-		const dir = this.state.sortDir ? 'asc' : 'desc';
-		return 'sort-' + dir;
-	}
 	render() {
-		const sortedWinrates = this.props.winrates.concat();
-		sortedWinrates.sort((a, b) => {
-			switch (this.state.sort) {
-				case 'hero':
-					return a.hero.Name.localeCompare(b.hero.Name);
-				case 'games':
-				case 'winrate':
-				case 'change':
-					const as = a[this.state.sort];
-					const bs = b[this.state.sort];
-					return as - bs;
-				default:
-					console.log('unknown sort:', this.state.sort);
-					return 0;
-			}
-		});
-		if (this.state.sortDir) {
-			sortedWinrates.reverse();
-		}
 		const build = this.props.build
 			? '?build=' + encodeURIComponent(this.props.build)
 			: '';
-		const winrates = sortedWinrates.map(wr => {
-			return (
-				<tr key={wr.hero.Name}>
-					<td>
-						<img
-							src={wr.hero.Icon}
-							alt={wr.hero.Name}
-							style={{
-								width: '40px',
-								height: '40px',
-								verticalAlign: 'middle',
-								marginRight: '1em',
-							}}
-						/>
-						<Link to={'/talents/' + encodeURI(wr.hero.Name) + build}>
-							{wr.hero.Name}
-						</Link>
-					</td>
-					<td>{wr.games || 0}</td>
-					<td>{pct(wr.winrate)}</td>
-					<td>{pct(wr.change)}</td>
-				</tr>
-			);
-		});
 		return (
-			<table>
-				<thead>
-					<tr>
-						<th onClick={this.sort} className={this.sortClass('hero')}>
-							hero
-						</th>
-						<th onClick={this.sort} className={this.sortClass('games')}>
-							games
-						</th>
-						<th onClick={this.sort} className={this.sortClass('winrate')}>
-							winrate
-						</th>
-						<th
-							onClick={this.sort}
-							className={this.sortClass('change')}
-							title="percent change from previous patch"
-						>
-							change
-						</th>
-					</tr>
-				</thead>
-				<tbody>{winrates}</tbody>
-			</table>
+			<SortedTable
+				sort="winrate"
+				headers={[
+					{
+						name: 'hero',
+						cmp: (a, b) => a.Name.localeCompare(b.Name),
+						cell: v => [
+							<img
+								key="img"
+								src={v.Icon}
+								alt={v.Name}
+								style={{
+									width: '40px',
+									height: '40px',
+									verticalAlign: 'middle',
+									marginRight: '1em',
+								}}
+							/>,
+							<Link to={'/talents/' + encodeURI(v.Name) + build} key="link">
+								{v.Name}
+							</Link>,
+						],
+					},
+					{
+						name: 'games',
+						cell: v => v || 0,
+						desc: true,
+					},
+					{
+						name: 'winrate',
+						cell: pct,
+						desc: true,
+					},
+					{
+						name: 'change',
+						title: 'percent change from previous patch',
+						cell: pct,
+						desc: true,
+					},
+				]}
+				data={this.props.winrates}
+			/>
 		);
 	}
 }

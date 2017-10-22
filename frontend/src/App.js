@@ -9,9 +9,9 @@ import HeroWinrates from './HeroWinrates';
 import { Players, Player } from './Players';
 import TalentWinrates from './Talents';
 
+import './normalize.css';
 import './App.css';
 import './milligram.css';
-import './normalize.css';
 
 class HotsApp extends Component {
 	constructor(props) {

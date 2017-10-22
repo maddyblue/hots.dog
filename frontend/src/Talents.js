@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Fetch, pct, Filter } from './common';
+import SortedTable from './SortedTable';
 
 class TalentWinrates extends Component {
 	constructor(props) {
@@ -137,45 +138,52 @@ const Builds = props => {
 	for (let tier = 1; tier <= 7; tier++) {
 		const curTier = props.winrates.Current[tier];
 		const prevTier = props.winrates.Previous[tier] || {};
-		const talents = Object.keys(curTier)
-			.sort()
-			.map(talent => {
-				const cur = curTier[talent];
-				const prev = prevTier[talent];
-				const games = cur.Wins + cur.Losses;
-				const winRate = cur.Wins / games * 100;
-				const rate = winRate.toFixed(1) + '%';
-				let change;
-				if (prev) {
-					const prevGames = prev.Wins + prev.Losses;
-					const prevWinRate = prev.Wins / prevGames * 100;
-					change = (winRate - prevWinRate).toFixed(1) + '%';
-				}
-				return (
-					<tr key={talent}>
-						<td>
-							<TalentImg name={talent} text={true} />
-						</td>
-						<td>{games}</td>
-						<td>{rate}</td>
-						<td>{change}</td>
-					</tr>
-				);
-			});
+		const talents = Object.keys(curTier).map(talent => {
+			const cur = curTier[talent];
+			const prev = prevTier[talent];
+			const games = cur.Wins + cur.Losses;
+			const winRate = cur.Wins / games * 100;
+			let change = 0;
+			if (prev) {
+				const prevGames = prev.Wins + prev.Losses;
+				const prevWinRate = prev.Wins / prevGames * 100;
+				change = winRate - prevWinRate;
+			}
+			return {
+				talent: talent,
+				games: games,
+				winrate: winRate,
+				change: change,
+			};
+		});
 		builds.push(
 			<div key={tier}>
 				Tier {tierNames[tier]}
-				<table>
-					<thead>
-						<tr>
-							<th>talent</th>
-							<th>games</th>
-							<th>winrate</th>
-							<th title="change since previous patch">change</th>
-						</tr>
-					</thead>
-					<tbody>{talents}</tbody>
-				</table>
+				<SortedTable
+					sort="talent"
+					headers={[
+						{
+							name: 'talent',
+							cell: v => <TalentImg name={v} text={true} />,
+						},
+						{
+							name: 'games',
+							desc: true,
+						},
+						{
+							name: 'winrate',
+							desc: true,
+							cell: pct,
+						},
+						{
+							name: 'change',
+							title: 'change since previous patch',
+							cell: pct,
+							desc: true,
+						},
+					]}
+					data={talents}
+				/>
 			</div>
 		);
 	}

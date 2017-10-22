@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Fetch, pct, toLength, BuildsOpts } from './common';
+import SortedTable from './SortedTable';
 
 class Hero extends Component {
 	constructor(props) {
@@ -33,10 +34,7 @@ class Hero extends Component {
 		this.setState({ Base: null, search: search });
 		Fetch(search, data => this.setState(data));
 	}
-	makeTable(name, prop, basewr, displayFn) {
-		if (!displayFn) {
-			displayFn = v => v;
-		}
+	makeTable(name, prop, basewr, displayFn, cmp) {
 		const obj = this.state.Current[prop];
 		const elems = Object.keys(obj).map(k => {
 			const v = obj[k];
@@ -53,31 +51,51 @@ class Hero extends Component {
 					}
 				}
 			}
-			return (
-				<tr key={k}>
-					<td>{displayFn(k)}</td>
-					<td>{total}</td>
-					<td>{pct(wr)}</td>
-					<td>{pct(basewr - wr)}</td>
-					<td>{pct(change)}</td>
-				</tr>
-			);
+			const d = {
+				games: total,
+				winrate: wr,
+				relative: basewr - wr,
+				change: change,
+			};
+			d[name] = k;
+			return d;
 		});
 		return (
 			<div>
 				<div className="anchor" id={prop.toLowerCase()} />
-				<table>
-					<thead>
-						<tr>
-							<th>{name.toLowerCase()}</th>
-							<th>games</th>
-							<th>winrate</th>
-							<th title="winrate relative to base winrate">relative</th>
-							<th title="change since previous patch">change</th>
-						</tr>
-					</thead>
-					<tbody>{elems}</tbody>
-				</table>
+				<SortedTable
+					sort={name}
+					headers={[
+						{
+							name: name,
+							cell: displayFn,
+							header: name.toLowerCase(),
+							cmp: cmp,
+						},
+						{
+							name: 'games',
+							desc: true,
+						},
+						{
+							name: 'winrate',
+							cell: pct,
+							desc: true,
+						},
+						{
+							name: 'relative',
+							title: 'winrate relative to base winrate',
+							cell: pct,
+							desc: true,
+						},
+						{
+							name: 'change',
+							title: 'change since previous patch',
+							cell: pct,
+							desc: true,
+						},
+					]}
+					data={elems}
+				/>
 			</div>
 		);
 	}
@@ -123,8 +141,20 @@ class Hero extends Component {
 						basewr,
 						m => this.props.Modes[m]
 					)}
-					{this.makeTable('Game Length', 'Lengths', basewr, toLength)}
-					{this.makeTable('Hero Level', 'Levels', basewr)}
+					{this.makeTable(
+						'Game Length',
+						'Lengths',
+						basewr,
+						toLength,
+						(a, b) => a - b
+					)}
+					{this.makeTable(
+						'Hero Level',
+						'Levels',
+						basewr,
+						undefined,
+						(a, b) => a - b
+					)}
 				</div>
 			);
 		}

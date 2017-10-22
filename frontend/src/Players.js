@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Fetch, pct, toLength } from './common';
+import SortedTable from './SortedTable';
 
 class Players extends Component {
 	constructor(props) {
@@ -114,20 +115,6 @@ class Player extends Component {
 				<td>{this.percentile(s)}</td>
 			</tr>
 		));
-		const games = this.state.Games.map((g, i) => (
-			<tr key={i}>
-				<td>{g.Build}</td>
-				<td>{new Date(g.Date).toLocaleString()}</td>
-				<td>
-					<Link to={'/talents/' + encodeURI(g.Hero)}>{g.Hero}</Link>
-				</td>
-				<td>{g.HeroLevel}</td>
-				<td>{g.Winner ? 'win' : 'loss'}</td>
-				<td>{toLength(g.Length)}</td>
-				<td>{g.Map}</td>
-				<td>{this.props.Modes[g.Mode]}</td>
-			</tr>
-		));
 		let game, skill;
 		if (skills.length) {
 			skill = (
@@ -147,23 +134,53 @@ class Player extends Component {
 				</div>
 			);
 		}
-		if (games.length) {
+		if (this.state.Games.length) {
 			game = (
-				<table>
-					<thead>
-						<tr>
-							<th>Patch</th>
-							<th>Date</th>
-							<th>Hero</th>
-							<th title="Hero level">Level</th>
-							<th>Won</th>
-							<th title="Game length">Length</th>
-							<th>Map</th>
-							<th>Game Mode</th>
-						</tr>
-					</thead>
-					<tbody>{games}</tbody>
-				</table>
+				<SortedTable
+					sort="Date"
+					headers={[
+						{
+							name: 'Build',
+							header: 'Patch',
+							desc: true,
+						},
+						{
+							name: 'Date',
+							cell: v => new Date(v).toLocaleString(),
+							desc: true,
+						},
+						{
+							name: 'Hero',
+							cell: v => <Link to={'/talents/' + encodeURI(v)}>{v}</Link>,
+						},
+						{
+							name: 'HeroLevel',
+							header: 'Level',
+							title: 'hero level',
+							desc: true,
+						},
+						{
+							name: 'Winner',
+							header: 'Won',
+							cell: v => (v ? 'win' : 'loss'),
+							desc: true,
+						},
+						{
+							name: 'Length',
+							title: 'game length',
+							cell: toLength,
+						},
+						{
+							name: 'Map',
+						},
+						{
+							name: 'Mode',
+							header: 'Game Mode',
+							cell: v => this.props.Modes[v],
+						},
+					]}
+					data={this.state.Games}
+				/>
 			);
 		}
 		return (
