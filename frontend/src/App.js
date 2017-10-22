@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Route, withRouter } from 'react-router-dom';
+import * as usp from 'url-search-params';
 import './App.css';
 import './normalize.css';
 import './milligram.css';
@@ -65,7 +66,7 @@ class HotsApp extends Component {
 	}
 	searchState() {
 		const st = {};
-		const search = new URLSearchParams(window.location.search);
+		const search = new usp(window.location.search);
 		this.params.forEach(key => {
 			if (!search.has(key)) {
 				return;
