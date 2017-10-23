@@ -3,8 +3,18 @@ import React, { Component } from 'react';
 class SortedTable extends Component {
 	constructor(props) {
 		super(props);
+		const lookup = this.lookup(props.headers);
+		this.state = {
+			lookup: lookup,
+			sort: props.sort,
+			sortDir: lookup[props.sort].desc === true,
+		};
+		this.sort = this.sort.bind(this);
+		this.sortClass = this.sortClass.bind(this);
+	}
+	lookup(headers) {
 		const lookup = {};
-		props.headers.forEach(h => {
+		headers.forEach(h => {
 			if (!h.cell) {
 				h.cell = v => v;
 			}
@@ -13,13 +23,10 @@ class SortedTable extends Component {
 			}
 			lookup[h.name] = h;
 		});
-		this.state = {
-			lookup: lookup,
-			sort: props.sort,
-			sortDir: lookup[props.sort].desc === true,
-		};
-		this.sort = this.sort.bind(this);
-		this.sortClass = this.sortClass.bind(this);
+		return lookup;
+	}
+	componentWillUpdate(nextProps, nextState) {
+		nextState.lookup = this.lookup(nextProps.headers);
 	}
 	sort(sort) {
 		let dir;
