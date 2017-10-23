@@ -22,7 +22,6 @@ const About = props => {
 			</ul>
 			<p>Our future goals are:</p>
 			<ul>
-				<li>data on talent picks</li>
 				<li>player MMR calculation</li>
 			</ul>
 			<p>
