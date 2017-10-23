@@ -107,22 +107,22 @@ class Winrates extends Component {
 					{
 						name: 'hero',
 						cmp: (a, b) => a.Name.localeCompare(b.Name),
-						cell: v => [
-							<img
-								key="img"
-								src={v.Icon}
-								alt={v.Name}
-								style={{
-									width: '40px',
-									height: '40px',
-									verticalAlign: 'middle',
-									marginRight: '1em',
-								}}
-							/>,
+						cell: v => (
 							<Link to={'/talents/' + encodeURI(v.Name) + build} key="link">
+								<img
+									key="img"
+									src={v.Icon}
+									alt={v.Name}
+									style={{
+										width: '40px',
+										height: '40px',
+										verticalAlign: 'middle',
+										marginRight: '1em',
+									}}
+								/>
 								{v.Name}
-							</Link>,
-						],
+							</Link>
+						),
 					},
 					{
 						name: 'games',
