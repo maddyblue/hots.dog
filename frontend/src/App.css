@@ -77,3 +77,22 @@ body {
 	padding: 0;
 	text-decoration: none;
 }
+
+// CSS tooltip from http://www.menucool.com/tooltip/css-tooltip
+.tooltip {
+	outline: none;
+}
+.tooltip .tip {
+	z-index: 10;
+	display: none;
+	padding: 3px;
+	margin-left: 1rem;
+	max-width: 300px;
+	line-height: 2rem;
+}
+.tooltip:hover .tip {
+	display: inline;
+	position: absolute;
+	border: 0.1rem solid #e1e1e1;
+	background: #fff;
+}

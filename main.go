@@ -18,6 +18,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
 	"regexp"
 	"sort"
 	"strconv"
@@ -234,7 +235,22 @@ func main() {
 		serveFiles(w, r)
 	}
 
-	http.HandleFunc("/img/talent/", makeTalentImg)
+	talents := make(map[string]bool)
+	if err := filepath.Walk(filepath.Join("static", "img", "talent"), func(path string, info os.FileInfo, err error) error {
+		talents[info.Name()] = true
+		return nil
+	}); err != nil {
+		log.Fatal(err)
+	}
+	http.HandleFunc("/img/talent/", func(w http.ResponseWriter, r *http.Request) {
+		base := filepath.Base(r.URL.Path)
+		if !talents[base] {
+			makeTalentImg(w, r)
+			return
+		}
+		serveFiles(w, r)
+	})
+
 	http.HandleFunc("/about/", serveIndex)
 	http.HandleFunc("/heroes/", serveIndex)
 	http.HandleFunc("/players/", serveIndex)
@@ -632,6 +648,7 @@ func (h *hotsContext) GetBuildWinrates(ctx context.Context, r *http.Request) (in
 		Previous      map[int]map[string]Total
 		PopularBuilds []build
 		WinningBuilds []build
+		Talents       map[string]talentText
 	}
 	g, ctx := errgroup.WithContext(ctx)
 	g.Go(func() error {
@@ -653,6 +670,13 @@ func (h *hotsContext) GetBuildWinrates(ctx context.Context, r *http.Request) (in
 		return nil
 	})
 	err := g.Wait()
+	m := make(map[string]talentText)
+	for _, talents := range res.Current {
+		for id := range talents {
+			m[id] = talentData[id]
+		}
+	}
+	res.Talents = m
 	return res, err
 }
 

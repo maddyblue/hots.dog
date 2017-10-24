@@ -118,19 +118,34 @@ const tierNames = {
 };
 
 const TalentImg = props => {
-	const words = props.name.match(/[A-Z][a-z]+/g);
-	words.shift();
-	const name = words.join(' ');
-	return [
-		<img
-			key={props.name}
-			src={'/img/talent/' + words.join('')}
-			alt={name}
-			title={name}
-			style={{ verticalAlign: 'middle', paddingRight: '2px' }}
-		/>,
-		props.text ? name : null,
-	];
+	let { Name, Text } = props.data;
+	let desc;
+	if (!Name) {
+		const words = props.name.match(/[A-Z][a-z]+/g);
+		words.shift();
+		Name = words.join(' ');
+		Text = Name;
+	}
+	if (props.text) {
+		desc = Name;
+	}
+	return (
+		<span className="tooltip">
+			<img
+				key="img"
+				src={'/img/talent/' + props.name + '.png'}
+				alt={Name}
+				style={{
+					verticalAlign: 'middle',
+					paddingRight: '2px',
+					height: '40px',
+					width: '40px',
+				}}
+			/>
+			{desc}
+			<span className="tip">{Text}</span>
+		</span>
+	);
 };
 
 const Builds = props => {
@@ -164,7 +179,13 @@ const Builds = props => {
 					headers={[
 						{
 							name: 'talent',
-							cell: v => <TalentImg name={v} text={true} />,
+							cell: v => (
+								<TalentImg
+									name={v}
+									text={true}
+									data={props.winrates.Talents[v]}
+								/>
+							),
 						},
 						{
 							name: 'games',
@@ -193,7 +214,11 @@ const Builds = props => {
 		}
 		const list = builds.map((b, i) => (
 			<tr key={i}>
-				<td>{b.Build.map(v => <TalentImg key={v} name={v} />)}</td>
+				<td>
+					{b.Build.map(v => (
+						<TalentImg key={v} name={v} data={props.winrates.Talents[v]} />
+					))}
+				</td>
 				<td>{b.Total}</td>
 				<td>{pct(b.Winrate * 100)}</td>
 			</tr>
