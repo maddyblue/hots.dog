@@ -212,36 +212,40 @@ const Builds = props => {
 			</div>
 		);
 	}
-	function buildList(builds) {
+	function buildList(builds, sort) {
 		if (!builds) {
 			return;
 		}
-		const list = builds.map((b, i) => (
-			<tr key={i}>
-				<td>
-					{b.Build.map(v => (
-						<TalentImg key={v} name={v} data={props.winrates.Talents[v]} />
-					))}
-				</td>
-				<td>{b.Total}</td>
-				<td>{pct(b.Winrate * 100)}</td>
-			</tr>
-		));
 		return (
-			<table>
-				<thead>
-					<tr>
-						<th>build</th>
-						<th>games</th>
-						<th>winrate</th>
-					</tr>
-				</thead>
-				<tbody>{list}</tbody>
-			</table>
+			<SortedTable
+				sort={sort}
+				headers={[
+					{
+						name: 'Build',
+						cell: v =>
+							v.map(v => (
+								<TalentImg key={v} name={v} data={props.winrates.Talents[v]} />
+							)),
+						cmp: null,
+					},
+					{
+						name: 'Total',
+						header: 'games',
+						desc: true,
+					},
+					{
+						name: 'Winrate',
+						header: 'winrate',
+						cell: v => pct(v * 100),
+						desc: true,
+					},
+				]}
+				data={builds}
+			/>
 		);
 	}
-	const popular = buildList(props.winrates.PopularBuilds);
-	const winning = buildList(props.winrates.WinningBuilds);
+	const popular = buildList(props.winrates.PopularBuilds, 'Total');
+	const winning = buildList(props.winrates.WinningBuilds, 'Winrate');
 	return [
 		<div key="builds">{builds}</div>,
 		<div key="popular">

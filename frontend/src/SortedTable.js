@@ -29,6 +29,9 @@ class SortedTable extends Component {
 		nextState.lookup = this.lookup(nextProps.headers);
 	}
 	sort(sort) {
+		if (this.state.lookup[sort].cmp === null) {
+			return;
+		}
 		let dir;
 		if (this.state.sort === sort) {
 			dir = !this.state.sortDir;
