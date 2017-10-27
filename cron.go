@@ -12,17 +12,10 @@ import (
 
 // k8s cron jobs on GKE don't work, so do it here instead.
 func (h *hotsContext) cronLoop() error {
-	const cronTime = time.Minute * 10
-	for {
-		start := time.Now()
-		fmt.Println("starting cron")
-		if err := h.cron(); err != nil {
-			return err
-		}
-		fmt.Println("cron finished in", time.Since(start))
-		fmt.Println("sleeping for", cronTime)
-		time.Sleep(cronTime)
-	}
+	start := time.Now()
+	fmt.Println("starting cron")
+	defer func() { fmt.Println("cron finished in", time.Since(start)) }()
+	return h.cron()
 }
 
 func (h *hotsContext) cron() error {

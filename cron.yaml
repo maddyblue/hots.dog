@@ -1,14 +1,15 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: batch/v1beta1
+kind: CronJob
 metadata:
   name: cron
 spec:
-  template:
-    metadata:
-      name: cron
+  schedule: "*/10 * * * *"
+  jobTemplate:
     spec:
-      containers:
-      - name: cron
-        image: gcr.io/hots-cockroach/website:latest
-        command: ["/website", "-cron", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
-      restartPolicy: OnFailure
+      template:
+        spec:
+          containers:
+          - name: cron
+            image: gcr.io/hots-cockroach/website:latest
+            command: ["/website", "-cron", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
+          restartPolicy: OnFailure
