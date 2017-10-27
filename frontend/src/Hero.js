@@ -134,13 +134,27 @@ class Hero extends Component {
 							</tr>
 						</tbody>
 					</table>
-					{this.makeTable('Map', 'Maps', basewr)}
-					{this.makeTable(
-						'Game Mode',
-						'Modes',
-						basewr,
-						m => this.props.Modes[m]
-					)}
+					{this.makeTable('Map', 'Maps', basewr, m => (
+						<Link
+							to={
+								'/?build=' +
+								encodeURIComponent(this.props.build) +
+								'&map=' +
+								encodeURIComponent(m)
+							}
+						>
+							{m}
+						</Link>
+					))}
+					{this.makeTable('Game Mode', 'Modes', basewr, m => (
+						<Link
+							to={
+								'/?build=' + encodeURIComponent(this.props.build) + '&mode=' + m
+							}
+						>
+							{this.props.Modes[m]}
+						</Link>
+					))}
 					{this.makeTable(
 						'Game Length',
 						'Lengths',
