@@ -196,7 +196,7 @@ func main() {
 			url := r.URL.String()
 			start := time.Now()
 			defer func() { fmt.Printf("%s: %s\n", url, time.Since(start)) }()
-			if enableCache && h.CheckCache(ctx, start, w, r, url) {
+			if enableCache && h.CheckCache(ctx, start, w, r, r.URL.Path, url) {
 				return
 			}
 			res, err := f(ctx, r)
@@ -213,17 +213,17 @@ func main() {
 			}
 			writeDataGzip(w, r, data, gzip)
 			if enableCache {
-				go h.WriteCache(url, start, data, gzip)
+				go h.WriteCache(r.URL.Path, url, start, data, gzip)
 			}
 		}
 	}
 
 	http.Handle("/api/init", wrap(h.Init))
-	http.Handle("/api/get-winrates", wrap(h.GetWinrates))
+	http.Handle("/api/get-build-winrates", wrap(h.GetBuildWinrates))
 	http.Handle("/api/get-hero-data", wrap(h.GetHero))
 	http.Handle("/api/get-player-by-name", wrap(h.GetPlayerName))
 	http.Handle("/api/get-player-data", wrap(h.GetPlayerData))
-	http.Handle("/api/get-build-winrates", wrap(h.GetBuildWinrates))
+	http.Handle("/api/get-winrates", wrap(h.GetWinrates))
 	if *flagInit {
 		http.HandleFunc("/api/clear-cache", h.ClearCache)
 	}
@@ -330,6 +330,17 @@ func main() {
 	}
 }
 
+var (
+	enableDBCache = map[string]bool{
+		"/api/get-build-winrates": true,
+		"/api/get-hero-data":      true,
+		"/api/get-winrates":       true,
+	}
+	enableMemCache = map[string]bool{
+		"/api/init": true,
+	}
+)
+
 func resultToBytes(res interface{}) (data, gzipped []byte, err error) {
 	data, err = json.Marshal(res)
 	if err != nil {
@@ -346,13 +357,19 @@ func resultToBytes(res interface{}) (data, gzipped []byte, err error) {
 	return data, gz.Bytes(), nil
 }
 
-func (h *hotsContext) CheckCache(ctx context.Context, start time.Time, w http.ResponseWriter, r *http.Request, url string) (done bool) {
+func (h *hotsContext) CheckCache(ctx context.Context, start time.Time, w http.ResponseWriter, r *http.Request, path, url string) (done bool) {
+	if !enableMemCache[path] && !enableDBCache[path] {
+		return false
+	}
 	h.mu.RLock()
 	c, ok := h.mu.cache[url]
 	h.mu.RUnlock()
 	if ok && c.until > start.Unix() {
 		writeDataGzip(w, r, c.data, c.gzip)
 		return true
+	}
+	if !enableDBCache[path] {
+		return false
 	}
 	var data, gz []byte
 	if err := h.db.QueryRowContext(ctx,
@@ -381,7 +398,10 @@ func (h *hotsContext) CheckCache(ctx context.Context, start time.Time, w http.Re
 	return false
 }
 
-func (h *hotsContext) WriteCache(url string, start time.Time, data, gzip []byte) {
+func (h *hotsContext) WriteCache(path, url string, start time.Time, data, gzip []byte) {
+	if !enableMemCache[path] && !enableDBCache[path] {
+		return
+	}
 	until := start.Add(h.cacheTime)
 	h.mu.Lock()
 	h.mu.cache[url] = cache{
@@ -390,7 +410,7 @@ func (h *hotsContext) WriteCache(url string, start time.Time, data, gzip []byte)
 		gzip:  gzip,
 	}
 	h.mu.Unlock()
-	if url == "/api/init" {
+	if !enableDBCache[path] {
 		return
 	}
 	if err := retry(func() error {
