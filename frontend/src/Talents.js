@@ -175,7 +175,7 @@ const Builds = props => {
 			<div key={tier}>
 				Tier {tierNames[tier]}
 				<SortedTable
-					sort="talent"
+					sort="winrate"
 					headers={[
 						{
 							name: 'talent',
