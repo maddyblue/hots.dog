@@ -272,6 +272,15 @@ func main() {
 			if err := h.updateInit(context.Background()); err != nil {
 				panic(fmt.Sprintf("%+v", err))
 			}
+			// Clear the memory cache of old entries.
+			h.mu.Lock()
+			cutoff := time.Now().Add(-time.Hour).Unix()
+			for s, c := range h.mu.cache {
+				if c.until < cutoff {
+					delete(h.mu.cache, s)
+				}
+			}
+			h.mu.Unlock()
 		}
 	}()
 
