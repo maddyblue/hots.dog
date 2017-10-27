@@ -64,8 +64,11 @@ class TalentWinrates extends Component {
 		});
 	}
 	render() {
+		let builds;
 		if (!this.state.winrates) {
-			return 'loading...';
+			builds = 'loading...';
+		} else {
+			builds = <Builds winrates={this.state.winrates} />;
 		}
 		const heroes = this.props.Heroes.map(h => (
 			<option key={h.Name}>{h.Name}</option>
@@ -101,7 +104,7 @@ class TalentWinrates extends Component {
 					<div className="column" />
 				</div>
 				<Filter handleChange={this.props.handleChange} {...this.props} />
-				<Builds winrates={this.state.winrates} />
+				{builds}
 			</div>
 		);
 	}
