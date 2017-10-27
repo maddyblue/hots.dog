@@ -260,6 +260,14 @@ func main() {
 	http.HandleFunc("/talents/", serveIndex)
 	http.HandleFunc("/", serveFiles)
 
+	go func() {
+		for range time.Tick(time.Minute * 10) {
+			if err := h.updateInit(context.Background()); err != nil {
+				panic(fmt.Sprintf("%+v", err))
+			}
+		}
+	}()
+
 	if *flagAutocert != "" {
 		go func() {
 			mux := http.NewServeMux()
@@ -457,10 +465,7 @@ type initData struct {
 }
 
 func (h *hotsContext) Init(ctx context.Context, _ *http.Request) (interface{}, error) {
-	h.mu.RLock()
-	init := h.mu.init
-	h.mu.RUnlock()
-	return init, nil
+	return h.getInit(), nil
 }
 
 func (h *hotsContext) updateInit(ctx context.Context) error {
