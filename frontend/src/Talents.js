@@ -176,40 +176,39 @@ const Builds = props => {
 			};
 		});
 		builds.push(
-			<div key={tier}>
-				Tier {tierNames[tier]}
-				<SortedTable
-					sort="winrate"
-					headers={[
-						{
-							name: 'talent',
-							cell: v => (
-								<TalentImg
-									name={v}
-									text={true}
-									data={props.winrates.Talents[v]}
-								/>
-							),
-						},
-						{
-							name: 'games',
-							desc: true,
-						},
-						{
-							name: 'winrate',
-							desc: true,
-							cell: pct,
-						},
-						{
-							name: 'change',
-							title: 'change since previous patch',
-							cell: pct,
-							desc: true,
-						},
-					]}
-					data={talents}
-				/>
-			</div>
+			<SortedTable
+				key={tier}
+				sort="winrate"
+				headers={[
+					{
+						name: 'talent',
+						header: 'tier ' + tierNames[tier],
+						cell: v => (
+							<TalentImg
+								name={v}
+								text={true}
+								data={props.winrates.Talents[v]}
+							/>
+						),
+					},
+					{
+						name: 'games',
+						desc: true,
+					},
+					{
+						name: 'winrate',
+						desc: true,
+						cell: pct,
+					},
+					{
+						name: 'change',
+						title: 'change since previous patch',
+						cell: pct,
+						desc: true,
+					},
+				]}
+				data={talents}
+			/>
 		);
 	}
 	function buildList(builds, sort) {
@@ -222,6 +221,7 @@ const Builds = props => {
 				headers={[
 					{
 						name: 'Build',
+						header: 'build',
 						cell: v =>
 							v.map(v => (
 								<TalentImg key={v} name={v} data={props.winrates.Talents[v]} />
