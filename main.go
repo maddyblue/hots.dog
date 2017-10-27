@@ -52,6 +52,8 @@ var (
 	flagImport    = flag.String("import", "csv.hots.dog", "import from bucket")
 	flagImportNum = flag.Int("importnum", -1, "max id to import; set to 0 for first block only")
 	initDB        = false
+
+	popularGameLimit = 10
 )
 
 func main() {
@@ -129,6 +131,7 @@ func main() {
 	h.cacheTime = time.Hour
 	if *flagInit {
 		h.cacheTime = time.Second * 5
+		popularGameLimit = 2
 	}
 
 	if *flagCron {
@@ -778,7 +781,7 @@ func (h *hotsContext) getBuildWinrates(ctx context.Context, init initData, args 
 			Build: talentNames,
 			Total: t.Total,
 		}
-		if t.Won > 2 {
+		if t.Won > popularGameLimit {
 			b.Winrate = float64(t.Won) / float64(t.Total)
 		}
 		builds = append(builds, b)
@@ -793,7 +796,7 @@ func (h *hotsContext) getBuildWinrates(ctx context.Context, init initData, args 
 	})
 	for i := 0; i < n; i++ {
 		b := builds[i]
-		if b.Total > 5 {
+		if b.Total > popularGameLimit {
 			popularBuilds = append(popularBuilds, b)
 		}
 	}
