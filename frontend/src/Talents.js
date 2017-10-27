@@ -127,6 +127,8 @@ const TalentImg = props => {
 		words.shift();
 		Name = words.join(' ');
 		Text = Name;
+	} else if (!props.text) {
+		Text = Name + ': ' + Text;
 	}
 	if (props.text) {
 		desc = Name;
