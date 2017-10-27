@@ -23,14 +23,13 @@ class HeroWinrates extends Component {
 		if (search.indexOf('build') !== -1) {
 			return search;
 		}
-		if (!this.props.build) {
-			if (search === '') {
-				search = '?';
-			} else {
-				search += '&';
-			}
-			search += 'build=' + this.props.Builds[0].ID;
+		if (search === '') {
+			search = '?';
+		} else {
+			search += '&';
 		}
+		search += 'build=';
+		search += this.props.build || this.props.Builds[0].ID;
 		return search;
 	}
 	update() {
