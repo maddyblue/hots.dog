@@ -254,6 +254,7 @@ func main() {
 	http.HandleFunc("/about/", serveIndex)
 	http.HandleFunc("/heroes/", serveIndex)
 	http.HandleFunc("/players/", serveIndex)
+	http.HandleFunc("/talents/", serveIndex)
 	http.HandleFunc("/", serveFiles)
 
 	if *flagAutocert != "" {
