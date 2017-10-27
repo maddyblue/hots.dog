@@ -44,13 +44,14 @@ var (
 	flagAddr      = flag.String("addr", ":4001", "address to serve; HTTP redirect address if -autocert is set")
 	flagAutocert  = flag.String("autocert", "", "domain name to autocert")
 	flagAcmedir   = flag.String("acmedir", "", "optional acme directory; can be used to configure dev letsencrypt")
-	flagCockroach = flag.String("cockroach", "postgresql://root@localhost:26257/?sslmode=disable", "cockroach connection URL")
+	flagCockroach = flag.String("cockroach", "postgresql://root@localhost:26257/hots?sslmode=disable", "cockroach connection URL")
 	flagElo       = flag.Bool("elo", false, "run elo update")
 	flagMigrate   = flag.Bool("migrate", false, "run migration")
 	flagCron      = flag.Bool("cron", false, "run cronjob")
 	flagUpdateNew = flag.String("updatenew", "", "run new update to specified gs bucket")
 	flagImport    = flag.String("import", "csv.hots.dog", "import from bucket")
 	flagImportNum = flag.Int("importnum", -1, "max id to import; set to 0 for first block only")
+	flagUpdateDB  = flag.Bool("updatedb", false, "update db from import bucket")
 	initDB        = false
 
 	popularGameLimit = 10
@@ -136,6 +137,12 @@ func main() {
 
 	if *flagCron {
 		if err := h.cronLoop(); err != nil {
+			log.Fatalf("%+v", err)
+		}
+		return
+	}
+	if *flagUpdateDB {
+		if err := h.updateDB(); err != nil {
 			log.Fatalf("%+v", err)
 		}
 		return

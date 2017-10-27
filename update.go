@@ -14,6 +14,7 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
+	"github.com/lib/pq"
 	"github.com/pkg/errors"
 
 	"cloud.google.com/go/storage"
@@ -29,6 +30,143 @@ const (
 	perRequest     = 100
 	configBase     = "%09d.csv"
 )
+
+func (h *hotsContext) updateDB() error {
+	ctx := context.Background()
+	cl, err := storage.NewClient(ctx)
+	if err != nil {
+		return errors.Wrap(err, "new client")
+	}
+	bucket := cl.Bucket(*flagImport)
+	for {
+		err := h.updateDBNext(bucket)
+		if err == storage.ErrObjectNotExist {
+			fmt.Println("sleeping")
+			time.Sleep(time.Minute * 10)
+		} else if err != nil {
+			return err
+		}
+	}
+}
+
+func (h *hotsContext) updateDBNext(bucket *storage.BucketHandle) error {
+	ctx := context.Background()
+	const nextUpdateKey = "next-update"
+	var start int
+	if err := h.x.Get(&start, `SELECT i FROM config WHERE key = $1`, nextUpdateKey); err != nil {
+		return err
+	}
+	file := fmt.Sprintf(configBase, start)
+	fmt.Println("updating block", start, file)
+
+	if _, err := h.db.Exec(`DELETE FROM games WHERE ID >= $1 AND ID < $1 + $2`, start, perFile); err != nil {
+		return errors.Wrap(err, "clear games")
+	}
+	for {
+		res, err := h.db.Exec(`DELETE FROM players WHERE game >= $1 AND game < $1 + $2 limit 1000`, start, perFile)
+		if err != nil {
+			return errors.Wrap(err, "clear players")
+		}
+		count, err := res.RowsAffected()
+		if err != nil {
+			return errors.Wrap(err, "clear players")
+		}
+		if count == 0 {
+			break
+		}
+		fmt.Println("CLEARED", count, "players")
+	}
+
+	fmt.Println("fetching csvs")
+	var games, players [][]string
+	{
+		r, err := bucket.Object("game/" + file).NewReader(ctx)
+		if err != nil {
+			return err
+		}
+		defer r.Close()
+		games, err = csv.NewReader(r).ReadAll()
+		if err != nil {
+			return err
+		}
+	}
+	{
+		r, err := bucket.Object("player/" + file).NewReader(ctx)
+		if err != nil {
+			return err
+		}
+		defer r.Close()
+		players, err = csv.NewReader(r).ReadAll()
+		if err != nil {
+			return err
+		}
+	}
+
+	copyin := func(data [][]string, table string, cols []string) error {
+		const size = 500
+		vv := make([]interface{}, len(cols))
+		fmt.Println(table, len(data))
+		for len(data) > 0 {
+			nextLen := size
+			if nextLen > len(data) {
+				nextLen = len(data)
+			}
+			next := data[:nextLen]
+			data = data[nextLen:]
+			fmt.Println(start, table, len(next), len(data))
+			count := 0
+			if err := retry(func() error {
+				if count > 0 {
+					fmt.Println("retry", count, len(data))
+				}
+				count++
+				txn, err := h.db.Begin()
+				if err != nil {
+					return errors.Wrap(err, "begin")
+				}
+				defer txn.Rollback()
+				stmt, err := txn.Prepare(pq.CopyIn(table, cols...))
+				if err != nil {
+					return errors.Wrap(err, "prepare")
+				}
+				defer stmt.Close()
+				for _, r := range next {
+					for ii, v := range r {
+						vv[ii] = v
+					}
+					_, err = stmt.Exec(vv...)
+					if err != nil {
+						return errors.Wrap(err, "exec")
+					}
+				}
+				if _, err := stmt.Exec(); err != nil {
+					return errors.Wrap(err, "exec")
+				}
+				if err := stmt.Close(); err != nil {
+					return errors.Wrap(err, "close")
+				}
+				if err := txn.Commit(); err != nil {
+					return errors.Wrap(err, "commit")
+				}
+				return nil
+			}); err != nil {
+				return errors.Wrap(err, "retry")
+			}
+		}
+		return nil
+	}
+	if err := copyin(games, "games", []string{"id", "mode", "time", "map", "length", "build", "bans"}); err != nil {
+		return errors.Wrap(err, "copy games")
+	}
+	if err := copyin(players, "players", []string{"game", "mode", "time", "map", "length", "build", "hero", "hero_level", "team", "winner", "blizzid", "skill", "battletag", "talents"}); err != nil {
+		return errors.Wrap(err, "copy players")
+	}
+	if _, err := h.db.Exec(`UPDATE config SET i = $1 WHERE key = $2`, start+perFile, nextUpdateKey); err != nil {
+		return errors.Wrap(err, "update config")
+	}
+
+	return nil
+}
 
 func updateNew(bucketName string) error {
 	ctx := context.Background()
