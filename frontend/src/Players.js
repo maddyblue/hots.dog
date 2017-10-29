@@ -23,14 +23,22 @@ class Players extends Component {
 		if (!this.state.name) {
 			return;
 		}
+		const name = this.state.name;
+		this.setState({ loading: true });
 		Fetch(
 			'/api/get-player-by-name?name=' + encodeURIComponent(this.state.name),
-			data => this.setState({ ids: data })
+			data => {
+				if (this.state.name === name) {
+					this.setState({ ids: data, loading: false });
+				}
+			}
 		);
 	}
 	render() {
 		let names;
-		if (!this.state.ids) {
+		if (this.state.loading) {
+			names = 'loading...';
+		} else if (!this.state.ids) {
 			names = 'No matches.';
 		} else {
 			names = this.state.ids.map(e => (
