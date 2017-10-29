@@ -188,9 +188,19 @@ class Hero extends Component {
 		const heroSearch = this.props.build
 			? '?build=' + encodeURIComponent(this.props.build)
 			: '';
+		const hero = this.props.Heroes.find(
+			e => e.Name === this.props.match.params.hero
+		);
 		return (
 			<div>
-				<h2>{this.props.match.params.hero}</h2>
+				<h2>
+					{hero.Name}{' '}
+					<img
+						src={'/img/hero_full/' + hero.Slug + '.png'}
+						alt={hero.Name}
+						style={{ height: '3.4rem' }}
+					/>
+				</h2>
 				<p>
 					<Link
 						to={
