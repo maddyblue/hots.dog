@@ -13,6 +13,8 @@ import './normalize.css';
 import './App.css';
 import './milligram.css';
 
+import logo from './img/logo.png';
+
 class HotsApp extends Component {
 	constructor(props) {
 		super(props);
@@ -134,7 +136,15 @@ class HotsApp extends Component {
 				<nav className="navigation">
 					<section className="container">
 						<Link to="/" className="navigation-title">
-							home
+							<img
+								src={logo}
+								alt="hots.dog"
+								style={{
+									verticalAlign: 'middle',
+									width: '30px',
+									height: '30px',
+								}}
+							/>
 						</Link>
 						<ul className="navigation-list float-right">
 							<li className="navigation-item">
