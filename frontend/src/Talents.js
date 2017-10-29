@@ -191,6 +191,11 @@ const Builds = props => {
 								data={props.winrates.Talents[v]}
 							/>
 						),
+						cmp: (a, b) => {
+							const x = props.winrates.Talents[a].Name || a;
+							const y = props.winrates.Talents[b].Name || b;
+							return x.localeCompare(y);
+						},
 					},
 					{
 						name: 'games',
