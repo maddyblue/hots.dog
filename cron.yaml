@@ -4,7 +4,7 @@ metadata:
   name: cron
 spec:
   schedule: "*/10 * * * *"
-  concurrentPolicy: Forbid
+  concurrentPolicy: Replace
   jobTemplate:
     spec:
       template:

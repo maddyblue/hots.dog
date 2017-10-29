@@ -30,6 +30,8 @@ RUN go install website
 FROM alpine:3.6
 # Add ssl certs for Go
 RUN apk add --no-cache ca-certificates curl
+COPY hots.json /
+ENV GOOGLE_APPLICATION_CREDENTIALS /hots.json
 COPY --from=static /frontend/build /static
 COPY --from=go /go/bin/website /website
 ENTRYPOINT ["/website"]

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"encoding/csv"
 	"encoding/json"
@@ -201,13 +202,22 @@ func updateNextGroup(ctx context.Context, bucket *storage.BucketHandle, config *
 		return 0, errors.Errorf("bad start id: %d", start)
 	}
 	base := fmt.Sprintf(configBase, start)
-	gw := bucket.Object(path.Join(dirGame, base)).NewWriter(ctx)
-	pw := bucket.Object(path.Join(dirPlayer, base)).NewWriter(ctx)
-	gc := csv.NewWriter(gw)
-	pc := csv.NewWriter(pw)
+	{
+		gw := bucket.Object(path.Join("test", base)).NewWriter(ctx)
+		if _, err := gw.Write([]byte("blah")); err != nil {
+			return 0, errors.Wrap(err, "gb write test")
+		}
+		if err := gw.Close(); err != nil {
+			return 0, errors.Wrap(err, "gw close test")
+		}
+		fmt.Println("write test passed")
+	}
+	var gb, pb bytes.Buffer
+	gc := csv.NewWriter(&gb)
+	pc := csv.NewWriter(&pb)
 	{
 		idCh := make(chan int)
-		replaysCh := make(chan []byte, 5)
+		replaysCh := make(chan []byte, 1)
 		replayCh := make(chan Replay, 100)
 		g, ctx := errgroup.WithContext(ctx)
 		done := ctx.Done()
@@ -340,8 +350,6 @@ func updateNextGroup(ctx context.Context, bucket *storage.BucketHandle, config *
 			return nil
 		})
 		if err := g.Wait(); err != nil {
-			gw.CloseWithError(err)
-			pw.CloseWithError(err)
 			return 0, err
 		}
 	}
@@ -353,8 +361,16 @@ func updateNextGroup(ctx context.Context, bucket *storage.BucketHandle, config *
 	if err := pc.Error(); err != nil {
 		return 0, errors.Wrap(err, "pc flush")
 	}
+	gw := bucket.Object(path.Join(dirGame, base)).NewWriter(ctx)
+	if _, err := gb.WriteTo(gw); err != nil {
+		return 0, errors.Wrap(err, "gb write")
+	}
 	if err := gw.Close(); err != nil {
 		return 0, errors.Wrap(err, "gw close")
+	}
+	pw := bucket.Object(path.Join(dirPlayer, base)).NewWriter(ctx)
+	if _, err := pb.WriteTo(pw); err != nil {
+		return 0, errors.Wrap(err, "pb write")
 	}
 	if err := pw.Close(); err != nil {
 		return 0, errors.Wrap(err, "pw close")

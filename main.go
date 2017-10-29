@@ -591,8 +591,11 @@ func httpGet(ctx context.Context, url string) ([]byte, error) {
 	defer func() {
 		fmt.Println("GET", url, "took", time.Since(start))
 	}()
-	for i := 0; i < 10; i++ {
-		ctx, _ := context.WithTimeout(ctx, time.Minute)
+	for i := 0; i < 100; i++ {
+		if i > 0 {
+			fmt.Printf("retry %d: %s", i, url)
+		}
+		ctx, _ := context.WithTimeout(ctx, time.Minute*2)
 		resp, err := ctxhttp.Get(ctx, httpClient, url)
 		if err != nil {
 			return nil, errors.Wrap(err, url)
@@ -605,7 +608,7 @@ func httpGet(ctx context.Context, url string) ([]byte, error) {
 		// Too many requests, backoff a bit.
 		if resp.StatusCode == 429 {
 			log.Println(resp.Status, url)
-			time.Sleep(time.Second * 5)
+			time.Sleep(time.Minute)
 			continue
 		}
 		if resp.StatusCode != 200 {
