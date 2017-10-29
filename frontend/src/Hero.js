@@ -8,6 +8,7 @@ class Hero extends Component {
 		super(props);
 		this.state = {};
 		this.changeHero = this.changeHero.bind(this);
+		this.makeSearch = this.makeSearch.bind(this);
 	}
 	changeHero(ev) {
 		this.props.history.push({
@@ -21,18 +22,26 @@ class Hero extends Component {
 	componentDidUpdate(prevProps, prevState) {
 		this.update();
 	}
-	update() {
+	makeSearch() {
 		const build = this.props.build || this.props.Builds[0].ID;
-		const search =
+		return (
 			'/api/get-hero-data?hero=' +
 			encodeURIComponent(this.props.match.params.hero) +
 			'&build=' +
-			encodeURIComponent(build);
+			encodeURIComponent(build)
+		);
+	}
+	update() {
+		const search = this.makeSearch();
 		if (this.state.search === search) {
 			return;
 		}
-		this.setState({ Base: null, search: search });
-		Fetch(search, data => this.setState(data));
+		this.setState({ Current: null, search: search });
+		Fetch(search, data => {
+			if (search === this.makeSearch()) {
+				this.setState(data);
+			}
+		});
 	}
 	makeTable(name, prop, basewr, displayFn, cmp) {
 		const obj = this.state.Current[prop];
@@ -54,7 +63,7 @@ class Hero extends Component {
 			const d = {
 				games: total,
 				winrate: wr,
-				relative: basewr - wr,
+				relative: wr - basewr,
 				change: change,
 			};
 			d[name] = k;
