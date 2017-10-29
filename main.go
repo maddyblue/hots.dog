@@ -506,7 +506,7 @@ func (h *hotsContext) Init(ctx context.Context, _ *http.Request) (interface{}, e
 
 func (h *hotsContext) updateInit(ctx context.Context) error {
 	var heroes []Hero
-	if err := h.x.SelectContext(ctx, &heroes, "SELECT name, roles, icon FROM heroes"); err != nil {
+	if err := h.x.SelectContext(ctx, &heroes, "SELECT name, roles, icon FROM heroes ORDER BY name"); err != nil {
 		return err
 	}
 	var maps []byte
