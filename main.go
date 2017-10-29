@@ -867,7 +867,7 @@ func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (inter
 	}
 	var res []entry
 	var last string
-	for i := 0; i < 20; i++ {
+	for i := 0; i < 10; i++ {
 		var e entry
 		err := h.x.GetContext(ctx, &e, `
 			SELECT blizzid id , battletag "name" FROM players
