@@ -66,7 +66,7 @@ class Hero extends Component {
 				relative: wr - basewr,
 				change: change,
 			};
-			d[name] = k;
+			d['header'] = k;
 			return d;
 		});
 		return (
@@ -74,10 +74,10 @@ class Hero extends Component {
 				<div className="anchor" id={prop.toLowerCase()} />
 				<SortedTable
 					name="relative"
-					sort={name}
+					sort={'header'}
 					headers={[
 						{
-							name: name,
+							name: 'header',
 							cell: displayFn,
 							header: name.toLowerCase(),
 							cmp: cmp,

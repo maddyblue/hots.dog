@@ -30,11 +30,11 @@ function unregisterTableSort(that) {
 class SortedTable extends Component {
 	constructor(props) {
 		super(props);
-		if (!this.props.name) {
-			debugger;
-		}
 		const lookup = this.lookup(props.headers);
 		let sort = props.sort;
+		if (!this.props.name || !lookup[props.sort]) {
+			debugger;
+		}
 		let dir = lookup[props.sort].desc === true;
 		const cookie = readCookie(sortTableCookie + this.props.name);
 		registerTableSort(this);
