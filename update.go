@@ -45,7 +45,10 @@ func (h *hotsContext) updateDB() error {
 			fmt.Println("sleeping")
 			time.Sleep(time.Minute * 10)
 		} else if err != nil {
-			return err
+			return errors.Wrap(err, "updateDBNext")
+		}
+		if err := h.cronLoop(); err != nil {
+			return errors.Wrap(err, "cron")
 		}
 	}
 }
