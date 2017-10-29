@@ -6,7 +6,6 @@ import (
 	"context"
 	"crypto/tls"
 	"database/sql"
-	"encoding/base64"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -30,7 +29,6 @@ import (
 	"github.com/golang/freetype/truetype"
 	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
-	"github.com/nfnt/resize"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/acme"
 	"golang.org/x/crypto/acme/autocert"
@@ -107,9 +105,6 @@ func main() {
 		if err := h.Import(*flagImport, *flagImportNum); err != nil {
 			log.Fatalf("%+v", err)
 		}
-		if err := generateHeroes(db); err != nil {
-			log.Fatalf("%+v", err)
-		}
 		return
 	}
 
@@ -171,9 +166,6 @@ func main() {
 			if err := h.Import(*flagImport, *flagImportNum); err != nil {
 				log.Fatalf("%+v", err)
 			}
-		}
-		if err := generateHeroes(db); err != nil {
-			log.Fatalf("%+v", err)
 		}
 		if err := h.syncConfig(*flagImport); err != nil {
 			log.Fatalf("%+v", err)
@@ -505,10 +497,6 @@ func (h *hotsContext) Init(ctx context.Context, _ *http.Request) (interface{}, e
 }
 
 func (h *hotsContext) updateInit(ctx context.Context) error {
-	var heroes []Hero
-	if err := h.x.SelectContext(ctx, &heroes, "SELECT name, roles, icon FROM heroes ORDER BY name"); err != nil {
-		return err
-	}
 	var maps []byte
 	if err := h.x.GetContext(ctx, &maps, "SELECT s FROM config WHERE key = $1", cacheConfig); err != nil {
 		return errors.Wrap(err, "get config")
@@ -550,7 +538,7 @@ func (h *hotsContext) updateInit(ctx context.Context) error {
 	h.mu.Lock()
 	h.mu.init = initData{
 		Modes:      modeNames,
-		Heroes:     heroes,
+		Heroes:     heroData,
 		BuildStats: bs,
 		config:     c,
 		lookups:    make(map[string]func(string) string),
@@ -957,7 +945,7 @@ func (h *hotsContext) GetPlayerData(ctx context.Context, r *http.Request) (inter
 	return res, nil
 }
 
-type heroData struct {
+type heroRelativeData struct {
 	Base    map[string]Total
 	Lengths map[string]Total
 	Levels  map[string]Total
@@ -970,8 +958,8 @@ func (h *hotsContext) GetHero(ctx context.Context, r *http.Request) (interface{}
 	build := init.config.build(r.FormValue("build"))
 	hero := init.config.hero(r.FormValue("hero"))
 	var res struct {
-		Current  heroData
-		Previous heroData
+		Current  heroRelativeData
+		Previous heroRelativeData
 	}
 	g, ctx := errgroup.WithContext(ctx)
 	g.Go(func() error {
@@ -991,18 +979,12 @@ func (h *hotsContext) GetHero(ctx context.Context, r *http.Request) (interface{}
 	return res, err
 }
 
-func (h *hotsContext) getHero(ctx context.Context, init initData, build, hero string) (heroData, error) {
+func (h *hotsContext) getHero(ctx context.Context, init initData, build, hero string) (heroRelativeData, error) {
 	params := []interface{}{
 		build,
 		hero,
 	}
-	var res struct {
-		Base    map[string]Total
-		Lengths map[string]Total
-		Levels  map[string]Total
-		Maps    map[string]Total
-		Modes   map[string]Total
-	}
+	var res heroRelativeData
 	g, ctx := errgroup.WithContext(ctx)
 	g.Go(func() error {
 		var err error
@@ -1222,120 +1204,6 @@ func (h *hotsContext) getBuildBefore(init initData, id string) (build string, ok
 		}
 	}
 	return "", false
-}
-
-type Hero struct {
-	Name  string
-	Roles string
-	Icon  string
-}
-
-func generateHeroes(db *sql.DB) error {
-	var count int
-	if err := db.QueryRow("SELECT count(*) FROM heroes").Scan(&count); err != nil {
-		return err
-	}
-	if count == 0 {
-		return doGenerateHeroes(db)
-	}
-	return nil
-}
-
-func doGenerateHeroes(db *sql.DB) error {
-	resp, err := http.Get("http://us.battle.net/heroes/en/heroes/")
-	if err != nil {
-		return err
-	}
-	html, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return err
-	}
-	resp.Body.Close()
-	matches := regexp.MustCompile("window\\.heroes = (.*);\n//]]>").FindStringSubmatch(string(html))
-	if len(matches) != 2 {
-		return errors.New("no match")
-	}
-
-	type Hero struct {
-		icon string
-
-		Name string `json:"name"`
-		Slug string `json:"slug"`
-		Role struct {
-			Slug string `json:"slug"`
-		} `json:"role"`
-		RoleSecondary struct {
-			Slug string `json:"slug"`
-		} `json:"roleSecondary"`
-	}
-	var heroes []*Hero
-	if err := json.Unmarshal([]byte(matches[1]), &heroes); err != nil {
-		return err
-	}
-	g, ctx := errgroup.WithContext(context.Background())
-	_ = ctx
-	thumbnailRE := regexp.MustCompile("http://media.blizzard.com/heroes/(.*)/skins/thumbnails/(.*).jpg")
-	for _, h := range heroes {
-		h := h
-		g.Go(func() error {
-			url := fmt.Sprintf("http://us.battle.net/heroes/en/heroes/%s/", h.Slug)
-			resp, err := http.Get(url)
-			if err != nil {
-				return err
-			}
-			html, err := ioutil.ReadAll(resp.Body)
-			if err != nil {
-				return err
-			}
-			resp.Body.Close()
-
-			match := thumbnailRE.FindString(string(html))
-			if match == "" {
-				return errors.Errorf("could not find thumbnail for %s", h.Name)
-			}
-
-			resp, err = http.Get(match)
-			if err != nil {
-				return err
-			}
-			icon, err := ioutil.ReadAll(resp.Body)
-			if err != nil {
-				return err
-			}
-			if h.icon, err = toDataURI(icon); err != nil {
-				return errors.Wrap(err, h.Name)
-			}
-			resp.Body.Close()
-			roles := []string{h.Role.Slug}
-			if h.RoleSecondary.Slug != "" {
-				roles = append(roles, h.RoleSecondary.Slug)
-			}
-			_, err = db.Exec("UPSERT INTO heroes (slug, name, roles, icon) VALUES ($1, $2, $3, $4)",
-				h.Slug,
-				h.Name,
-				fmt.Sprintf("{%s}", strings.Join(roles, ",")),
-				h.icon,
-			)
-			return errors.Wrap(err, "upsert")
-		})
-	}
-	return g.Wait()
-}
-
-func toDataURI(b []byte) (string, error) {
-	img, format, err := image.Decode(bytes.NewReader(b))
-	if err != nil {
-		return "", err
-	}
-	img = resize.Resize(40, 40, img, resize.Bicubic)
-	var buf bytes.Buffer
-	if err := png.Encode(&buf, img); err != nil {
-		return "", err
-	}
-	return fmt.Sprintf("data:image/%s;base64,%s",
-		format,
-		base64.StdEncoding.EncodeToString(buf.Bytes()),
-	), nil
 }
 
 var capsRE = regexp.MustCompile(`[A-Z][a-z]+`)

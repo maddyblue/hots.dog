@@ -111,7 +111,7 @@ class Winrates extends Component {
 							<Link to={'/talents/' + encodeURI(v.Name) + build} key="link">
 								<img
 									key="img"
-									src={v.Icon}
+									src={'/img/hero/' + v.Slug + '.png'}
 									alt={v.Name}
 									style={{
 										width: '40px',

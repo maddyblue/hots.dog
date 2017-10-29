@@ -87,8 +87,5 @@ func (h *hotsContext) cron() error {
 		}
 		fmt.Println("recached", url, "in", time.Since(start))
 	}
-	if err := doGenerateHeroes(h.db); err != nil {
-		return err
-	}
 	return nil
 }

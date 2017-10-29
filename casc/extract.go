@@ -2,9 +2,11 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"encoding/xml"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -14,6 +16,10 @@ import (
 	"sort"
 	"strings"
 	"sync"
+	"unicode"
+
+	"golang.org/x/text/transform"
+	"golang.org/x/text/unicode/norm"
 
 	"github.com/pkg/errors"
 )
@@ -82,9 +88,66 @@ func extract() error {
 		Tier   int
 		Column int
 	}
+	var wg sync.WaitGroup
+	lock := make(chan bool, runtime.NumCPU())
+	iconClean := func(s string) string {
+		icon := strings.Replace(s, `\`, string(filepath.Separator), -1)
+		parts := strings.Split(icon, string(filepath.Separator))
+		parts[len(parts)-1] = strings.ToLower(parts[len(parts)-1])
+		return filepath.Join(parts...)
+	}
+	makeTalentIcon := func(input, output string, args ...string) {
+		input = filepath.Join("mods/heroes.stormmod/base.stormassets", input)
+		output = filepath.Join("..", "frontend", "public", "img", output)
+		wg.Add(1)
+		go func() {
+			lock <- true
+			defer func() { <-lock; wg.Done() }()
+			if _, err := os.Stat(input); err != nil {
+				panic(input)
+			}
+			if _, err := os.Stat(output); err == nil {
+				// Already generated.
+				return
+			}
+			cargs := []string{input}
+			cargs = append(cargs, args...)
+			cargs = append(cargs, output)
+			if out, err := exec.Command("convert", cargs...).CombinedOutput(); err != nil {
+				panic(errors.Errorf("%v: %s", err, out))
+			}
+		}()
+	}
 	heroTalents := make(map[string][]*HeroTalent)
 	icons := make(map[string]string)
 	talentFaces := make(map[string]string)
+	type Hero struct {
+		Name      string
+		Slug      string
+		Role      string
+		MultiRole []string
+	}
+	isMn := func(r rune) bool {
+		return unicode.Is(unicode.Mn, r) // Mn: nonspacing marks
+	}
+	transformText := transform.Chain(norm.NFD, transform.RemoveFunc(isMn), norm.NFC)
+	lettersRE := regexp.MustCompile(`[A-Za-z0-9]+`)
+	cleanText := func(s string) string {
+		b, err := ioutil.ReadAll(transform.NewReader(strings.NewReader(s), transformText))
+		if err != nil {
+			panic(err)
+		}
+		s = string(b)
+		matches := lettersRE.FindAllStringSubmatch(s, -1)
+		var buf bytes.Buffer
+		for _, m := range matches {
+			buf.WriteString(m[0])
+		}
+		s = buf.String()
+		s = strings.ToLower(s)
+		return s
+	}
+	var heroes []Hero
 	walk := func(path string, _ os.FileInfo, err error) error {
 		if !strings.HasSuffix(path, ".xml") {
 			return nil
@@ -103,10 +166,7 @@ func extract() error {
 			return err
 		}
 		for _, b := range v.CButton {
-			icon := strings.Replace(b.Icon.Value, `\`, string(filepath.Separator), -1)
-			parts := strings.Split(icon, string(filepath.Separator))
-			parts[len(parts)-1] = strings.ToLower(parts[len(parts)-1])
-			icons[b.Id] = filepath.Join(parts...)
+			icons[b.Id] = iconClean(b.Icon.Value)
 		}
 		for _, b := range v.CTalent {
 			talentFaces[b.Id] = b.Face.Value
@@ -114,6 +174,30 @@ func extract() error {
 		for _, chero := range v.CHero {
 			if len(chero.TalentTreeArray) > 0 && chero.Id != "" {
 				heroTalents[chero.Id] = chero.TalentTreeArray
+			}
+			if chero.Id != "" && len(chero.RolesMultiClass) != 0 {
+				h := Hero{
+					Name: names[chero.Id],
+					Slug: cleanText(names[chero.Id]),
+					Role: chero.CollectionCategory.Value,
+				}
+				if h.Name == "" {
+					panic(chero.Id)
+				}
+				img := chero.Id
+				if v := chero.ScoreScreenImage.Value; v != "" {
+					img = iconClean(v)
+				} else {
+					img = iconClean(fmt.Sprintf(`Assets\Textures\storm_ui_ingame_hero_leaderboard_%s.dds`, img))
+				}
+				makeTalentIcon(img, filepath.Join("hero", h.Slug+".png"),
+					"-resize", "40x40^", "-gravity", "center", "-extent", "40x40",
+				)
+				makeTalentIcon(img, filepath.Join("hero_full", h.Slug+".png"), "-resize", "100x56")
+				for _, r := range chero.RolesMultiClass {
+					h.MultiRole = append(h.MultiRole, r.Value)
+				}
+				heroes = append(heroes, h)
 			}
 		}
 		return nil
@@ -131,25 +215,11 @@ func extract() error {
 		fmt.Println("TEXTS")
 		enc.Encode(texts)
 		//*/
-	var wg sync.WaitGroup
-	lock := make(chan bool, runtime.NumCPU())
-	makeTalentIcon := func(input, output string) {
-		wg.Add(1)
-		go func(input, output string) {
-			lock <- true
-			defer func() { <-lock; wg.Done() }()
-			if _, err := os.Stat(input); err != nil {
-				panic(input)
-			}
-			if _, err := os.Stat(output); err == nil {
-				// Already generated.
-				return
-			}
-			if out, err := exec.Command("convert", "-resize", "40x40", input, output).CombinedOutput(); err != nil {
-				panic(errors.Errorf("%v: %s", err, out))
-			}
-		}(input, output)
-	}
+
+	sort.Slice(heroes, func(i, j int) bool {
+		return heroes[i].Name < heroes[j].Name
+	})
+
 	// Verify we have data for all current talents.
 	for _, talents := range heroTalents {
 		for _, talent := range talents {
@@ -167,6 +237,28 @@ func extract() error {
 	}
 
 	fmt.Print(`package main
+
+type Hero struct {
+	Name      string
+	Slug      string
+	Role      string
+	MultiRole []string
+}
+
+var heroData = []Hero{`)
+
+	for _, h := range heroes {
+		fmt.Printf(`
+	{
+		Name:      %q,
+		Slug:      %q,
+		Role:      %q,
+		MultiRole: %#v,
+	},`, h.Name, h.Slug, h.Role, h.MultiRole)
+	}
+
+	fmt.Print(`
+}
 
 type talentText struct {
 	Name string
@@ -189,9 +281,7 @@ var talentData = map[string]talentText{`)
 		if t == "" || n == "" || icon == "" {
 			continue
 		}
-		input := filepath.Join("mods/heroes.stormmod/base.stormassets", icon)
-		output := filepath.Join("..", "frontend", "public", "img", "talent", k+".png")
-		makeTalentIcon(input, output)
+		makeTalentIcon(icon, filepath.Join("talent", k+".png"), "-resize", "40x40")
 		fmt.Printf(`
 	%q: {
 		Name: %q,
@@ -229,8 +319,17 @@ type Catalog struct {
 		}
 	}
 	CHero []struct {
-		Id              string `xml:"id,attr"`
-		TalentTreeArray []*HeroTalent
+		Id                 string `xml:"id,attr"`
+		TalentTreeArray    []*HeroTalent
+		CollectionCategory struct {
+			Value string `xml:"value,attr"`
+		}
+		RolesMultiClass []struct {
+			Value string `xml:"value,attr"`
+		}
+		ScoreScreenImage struct {
+			Value string `xml:"value,attr"`
+		}
 	}
 }
 
