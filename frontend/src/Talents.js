@@ -178,6 +178,7 @@ const Builds = props => {
 		builds.push(
 			<SortedTable
 				key={tier}
+				name="talent"
 				sort="winrate"
 				headers={[
 					{
@@ -217,6 +218,7 @@ const Builds = props => {
 		}
 		return (
 			<SortedTable
+				name="popular"
 				sort={sort}
 				headers={[
 					{

@@ -101,6 +101,7 @@ class Winrates extends Component {
 			: '';
 		return (
 			<SortedTable
+				name="hero"
 				sort="winrate"
 				headers={[
 					{

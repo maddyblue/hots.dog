@@ -1,16 +1,60 @@
 import React, { Component } from 'react';
+import { createCookie, readCookie } from './common';
+
+const tableSortings = {};
+const sortTableCookie = 'sort-table-';
+function setTableSort(name, sort, dir) {
+	const val = sort + ',' + (dir === true);
+	createCookie(sortTableCookie + name, val);
+	const sortings = tableSortings[name];
+	const st = {
+		sort: sort,
+		sortDir: dir,
+	};
+	sortings.forEach(v => {
+		v.setState(st);
+	});
+}
+function registerTableSort(that) {
+	const name = that.props.name;
+	if (!tableSortings[name]) {
+		tableSortings[name] = [];
+	}
+	tableSortings[name].push(that);
+}
+function unregisterTableSort(that) {
+	const name = that.props.name;
+	tableSortings[name] = tableSortings[name].filter(v => v !== that);
+}
 
 class SortedTable extends Component {
 	constructor(props) {
 		super(props);
+		if (!this.props.name) {
+			debugger;
+		}
 		const lookup = this.lookup(props.headers);
+		let sort = props.sort;
+		let dir = lookup[props.sort].desc === true;
+		const cookie = readCookie(sortTableCookie + this.props.name);
+		registerTableSort(this);
+		if (cookie) {
+			const sp = cookie.split(',', 2);
+			if (sp.length === 2) {
+				sort = sp[0];
+				dir = sp[1] === 'true';
+			}
+		}
 		this.state = {
 			lookup: lookup,
-			sort: props.sort,
-			sortDir: lookup[props.sort].desc === true,
+			sort: sort,
+			sortDir: dir,
 		};
 		this.sort = this.sort.bind(this);
 		this.sortClass = this.sortClass.bind(this);
+	}
+	componentWillUnmount() {
+		unregisterTableSort(this);
 	}
 	lookup(headers) {
 		const lookup = {};
@@ -38,7 +82,7 @@ class SortedTable extends Component {
 		} else {
 			dir = this.state.lookup[sort].desc === true;
 		}
-		this.setState({ sort: sort, sortDir: dir });
+		setTableSort(this.props.name, sort, dir);
 	}
 	sortClass(col) {
 		if (col !== this.state.sort) {

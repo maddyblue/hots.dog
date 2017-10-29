@@ -121,7 +121,7 @@ class HotsApp extends Component {
 		}
 		this.setState(st, () => {
 			const params = this.getSearch();
-			createCookie('params', params, 50);
+			createCookie('params', params);
 			this.props.history.push({ search: params });
 		});
 	}

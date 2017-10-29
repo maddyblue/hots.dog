@@ -149,7 +149,7 @@ function toLength(l) {
 }
 
 // Modified from https://www.quirksmode.org/js/cookies.html.
-function createCookie(name, value, days) {
+function createCookie(name, value, days = 50) {
 	let expires = '';
 	if (days) {
 		const date = new Date();

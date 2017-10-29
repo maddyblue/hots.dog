@@ -73,6 +73,7 @@ class Hero extends Component {
 			<div>
 				<div className="anchor" id={prop.toLowerCase()} />
 				<SortedTable
+					name="relative"
 					sort={name}
 					headers={[
 						{

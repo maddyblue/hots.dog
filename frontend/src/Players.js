@@ -137,6 +137,7 @@ class Player extends Component {
 		if (this.state.Games.length) {
 			game = (
 				<SortedTable
+					name="player"
 					sort="Date"
 					headers={[
 						{
