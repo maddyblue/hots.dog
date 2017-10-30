@@ -184,16 +184,27 @@ func extract() error {
 				if h.Name == "" {
 					panic(chero.Id)
 				}
-				img := chero.Id
-				if v := chero.ScoreScreenImage.Value; v != "" {
-					img = iconClean(v)
-				} else {
-					img = iconClean(fmt.Sprintf(`Assets\Textures\storm_ui_ingame_hero_leaderboard_%s.dds`, img))
+				{
+					img := chero.Id
+					if v := chero.ScoreScreenImage.Value; v != "" {
+						img = iconClean(v)
+					} else {
+						img = iconClean(fmt.Sprintf(`Assets\Textures\storm_ui_ingame_hero_leaderboard_%s.dds`, img))
+					}
+					makeTalentIcon(img, filepath.Join("hero", h.Slug+".png"),
+						"-resize", "40x40^", "-gravity", "center", "-extent", "40x40",
+					)
+					makeTalentIcon(img, filepath.Join("hero_full", h.Slug+".png"), "-resize", "100x56")
 				}
-				makeTalentIcon(img, filepath.Join("hero", h.Slug+".png"),
-					"-resize", "40x40^", "-gravity", "center", "-extent", "40x40",
-				)
-				makeTalentIcon(img, filepath.Join("hero_full", h.Slug+".png"), "-resize", "100x56")
+				{
+					img := chero.Id
+					if v := chero.ScoreScreenImage.Value; v != "" {
+						img = iconClean(v)
+					} else {
+						img = iconClean(fmt.Sprintf(`Assets\Textures\storm_ui_ingame_hero_loadingscreen_%s.dds`, img))
+					}
+					makeTalentIcon(img, filepath.Join("hero_loading", h.Slug+".png"))
+				}
 				for _, r := range chero.RolesMultiClass {
 					h.MultiRole = append(h.MultiRole, r.Value)
 				}
