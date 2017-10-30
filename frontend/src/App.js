@@ -11,7 +11,7 @@ import TalentWinrates from './Talents';
 
 import './normalize.css';
 import './App.css';
-import './milligram.css';
+import 'milligram';
 
 import logo from './img/logo.png';
 
