@@ -60,24 +60,6 @@ func (h *hotsContext) updateDBNext(bucket *storage.BucketHandle) error {
 	file := fmt.Sprintf(configBase, start)
 	fmt.Println("updating block", start, file)
 
-	if _, err := h.db.Exec(`DELETE FROM games WHERE ID >= $1 AND ID < $1 + $2`, start, perFile); err != nil {
-		return errors.Wrap(err, "clear games")
-	}
-	for {
-		res, err := h.db.Exec(`DELETE FROM players WHERE game >= $1 AND game < $1 + $2 limit 1000`, start, perFile)
-		if err != nil {
-			return errors.Wrap(err, "clear players")
-		}
-		count, err := res.RowsAffected()
-		if err != nil {
-			return errors.Wrap(err, "clear players")
-		}
-		if count == 0 {
-			break
-		}
-		fmt.Println("CLEARED", count, "players")
-	}
-
 	fmt.Println("fetching csvs")
 	var games, players [][]string
 	{
@@ -101,6 +83,24 @@ func (h *hotsContext) updateDBNext(bucket *storage.BucketHandle) error {
 		if err != nil {
 			return err
 		}
+	}
+
+	if _, err := h.db.Exec(`DELETE FROM games WHERE ID >= $1 AND ID < $1 + $2`, start, perFile); err != nil {
+		return errors.Wrap(err, "clear games")
+	}
+	for {
+		res, err := h.db.Exec(`DELETE FROM players WHERE game >= $1 AND game < $1 + $2 limit 1000`, start, perFile)
+		if err != nil {
+			return errors.Wrap(err, "clear players")
+		}
+		count, err := res.RowsAffected()
+		if err != nil {
+			return errors.Wrap(err, "clear players")
+		}
+		if count == 0 {
+			break
+		}
+		fmt.Println("CLEARED", count, "players")
 	}
 
 	copyin := func(data [][]string, table string, cols []string) error {
