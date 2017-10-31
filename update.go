@@ -47,9 +47,6 @@ func (h *hotsContext) updateDB() error {
 		} else if err != nil {
 			return errors.Wrap(err, "updateDBNext")
 		}
-		if err := h.cronLoop(); err != nil {
-			return errors.Wrap(err, "cron")
-		}
 	}
 }
 
@@ -167,6 +164,9 @@ func (h *hotsContext) updateDBNext(bucket *storage.BucketHandle) error {
 	}
 	if _, err := h.db.Exec(`UPDATE config SET i = $1 WHERE key = $2`, start+perFile, nextUpdateKey); err != nil {
 		return errors.Wrap(err, "update config")
+	}
+	if err := h.cronLoop(); err != nil {
+		return errors.Wrap(err, "cron")
 	}
 
 	return nil
