@@ -42,7 +42,7 @@ func (h *hotsContext) updateDB() error {
 	for {
 		err := h.updateDBNext(bucket)
 		if err == storage.ErrObjectNotExist {
-			fmt.Println("sleeping")
+			fmt.Println("no new data; sleeping")
 			time.Sleep(time.Minute * 10)
 		} else if err != nil {
 			return errors.Wrap(err, "updateDBNext")
