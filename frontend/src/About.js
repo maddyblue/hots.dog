@@ -11,6 +11,21 @@ const About = props => {
 				<a href="http://hotsapi.net/">HotsApi</a> and displays hero winrates
 				with various filter options.
 			</p>
+			<p>You can send feedback by:</p>
+			<ul>
+				<li>
+					emailing <a href="mailto:human@hots.dog">human@hots.dog</a>
+				</li>
+				<li>
+					tweeting <a href="https://twitter.com/mjibson">@mjibson</a>
+				</li>
+				<li>
+					opening a{' '}
+					<a href="https://github.com/mjibson/hots.dog/issues/new">
+						GitHub issue
+					</a>
+				</li>
+			</ul>
 			<p>Our goals are:</p>
 			<ul>
 				<li>a fast, clean web experience</li>
@@ -26,13 +41,13 @@ const About = props => {
 			</ul>
 			<p>
 				The code is free on GitHub at{' '}
-				<a href="https://github.com/mjibson/hots-cockroach">
-					github.com/mjibson/hots-cockroach
+				<a href="https://github.com/mjibson/hots.dog">
+					github.com/mjibson/hots.dog
 				</a>. Technical details:
 			</p>
 			<ul>
 				<li>
-					backend is written in <a href="https://golang.org/">Go</a>
+					backend is <a href="https://golang.org/">Go</a>
 				</li>
 				<li>
 					database is <a href="https://www.cockroachlabs.com/">CockroachDB</a>
