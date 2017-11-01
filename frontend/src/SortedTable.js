@@ -105,28 +105,30 @@ class SortedTable extends Component {
 				))}
 			</tr>
 		));
-		return (
-			<table className="sorted">
-				<thead>
-					<tr>
-						{this.props.headers.map(h => {
-							let { name, title, header } = h;
-							return (
-								<th
-									key={name}
-									onClick={() => this.sort(name)}
-									className={this.sortClass(name)}
-									title={title}
-								>
-									{header}
-								</th>
-							);
-						})}
-					</tr>
-				</thead>
-				<tbody>{body}</tbody>
-			</table>
-		);
+		const inner = [
+			<thead key="thead">
+				<tr>
+					{this.props.headers.map(h => {
+						let { name, title, header } = h;
+						return (
+							<th
+								key={name}
+								onClick={() => this.sort(name)}
+								className={this.sortClass(name)}
+								title={title}
+							>
+								{header}
+							</th>
+						);
+					})}
+				</tr>
+			</thead>,
+			<tbody key="tbody">{body}</tbody>,
+		];
+		if (this.props.notable) {
+			return inner;
+		}
+		return <table className="sorted">{inner}</table>;
 	}
 }
 

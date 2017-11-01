@@ -224,10 +224,11 @@ const Builds = props => {
 					},
 				]}
 				data={talents}
+				notable={true}
 			/>
 		);
 	}
-	function buildList(builds, sort) {
+	function buildList(builds, sort, name) {
 		if (!builds) {
 			return;
 		}
@@ -238,7 +239,7 @@ const Builds = props => {
 				headers={[
 					{
 						name: 'Build',
-						header: 'build',
+						header: name,
 						cell: v =>
 							v.map(v => (
 								<TalentImg key={v} name={v} data={props.winrates.Talents[v]} />
