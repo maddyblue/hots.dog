@@ -96,8 +96,8 @@ class TalentWinrates extends Component {
 					>
 						[relative winrates]
 					</Link>&nbsp;
-					<a href="#popular">[popular builds]</a>&nbsp;
-					<a href="#winning">[winning builds]</a>
+					<a href="#winning">[winning builds]</a>&nbsp;
+					<a href="#popular">[popular builds]</a>
 				</p>
 				<div className="row">
 					<div className="column">
@@ -262,19 +262,27 @@ const Builds = props => {
 			/>
 		);
 	}
-	const popular = buildList(props.winrates.PopularBuilds, 'Total');
-	const winning = buildList(props.winrates.WinningBuilds, 'Winrate');
+	const winning = buildList(
+		props.winrates.WinningBuilds,
+		'Winrate',
+		'winning builds'
+	);
+	const popular = buildList(
+		props.winrates.PopularBuilds,
+		'Total',
+		'popular builds'
+	);
 	return [
-		<div key="builds">{builds}</div>,
-		<div key="popular">
-			<div className="anchor" id="popular" />
-			<h3>Popular Builds</h3>
-			{popular}
+		<div key="builds">
+			<table className="sorted">{builds}</table>
 		</div>,
 		<div key="winning">
 			<div className="anchor" id="winning" />
-			<h3>Winning Builds</h3>
 			{winning}
+		</div>,
+		<div key="popular">
+			<div className="anchor" id="popular" />
+			{popular}
 		</div>,
 	];
 };
