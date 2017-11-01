@@ -83,7 +83,11 @@ class HeroWinrates extends Component {
 					change: change,
 				});
 			});
-			winrates = <Winrates winrates={rates} build={this.props.build} />;
+			winrates = rates.length ? (
+				<Winrates winrates={rates} build={this.props.build} />
+			) : (
+				'No results. This could be because a map was out of HL/TL rotation, or there were no results with your filters.'
+			);
 		}
 		return (
 			<div>
