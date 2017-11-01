@@ -53,7 +53,7 @@ class HeroWinrates extends Component {
 	render() {
 		let winrates;
 		if (!this.state.winrates) {
-			winrates = <div>loading...</div>;
+			winrates = 'loading...';
 		} else {
 			const rates = [];
 			this.props.Heroes.forEach(hero => {
@@ -98,57 +98,53 @@ class HeroWinrates extends Component {
 	}
 }
 
-class Winrates extends Component {
-	render() {
-		const build = this.props.build
-			? '?build=' + encodeURIComponent(this.props.build)
-			: '';
-		return (
-			<SortedTable
-				name="hero"
-				sort="winrate"
-				headers={[
-					{
-						name: 'hero',
-						cmp: (a, b) => a.Name.localeCompare(b.Name),
-						cell: v => (
-							<Link to={'/talents/' + encodeURI(v.Name) + build} key="link">
-								<img
-									key="img"
-									src={'/img/hero/' + v.Slug + '.png'}
-									alt={v.Name}
-									style={{
-										width: '40px',
-										height: '40px',
-										verticalAlign: 'middle',
-										marginRight: '1em',
-									}}
-								/>
-								{v.Name}
-							</Link>
-						),
-					},
-					{
-						name: 'games',
-						cell: v => v || 0,
-						desc: true,
-					},
-					{
-						name: 'winrate',
-						cell: pct,
-						desc: true,
-					},
-					{
-						name: 'change',
-						title: 'percent change from previous patch',
-						cell: pct,
-						desc: true,
-					},
-				]}
-				data={this.props.winrates}
-			/>
-		);
-	}
-}
+const Winrates = props => {
+	const build = props.build ? '?build=' + encodeURIComponent(props.build) : '';
+	return (
+		<SortedTable
+			name="hero"
+			sort="winrate"
+			headers={[
+				{
+					name: 'hero',
+					cmp: (a, b) => a.Name.localeCompare(b.Name),
+					cell: v => (
+						<Link to={'/talents/' + encodeURI(v.Name) + build} key="link">
+							<img
+								key="img"
+								src={'/img/hero/' + v.Slug + '.png'}
+								alt={v.Name}
+								style={{
+									width: '40px',
+									height: '40px',
+									verticalAlign: 'middle',
+									marginRight: '1em',
+								}}
+							/>
+							{v.Name}
+						</Link>
+					),
+				},
+				{
+					name: 'games',
+					cell: v => v || 0,
+					desc: true,
+				},
+				{
+					name: 'winrate',
+					cell: pct,
+					desc: true,
+				},
+				{
+					name: 'change',
+					title: 'percent change from previous patch',
+					cell: pct,
+					desc: true,
+				},
+			]}
+			data={props.winrates}
+		/>
+	);
+};
 
 export default HeroWinrates;
