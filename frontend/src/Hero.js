@@ -43,7 +43,7 @@ class Hero extends Component {
 			}
 		});
 	}
-	makeTable(name, prop, basewr, displayFn, cmp) {
+	makeTable(name, prop, basewr, displayFn, cmp, title) {
 		const obj = this.state.Current[prop];
 		const elems = Object.keys(obj).map(k => {
 			const v = obj[k];
@@ -81,6 +81,7 @@ class Hero extends Component {
 							cell: displayFn,
 							header: name.toLowerCase(),
 							cmp: cmp,
+							title: title,
 						},
 						{
 							name: 'games',
@@ -163,7 +164,8 @@ class Hero extends Component {
 						'Levels',
 						basewr,
 						undefined,
-						(a, b) => a - b
+						(a, b) => a - b,
+						'hero level at start of game, rounded to closest 5'
 					)}
 				</div>
 			);
