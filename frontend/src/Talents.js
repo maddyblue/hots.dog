@@ -157,7 +157,9 @@ const TalentImg = props => {
 				}}
 			/>
 			{desc}
-			<span className="tip">{Text}</span>
+			<span className="tip" style={{ whiteSpace: 'pre-line' }}>
+				{Text}
+			</span>
 		</span>
 	);
 };

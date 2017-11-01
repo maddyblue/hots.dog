@@ -22,6 +22,7 @@ import (
 	"golang.org/x/text/unicode/norm"
 
 	"github.com/pkg/errors"
+	"github.com/soudy/mathcat"
 )
 
 func main() {
@@ -40,43 +41,54 @@ func extract() error {
 	const dir = "mods"
 	names := make(map[string]string)
 	texts := make(map[string]string)
+	tooltips := make(map[string]string)
+	var x XML
 	stringsWalk := func(path string, info os.FileInfo, err error) error {
-		if info.Name() != "GameStrings.txt" {
-			return nil
-		}
-		f, err := os.Open(path)
-		if err != nil {
-			return err
-		}
-		scanner := bufio.NewScanner(f)
-		defer f.Close()
-		for scanner.Scan() {
-			line := scanner.Text()
-			parts := strings.SplitN(line, "=", 2)
-			const (
-				heroname      = "Hero/Name/"
-				buttonname    = "Button/Name/"
-				buttontooltip = "Button/Tooltip/"
-				simpletext    = "Button/SimpleDisplayText/"
-			)
-			if strings.HasPrefix(parts[0], heroname) {
-				heroid := strings.TrimPrefix(parts[0], heroname)
-				names[heroid] = parts[1]
-			} else if strings.HasPrefix(parts[0], buttonname) {
-				button := strings.TrimPrefix(parts[0], buttonname)
-				names[button] = parts[1]
-			} else if strings.HasPrefix(parts[0], simpletext) {
-				text := strings.TrimPrefix(parts[0], simpletext)
-				texts[text] = clean(parts[1])
-			} else if strings.HasPrefix(parts[0], buttontooltip) {
-				text := strings.TrimPrefix(parts[0], buttontooltip)
-				t := texts[text]
-				if t == "" || len(t) > len(parts[1]) {
+		switch info.Name() {
+		case "GameStrings.txt":
+			f, err := os.Open(path)
+			if err != nil {
+				return err
+			}
+			defer f.Close()
+			scanner := bufio.NewScanner(f)
+			for scanner.Scan() {
+				line := scanner.Text()
+				parts := strings.SplitN(line, "=", 2)
+				const (
+					heroname      = "Hero/Name/"
+					buttonname    = "Button/Name/"
+					buttontooltip = "Button/Tooltip/"
+					simpletext    = "Button/SimpleDisplayText/"
+				)
+				if strings.HasPrefix(parts[0], heroname) {
+					heroid := strings.TrimPrefix(parts[0], heroname)
+					names[heroid] = parts[1]
+				} else if strings.HasPrefix(parts[0], buttonname) {
+					button := strings.TrimPrefix(parts[0], buttonname)
+					names[button] = parts[1]
+				} else if strings.HasPrefix(parts[0], simpletext) {
+					text := strings.TrimPrefix(parts[0], simpletext)
 					texts[text] = clean(parts[1])
+				} else if strings.HasPrefix(parts[0], buttontooltip) {
+					text := strings.TrimPrefix(parts[0], buttontooltip)
+					tooltips[text] = parts[1]
+					t := texts[text]
+					if t == "" || len(t) > len(parts[1]) {
+						texts[text] = clean(parts[1])
+					}
 				}
 			}
+			return scanner.Err()
+		default:
+			if strings.HasSuffix(path, ".xml") && (strings.HasPrefix(path, "mods/heromods/") ||
+				strings.HasPrefix(path, "mods/heroesdata.stormmod/") ||
+				strings.HasPrefix(path, "mods/core.stormmod/")) {
+				fmt.Fprintln(os.Stderr, "LOADING", path)
+				return x.loadXML(path)
+			}
+			return nil
 		}
-		return scanner.Err()
 	}
 	if err := filepath.Walk(dir, stringsWalk); err != nil {
 		return err
@@ -97,6 +109,7 @@ func extract() error {
 		return filepath.Join(parts...)
 	}
 	makeTalentIcon := func(input, output string, args ...string) {
+		return
 		input = filepath.Join("mods/heroes.stormmod/base.stormassets", input)
 		output = filepath.Join("..", "frontend", "public", "img", output)
 		wg.Add(1)
@@ -216,16 +229,17 @@ func extract() error {
 	if err := filepath.Walk(dir, walk); err != nil {
 		return err
 	}
+
 	/*
+		enc := json.NewEncoder(os.Stderr)
+		enc.SetIndent("", "\t")
 		fmt.Println("ICONS")
 		enc.Encode(icons)
 		fmt.Println("FACES")
 		enc.Encode(talentFaces)
 		fmt.Println("NAMES")
 		enc.Encode(names)
-		fmt.Println("TEXTS")
-		enc.Encode(texts)
-		//*/
+	*/
 
 	sort.Slice(heroes, func(i, j int) bool {
 		return heroes[i].Name < heroes[j].Name
@@ -247,7 +261,48 @@ func extract() error {
 		}
 	}
 
-	fmt.Print(`package main
+	var keys []string
+	for k := range talentFaces {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+
+	// Populate full tooltips.
+	{
+		var wg sync.WaitGroup
+		var mlock sync.Mutex
+		for _, k := range keys {
+			v := talentFaces[k]
+			mlock.Lock()
+			t := texts[v]
+			mlock.Unlock()
+			if t == "" {
+				continue
+			}
+			if tooltip := tooltips[v]; tooltip != "" {
+				wg.Add(1)
+				go func(k, v, tooltip string) {
+					lock <- true
+					defer func() { <-lock; wg.Done() }()
+					//start := time.Now()
+					tip, err := getTooltip(tooltip, x)
+					//fmt.Fprintf(os.Stderr, "getTooltip: %s (%s)\n", k, time.Since(start))
+					if tip != "" && err == nil {
+						mlock.Lock()
+						texts[v] = tip
+						mlock.Unlock()
+					} else {
+						fmt.Fprintf(os.Stderr, "notooltip: %s: %v\n", v, err)
+					}
+				}(k, v, tooltip)
+			}
+		}
+		wg.Wait()
+	}
+
+	out := new(bytes.Buffer)
+
+	fmt.Fprint(out, `package main
 
 type Hero struct {
 	Name      string
@@ -259,7 +314,7 @@ type Hero struct {
 var heroData = []Hero{`)
 
 	for _, h := range heroes {
-		fmt.Printf(`
+		fmt.Fprintf(out, `
 	{
 		Name:      %q,
 		Slug:      %q,
@@ -268,7 +323,7 @@ var heroData = []Hero{`)
 	},`, h.Name, h.Slug, h.Role, h.MultiRole)
 	}
 
-	fmt.Print(`
+	fmt.Fprint(out, `
 }
 
 type talentText struct {
@@ -277,12 +332,6 @@ type talentText struct {
 }
 
 var talentData = map[string]talentText{`)
-
-	var keys []string
-	for k := range talentFaces {
-		keys = append(keys, k)
-	}
-	sort.Strings(keys)
 
 	for _, k := range keys {
 		v := talentFaces[k]
@@ -293,17 +342,80 @@ var talentData = map[string]talentText{`)
 			continue
 		}
 		makeTalentIcon(icon, filepath.Join("talent", k+".png"), "-resize", "40x40")
-		fmt.Printf(`
+		fmt.Fprintf(out, `
 	%q: {
 		Name: %q,
 		Text: %q,
 	},`, k, n, t)
 	}
-	fmt.Print(`
+	fmt.Fprint(out, `
 }
 `)
 	wg.Wait()
-	return nil
+	return ioutil.WriteFile("../talents.go", out.Bytes(), 0666)
+}
+
+var (
+	reC   = regexp.MustCompile(`(?i:</?[scki].*?>)`)
+	reN   = regexp.MustCompile(`(</?n/?>)+`)
+	reD   = regexp.MustCompile(`<d.*?/>`)
+	reVal = regexp.MustCompile(`[A-Z][A-Za-z0-9,\[\].]+`)
+)
+
+func getTooltip(s string, x XML) (string, error) {
+	gotErr := false
+	lookup := func(s string) string {
+		v, err := x.Get(s)
+		if err != nil {
+			gotErr = true
+			fmt.Fprintf(os.Stderr, "UNKNOWN1: %v (%q) s\n", err, s)
+			return "UNKNOWN1"
+		}
+		if v == "" {
+			gotErr = true
+			fmt.Fprintf(os.Stderr, "not found: %s\n", s)
+			return "0"
+		}
+		return v
+	}
+	s = reC.ReplaceAllString(s, "")
+	s = reN.ReplaceAllString(s, "\n")
+	s = reD.ReplaceAllStringFunc(s, func(r string) string {
+		t, err := xml.NewDecoder(strings.NewReader(r)).Token()
+		if err != nil {
+			panic(err)
+		}
+		se := t.(xml.StartElement)
+		var v string
+		for _, attr := range se.Attr {
+			if attr.Name.Local == "ref" {
+				expr := reVal.ReplaceAllStringFunc(attr.Value, lookup)
+				expr = strings.Replace(expr, "--", "", -1)
+				f, err := mathcat.Eval(expr)
+				if err != nil {
+					gotErr = true
+					fmt.Fprintf(os.Stderr, "UNKNOWN2: %s: %s: %s\n", r, expr, err)
+					return "?"
+				}
+				v = fmt.Sprintf("%.1f", f)
+				if float64(int(f)) == f {
+					v = fmt.Sprint(int(f))
+				}
+				break
+			}
+		}
+		if v == "" {
+			gotErr = true
+			fmt.Fprintf(os.Stderr, "UNKNOWN3: %s: %s\n", s, r)
+			return "UNKNOWN3"
+		}
+		return v
+	})
+	var err error
+	if gotErr {
+		err = errors.New("error")
+	}
+	return s, err
 }
 
 const jsonTemplate = `package main
@@ -319,29 +431,25 @@ type Catalog struct {
 	}
 	CTalent []struct {
 		Id   string `xml:"id,attr"`
-		Face struct {
-			Value string `xml:"value,attr"`
-		}
+		Face Value
 	}
 	CButton []struct {
 		Id   string `xml:"id,attr"`
-		Icon struct {
-			Value string `xml:"value,attr"`
-		}
+		Icon Value
 	}
 	CHero []struct {
 		Id                 string `xml:"id,attr"`
 		TalentTreeArray    []*HeroTalent
-		CollectionCategory struct {
+		CollectionCategory Value
+		RolesMultiClass    []struct {
 			Value string `xml:"value,attr"`
 		}
-		RolesMultiClass []struct {
-			Value string `xml:"value,attr"`
-		}
-		ScoreScreenImage struct {
-			Value string `xml:"value,attr"`
-		}
+		ScoreScreenImage Value
 	}
+}
+
+type Value struct {
+	Value string `xml:"value,attr"`
 }
 
 type HeroTalent struct {
