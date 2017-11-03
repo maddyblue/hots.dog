@@ -70,44 +70,45 @@ class Hero extends Component {
 			return d;
 		});
 		return (
-			<div>
-				<div className="anchor" id={prop.toLowerCase()} />
-				<SortedTable
-					name="relative"
-					sort={'header'}
-					headers={[
-						{
-							name: 'header',
-							cell: displayFn,
-							header: name.toLowerCase(),
-							cmp: cmp,
-							title: title,
-						},
-						{
-							name: 'games',
-							desc: true,
-						},
-						{
-							name: 'winrate',
-							cell: pct,
-							desc: true,
-						},
-						{
-							name: 'relative',
-							title: 'winrate relative to base winrate',
-							cell: pct,
-							desc: true,
-						},
-						{
-							name: 'change',
-							title: 'change since previous patch',
-							cell: pct,
-							desc: true,
-						},
-					]}
-					data={elems}
-				/>
-			</div>
+			<SortedTable
+				name="relative"
+				sort={'header'}
+				headers={[
+					{
+						name: 'header',
+						cell: displayFn,
+						header: [
+							<div key="anchor" className="anchor" id={prop.toLowerCase()} />,
+							<span key="name">{name.toLowerCase()}</span>,
+						],
+						cmp: cmp,
+						title: title,
+					},
+					{
+						name: 'games',
+						desc: true,
+					},
+					{
+						name: 'winrate',
+						cell: pct,
+						desc: true,
+					},
+					{
+						name: 'relative',
+						title: 'winrate relative to base winrate',
+						cell: pct,
+						desc: true,
+					},
+					{
+						name: 'change',
+						title: 'change since previous patch',
+						cell: pct,
+						desc: true,
+					},
+				]}
+				data={elems}
+				notable={true}
+			/>
 		);
 	}
 	render() {
@@ -145,28 +146,30 @@ class Hero extends Component {
 							</tr>
 						</tbody>
 					</table>
-					{this.makeTable('Map', 'Maps', basewr)}
-					{this.makeTable(
-						'Game Mode',
-						'Modes',
-						basewr,
-						m => this.props.Modes[m]
-					)}
-					{this.makeTable(
-						'Game Length',
-						'Lengths',
-						basewr,
-						toLength,
-						(a, b) => a - b
-					)}
-					{this.makeTable(
-						'Hero Level',
-						'Levels',
-						basewr,
-						undefined,
-						(a, b) => a - b,
-						'hero level at start of game, rounded to closest 5'
-					)}
+					<table className="sorted">
+						{this.makeTable('Map', 'Maps', basewr)}
+						{this.makeTable(
+							'Game Mode',
+							'Modes',
+							basewr,
+							m => this.props.Modes[m]
+						)}
+						{this.makeTable(
+							'Game Length',
+							'Lengths',
+							basewr,
+							toLength,
+							(a, b) => a - b
+						)}
+						{this.makeTable(
+							'Hero Level',
+							'Levels',
+							basewr,
+							undefined,
+							(a, b) => a - b,
+							'hero level at start of game, rounded to closest 5'
+						)}
+					</table>
 				</div>
 			);
 		}
