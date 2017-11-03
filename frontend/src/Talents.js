@@ -239,7 +239,6 @@ const Builds = props => {
 				headers={[
 					{
 						name: 'Build',
-						header: name,
 						header: [
 							<div key="anchor" className="anchor" id={name.toLowerCase()} />,
 							<span key="name">{name} builds</span>,
