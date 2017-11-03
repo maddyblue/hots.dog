@@ -240,6 +240,10 @@ const Builds = props => {
 					{
 						name: 'Build',
 						header: name,
+						header: [
+							<div key="anchor" className="anchor" id={name.toLowerCase()} />,
+							<span key="name">{name} builds</span>,
+						],
 						cell: v =>
 							v.map(v => (
 								<TalentImg key={v} name={v} data={props.winrates.Talents[v]} />
@@ -259,31 +263,20 @@ const Builds = props => {
 					},
 				]}
 				data={builds}
+				notable={true}
 			/>
 		);
 	}
-	const winning = buildList(
-		props.winrates.WinningBuilds,
-		'Winrate',
-		'winning builds'
-	);
-	const popular = buildList(
-		props.winrates.PopularBuilds,
-		'Total',
-		'popular builds'
-	);
+	const winning = buildList(props.winrates.WinningBuilds, 'Winrate', 'winning');
+	const popular = buildList(props.winrates.PopularBuilds, 'Total', 'popular');
 	return [
 		<div key="builds">
 			<table className="sorted">{builds}</table>
 		</div>,
-		<div key="winning">
-			<div className="anchor" id="winning" />
+		<table key="table" className="sorted">
 			{winning}
-		</div>,
-		<div key="popular">
-			<div className="anchor" id="popular" />
 			{popular}
-		</div>,
+		</table>,
 	];
 };
 
