@@ -1143,7 +1143,6 @@ func (h *hotsContext) getWinrates(ctx context.Context, init initData, args map[s
 			}
 		}
 		wheres = append(wheres, fmt.Sprintf("%s = $%d", key, len(params)+1))
-		groups = append(groups, key)
 		params = append(params, v)
 	}
 	hl := args["herolevel"]
