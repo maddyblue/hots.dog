@@ -212,6 +212,7 @@ func main() {
 
 	http.Handle("/api/init", wrap(h.Init))
 	http.Handle("/api/get-build-winrates", wrap(h.GetBuildWinrates))
+	http.Handle("/api/get-compare-hero", wrap(h.GetCompareHero))
 	http.Handle("/api/get-hero-data", wrap(h.GetHero))
 	http.Handle("/api/get-player-by-name", wrap(h.GetPlayerName))
 	http.Handle("/api/get-player-data", wrap(h.GetPlayerData))
@@ -254,6 +255,7 @@ func main() {
 	})
 
 	http.HandleFunc("/about/", serveIndex)
+	http.HandleFunc("/compare/", serveIndex)
 	http.HandleFunc("/heroes/", serveIndex)
 	http.HandleFunc("/players/", serveIndex)
 	http.HandleFunc("/talents/", serveIndex)
@@ -334,6 +336,7 @@ func main() {
 var (
 	enableDBCache = map[string]bool{
 		"/api/get-build-winrates": true,
+		"/api/get-compare-hero":   true,
 		"/api/get-hero-data":      true,
 		"/api/get-winrates":       true,
 	}
@@ -1191,6 +1194,128 @@ func (h *hotsContext) getWinrates(ctx context.Context, init initData, args map[s
 
 type Total struct {
 	Wins, Losses int
+}
+
+func (h *hotsContext) GetCompareHero(ctx context.Context, r *http.Request) (interface{}, error) {
+	init := h.getInit()
+	args := map[string]string{
+		"build":     init.config.build(r.FormValue("build")),
+		"hero":      init.config.hero(r.FormValue("hero")),
+		"herolevel": r.FormValue("herolevel"),
+		"map":       init.config.gamemap(r.FormValue("map")),
+		"mode":      r.FormValue("mode"),
+	}
+	if args["build"] == "" {
+		return nil, errors.New("build required")
+	}
+	if args["hero"] == "" {
+		return nil, errors.New("hero required")
+	}
+
+	var wheres []string
+	var params []interface{}
+	for _, key := range []string{"build", "hero", "map", "mode"} {
+		v := args[key]
+		if v == "" {
+			continue
+		}
+		wheres = append(wheres, fmt.Sprintf("%s = $%d", key, len(params)+1))
+		params = append(params, v)
+	}
+	hl := args["herolevel"]
+	if hl == "" {
+		hl = defaultHerolevel
+	}
+	wheres = append(wheres, fmt.Sprintf("hero_level >= $%d", len(params)+1))
+	params = append(params, hl)
+	var games []struct {
+		Game   int64
+		Team   int
+		Winner bool
+	}
+	if err := h.x.SelectContext(ctx, &games, fmt.Sprintf(`
+		SELECT game, team, winner
+		FROM players
+		WHERE %s
+		`, strings.Join(wheres, " AND "),
+	), params...); err != nil {
+		return nil, err
+	}
+	var total Total
+	team0 := make([]interface{}, 0, len(games))
+	team1 := make([]interface{}, 0, len(games))
+	for _, g := range games {
+		if g.Team == 0 {
+			team0 = append(team0, g.Game)
+		} else {
+			team1 = append(team1, g.Game)
+		}
+		if g.Winner {
+			total.Wins++
+		} else {
+			total.Losses++
+		}
+	}
+	sameTeam := make(map[string]Total)
+	otherTeam := make(map[string]Total)
+	getGames := func(team int, ids []interface{}) error {
+		for len(ids) > 0 {
+			limit := 1000
+			if limit > len(ids) {
+				limit = len(ids)
+			}
+			params := append([]interface{}{team, args["hero"]}, ids[:limit]...)
+			query := fmt.Sprintf(`
+					SELECT hero, team = $1 as sameteam, winner, count(*) as count
+					FROM players
+					WHERE
+						game IN %s
+						AND hero != $2
+					GROUP BY hero, team, winner
+					`, makeValues(limit, 3),
+			)
+			var res []struct {
+				Hero     string
+				Sameteam bool
+				Winner   bool
+				Count    int
+			}
+			if err := h.x.SelectContext(ctx, &res, query, params...); err != nil {
+				return errors.Wrap(err, "select")
+			}
+			for _, r := range res {
+				team := sameTeam
+				if !r.Sameteam {
+					team = otherTeam
+				}
+				hero := init.lookups["hero"](r.Hero)
+				t := team[hero]
+				if r.Winner == r.Sameteam {
+					t.Wins += r.Count
+				} else {
+					t.Losses += r.Count
+				}
+				team[hero] = t
+			}
+			ids = ids[limit:]
+		}
+		return nil
+	}
+	if err := getGames(0, team0); err != nil {
+		return nil, err
+	}
+	if err := getGames(1, team1); err != nil {
+		return nil, err
+	}
+	return struct {
+		SameTeam  map[string]Total
+		OtherTeam map[string]Total
+		Total     Total
+	}{
+		SameTeam:  sameTeam,
+		OtherTeam: otherTeam,
+		Total:     total,
+	}, nil
 }
 
 func (h *hotsContext) getBuildBefore(init initData, id string) (build string, ok bool) {

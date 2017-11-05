@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"net/url"
 	"time"
@@ -67,8 +68,11 @@ func (h *hotsContext) cron(all bool) error {
 			res, err = h.GetHero(ctx, req)
 		case "/api/get-build-winrates":
 			res, err = h.GetBuildWinrates(ctx, req)
+		case "/api/get-compare-hero":
+			res, err = h.GetCompareHero(ctx, req)
 		default:
-			return errors.Errorf("unknown path: %s", u)
+			log.Printf("cron: unknown path: %s", u)
+			continue
 		}
 		if err != nil {
 			return errors.Wrap(err, u)

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Fetch, pct, Filter } from './common';
+import { Fetch, pct, Filter, HeroHeader } from './common';
 import SortedTable from './SortedTable';
 
 class TalentWinrates extends Component {
@@ -72,31 +71,16 @@ class TalentWinrates extends Component {
 		const heroes = this.props.Heroes.map(h => (
 			<option key={h.Name}>{h.Name}</option>
 		));
-		const heroSearch = this.props.build
-			? '?build=' + encodeURIComponent(this.props.build)
-			: '';
-		const hero = this.props.Heroes.find(
-			e => e.Name === this.props.match.params.hero
-		);
 		return (
 			<div>
-				<h2>
-					{hero.Name}{' '}
-					<img
-						src={'/img/hero_full/' + hero.Slug + '.png'}
-						alt={hero.Name}
-						style={{ height: '3.4rem' }}
-					/>
-				</h2>
+				<HeroHeader
+					name={this.props.match.params.hero}
+					heroes={this.props.Heroes}
+					build={this.props.build}
+					history={this.props.history}
+				/>
 				<p>
-					<Link
-						to={
-							'/heroes/' + encodeURI(this.props.match.params.hero) + heroSearch
-						}
-					>
-						[relative winrates]
-					</Link>&nbsp;
-					<a href="#winning">[winning builds]</a>&nbsp;
+					<a href="#winning">[winning builds]</a>{' '}
 					<a href="#popular">[popular builds]</a>
 				</p>
 				<div className="row">

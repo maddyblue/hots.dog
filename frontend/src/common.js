@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const skillPercentiles = [0, 30, 50, 70, 90, 95, 100];
 
@@ -120,6 +121,51 @@ const Filter = props => {
 	);
 };
 
+const HeroHeader = props => {
+	const hero = props.heroes.find(e => e.Name === props.name);
+	const encHero = encodeURI(props.name);
+	const heroSearch = props.build
+		? '?build=' + encodeURIComponent(props.build)
+		: '';
+	const getClass = s =>
+		props.history.location.pathname.startsWith('/' + s)
+			? 'button button-outline'
+			: 'button';
+	return (
+		<div>
+			<h2>
+				{hero.Name}{' '}
+				<img
+					src={'/img/hero_full/' + hero.Slug + '.png'}
+					alt={hero.Name}
+					style={{ height: '3.4rem' }}
+				/>
+			</h2>
+			<Link
+				key="relative"
+				className={getClass('heroes')}
+				to={'/heroes/' + encHero + heroSearch}
+			>
+				relative winrates
+			</Link>{' '}
+			<Link
+				key="talents"
+				className={getClass('talents')}
+				to={'/talents/' + encHero + props.history.location.search}
+			>
+				talents
+			</Link>{' '}
+			<Link
+				key="compare"
+				className={getClass('compare')}
+				to={'/compare/' + encHero + props.history.location.search}
+			>
+				hero comparison
+			</Link>
+		</div>
+	);
+};
+
 function Fetch(url, success, error) {
 	if (!error) {
 		error = alert;
@@ -161,6 +207,7 @@ export {
 	createCookie,
 	Fetch,
 	Filter,
+	HeroHeader,
 	pct,
 	readCookie,
 	skillPercentiles,

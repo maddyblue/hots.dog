@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Fetch, pct, toLength, BuildsOpts } from './common';
+import { Fetch, pct, toLength, BuildsOpts, HeroHeader } from './common';
 import SortedTable from './SortedTable';
 
 class Hero extends Component {
@@ -176,33 +175,17 @@ class Hero extends Component {
 		const heroes = this.props.Heroes.map(h => (
 			<option key={h.Name}>{h.Name}</option>
 		));
-		const heroSearch = this.props.build
-			? '?build=' + encodeURIComponent(this.props.build)
-			: '';
-		const hero = this.props.Heroes.find(
-			e => e.Name === this.props.match.params.hero
-		);
 		return (
 			<div>
-				<h2>
-					{hero.Name}{' '}
-					<img
-						src={'/img/hero_full/' + hero.Slug + '.png'}
-						alt={hero.Name}
-						style={{ height: '3.4rem' }}
-					/>
-				</h2>
+				<HeroHeader
+					name={this.props.match.params.hero}
+					heroes={this.props.Heroes}
+					build={this.props.build}
+					history={this.props.history}
+				/>
 				<p>
-					<Link
-						to={
-							'/talents/' + encodeURI(this.props.match.params.hero) + heroSearch
-						}
-					>
-						[talents]
-					</Link>&nbsp;
-					<a href="#maps">[maps]</a>&nbsp;
-					<a href="#modes">[game modes]</a>&nbsp;
-					<a href="#lengths">[game lengths]</a>&nbsp;
+					<a href="#maps">[maps]</a> <a href="#modes">[game modes]</a>{' '}
+					<a href="#lengths">[game lengths]</a>{' '}
 					<a href="#levels">[hero levels]</a>
 				</p>
 				<div className="row">

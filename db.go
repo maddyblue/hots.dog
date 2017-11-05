@@ -122,14 +122,14 @@ func (c *conn) Explain(query string, args []driver.Value) {
 	}
 }
 
-func makeValues(numArgs int) string {
+func makeValues(numArgs, start int) string {
 	var buf bytes.Buffer
 	buf.WriteString("(")
-	for i := 1; i <= numArgs; i++ {
-		if i > 1 {
+	for i := 0; i < numArgs; i++ {
+		if i > 0 {
 			buf.WriteString(", ")
 		}
-		fmt.Fprintf(&buf, "$%d", i)
+		fmt.Fprintf(&buf, "$%d", i+start)
 	}
 	buf.WriteString(")")
 	return buf.String()
@@ -157,7 +157,7 @@ func (h *hotsContext) Import(bucket string, max int) error {
 				INDEX (build, map, mode) STORING (bans)
 			) CSV DATA %s
 			WITH TEMP = $%d, distributed
-		`, makeValues(count), count+1),
+		`, makeValues(count, 1), count+1),
 		args...); err != nil {
 		return errors.Wrap(err, "import games")
 	}
@@ -198,7 +198,7 @@ func (h *hotsContext) Import(bucket string, max int) error {
 				INDEX (build, hero, hero_level) STORING (winner, talents)
 			) CSV DATA %s
 			WITH TEMP = $%d, distributed
-		`, makeValues(count), count+1),
+		`, makeValues(count, 1), count+1),
 		args...); err != nil {
 		return errors.Wrap(err, "import games")
 	}

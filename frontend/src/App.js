@@ -3,6 +3,7 @@ import { Link, Route, withRouter } from 'react-router-dom';
 import * as usp from 'url-search-params';
 
 import About from './About';
+import CompareHero from './Compare';
 import { createCookie, Fetch, skillPercentiles } from './common';
 import Hero from './Hero';
 import HeroWinrates from './HeroWinrates';
@@ -202,6 +203,17 @@ class HotsApp extends Component {
 						path="/talents/:hero"
 						render={props => (
 							<TalentWinrates
+								handleChange={this.handleChange}
+								{...this.state}
+								{...props}
+							/>
+						)}
+					/>
+					<Route
+						exact
+						path="/compare/:hero"
+						render={props => (
+							<CompareHero
 								handleChange={this.handleChange}
 								{...this.state}
 								{...props}
