@@ -540,7 +540,7 @@ var talentData = map[string]talentText{
 	},
 	"AbathurSymbioteCarapaceSustainedCarapace": {
 		Name: "Sustained Carapace",
-		Text: "Increases the Shield amount of Symbiote's Carapace by 40.0% and allows it to persist after Symbiote ends.",
+		Text: "Increases the Shield amount of Symbiote's Carapace by 40% and allows it to persist after Symbiote ends.",
 	},
 	"AbathurSymbioteHivemind": {
 		Name: "Hivemind",
@@ -584,7 +584,7 @@ var talentData = map[string]talentText{
 	},
 	"AlarakExtendedLightning": {
 		Name: "Extended Lightning",
-		Text: "Reduce Sadism by 10%.\nQuest: Hit Heroes with the center of Lightning Surge.\nReward: After hitting 5 Heroes, increase Lightning Surge's range by 20.0%.\nReward: After hitting 15 Heroes, Lightning Surge's center also Slows enemies by 40% for 2 seconds.\nReward: After hitting 3 Heroes with the center of a single cast, increase Sadism by 10% and instantly gain all other Rewards.",
+		Text: "Reduce Sadism by 10%.\nQuest: Hit Heroes with the center of Lightning Surge.\nReward: After hitting 5 Heroes, increase Lightning Surge's range by 20%.\nReward: After hitting 15 Heroes, Lightning Surge's center also Slows enemies by 40% for 2 seconds.\nReward: After hitting 3 Heroes with the center of a single cast, increase Sadism by 10% and instantly gain all other Rewards.",
 	},
 	"AlarakHastyBargain": {
 		Name: "Hasty Bargain",
@@ -900,7 +900,7 @@ var talentData = map[string]talentText{
 	},
 	"ArtanisBladeDashTemplarsZeal": {
 		Name: "Templar's Zeal",
-		Text: "Blade Dash cooldown recharges 150.0% faster while below 50% Health.",
+		Text: "Blade Dash cooldown recharges 150% faster while below 50% Health.",
 	},
 	"ArtanisHeroicAbilitySpearofAdunPurifierBeam": {
 		Name: "Purifier Beam",
@@ -1132,7 +1132,7 @@ var talentData = map[string]talentText{
 	},
 	"AurielEnergizedCordRayOfHeavenTalent": {
 		Name: "Energized Cord",
-		Text: "Increases the energy stored from Auriel's Basic Attacks to 50.5% of the damage against Heroes and 45.0% of the damage against non-Heroes.\nDoes not affect Auriel's Bestow Hope ally.",
+		Text: "Increases the energy stored from Auriel's Basic Attacks to 50.5% of the damage against Heroes and 45% of the damage against non-Heroes.\nDoes not affect Auriel's Bestow Hope ally.",
 	},
 	"AurielGlimmerofHopeRayOfHeavenTalent": {
 		Name: "Glimmer of Hope",
@@ -1160,7 +1160,7 @@ var talentData = map[string]talentText{
 	},
 	"AurielMajesticSpanSacredSweepTalent": {
 		Name: "Majestic Span",
-		Text: "Increases the radius of Sacred Sweep by 15.0%.",
+		Text: "Increases the radius of Sacred Sweep by 15%.",
 	},
 	"AurielPiercingLashDetainmentStrikeTalent": {
 		Name: "Piercing Lash",
@@ -1288,7 +1288,7 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanMasteryMasterOfDestruction": {
 		Name: "Master of Destruction",
-		Text: "Reduces the Mana cost from 16 to 10 per second. Every 1.5 seconds spent channeling increases the range by 8.5%, to a maximum of 25.4%.",
+		Text: "Reduces the Mana cost from 16 to 10 per second. Every 1.5 seconds spent channeling increases the range by 8.5%, to a maximum of 26.9%.",
 	},
 	"AzmodanMasteryPerishingFlame": {
 		Name: "Perishing Flame",
@@ -1296,7 +1296,7 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanMasterySiegingWrath": {
 		Name: "Sieging Wrath",
-		Text: "Quest: Every time Globe of Annihilation hits a Hero, its damage is increased by 4, up to 100.\nReward: After hitting 25 Heroes, the range of Globe of Annihilation is increased by 33% and its damage is increased by an additional 100.",
+		Text: "Quest: Every time Globe of Annihilation hits a Hero, its damage is increased by 3, up to 90.\nReward: After hitting 30 Heroes, the range of Globe of Annihilation is increased by 33% and its damage is increased by an additional 100.",
 	},
 	"AzmodanMasteryTasteForBlood": {
 		Name: "Taste for Blood",
@@ -1488,7 +1488,7 @@ var talentData = map[string]talentText{
 	},
 	"BrightwingUnfurlingSpraySoothingMist": {
 		Name: "Unfurling Spray",
-		Text: "Increases Soothing Mist's range by 20.0%.",
+		Text: "Increases Soothing Mist's range by 20%.",
 	},
 	"BrightwingUnstableAnomalyPolymorph": {
 		Name: "Unstable Anomaly",
@@ -1620,7 +1620,7 @@ var talentData = map[string]talentText{
 	},
 	"ChenFlyingLeap": {
 		Name: "Flying Leap",
-		Text: "Increases Flying Kick's range by 15.0%.",
+		Text: "Increases Flying Kick's range by 15%.",
 	},
 	"ChenFreshestIngredients": {
 		Name: "Freshest Ingredients",
@@ -1636,7 +1636,7 @@ var talentData = map[string]talentText{
 	},
 	"ChenHeroicAbilityWanderingKeg": {
 		Name: "Wandering Keg",
-		Text: "Roll around inside an Unstoppable barrel with 60.0% increased Movement Speed, dealing 59 damage to enemies in the way and knocking them back. Lasts for 5 seconds.",
+		Text: "Roll around inside an Unstoppable barrel with 60% increased Movement Speed, dealing 59 damage to enemies in the way and knocking them back. Lasts for 5 seconds.",
 	},
 	"ChenKegToss": {
 		Name: "Keg Toss",
@@ -1652,7 +1652,7 @@ var talentData = map[string]talentText{
 	},
 	"ChenMasteryWanderingKegUntappedPotential": {
 		Name: "Untapped Potential",
-		Text: "Wandering Keg increases Movement Speed by 60.0% and grants 50 Armor, reducing damage taken by 50%.",
+		Text: "Wandering Keg increases Movement Speed by 60% and grants 50 Armor, reducing damage taken by 50%.",
 	},
 	"ChenPressurePoint": {
 		Name: "Pressure Point",
@@ -1760,7 +1760,7 @@ var talentData = map[string]talentText{
 	},
 	"ChoUppercut": {
 		Name: "Uppercut",
-		Text: "Surging Fist deals additional damage to Heroes equal to 7.0% of their max Health.",
+		Text: "Surging Fist deals additional damage to Heroes equal to 7% of their max Health.",
 	},
 	"ChromieBronzeTalons": {
 		Name: "Bronze Talons",
@@ -1904,7 +1904,7 @@ var talentData = map[string]talentText{
 	},
 	"CrusaderMasteryIronSkinHoldYourGround": {
 		Name: "Hold Your Ground",
-		Text: "Increases Iron Skin's Shield by 30.0% and its cooldown is reduced by 4 seconds.",
+		Text: "Increases Iron Skin's Shield by 30% and its cooldown is reduced by 4 seconds.",
 	},
 	"CrusaderMasteryIronSkinReinforce": {
 		Name: "Reinforce",
@@ -2028,7 +2028,7 @@ var talentData = map[string]talentText{
 	},
 	"DVaPilotNanoweaveSuit": {
 		Name: "Nanoweave Suit",
-		Text: "For 4 seconds after ejecting from her Mech, D.Va gains 50 Armor and her Basic Attacks grant 0.0% more cooldown reduction towards Call Mech.",
+		Text: "For 4 seconds after ejecting from her Mech, D.Va gains 50 Armor and her Basic Attacks grant 0% more cooldown reduction towards Call Mech.",
 	},
 	"DVaPilotSuppressingFire": {
 		Name: "Suppressing Fire",
@@ -2188,7 +2188,7 @@ var talentData = map[string]talentText{
 	},
 	"DemonHunterMasteryCaltrops": {
 		Name: "Caltrops",
-		Text: "Drop 3 Caltrops while Vaulting. Caltrops do 60 damage and slow enemies by 25% for 1 second.\nQuest: Spend 180 seconds at 10 stacks of Hatred.\nReward: Vault cooldown is reduced by 5 seconds.",
+		Text: "Drop 3 Caltrops while Vaulting. Caltrops do 60 damage and slow enemies by 25% for 1 second.\nQuest: Spend 160 seconds at 10 stacks of Hatred.\nReward: Vault cooldown is reduced by 5 seconds.",
 	},
 	"DemonHunterMasteryCompositeArrowsMultishot": {
 		Name: "Composite Arrows",
@@ -2776,7 +2776,7 @@ var talentData = map[string]talentText{
 	},
 	"GarroshWreckingBallEarthshaker": {
 		Name: "Earthshaker",
-		Text: "Wrecking Ball Stuns enemies near the impact area for 0.8 seconds.",
+		Text: "Wrecking Ball Stuns enemies near the impact area for 0.6 seconds.",
 	},
 	"GarroshWreckingBallIntotheFray": {
 		Name: "Into the Fray",
@@ -3468,7 +3468,7 @@ var talentData = map[string]talentText{
 	},
 	"JunkratConcussionMineBonzerHits": {
 		Name: "Bonzer Hits",
-		Text: "Quest: Hit enemy Heroes 12 times with Concussion Mine.\nReward: Concussion Mine deals 30% more damage and knocks enemies back 30% farther.",
+		Text: "Quest: Hit enemy Heroes 12 times with Concussion Mine.\nReward: Concussion Mine deals 40% more damage and knocks enemies back 30% farther.",
 	},
 	"JunkratConcussionMineRipperAir": {
 		Name: "Ripper Air",
@@ -3500,7 +3500,7 @@ var talentData = map[string]talentText{
 	},
 	"JunkratFragLauncherTasteForExplosions": {
 		Name: "Taste For Explosions",
-		Text: "Quest: Hitting a Hero with Frag Launcher increases its damage by 0.8, up to 150.",
+		Text: "Quest: Hitting a Hero with Frag Launcher increases its damage by 0.5, up to 100.",
 	},
 	"JunkratFragLauncherTrickyShuffles": {
 		Name: "Tricky Shuffles",
@@ -3536,11 +3536,11 @@ var talentData = map[string]talentText{
 	},
 	"JunkratSteelTrapGottaTrapEmAll": {
 		Name: "Gotta Trap 'Em All!",
-		Text: "Quest: Hit 8 Heroes with Steel Trap.\nReward: Reduce Steel Trap's cooldown by 3 seconds and increase the maximum number of active traps to 3.",
+		Text: "Quest: Hit 7 Heroes with Steel Trap.\nReward: Reduce Steel Trap's cooldown by 3 seconds and increase the maximum number of active traps to 3.",
 	},
 	"JunkratSteelTrapStickyWicket": {
 		Name: "Sticky Wicket",
-		Text: "Steel Trap no longer Roots enemies, and instead Slows them by 90% for 3 seconds.",
+		Text: "Steel Trap no longer Roots enemies, and instead Slows them by 90% for 3.5 seconds.",
 	},
 	"KaelthasArcaneDynamo": {
 		Name: "Arcane Dynamo",
@@ -3892,7 +3892,7 @@ var talentData = map[string]talentText{
 	},
 	"LeoricMasteryOsseinRenewal": {
 		Name: "Ossein Renewal",
-		Text: "Activate to heal Leoric for 30.0% of his maximum Health over 5 seconds. Regeneration Globes lower the cooldown of this Ability by 20 seconds.",
+		Text: "Activate to heal Leoric for 30% of his maximum Health over 5 seconds. Regeneration Globes lower the cooldown of this Ability by 20 seconds.",
 	},
 	"LeoricMasteryParalyzingRageSkeletalSwing": {
 		Name: "Paralyzing Rage",
@@ -3924,7 +3924,7 @@ var talentData = map[string]talentText{
 	},
 	"LeoricSkeletalSwingKneelPeasantsTalent": {
 		Name: "Kneel, Peasants!",
-		Text: "Skeletal Swing deals 75% more damage to Minions, Mercenaries, and Monsters.",
+		Text: "Skeletal Swing deals 100% more damage to Minions, Mercenaries, and Monsters.",
 	},
 	"LeoricWraithWalkOminousWraithTalent": {
 		Name: "Ominous Wraith",
@@ -4180,7 +4180,7 @@ var talentData = map[string]talentText{
 	},
 	"LucioSoundwaveChaseTheBassQuest": {
 		Name: "Chase the Bass",
-		Text: "Quest: Hit 20 enemy Heroes with Soundwave.\nReward: Increase Soundwave's arc by 50.0% and its range by 20%.",
+		Text: "Quest: Hit 20 enemy Heroes with Soundwave.\nReward: Increase Soundwave's arc by 50% and its range by 20%.",
 	},
 	"LucioSoundwaveHeliotropics": {
 		Name: "Heliotropics",
@@ -4388,7 +4388,7 @@ var talentData = map[string]talentText{
 	},
 	"MedicExtendedCare": {
 		Name: "Extended Care",
-		Text: "Increase the range of Healing Beam by 40.0%.",
+		Text: "Increase the range of Healing Beam by 40%.",
 	},
 	"MedicFirstResponder": {
 		Name: "First Responder",
@@ -4592,15 +4592,15 @@ var talentData = map[string]talentText{
 	},
 	"MonkHeroicAbilitySevenSidedStrike": {
 		Name: "Seven-Sided Strike",
-		Text: "Become Invulnerable and strike 7 times over 1.8 seconds. Each strike hits the highest Health nearby Hero for 7.0% of their maximum Health.",
+		Text: "Become Invulnerable and strike 7 times over 1.8 seconds. Each strike hits the highest Health nearby Hero for 7% of their maximum Health.",
 	},
 	"MonkInsight": {
 		Name: "Insight",
-		Text: "Quest: Every 3rd Basic Attack restores 14 Mana and grants a stack of Insight. \nReward: Upon getting 100 stacks of Insight, every 3rd attack also reduces the cooldown of all of Kharazim's Basic Abilities by 1.8 seconds.",
+		Text: "Quest: Every 3rd Basic Attack restores 14 Mana and grants a stack of Insight and gives 25% increased Move Speed for 2 seconds.\nReward: Upon getting 100 stacks of Insight, every 3rd attack also reduces the cooldown of all of Kharazim's Basic Abilities by 1.8 seconds.",
 	},
 	"MonkIronFists": {
 		Name: "Iron Fists",
-		Text: "Every 3rd Basic Attack deals 110.0% bonus damage and gives 30% increased Move Speed for 2 seconds.",
+		Text: "Every 3rd Basic Attack deals 110% bonus damage and gives 25% increased Move Speed for 2 seconds.",
 	},
 	"MonkPeacefulReposeDivinePalm": {
 		Name: "Peaceful Repose",
@@ -4620,7 +4620,7 @@ var talentData = map[string]talentText{
 	},
 	"MonkTranscendence": {
 		Name: "Transcendence",
-		Text: "Every 3rd Basic Attack heals the lowest nearby allied Hero for 103.",
+		Text: "Every 3rd Basic Attack heals the lowest nearby allied Hero for 103 and gives 25% increased Move Speed for 2 seconds.",
 	},
 	"MonkWayoftheHundredFistsRadiantDash": {
 		Name: "Way of the Hundred Fists",
@@ -4632,11 +4632,11 @@ var talentData = map[string]talentText{
 	},
 	"MuradinCombatStyleSkullcracker": {
 		Name: "Skullcracker",
-		Text: "Every 3rd Basic Attack against the same enemy deals 60% bonus damage and Stuns them for 0.2 seconds.",
+		Text: "Every 3rd Basic Attack against the same enemy deals 70% bonus damage and Stuns them for 0.2 seconds.",
 	},
 	"MuradinCombatStyleThirdWind": {
 		Name: "Third Wind",
-		Text: "Increases Health Restoration rate to 80 per second, and raises Health threshold to 60% Health for improved 159 per second Restoration.",
+		Text: "Increases Health Restoration rate to 83 per second, and raises Health threshold to 60% Health for improved 165.9 per second Restoration.",
 	},
 	"MuradinGiveEmTheAxeExecutioner60DamageBonus": {
 		Name: "Give 'em the Axe!",
@@ -4660,7 +4660,7 @@ var talentData = map[string]talentText{
 	},
 	"MuradinMasteryDwarfTossHeavyImpact": {
 		Name: "Heavy Impact",
-		Text: "Enemies hit by Dwarf Toss are stunned for 0.5 seconds.",
+		Text: "Enemies hit by Dwarf Toss are slowed by 80% for 0.8 seconds.",
 	},
 	"MuradinMasteryDwarfTossLandingMomentum": {
 		Name: "Landing Momentum",
@@ -4676,7 +4676,7 @@ var talentData = map[string]talentText{
 	},
 	"MuradinMasteryStormhammerSledgehammer": {
 		Name: "Sledgehammer",
-		Text: "Deals 201% damage to non-Heroic enemies. Destroys 4 ammo from Structures.",
+		Text: "Deals 251% damage to non-Heroic enemies. Destroys 4 ammo from Structures.",
 	},
 	"MuradinMasteryThunderburn": {
 		Name: "Thunder Burn",
@@ -4784,7 +4784,7 @@ var talentData = map[string]talentText{
 	},
 	"MurkyTimetoKrill": {
 		Name: "Time to Krill",
-		Text: "Basic Attacks against Heroes deal an additional 7 damage a second and slow the target by 7.0% for 4 seconds. This effect can stack up to 5 times.",
+		Text: "Basic Attacks against Heroes deal an additional 7 damage a second and slow the target by 7% for 4 seconds. This effect can stack up to 5 times.",
 	},
 	"MurkyToxicBuildup": {
 		Name: "Toxic Buildup",
@@ -4888,7 +4888,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaCovertOps": {
 		Name: "Covert Ops",
-		Text: "After being Stealthed for 5 seconds, Pinning Shot's slow is increased to 55.0% and costs no Mana. Bonus is lost after losing Stealth for 1 second.",
+		Text: "After being Stealthed for 5 seconds, Pinning Shot's slow is increased to 55% and costs no Mana. Bonus is lost after losing Stealth for 1 second.",
 	},
 	"NovaGhostProtocol": {
 		Name: "Ghost Protocol",
@@ -5044,7 +5044,7 @@ var talentData = map[string]talentText{
 	},
 	"ProbiusRiftShockWarpRift": {
 		Name: "Rift Shock",
-		Text: "Hitting an enemy Hero with Warp Rift explosion increases Probius's damage against them by 20.0% for 10 seconds.",
+		Text: "Hitting an enemy Hero with Warp Rift explosion increases Probius's damage against them by 20% for 10 seconds.",
 	},
 	"ProbiusShieldBatteryWarpInPylon": {
 		Name: "Shield Battery",
@@ -5064,7 +5064,7 @@ var talentData = map[string]talentText{
 	},
 	"ProbiusTurboChargedWorkerRush": {
 		Name: "Turbo Charged",
-		Text: "Worker Rush grants an additional 10.0% passive Movement Speed while in a Power Field, and its cooldown is reduced by 10 seconds.",
+		Text: "Worker Rush grants an additional 10% passive Movement Speed while in a Power Field, and its cooldown is reduced by 10 seconds.",
 	},
 	"ProbiusWarpResonanceWarpRiftQuest": {
 		Name: "Warp Resonance",
@@ -5228,7 +5228,7 @@ var talentData = map[string]talentText{
 	},
 	"RaynorRelentlessLeader": {
 		Name: "Relentless Leader",
-		Text: "Being Stunned or Rooted knocks away nearby enemies.\nThis effect has a 8 second cooldown.\nPassive: The cooldown of Adrenaline Rush is reduced by 15 seconds.",
+		Text: "Being Stunned or Rooted knocks away nearby enemies.\nThis effect has a 8 second cooldown.\nPassive: The cooldown of Adrenaline Rush is reduced by 10 seconds.",
 	},
 	"RehgarEarthlivingEnchant": {
 		Name: "Earthliving Enchant",
@@ -5320,7 +5320,7 @@ var talentData = map[string]talentText{
 	},
 	"RehgarMasteryWolfRun": {
 		Name: "Wolf Run",
-		Text: "Increases the Movement Speed of Ghost Wolf from 20% to 30.0%.",
+		Text: "Increases the Movement Speed of Ghost Wolf from 20% to 30%.",
 	},
 	"RehgarRisingStorm": {
 		Name: "Rising Storm",
@@ -5676,7 +5676,7 @@ var talentData = map[string]talentText{
 	},
 	"StitchesPotentBile": {
 		Name: "Potent Bile",
-		Text: "Putrid Bile lasts 6 seconds longer and its slow amount is increased from 35% to 45.0%.",
+		Text: "Putrid Bile lasts 6 seconds longer and its slow amount is increased from 35% to 45%.",
 	},
 	"StitchesRestorativeFumes": {
 		Name: "Restorative Fumes",
@@ -5896,7 +5896,7 @@ var talentData = map[string]talentText{
 	},
 	"TassadarHeroicAbilityForceWall": {
 		Name: "Force Wall",
-		Text: "Create a wall that blocks all units from moving through it for 2 seconds. \nPassive: Increases the slow amount of Distortion Beam to -1990.0%.",
+		Text: "Create a wall that blocks all units from moving through it for 2 seconds. \nPassive: Increases the slow amount of Distortion Beam to -1990%.",
 	},
 	"TassadarKhalasCelerityPlasmaShield": {
 		Name: "Khala's Celerity",
@@ -6124,7 +6124,7 @@ var talentData = map[string]talentText{
 	},
 	"TinkerMasteryRockitTurretXL": {
 		Name: "Rock-It! Turret XL",
-		Text: "Rock-It! Turrets attack up to 2 additional enemies for 60.0% damage.",
+		Text: "Rock-It! Turrets attack up to 2 additional enemies for 60% damage.",
 	},
 	"TinkerMasteryTurretStorage": {
 		Name: "Turret Storage",
@@ -6244,7 +6244,7 @@ var talentData = map[string]talentText{
 	},
 	"TychusInTheRhythm": {
 		Name: "In the Rhythm",
-		Text: "Quest: While Minigun is active, Basic Attacks against Heroes permanently increase future Minigun durations by 0.0 seconds.",
+		Text: "Quest: While Minigun is active, Basic Attacks against Heroes permanently increase future Minigun durations by 0 seconds.",
 	},
 	"TychusMasterAssassin": {
 		Name: "Master Assassin",
@@ -6624,7 +6624,7 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraGarroteRupture": {
 		Name: "Rupture",
-		Text: "Valeera's Basic Attacks increase the damage over time effect of Garrote by 5%, stacking up to 30.0%, and refresh the duration.",
+		Text: "Valeera's Basic Attacks increase the damage over time effect of Garrote by 5%, stacking up to 30%, and refresh the duration.",
 	},
 	"ValeeraGarroteStrangle": {
 		Name: "Strangle",
@@ -6784,7 +6784,7 @@ var talentData = map[string]talentText{
 	},
 	"WitchDoctorFreshCorpses": {
 		Name: "Fresh Corpses",
-		Text: "Zombie Wall cooldown reduced by 0 seconds.",
+		Text: "Zombie Wall cooldown reduced by -0 seconds.",
 	},
 	"WitchDoctorGuardianToads": {
 		Name: "Guardian Toads",
@@ -6816,7 +6816,7 @@ var talentData = map[string]talentText{
 	},
 	"WitchDoctorSoulHarvest": {
 		Name: "Soul Harvest",
-		Text: "Activate to increase Nazeebo's Health and Spell Power by 7.0% for each nearby enemy, up to a maximum of 35.0%. Lasts 15 seconds.",
+		Text: "Activate to increase Nazeebo's Health and Spell Power by 7% for each nearby enemy, up to a maximum of 35%. Lasts 15 seconds.",
 	},
 	"WitchDoctorSpiderColony": {
 		Name: "Spider Colony",
@@ -7224,7 +7224,7 @@ var talentData = map[string]talentText{
 	},
 	"ZuljinBoneslicer": {
 		Name: "Boneslicer",
-		Text: "Grievous Throw now pierces through all enemies hit and restores 10 Mana per Hero hit. Additionally, Grievous Throw's mark is no longer removed by Basic Attacks.",
+		Text: "Grievous Throw now pierces through all enemies hit and restores 15 Mana per Hero hit. Additionally, Grievous Throw's mark is no longer removed by Basic Attacks.",
 	},
 	"ZuljinBuzzsaw": {
 		Name: "Buzzsaw",
@@ -7236,11 +7236,11 @@ var talentData = map[string]talentText{
 	},
 	"ZuljinEyeOfZuljin": {
 		Name: "Eye of Zul'jin",
-		Text: "Basic Attacks against enemy Heroes grant Zul'jin 3% Movement Speed for 2 seconds, up to 30%.",
+		Text: "Basic Attacks against enemy Heroes grant Zul'jin 6% Movement Speed for 2 seconds, up to 30%.",
 	},
 	"ZuljinFerocity": {
 		Name: "Ferocity",
-		Text: "Increases the Attack Speed bonus of Berserker by 35%.",
+		Text: "Increases the Attack Speed bonus of Berserker by 40%.",
 	},
 	"ZuljinForestMedicine": {
 		Name: "Forest Medicine",
@@ -7284,7 +7284,7 @@ var talentData = map[string]talentText{
 	},
 	"ZuljinViciousAssault": {
 		Name: "Vicious Assault",
-		Text: "Increase Grievous Throw's damage bonus by 30%.",
+		Text: "Increase Grievous Throw's damage bonus by 35%.",
 	},
 	"ZuljinVoodooShuffle": {
 		Name: "Voodoo Shuffle",
