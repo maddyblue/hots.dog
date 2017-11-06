@@ -3503,7 +3503,6 @@ func (c *ProjectsLocationsQueuesListCall) Do(opts ...googleapi.CallOption) (*Lis
 	//     },
 	//     "pageToken": {
 	//       "description": "A token identifying the page of results to return.\n\nTo request the first page results, page_token must be empty. To\nrequest the next page of results, page_token must be the value of\nListQueuesResponse.next_page_token returned from the previous\ncall to CloudTasks.ListQueues method. It is an error to\nswitch the value of ListQueuesRequest.filter while iterating\nthrough pages.",
-	//       "format": "byte",
 	//       "location": "query",
 	//       "type": "string"
 	//     },
@@ -3728,13 +3727,6 @@ type ProjectsLocationsQueuesPauseCall struct {
 // Queue.queue_state; if paused it will be set
 // to
 // Queue.QueueState.PAUSED.
-//
-// WARNING: This method is only available to whitelisted
-// users. Using this method carries some risk. Read
-// [Overview of Queue Management and
-// queue.yaml](/cloud-tasks/docs/queue-yaml)
-// carefully and then sign up for
-// [whitelist access to this method](https://goo.gl/Fe5mUy).
 func (r *ProjectsLocationsQueuesService) Pause(name string, pausequeuerequest *PauseQueueRequest) *ProjectsLocationsQueuesPauseCall {
 	c := &ProjectsLocationsQueuesPauseCall{s: r.s, urlParams_: make(gensupport.URLParams)}
 	c.name = name
@@ -3828,7 +3820,7 @@ func (c *ProjectsLocationsQueuesPauseCall) Do(opts ...googleapi.CallOption) (*Qu
 	}
 	return ret, nil
 	// {
-	//   "description": "Pauses the queue.\n\nIf a queue is paused then the system will stop executing the\ntasks in the queue until it is resumed via\nCloudTasks.ResumeQueue. Tasks can still be added when the\nqueue is paused. The state of the queue is stored in\nQueue.queue_state; if paused it will be set to\nQueue.QueueState.PAUSED.\n\nWARNING: This method is only available to whitelisted\nusers. Using this method carries some risk. Read\n[Overview of Queue Management and queue.yaml](/cloud-tasks/docs/queue-yaml)\ncarefully and then sign up for\n[whitelist access to this method](https://goo.gl/Fe5mUy).",
+	//   "description": "Pauses the queue.\n\nIf a queue is paused then the system will stop executing the\ntasks in the queue until it is resumed via\nCloudTasks.ResumeQueue. Tasks can still be added when the\nqueue is paused. The state of the queue is stored in\nQueue.queue_state; if paused it will be set to\nQueue.QueueState.PAUSED.",
 	//   "flatPath": "v2beta2/projects/{projectsId}/locations/{locationsId}/queues/{queuesId}:pause",
 	//   "httpMethod": "POST",
 	//   "id": "cloudtasks.projects.locations.queues.pause",
@@ -4020,13 +4012,6 @@ type ProjectsLocationsQueuesResumeCall struct {
 // it
 // will be set to Queue.QueueState.RUNNING.
 //
-// WARNING: This method is only available to whitelisted
-// users. Using this method carries some risk. Read
-// [Overview of Queue Management and
-// queue.yaml](/cloud-tasks/docs/queue-yaml)
-// carefully and then sign up for
-// [whitelist access to this method](https://goo.gl/Fe5mUy).
-//
 // WARNING: Resuming many high-QPS queues at the same time can
 // lead to target overloading. If you are resuming high-QPS
 // queues, follow the 500/50/5 pattern described in
@@ -4126,7 +4111,7 @@ func (c *ProjectsLocationsQueuesResumeCall) Do(opts ...googleapi.CallOption) (*Q
 	}
 	return ret, nil
 	// {
-	//   "description": "Resume a queue.\n\nThis method resumes a queue after it has been\nQueue.QueueState.PAUSED or Queue.QueueState.DISABLED. The state of\na queue is stored in Queue.queue_state; after calling this method it\nwill be set to Queue.QueueState.RUNNING.\n\nWARNING: This method is only available to whitelisted\nusers. Using this method carries some risk. Read\n[Overview of Queue Management and queue.yaml](/cloud-tasks/docs/queue-yaml)\ncarefully and then sign up for\n[whitelist access to this method](https://goo.gl/Fe5mUy).\n\nWARNING: Resuming many high-QPS queues at the same time can\nlead to target overloading. If you are resuming high-QPS\nqueues, follow the 500/50/5 pattern described in\n[Managing Cloud Tasks Scaling Risks](/cloud-tasks/pdfs/managing-cloud-tasks-scaling-risks-2017-06-05.pdf).",
+	//   "description": "Resume a queue.\n\nThis method resumes a queue after it has been\nQueue.QueueState.PAUSED or Queue.QueueState.DISABLED. The state of\na queue is stored in Queue.queue_state; after calling this method it\nwill be set to Queue.QueueState.RUNNING.\n\nWARNING: Resuming many high-QPS queues at the same time can\nlead to target overloading. If you are resuming high-QPS\nqueues, follow the 500/50/5 pattern described in\n[Managing Cloud Tasks Scaling Risks](/cloud-tasks/pdfs/managing-cloud-tasks-scaling-risks-2017-06-05.pdf).",
 	//   "flatPath": "v2beta2/projects/{projectsId}/locations/{locationsId}/queues/{queuesId}:resume",
 	//   "httpMethod": "POST",
 	//   "id": "cloudtasks.projects.locations.queues.resume",
@@ -5216,12 +5201,12 @@ func (r *ProjectsLocationsQueuesTasksService) List(parent string) *ProjectsLocat
 }
 
 // OrderBy sets the optional parameter "orderBy": Sort order used for
-// the query. The fields supported for sorting
-// are Task.schedule_time and PullMessage.tag. All results will
+// the query. The only fields supported for sorting
+// are `schedule_time` and `pull_message.tag`. All results will
 // be
-// returned in ascending order. The default ordering is
+// returned in approximately ascending order. The default ordering is
 // by
-// Task.schedule_time.
+// `schedule_time`.
 func (c *ProjectsLocationsQueuesTasksListCall) OrderBy(orderBy string) *ProjectsLocationsQueuesTasksListCall {
 	c.urlParams_.Set("orderBy", orderBy)
 	return c
@@ -5386,7 +5371,7 @@ func (c *ProjectsLocationsQueuesTasksListCall) Do(opts ...googleapi.CallOption) 
 	//   ],
 	//   "parameters": {
 	//     "orderBy": {
-	//       "description": "\nSort order used for the query. The fields supported for sorting\nare Task.schedule_time and PullMessage.tag. All results will be\nreturned in ascending order. The default ordering is by\nTask.schedule_time.",
+	//       "description": "Sort order used for the query. The only fields supported for sorting\nare `schedule_time` and `pull_message.tag`. All results will be\nreturned in approximately ascending order. The default ordering is by\n`schedule_time`.",
 	//       "location": "query",
 	//       "type": "string"
 	//     },
@@ -5398,7 +5383,6 @@ func (c *ProjectsLocationsQueuesTasksListCall) Do(opts ...googleapi.CallOption) 
 	//     },
 	//     "pageToken": {
 	//       "description": "A token identifying the page of results to return.\n\nTo request the first page results, page_token must be empty. To\nrequest the next page of results, page_token must be the value of\nListTasksResponse.next_page_token returned from the previous\ncall to CloudTasks.ListTasks method.\n\nThe page token is valid for only 2 hours.",
-	//       "format": "byte",
 	//       "location": "query",
 	//       "type": "string"
 	//     },

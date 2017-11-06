@@ -4,8 +4,8 @@
 [[projects]]
   name = "cloud.google.com/go"
   packages = ["compute/metadata","iam","internal","internal/optional","internal/version","storage"]
-  revision = "eaddaf6dd7ee35fd3c2420c8d27478db176b0485"
-  version = "v0.15.0"
+  revision = "2d3a6656c17a60b0815b7e06ab0be04eacb6e613"
+  version = "v0.16.0"
 
 [[projects]]
   name = "github.com/VividCortex/gohistogram"
@@ -23,7 +23,7 @@
   branch = "master"
   name = "github.com/golang/protobuf"
   packages = ["proto","protoc-gen-go/descriptor","ptypes","ptypes/any","ptypes/duration","ptypes/timestamp"]
-  revision = "130e6b02ab059e7b717a096f397c5b60111cae74"
+  revision = "1643683e1b54a9e88ad26d98f81400c8c9d9f4f9"
 
 [[projects]]
   name = "github.com/googleapis/gax-go"
@@ -41,7 +41,7 @@
   branch = "master"
   name = "github.com/jmoiron/sqlx"
   packages = [".","reflectx"]
-  revision = "d9bd385d68c068f1fabb5057e3dedcbcbb039d0f"
+  revision = "3379e5993990b1f927fc8db926485e6f6becf2d2"
 
 [[projects]]
   branch = "master"
@@ -53,13 +53,7 @@
   branch = "master"
   name = "github.com/lib/pq"
   packages = [".","oid"]
-  revision = "017e4c14d80628353eaee677a1aeffe47a10c0dc"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/nfnt/resize"
-  packages = ["."]
-  revision = "891127d8d1b52734debe1b3c3d7e747502b6c366"
+  revision = "b609790bd85edf8e9ab7e0f8912750a786177bcf"
 
 [[projects]]
   name = "github.com/pkg/errors"
@@ -69,9 +63,15 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/soudy/mathcat"
+  packages = ["."]
+  revision = "85db51cac9df2bc8b20e780224c505ba9e3dc890"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/crypto"
   packages = ["acme","acme/autocert"]
-  revision = "ed5229da99e3a6df35c756cd64b6982d19505d86"
+  revision = "ca1fcd4ab4c10bc58852a894bcf195fab2229efe"
 
 [[projects]]
   branch = "master"
@@ -82,8 +82,8 @@
 [[projects]]
   branch = "master"
   name = "golang.org/x/net"
-  packages = ["context","context/ctxhttp","http2","http2/hpack","idna","internal/timeseries","lex/httplex","trace"]
-  revision = "1087133bc4af3073e18add999345c6ae75918503"
+  packages = ["context","context/ctxhttp","html","html/atom","http2","http2/hpack","idna","internal/timeseries","lex/httplex","trace"]
+  revision = "01c190206fbdffa42f334f4b2bf2220f50e64920"
 
 [[projects]]
   branch = "master"
@@ -95,19 +95,19 @@
   branch = "master"
   name = "golang.org/x/sync"
   packages = ["errgroup"]
-  revision = "8e0aa688b654ef28caa72506fa5ec8dba9fc7690"
+  revision = "fd80eb99c8f653c847d294a001bdf2a3a6f768f5"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/text"
   packages = ["collate","collate/build","internal/colltab","internal/gen","internal/tag","internal/triegen","internal/ucd","language","secure/bidirule","transform","unicode/bidi","unicode/cldr","unicode/norm","unicode/rangetable"]
-  revision = "c01e4764d870b77f8abe5096ee19ad20d80e8075"
+  revision = "88f656faf3f37f690df1a32515b479415e1a6769"
 
 [[projects]]
   branch = "master"
   name = "google.golang.org/api"
   packages = ["gensupport","googleapi","googleapi/internal/uritemplates","googleapi/transport","internal","iterator","option","storage/v1","transport/http"]
-  revision = "15b905a38723467e1c9cea66cc58ab8ee5ddbfd8"
+  revision = "9fdb53e0c633e09f7df19c7745ee0e39ce3f5e6a"
 
 [[projects]]
   name = "google.golang.org/appengine"
@@ -119,17 +119,23 @@
   branch = "master"
   name = "google.golang.org/genproto"
   packages = ["googleapis/api/annotations","googleapis/iam/v1","googleapis/rpc/status"]
-  revision = "f676e0f3ac6395ff1a529ae59a6670878a8371a6"
+  revision = "11c7f9e547da6db876260ce49ea7536985904c9b"
 
 [[projects]]
   name = "google.golang.org/grpc"
   packages = [".","balancer","codes","connectivity","credentials","grpclb/grpc_lb_v1/messages","grpclog","internal","keepalive","metadata","naming","peer","resolver","stats","status","tap","transport"]
-  revision = "f7bf885db0b7479a537ec317c6e48ce53145f3db"
-  version = "v1.7.0"
+  revision = "5ffe3083946d5603a0578721101dc8165b1d5b5f"
+  version = "v1.7.2"
+
+[[projects]]
+  branch = "v2"
+  name = "gopkg.in/xmlpath.v2"
+  packages = ["."]
+  revision = "860cbeca3ebcc600db0b213c0e83ad6ce91f5739"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ff03db38a27985a16b8cb8ad2b7e7aa43bd6c9b0640aa184260ed4abb6c139b7"
+  inputs-digest = "c07c5019c246d4861ca05c36f2a7cc7861eef23c36b76ffc59e93019ccd68296"
   solver-name = "gps-cdcl"
   solver-version = 1
