@@ -15,10 +15,10 @@ func (h *hotsContext) cronLoop() error {
 	start := time.Now()
 	fmt.Println("starting cron")
 	defer func() { fmt.Println("cron finished in", time.Since(start)) }()
-	return h.cron()
+	return h.cron(true)
 }
 
-func (h *hotsContext) cron() error {
+func (h *hotsContext) cron(all bool) error {
 	if err := h.updateInit(context.Background()); err != nil {
 		return errors.Wrap(err, "update init")
 	}
@@ -30,7 +30,7 @@ func (h *hotsContext) cron() error {
 	}
 	var urls []string
 	if err := retry(func() error {
-		rows, err := h.db.Query(`SELECT id FROM cache WHERE until < now() OR until IS NULL`)
+		rows, err := h.db.Query(`SELECT id FROM cache WHERE until < now() OR until IS NULL OR $1`, all)
 		if err != nil {
 			return err
 		}

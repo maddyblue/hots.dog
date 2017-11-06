@@ -38,6 +38,11 @@ func (h *hotsContext) updateDB() error {
 	if err != nil {
 		return errors.Wrap(err, "new client")
 	}
+	// Possibly we are on a new image, so update cache if the underlying
+	// implementation changed.
+	if err := h.cronLoop(); err != nil {
+		return errors.Wrap(err, "cronLoop")
+	}
 	bucket := cl.Bucket(*flagImport)
 	for {
 		err := h.updateDBNext(bucket)
