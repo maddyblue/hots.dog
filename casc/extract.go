@@ -109,7 +109,6 @@ func extract() error {
 		return filepath.Join(parts...)
 	}
 	makeTalentIcon := func(input, output string, args ...string) {
-		return
 		input = filepath.Join("mods/heroes.stormmod/base.stormassets", input)
 		output = filepath.Join("..", "frontend", "public", "img", output)
 		wg.Add(1)
@@ -209,15 +208,17 @@ func extract() error {
 					)
 					makeTalentIcon(img, filepath.Join("hero_full", h.Slug+".png"), "-resize", "100x56")
 				}
-				{
-					img := chero.Id
-					if v := chero.ScoreScreenImage.Value; v != "" {
-						img = iconClean(v)
-					} else {
-						img = iconClean(fmt.Sprintf(`Assets\Textures\storm_ui_ingame_hero_loadingscreen_%s.dds`, img))
+				/*
+					{
+						img := chero.Id
+						if v := chero.ScoreScreenImage.Value; v != "" {
+							img = iconClean(v)
+						} else {
+							img = iconClean(fmt.Sprintf(`Assets\Textures\storm_ui_ingame_hero_loadingscreen_%s.dds`, img))
+						}
+						makeTalentIcon(img, filepath.Join("hero_loading", h.Slug+".png"))
 					}
-					makeTalentIcon(img, filepath.Join("hero_loading", h.Slug+".png"))
-				}
+				*/
 				for _, r := range chero.RolesMultiClass {
 					h.MultiRole = append(h.MultiRole, r.Value)
 				}
@@ -398,8 +399,8 @@ func getTooltip(s string, x XML) (string, error) {
 					return "?"
 				}
 				v = fmt.Sprintf("%.1f", f)
-				if float64(int(f)) == f {
-					v = fmt.Sprint(int(f))
+				if strings.HasSuffix(v, ".0") {
+					v = v[:len(v)-2]
 				}
 				break
 			}
