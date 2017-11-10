@@ -1,10 +1,12 @@
+// @flow
+
 import React, { Component } from 'react';
 import { createCookie, readCookie } from './common';
 
 const tableSortings = {};
 const sortTableCookie = 'sort-table-';
 function setTableSort(name, sort, dir) {
-	const val = sort + ',' + (dir === true);
+	const val = sort + ',' + (dir === true).toString();
 	createCookie(sortTableCookie + name, val);
 	const sortings = tableSortings[name];
 	const st = {
@@ -27,8 +29,45 @@ function unregisterTableSort(that) {
 	tableSortings[name] = tableSortings[name].filter(v => v !== that);
 }
 
-class SortedTable extends Component {
-	constructor(props) {
+type Cmp = (any, any) => number;
+
+type Header = {
+	name: string,
+	header?: string,
+	cell?: any => string,
+	desc?: boolean,
+	title?: string,
+	cmp?: Cmp,
+};
+
+type Headers = Header[];
+
+type Props = {
+	name: string,
+	headers: Headers,
+	sort: string,
+	data: any[],
+};
+
+type State = {
+	sort: string,
+	sortDir: boolean,
+	lookup: { [string]: any },
+};
+
+type Lookup = {
+	[string]: {
+		name: string,
+		header: string,
+		cell: any => string,
+		desc: boolean,
+		title?: string,
+		cmp: Cmp,
+	},
+};
+
+class SortedTable extends Component<Props, State> {
+	constructor(props: Props) {
 		super(props);
 		const lookup = this.lookup(props.headers);
 		let sort = props.sort;
@@ -50,14 +89,15 @@ class SortedTable extends Component {
 			sort: sort,
 			sortDir: dir,
 		};
-		this.sort = this.sort.bind(this);
-		this.sortClass = this.sortClass.bind(this);
 	}
 	componentWillUnmount() {
 		unregisterTableSort(this);
 	}
-	lookup(headers) {
-		const lookup = {};
+	componentWillUpdate(nextProps: Props, nextState: State, nextContext: any) {
+		nextState.lookup = this.lookup(nextProps.headers);
+	}
+	lookup(headers: Headers): Lookup {
+		const lookup: Lookup = {};
 		headers.forEach(h => {
 			if (!h.cell) {
 				h.cell = v => v;
@@ -65,14 +105,18 @@ class SortedTable extends Component {
 			if (!h.header) {
 				h.header = h.name;
 			}
-			lookup[h.name] = h;
+			lookup[h.name] = {
+				name: h.name,
+				header: h.header || h.name,
+				cell: h.cell || (v => v),
+				desc: h.desc === true,
+				title: h.title,
+				cmp: h.cmp || defaultCmp,
+			};
 		});
 		return lookup;
 	}
-	componentWillUpdate(nextProps, nextState) {
-		nextState.lookup = this.lookup(nextProps.headers);
-	}
-	sort(sort) {
+	sort = (sort: string) => {
 		if (this.state.lookup[sort].cmp === null) {
 			return;
 		}
@@ -83,25 +127,29 @@ class SortedTable extends Component {
 			dir = this.state.lookup[sort].desc === true;
 		}
 		setTableSort(this.props.name, sort, dir);
-	}
-	sortClass(col) {
+	};
+	sortClass = (col: string) => {
 		if (col !== this.state.sort) {
 			return '';
 		}
 		const dir = this.state.sortDir ? 'desc' : 'asc';
 		return 'sort-' + dir;
-	}
+	};
 	render() {
 		const data = this.props.data;
-		const cmp = this.state.lookup[this.state.sort].cmp || defaultCmp;
-		data.sort((a, b) => cmp(a[this.state.sort], b[this.state.sort]));
+		data.sort((a: any, b: any): number =>
+			this.state.lookup[this.state.sort].cmp(
+				a[this.state.sort],
+				b[this.state.sort]
+			)
+		);
 		if (this.state.sortDir) {
 			data.reverse();
 		}
 		const body = data.map((row, i) => (
 			<tr key={i}>
 				{this.props.headers.map(h => (
-					<td key={h.name}>{h.cell(row[h.name])}</td>
+					<td key={h.name}>{this.state.lookup[h.name].cell(row[h.name])}</td>
 				))}
 			</tr>
 		));
@@ -132,7 +180,7 @@ class SortedTable extends Component {
 	}
 }
 
-function defaultCmp(a, b) {
+const defaultCmp: Cmp = (a, b): number => {
 	switch (typeof a) {
 		case 'number':
 		case 'boolean':
@@ -144,8 +192,9 @@ function defaultCmp(a, b) {
 				return a - b;
 			} else {
 				debugger;
+				return 0;
 			}
 	}
-}
+};
 
 export default SortedTable;

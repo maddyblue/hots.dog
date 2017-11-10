@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import { Link, Route, withRouter } from 'react-router-dom';
 import * as usp from 'url-search-params';
@@ -16,7 +18,21 @@ import './milligram.css';
 
 import logo from './img/logo.png';
 
-class HotsApp extends Component {
+type State = {
+	init?: boolean,
+	herolevel?: string,
+	skill_low?: string,
+	skill_high?: string,
+	Modes?: any,
+	BuildStats?: any,
+};
+
+class HotsApp extends Component<{ location: Location, history: any }, State> {
+	params: string[];
+	defaultHeroLevel: string;
+	defaultSkillLow: string;
+	defaultSkillHigh: string;
+
 	constructor(props) {
 		super(props);
 		this.params = [
@@ -31,7 +47,6 @@ class HotsApp extends Component {
 		this.defaultSkillLow = '0';
 		this.defaultSkillHigh = '100';
 		this.state = this.searchState();
-		this.handleChange = this.handleChange.bind(this);
 	}
 	componentDidMount() {
 		Fetch('/api/init', data => {
@@ -42,7 +57,7 @@ class HotsApp extends Component {
 	componentDidUpdate(prevProps, prevState) {
 		// This function attempts to sink the state with the URL when the URL changes,
 		// for use with back/forward navigation actions.
-		var locationChanged = this.props.location !== prevProps.location;
+		const locationChanged = this.props.location !== prevProps.location;
 		if (!locationChanged) {
 			return;
 		}
@@ -58,8 +73,8 @@ class HotsApp extends Component {
 		}
 		this.setState(updates);
 	}
-	searchState() {
-		const st = {};
+	searchState(): State {
+		const st: State = {};
 		const search = new usp(window.location.search);
 		this.params.forEach(key => {
 			if (!search.has(key)) {
@@ -104,19 +119,23 @@ class HotsApp extends Component {
 		});
 		return '?' + params.join('&');
 	}
-	handleChange(event) {
+	handleChange = event => {
 		const st = {};
 		st[event.target.name] = event.target.value;
 		const ev = +event.target.value;
 		switch (event.target.name) {
 			case 'skill_low':
 				if (ev >= +this.state.skill_high) {
-					st['skill_high'] = skillPercentiles[skillPercentiles.indexOf(ev) + 1];
+					st['skill_high'] = skillPercentiles[
+						skillPercentiles.indexOf(ev) + 1
+					].toString();
 				}
 				break;
 			case 'skill_high':
 				if (ev <= +this.state.skill_low) {
-					st['skill_low'] = skillPercentiles[skillPercentiles.indexOf(ev) - 1];
+					st['skill_low'] = skillPercentiles[
+						skillPercentiles.indexOf(ev) - 1
+					].toString();
 				}
 				break;
 			default:
@@ -127,7 +146,7 @@ class HotsApp extends Component {
 			createCookie('params', params);
 			this.props.history.push({ search: params });
 		});
-	}
+	};
 	render() {
 		if (!this.state.init) {
 			return 'loading...';

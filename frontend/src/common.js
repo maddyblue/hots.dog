@@ -1,9 +1,11 @@
+// @flow
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 const skillPercentiles = [0, 30, 50, 70, 90, 95, 100];
 
-const BuildsOpts = props => {
+const BuildsOpts = (props: { builds: any }) => {
 	let builds = props.builds.map(b => (
 		<option key={b.ID} value={b.ID}>
 			{b.ID} ({new Date(b.Start).toLocaleDateString()} -{' '}
@@ -18,7 +20,16 @@ const BuildsOpts = props => {
 	return builds;
 };
 
-const Filter = props => {
+const Filter = (props: {
+	handleChange: Event => void,
+	map: string,
+	build: string,
+	mode: string,
+	herolevel: string,
+	Builds: any,
+	Maps: string[],
+	Modes: {},
+}) => {
 	let maps = props.Maps.map(m => <option key={m}>{m}</option>);
 	maps.unshift(
 		<option key="" value="">
@@ -121,8 +132,16 @@ const Filter = props => {
 	);
 };
 
-const HeroHeader = props => {
+const HeroHeader = (props: {
+	heroes: any[],
+	name: string,
+	build?: string,
+	history: any,
+}) => {
 	const hero = props.heroes.find(e => e.Name === props.name);
+	if (!hero) {
+		return 'unknown hero';
+	}
 	const encHero = encodeURI(props.name);
 	const heroSearch = props.build
 		? '?build=' + encodeURIComponent(props.build)
@@ -166,7 +185,7 @@ const HeroHeader = props => {
 	);
 };
 
-function Fetch(url, success, error) {
+function Fetch(url: string, success: any => void, error?: any => void) {
 	if (!error) {
 		error = alert;
 	}
@@ -181,11 +200,11 @@ function Fetch(url, success, error) {
 		.catch(error);
 }
 
-function pct(x, n = 1) {
+function pct(x: number, n: number = 1) {
 	return x.toFixed(n) + '%';
 }
 
-function toLength(l) {
+function toLength(l: number) {
 	const mins = Math.trunc(l / 60);
 	let secs = (l % 60).toString();
 	if (secs.length < 2) {
@@ -194,11 +213,11 @@ function toLength(l) {
 	return mins + ':' + secs;
 }
 
-function createCookie(name, value) {
+function createCookie(name: string, value: string) {
 	localStorage.setItem(name, value);
 }
 
-function readCookie(name) {
+function readCookie(name: string) {
 	return localStorage.getItem(name);
 }
 
