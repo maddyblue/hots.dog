@@ -213,6 +213,7 @@ func main() {
 	http.Handle("/api/init", wrap(h.Init))
 	http.Handle("/api/get-build-winrates", wrap(h.GetBuildWinrates))
 	http.Handle("/api/get-compare-hero", wrap(h.GetCompareHero))
+	http.Handle("/api/get-game-data", wrap(h.GetGameData))
 	http.Handle("/api/get-hero-data", wrap(h.GetHero))
 	http.Handle("/api/get-player-by-name", wrap(h.GetPlayerName))
 	http.Handle("/api/get-player-data", wrap(h.GetPlayerData))
@@ -256,6 +257,7 @@ func main() {
 
 	http.HandleFunc("/about/", serveIndex)
 	http.HandleFunc("/compare/", serveIndex)
+	http.HandleFunc("/games/", serveIndex)
 	http.HandleFunc("/heroes/", serveIndex)
 	http.HandleFunc("/players/", serveIndex)
 	http.HandleFunc("/talents/", serveIndex)
@@ -493,6 +495,15 @@ type initData struct {
 	BuildStats map[string]map[Mode]Stats
 	config     groupConfig
 	lookups    map[string]func(string) string
+}
+
+func (i initData) list(name, s string) []string {
+	lookup := i.lookups[name]
+	var res []string
+	for _, v := range strings.Split(s[1:len(s)-1], ",") {
+		res = append(res, lookup(v))
+	}
+	return res
 }
 
 func (h *hotsContext) Init(ctx context.Context, _ *http.Request) (interface{}, error) {
@@ -891,6 +902,7 @@ func (h *hotsContext) GetPlayerData(ctx context.Context, r *http.Request) (inter
 			Skill int
 		}
 		Games []struct {
+			Game      int
 			Hero      string
 			HeroLevel int    `db:"hero_level"`
 			Date      string `db:"time"`
@@ -930,7 +942,7 @@ func (h *hotsContext) GetPlayerData(ctx context.Context, r *http.Request) (inter
 	}
 
 	if err := h.x.SelectContext(ctx, &res.Games, `
-			SELECT hero, hero_level, build, winner, length, map, mode, time
+			SELECT game, hero, hero_level, build, winner, length, map, mode, time
 			FROM players
 			WHERE blizzid = $1
 			ORDER BY time DESC
@@ -943,6 +955,65 @@ func (h *hotsContext) GetPlayerData(ctx context.Context, r *http.Request) (inter
 		g.Map = init.lookups["map"](g.Map)
 		g.Build = init.lookups["build"](g.Build)
 		res.Games[i] = g
+	}
+
+	return res, nil
+}
+
+func (h *hotsContext) GetGameData(ctx context.Context, r *http.Request) (interface{}, error) {
+	id := r.FormValue("id")
+	init := h.getInit()
+	if id == "" {
+		return nil, errors.New("no id parameter")
+	}
+	res := struct {
+		Game struct {
+			Mode    Mode
+			Date    string `db:"time"`
+			Map     string
+			Length  int
+			Build   string
+			Bans    string `json:"-"`
+			BanList []string
+		}
+		Players []*struct {
+			Hero       string
+			HeroLevel  int `db:"hero_level"`
+			Winner     bool
+			Blizzid    int
+			Battletag  string
+			Talents    string `json:"-"`
+			TalentList []string
+		}
+		Talents map[string]talentText
+	}{
+		Talents: make(map[string]talentText),
+	}
+
+	if err := h.x.GetContext(ctx, &res.Game, `
+		SELECT mode, time, map, length, build, bans
+		FROM games
+		WHERE id = $1
+		`, id); err != nil {
+		return nil, err
+	}
+
+	if err := h.x.SelectContext(ctx, &res.Players, `
+		SELECT hero, hero_level, winner, blizzid, battletag, talents
+		FROM players
+		WHERE game = $1
+		`, id); err != nil {
+		return nil, err
+	}
+	res.Game.BanList = init.list("hero", res.Game.Bans)
+	res.Game.Map = init.lookups["map"](res.Game.Map)
+	res.Game.Build = init.lookups["build"](res.Game.Build)
+	for _, p := range res.Players {
+		p.Hero = init.lookups["hero"](p.Hero)
+		p.TalentList = init.list("talent", p.Talents)
+		for _, t := range p.TalentList {
+			res.Talents[t] = talentData[t]
+		}
 	}
 
 	return res, nil

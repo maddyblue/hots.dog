@@ -149,7 +149,9 @@ class SortedTable extends Component<Props, State> {
 		const body = data.map((row, i) => (
 			<tr key={i}>
 				{this.props.headers.map(h => (
-					<td key={h.name}>{this.state.lookup[h.name].cell(row[h.name])}</td>
+					<td key={h.name}>
+						{this.state.lookup[h.name].cell(row[h.name], row)}
+					</td>
 				))}
 			</tr>
 		));

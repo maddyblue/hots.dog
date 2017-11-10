@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Fetch, pct, toLength } from './common';
+import { Fetch, pct, toLength, toDate, TalentImg } from './common';
 import SortedTable from './SortedTable';
 
 class Players extends Component {
@@ -155,7 +155,9 @@ class Player extends Component {
 						},
 						{
 							name: 'Date',
-							cell: v => new Date(v).toLocaleString(),
+							cell: (v, row) => (
+								<Link to={'/games/' + row.Game}>{toDate(v)}</Link>
+							),
 							desc: true,
 						},
 						{
@@ -202,4 +204,108 @@ class Player extends Component {
 	}
 }
 
-export { Players, Player };
+class Game extends Component {
+	componentDidMount() {
+		Fetch(
+			'/api/get-game-data?id=' + encodeURIComponent(this.props.match.params.id),
+			data => {
+				this.setState(data);
+			}
+		);
+	}
+	render() {
+		if (!this.state) {
+			return 'loading...';
+		}
+		const baseSearch = '?build=' + this.state.Game.Build;
+		return (
+			<div>
+				<h2>
+					{this.state.Game.Map} on {toDate(this.state.Game.Date)}
+				</h2>
+				<table>
+					<tbody>
+						<tr>
+							<td>Game Mode</td>
+							<td>
+								<Link to={'/' + baseSearch + '&mode=' + this.state.Game.Mode}>
+									{this.props.Modes[this.state.Game.Mode]}
+								</Link>
+							</td>
+						</tr>
+						<tr>
+							<td>Patch</td>
+							<td>
+								<Link to={'/' + baseSearch}>{this.state.Game.Build}</Link>
+							</td>
+						</tr>
+						<tr>
+							<td>Length</td>
+							<td>{toLength(this.state.Game.Length)}</td>
+						</tr>
+						<tr>
+							<td>Map</td>
+							<td>
+								<Link
+									to={
+										'/' +
+										baseSearch +
+										'&map=' +
+										encodeURIComponent(this.state.Game.Map)
+									}
+								>
+									{this.state.Game.Map}
+								</Link>
+							</td>
+						</tr>
+						<tr>
+							<td>Date</td>
+							<td>{toDate(this.state.Game.Date)}</td>
+						</tr>
+						<tr>
+							<td>Bans</td>
+							<td>{this.state.Game.BanList.join(', ')}</td>
+						</tr>
+					</tbody>
+				</table>
+				<SortedTable
+					name="game"
+					sort="Hero"
+					headers={[
+						{
+							name: 'Hero',
+							cell: v => <Link to={'/talents/' + v + baseSearch}>{v}</Link>,
+						},
+						{
+							name: 'HeroLevel',
+							header: 'Level',
+							title: 'hero level',
+							desc: true,
+						},
+						{
+							name: 'Winner',
+							header: 'Won',
+							cell: v => (v ? 'win' : 'loss'),
+							desc: true,
+						},
+						{
+							name: 'Battletag',
+							cell: (v, row) => <Link to={'/players/' + row.Blizzid}>{v}</Link>,
+						},
+						{
+							name: 'TalentList',
+							header: 'Talents',
+							cell: v =>
+								v.map(v => (
+									<TalentImg key={v} name={v} data={this.state.Talents[v]} />
+								)),
+						},
+					]}
+					data={this.state.Players}
+				/>
+			</div>
+		);
+	}
+}
+
+export { Players, Player, Game };

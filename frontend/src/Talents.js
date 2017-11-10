@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Fetch, pct, Filter, HeroHeader } from './common';
+import { Fetch, pct, Filter, HeroHeader, TalentImg } from './common';
 import SortedTable from './SortedTable';
 
 class TalentWinrates extends Component {
@@ -111,41 +111,6 @@ const tierNames = {
 	5: 13,
 	6: 16,
 	7: 20,
-};
-
-const TalentImg = props => {
-	let { Name, Text } = props.data;
-	let desc;
-	if (!Name) {
-		const words = props.name.match(/[A-Z][a-z]+/g);
-		words.shift();
-		Name = words.join(' ');
-		Text = Name;
-	} else if (!props.text) {
-		Text = Name + ': ' + Text;
-	}
-	if (props.text) {
-		desc = Name;
-	}
-	return (
-		<span className="tooltip">
-			<img
-				key="img"
-				src={'/img/talent/' + props.name + '.png'}
-				alt={Name}
-				style={{
-					verticalAlign: 'middle',
-					paddingRight: '2px',
-					height: '40px',
-					width: '40px',
-				}}
-			/>
-			{desc}
-			<span className="tip" style={{ whiteSpace: 'pre-line' }}>
-				{Text}
-			</span>
-		</span>
-	);
 };
 
 const Builds = props => {

@@ -221,6 +221,45 @@ function readCookie(name: string) {
 	return localStorage.getItem(name);
 }
 
+function toDate(s: string) {
+	return new Date(s).toLocaleString();
+}
+
+const TalentImg = (props: { name: string, text: boolean, data: any }) => {
+	let { Name, Text } = props.data;
+	let desc;
+	if (!Name) {
+		const words = props.name.match(/[A-Z][a-z]+/g) || ['', props.name];
+		words.shift();
+		Name = words.join(' ');
+		Text = Name;
+	} else if (!props.text) {
+		Text = Name + ': ' + Text;
+	}
+	if (props.text) {
+		desc = Name;
+	}
+	return (
+		<span className="tooltip">
+			<img
+				key="img"
+				src={'/img/talent/' + props.name + '.png'}
+				alt={Name}
+				style={{
+					verticalAlign: 'middle',
+					paddingRight: '2px',
+					height: '40px',
+					width: '40px',
+				}}
+			/>
+			{desc}
+			<span className="tip" style={{ whiteSpace: 'pre-line' }}>
+				{Text}
+			</span>
+		</span>
+	);
+};
+
 export {
 	BuildsOpts,
 	createCookie,
@@ -231,4 +270,6 @@ export {
 	readCookie,
 	skillPercentiles,
 	toLength,
+	toDate,
+	TalentImg,
 };

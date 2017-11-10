@@ -9,7 +9,7 @@ import CompareHero from './Compare';
 import { createCookie, Fetch, skillPercentiles } from './common';
 import Hero from './Hero';
 import HeroWinrates from './HeroWinrates';
-import { Players, Player } from './Players';
+import { Players, Player, Game } from './Players';
 import TalentWinrates from './Talents';
 
 import './normalize.css';
@@ -205,6 +205,11 @@ class HotsApp extends Component<{ location: Location, history: any }, State> {
 								BuildStats={this.state.BuildStats}
 							/>
 						)}
+					/>
+					<Route
+						exact
+						path="/games/:id"
+						render={props => <Game {...props} Modes={this.state.Modes} />}
 					/>
 					<Route
 						exact
