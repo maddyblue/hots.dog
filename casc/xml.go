@@ -6,14 +6,13 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
 
 	"github.com/pkg/errors"
 
-	xmlpath "gopkg.in/xmlpath.v2"
+	"github.com/mjibson/hots-cockroach/casc/xmlpath"
 )
 
 func (x *XML) loadXML(name string) error {
@@ -67,16 +66,18 @@ type XML struct {
 }
 
 var (
-	reNum      = regexp.MustCompile(`\[.+?\]`)
-	idNode     = xmlpath.MustCompile("//*[@id]")
-	nodeID     = xmlpath.MustCompile("@id")
-	nodeParent = xmlpath.MustCompile("@parent")
+	reNum       = regexp.MustCompile(`\[.+?\]`)
+	idNode      = xmlpath.MustCompile("//*[@id]")
+	nodeID      = xmlpath.MustCompile("@id")
+	nodeParent  = xmlpath.MustCompile("@parent")
+	pathDefault = xmlpath.MustCompile("@default")
 )
 
 func (x *XML) Get(s string) (string, error) {
+	def := "0"
 	// I have no idea about this. See Button/Tooltip/AnaAimDownSightsCustomOptics.
 	if s == "Value" {
-		return "0", nil
+		return def, nil
 	}
 	sp := strings.Split(s, ",")
 	if len(sp) != 3 {
@@ -107,9 +108,10 @@ func (x *XML) Get(s string) (string, error) {
 	for n := range x.ids[id] {
 		names = append(names, n)
 	}
+	idpath := xmlpath.MustCompile(fmt.Sprintf("//*[@id='%s']", id))
 	paths := []string{
-		fmt.Sprintf("//*[@id='%s']/%s/@value", id, name),
-		fmt.Sprintf("//*[@id='%s']/%s@%s", id, first, last),
+		fmt.Sprintf("%s/@value", name),
+		fmt.Sprintf("%s@%s", first, last),
 	}
 	var xps []*xmlpath.Path
 	for _, p := range paths {
@@ -117,11 +119,23 @@ func (x *XML) Get(s string) (string, error) {
 	}
 
 	for _, name := range names {
-		for _, xp := range xps {
-			iter := xp.Iter(x.v[name])
+		iditer := idpath.Iter(x.v[name])
+		for iditer.Next() {
+			idnode := iditer.Node()
+			idname := idnode.Name()
+			if !strings.HasPrefix(idname, "C"+typ) {
+				continue
+			}
+			for _, xp := range xps {
+				iter := xp.Iter(idnode)
+				for iter.Next() {
+					res := iter.Node().String()
+					return res, nil
+				}
+			}
+			iter := pathDefault.Iter(idnode)
 			for iter.Next() {
-				res := iter.Node().String()
-				return res, nil
+				def = iter.Node().String()
 			}
 		}
 	}
@@ -131,15 +145,10 @@ func (x *XML) Get(s string) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		if res != "" {
+		if res != "0" {
 			return res, nil
 		}
 	}
 
-	// "Effect,AnaOverdoseAttackPoisonTraitDotDamageTokenInitialSingleDoseApplyBehavior,Value" is in the .txt, but not in the .xml.
-	if last == "Value" {
-		fmt.Fprintf(os.Stderr, "UNFOUND, returned 0: %s\n", s)
-		return "0", nil
-	}
-	return "", nil
+	return def, nil
 }

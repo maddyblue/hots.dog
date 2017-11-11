@@ -63,12 +63,6 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/soudy/mathcat"
-  packages = ["."]
-  revision = "85db51cac9df2bc8b20e780224c505ba9e3dc890"
-
-[[projects]]
-  branch = "master"
   name = "golang.org/x/crypto"
   packages = ["acme","acme/autocert"]
   revision = "ca1fcd4ab4c10bc58852a894bcf195fab2229efe"
@@ -136,6 +130,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "c07c5019c246d4861ca05c36f2a7cc7861eef23c36b76ffc59e93019ccd68296"
+  inputs-digest = "e8c549941b0b48d2a4a67a56048ad46ccb4a10dc2f4e28bdcd543abdf471c870"
   solver-name = "gps-cdcl"
   solver-version = 1

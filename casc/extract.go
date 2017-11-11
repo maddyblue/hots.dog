@@ -22,7 +22,6 @@ import (
 	"golang.org/x/text/unicode/norm"
 
 	"github.com/pkg/errors"
-	"github.com/soudy/mathcat"
 )
 
 func main() {
@@ -80,6 +79,9 @@ func extract() error {
 				}
 			}
 			return scanner.Err()
+		case "ActorData.xml":
+			// ignore
+			return nil
 		default:
 			if strings.HasSuffix(path, ".xml") && (strings.HasPrefix(path, "mods/heromods/") ||
 				strings.HasPrefix(path, "mods/heroesdata.stormmod/") ||
@@ -359,8 +361,9 @@ var talentData = map[string]talentText{`)
 var (
 	reC   = regexp.MustCompile(`(?i:</?[scki].*?>)`)
 	reN   = regexp.MustCompile(`(</?n/?>)+`)
-	reD   = regexp.MustCompile(`<d.*?/>`)
-	reVal = regexp.MustCompile(`[A-Z][A-Za-z0-9,\[\].]+`)
+	reD1  = regexp.MustCompile(`\[d.*?/\]`)
+	reD2  = regexp.MustCompile(`<d.*?/>`)
+	reVal = regexp.MustCompile(`[A-Z][_A-Za-z0-9,\[\].]+`)
 )
 
 func getTooltip(s string, x XML) (string, error) {
@@ -381,7 +384,12 @@ func getTooltip(s string, x XML) (string, error) {
 	}
 	s = reC.ReplaceAllString(s, "")
 	s = reN.ReplaceAllString(s, "\n")
-	s = reD.ReplaceAllStringFunc(s, func(r string) string {
+	// Don't truncate during [d ref] section.
+	fFmt := "%f"
+	dRepl := func(r string) string {
+		if r[0] == '[' {
+			r = fmt.Sprintf("<%s>", r[1:len(r)-1])
+		}
 		t, err := xml.NewDecoder(strings.NewReader(r)).Token()
 		if err != nil {
 			panic(err)
@@ -391,14 +399,12 @@ func getTooltip(s string, x XML) (string, error) {
 		for _, attr := range se.Attr {
 			if attr.Name.Local == "ref" {
 				expr := reVal.ReplaceAllStringFunc(attr.Value, lookup)
-				expr = strings.Replace(expr, "--", "", -1)
-				f, err := mathcat.Eval(expr)
-				if err != nil {
-					gotErr = true
-					fmt.Fprintf(os.Stderr, "UNKNOWN2: %s: %s: %s\n", r, expr, err)
-					return "?"
+				if gotErr {
+					v = expr
+					break
 				}
-				v = fmt.Sprintf("%.1f", f)
+				f := evalExpr(expr)
+				v = fmt.Sprintf(fFmt, f)
 				if strings.HasSuffix(v, ".0") {
 					v = v[:len(v)-2]
 				}
@@ -411,7 +417,10 @@ func getTooltip(s string, x XML) (string, error) {
 			return "UNKNOWN3"
 		}
 		return v
-	})
+	}
+	s = reD1.ReplaceAllStringFunc(s, dRepl)
+	fFmt = "%.1f"
+	s = reD2.ReplaceAllStringFunc(s, dRepl)
 	var err error
 	if gotErr {
 		err = errors.New("error")
