@@ -1,24 +1,36 @@
+// @flow
+
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Fetch, pct, toLength, toDate, TalentImg } from './common';
 import SortedTable from './SortedTable';
 
-class Players extends Component {
-	constructor(props) {
+type Props = {
+	match: any,
+};
+
+class Players extends Component<
+	Props,
+	{
+		name: string,
+		ids: any[],
+		loading: boolean,
+	}
+> {
+	constructor(props: Props) {
 		super(props);
 		this.state = {
 			name: '',
 			ids: [],
+			loading: false,
 		};
-		this.update = this.update.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
 	}
-	update(ev) {
+	update = (ev: SyntheticInputEvent<HTMLInputElement>) => {
 		const st = {};
 		st[ev.target.name] = ev.target.value;
 		this.setState(st);
-	}
-	onSubmit(ev) {
+	};
+	onSubmit = (ev: SyntheticInputEvent<HTMLFormElement>) => {
 		ev.preventDefault();
 		if (!this.state.name) {
 			return;
@@ -33,7 +45,7 @@ class Players extends Component {
 				}
 			}
 		);
-	}
+	};
 	render() {
 		let names;
 		if (this.state.loading) {
@@ -65,7 +77,10 @@ class Players extends Component {
 	}
 }
 
-class Player extends Component {
+class Player extends Component<
+	{ match: any, BuildStats: any, Modes: any },
+	{ Games: any, Skills: any, Battletag: string }
+> {
 	componentDidMount() {
 		Fetch(
 			'/api/get-player-data?id=' +
@@ -81,7 +96,7 @@ class Player extends Component {
 			}
 		);
 	}
-	percentile(s) {
+	percentile = (s: any) => {
 		const modes = this.props.BuildStats[s.Build];
 		if (!modes) {
 			return;
@@ -110,7 +125,7 @@ class Player extends Component {
 			}
 		}
 		return pct(100, 0);
-	}
+	};
 	render() {
 		if (!this.state) {
 			return 'loading...';
@@ -204,7 +219,10 @@ class Player extends Component {
 	}
 }
 
-class Game extends Component {
+class Game extends Component<
+	{ match: any, Modes: any },
+	{ Game: any, Talents: any, Players: any }
+> {
 	componentDidMount() {
 		Fetch(
 			'/api/get-game-data?id=' + encodeURIComponent(this.props.match.params.id),

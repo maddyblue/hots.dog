@@ -228,7 +228,7 @@ function toDate(s: string) {
 	return new Date(s).toLocaleString();
 }
 
-const TalentImg = (props: { name: string, text: boolean, data: any }) => {
+const TalentImg = (props: { name: string, text?: boolean, data: any }) => {
 	let { Name, Text } = props.data;
 	let desc;
 	if (!Name) {

@@ -34,7 +34,7 @@ type Cmp = (any, any) => number;
 type Header = {
 	name: string,
 	header?: string,
-	cell?: any => string,
+	cell?: (any, any) => any,
 	desc?: boolean,
 	title?: string,
 	cmp?: Cmp,
