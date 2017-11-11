@@ -396,19 +396,13 @@ func getTooltip(s string, x XML) (string, error) {
 		}
 		se := t.(xml.StartElement)
 		var v string
+		fmtStr := fFmt
 		for _, attr := range se.Attr {
-			if attr.Name.Local == "ref" {
-				expr := reVal.ReplaceAllStringFunc(attr.Value, lookup)
-				if gotErr {
-					v = expr
-					break
-				}
-				f := evalExpr(expr)
-				v = fmt.Sprintf(fFmt, f)
-				if strings.HasSuffix(v, ".0") {
-					v = v[:len(v)-2]
-				}
-				break
+			switch attr.Name.Local {
+			case "ref":
+				v = reVal.ReplaceAllStringFunc(attr.Value, lookup)
+			case "precision":
+				fmtStr = fmt.Sprintf("%%0.%sf", attr.Value)
 			}
 		}
 		if v == "" {
@@ -416,10 +410,21 @@ func getTooltip(s string, x XML) (string, error) {
 			fmt.Fprintf(os.Stderr, "UNKNOWN3: %s: %s\n", s, r)
 			return "UNKNOWN3"
 		}
+		if gotErr {
+			return v
+		}
+		f := evalExpr(v)
+		v = fmt.Sprintf(fmtStr, f)
+		if strings.Contains(v, ".") {
+			v = strings.TrimRight(v, "0")
+			if strings.HasSuffix(v, ".") {
+				v = v[:len(v)-1]
+			}
+		}
 		return v
 	}
 	s = reD1.ReplaceAllStringFunc(s, dRepl)
-	fFmt = "%.1f"
+	fFmt = "%0.1f"
 	s = reD2.ReplaceAllStringFunc(s, dRepl)
 	var err error
 	if gotErr {
