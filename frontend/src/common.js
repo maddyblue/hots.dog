@@ -201,6 +201,9 @@ function Fetch(url: string, success: any => void, error?: any => void) {
 }
 
 function pct(x: number, n: number = 1) {
+	if (typeof n !== 'number') {
+		n = 1;
+	}
 	return x.toFixed(n) + '%';
 }
 
