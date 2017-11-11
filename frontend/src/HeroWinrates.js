@@ -1,10 +1,28 @@
+// @flow
+
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Fetch, pct, readCookie, Filter } from './common';
 import SortedTable from './SortedTable';
 
-class HeroWinrates extends Component {
-	constructor(props) {
+type Props = {
+	handleChange: Event => void,
+	map: string,
+	build: string,
+	herolevel: string,
+	history: any,
+	mode: string,
+	Builds: any,
+	Heroes: any[],
+	Maps: string[],
+	Modes: {},
+};
+
+class HeroWinrates extends Component<
+	Props,
+	{ winrates?: any, search?: string }
+> {
+	constructor(props: Props) {
 		super(props);
 		this.state = {};
 		const params = readCookie('params');
@@ -15,7 +33,7 @@ class HeroWinrates extends Component {
 	componentDidMount() {
 		this.update();
 	}
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate() {
 		this.update();
 	}
 	makeSearch() {
@@ -56,8 +74,9 @@ class HeroWinrates extends Component {
 			winrates = 'loading...';
 		} else {
 			const rates = [];
+			const wrs = this.state.winrates || {};
 			this.props.Heroes.forEach(hero => {
-				const wr = this.state.winrates.Current[hero.Name];
+				const wr = wrs.Current[hero.Name];
 				if (!wr) {
 					return;
 				}
@@ -67,9 +86,7 @@ class HeroWinrates extends Component {
 				if (wr) {
 					games = wr.Wins + wr.Losses;
 					winrate = wr.Wins / games * 100;
-					const prev =
-						this.state.winrates.Previous &&
-						this.state.winrates.Previous[hero.Name];
+					const prev = wrs.Previous && wrs.Previous[hero.Name];
 					if (prev) {
 						const prevGames = prev.Wins + prev.Losses;
 						const prevWinRate = prev.Wins / prevGames * 100;
