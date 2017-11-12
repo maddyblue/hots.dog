@@ -5,7 +5,6 @@ body {
 .anchor {
 	display: block;
 	position: relative;
-	top: -5.2rem;
 	visibility: hidden;
 }
 
@@ -33,17 +32,16 @@ body {
 }
 
 .wrapper > .container {
-	padding-top: 7.5rem;
+	padding-top: 1rem;
 }
 
 .navigation {
-	background: #f4f5f6;
 	border-bottom: 0.1rem solid #d1d1d1;
 	display: block;
 	height: 5.2rem;
 	left: 0;
 	max-width: 100%;
-	position: fixed;
+	//position: fixed;
 	right: 0;
 	top: 0;
 	width: 100%;
@@ -93,6 +91,4 @@ body {
 .tooltip:hover .tip {
 	display: inline;
 	position: absolute;
-	border: 0.1rem solid #e1e1e1;
-	background: #fff;
 }

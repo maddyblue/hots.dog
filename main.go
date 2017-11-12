@@ -10,6 +10,7 @@ import (
 	"flag"
 	"fmt"
 	"image"
+	"image/draw"
 	_ "image/jpeg"
 	"image/png"
 	"io/ioutil"
@@ -1417,6 +1418,7 @@ func makeTalentImg(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Path[idx+1:]
 	words := capsRE.FindAllStringSubmatch(name, 4)
 	i := image.NewRGBA(image.Rect(0, 0, 40, 40))
+	draw.Draw(i, i.Bounds(), &image.Uniform{image.White}, image.ZP, draw.Src)
 
 	const size = 10
 	c := freetype.NewContext()
