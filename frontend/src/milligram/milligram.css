@@ -452,7 +452,8 @@ img {
   float: right; }
 
 .navigation {
-  background: #212121; }
+  background: #212121;
+  border-bottom: 0.1rem solid #484848; }
 
 .tooltip:hover .tip {
   background: #212121;
