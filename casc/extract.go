@@ -124,7 +124,7 @@ func extract() error {
 				// Already generated.
 				return
 			}
-			cargs := []string{input}
+			cargs := []string{input, "-strip"}
 			cargs = append(cargs, args...)
 			cargs = append(cargs, output)
 			if out, err := exec.Command("convert", cargs...).CombinedOutput(); err != nil {
