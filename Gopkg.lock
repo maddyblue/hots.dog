@@ -65,7 +65,7 @@
   branch = "master"
   name = "golang.org/x/crypto"
   packages = ["acme","acme/autocert"]
-  revision = "ca1fcd4ab4c10bc58852a894bcf195fab2229efe"
+  revision = "6a293f2d4b14b8e6d3f0539e383f6d0d30fce3fd"
 
 [[projects]]
   branch = "master"
@@ -77,13 +77,13 @@
   branch = "master"
   name = "golang.org/x/net"
   packages = ["context","context/ctxhttp","html","html/atom","http2","http2/hpack","idna","internal/timeseries","lex/httplex","trace"]
-  revision = "01c190206fbdffa42f334f4b2bf2220f50e64920"
+  revision = "a337091b0525af65de94df2eb7e98bd9962dcbe2"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/oauth2"
   packages = [".","google","internal","jws","jwt"]
-  revision = "bb50c06baba3d0c76f9d125c0719093e315b5b44"
+  revision = "9ff8ebcc8e241d46f52ecc5bff0e5a2f2dbef402"
 
 [[projects]]
   branch = "master"
@@ -101,7 +101,7 @@
   branch = "master"
   name = "google.golang.org/api"
   packages = ["gensupport","googleapi","googleapi/internal/uritemplates","googleapi/transport","internal","iterator","option","storage/v1","transport/http"]
-  revision = "9fdb53e0c633e09f7df19c7745ee0e39ce3f5e6a"
+  revision = "a0c31fb0028e0111b942a29b9fc2e9235202c48b"
 
 [[projects]]
   name = "google.golang.org/appengine"
@@ -121,15 +121,9 @@
   revision = "5ffe3083946d5603a0578721101dc8165b1d5b5f"
   version = "v1.7.2"
 
-[[projects]]
-  branch = "v2"
-  name = "gopkg.in/xmlpath.v2"
-  packages = ["."]
-  revision = "860cbeca3ebcc600db0b213c0e83ad6ce91f5739"
-
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e8c549941b0b48d2a4a67a56048ad46ccb4a10dc2f4e28bdcd543abdf471c870"
+  inputs-digest = "34bfcd4143cdae4a164518402333b6127435423a2369a98c99b90b70e15f5f74"
   solver-name = "gps-cdcl"
   solver-version = 1
