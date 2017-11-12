@@ -242,6 +242,7 @@ const TalentImg = (props: { name: string, text?: boolean, data: any }) => {
 	if (props.text) {
 		desc = Name;
 	}
+	const right = props.text ? '1em' : '2px';
 	return (
 		<span className="tooltip">
 			<img
@@ -250,7 +251,7 @@ const TalentImg = (props: { name: string, text?: boolean, data: any }) => {
 				alt={Name}
 				style={{
 					verticalAlign: 'middle',
-					paddingRight: '2px',
+					marginRight: right,
 					height: '40px',
 					width: '40px',
 				}}
