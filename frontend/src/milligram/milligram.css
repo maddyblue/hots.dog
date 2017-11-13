@@ -29,8 +29,8 @@ button,
 input[type='button'],
 input[type='reset'],
 input[type='submit'] {
-  background-color: #8aacc8;
-  border: 0.1rem solid #8aacc8;
+  background-color: #4bacb8;
+  border: 0.1rem solid #4bacb8;
   border-radius: .4rem;
   color: #000;
   cursor: pointer;
@@ -54,8 +54,8 @@ input[type='submit'] {
   input[type='reset']:hover,
   input[type='submit']:focus,
   input[type='submit']:hover {
-    background-color: #bbdefb;
-    border-color: #bbdefb;
+    background-color: #80deea;
+    border-color: #80deea;
     color: #000;
     outline: 0; }
   .button[disabled],
@@ -74,15 +74,15 @@ input[type='submit'] {
     input[type='reset'][disabled]:hover,
     input[type='submit'][disabled]:focus,
     input[type='submit'][disabled]:hover {
-      background-color: #bbdefb;
-      border-color: #bbdefb; }
+      background-color: #80deea;
+      border-color: #80deea; }
   .button.button-outline,
   button.button-outline,
   input[type='button'].button-outline,
   input[type='reset'].button-outline,
   input[type='submit'].button-outline {
     background-color: transparent;
-    color: #8aacc8; }
+    color: #4bacb8; }
     .button.button-outline:focus, .button.button-outline:hover,
     button.button-outline:focus,
     button.button-outline:hover,
@@ -93,8 +93,8 @@ input[type='submit'] {
     input[type='submit'].button-outline:focus,
     input[type='submit'].button-outline:hover {
       background-color: transparent;
-      border-color: #bbdefb;
-      color: #bbdefb; }
+      border-color: #80deea;
+      color: #80deea; }
     .button.button-outline[disabled]:focus, .button.button-outline[disabled]:hover,
     button.button-outline[disabled]:focus,
     button.button-outline[disabled]:hover,
@@ -105,7 +105,7 @@ input[type='submit'] {
     input[type='submit'].button-outline[disabled]:focus,
     input[type='submit'].button-outline[disabled]:hover {
       border-color: inherit;
-      color: #bbdefb; }
+      color: #80deea; }
   .button.button-clear,
   button.button-clear,
   input[type='button'].button-clear,
@@ -113,7 +113,7 @@ input[type='submit'] {
   input[type='submit'].button-clear {
     background-color: transparent;
     border-color: transparent;
-    color: #bbdefb; }
+    color: #80deea; }
     .button.button-clear:focus, .button.button-clear:hover,
     button.button-clear:focus,
     button.button-clear:hover,
@@ -135,10 +135,10 @@ input[type='submit'] {
     input[type='reset'].button-clear[disabled]:hover,
     input[type='submit'].button-clear[disabled]:focus,
     input[type='submit'].button-clear[disabled]:hover {
-      color: #bbdefb; }
+      color: #80deea; }
 
 code {
-  background: #8aacc8;
+  background: #4bacb8;
   border-radius: .4rem;
   font-size: 86%;
   margin: 0 .2rem;
@@ -146,8 +146,8 @@ code {
   white-space: nowrap; }
 
 pre {
-  background: #8aacc8;
-  border-left: 0.3rem solid #bbdefb;
+  background: #4bacb8;
+  border-left: 0.3rem solid #80deea;
   overflow-y: hidden; }
   pre > code {
     border-radius: 0;
@@ -157,7 +157,7 @@ pre {
 
 hr {
   border: 0;
-  border-top: 0.1rem solid #8aacc8;
+  border-top: 0.1rem solid #4bacb8;
   margin: 3.0rem 0; }
 
 input[type='email'],
@@ -190,13 +190,15 @@ select {
   input:not([type]):focus,
   textarea:focus,
   select:focus {
-    border-color: #bbdefb;
+    border-color: #80deea;
     outline: 0;
     background-color: #212121; }
 
 select {
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="14" viewBox="0 0 29 14" width="29"><path fill="%23bbdefb" d="M9.37727 3.625l5.08154 6.93523L19.54036 3.625"/></svg>') center right no-repeat;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="14" viewBox="0 0 29 14" width="29"><path fill="%234bacb8" d="M9.37727 3.625l5.08154 6.93523L19.54036 3.625"/></svg>') center right no-repeat;
   padding-right: 3.0rem; }
+  select:focus {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="14" viewBox="0 0 29 14" width="29"><path fill="%2380deea" d="M9.37727 3.625l5.08154 6.93523L19.54036 3.625"/></svg>'); }
 
 textarea {
   min-height: 6.5rem; }
@@ -323,7 +325,7 @@ input[type='radio'] {
       padding: 0 1.0rem; } }
 
 a {
-  color: #bbdefb;
+  color: #80deea;
   text-decoration: none; }
   a:focus, a:hover {
     color: #fff; }
