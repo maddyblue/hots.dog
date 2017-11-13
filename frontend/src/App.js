@@ -16,7 +16,7 @@ import './normalize.css';
 import './App.css';
 import './milligram/milligram.css';
 
-import logo from './img/logo.png';
+import logo from './img/icon.svg';
 
 type State = {
 	init?: boolean,
