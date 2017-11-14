@@ -668,7 +668,7 @@ var talentData = map[string]talentText{
 	},
 	"AmazonInnerLight": {
 		Name: "Inner Light",
-		Text: "Whenever Cassia is Stunned or Rooted, Blinding Light is cast at her location.\nThis effect has a 5.9 second cooldown.\nPassive: Blinding Light's radius is increased by 25%.",
+		Text: "Whenever Cassia is Stunned or Rooted, Blinding Light is cast at her location.\nThis effect has a 6 second cooldown.\nPassive: Blinding Light's radius is increased by 25%.",
 	},
 	"AmazonLungingStrike": {
 		Name: "Lunging Strike",
@@ -780,7 +780,7 @@ var talentData = map[string]talentText{
 	},
 	"AnaHealingDartSpeedSerum": {
 		Name: "Speed Serum",
-		Text: "Healing Dart grants 25% Movement Speed to affected Heroes for 1.5 seconds.",
+		Text: "Healing Dart grants 25% Movement Speed to affected Heroes for 2 seconds.",
 	},
 	"AnaHeroicAbilityEyeOfHorus": {
 		Name: "Eye of Horus",
@@ -1044,7 +1044,7 @@ var talentData = map[string]talentText{
 	},
 	"ArthasMasteryRemorselessWinterFrozenTempest": {
 		Name: "Remorseless Winter",
-		Text: "Enemy Heroes that remain within Frozen Tempest for 3 seconds are rooted for 1.2 seconds. This effect can only happen once every 10 seconds.",
+		Text: "Enemy Heroes that remain within Frozen Tempest for 3 seconds are rooted for 1.25 seconds. This effect can only happen once every 10 seconds.",
 	},
 	"ArthasRime": {
 		Name: "Rime",
@@ -1052,7 +1052,7 @@ var talentData = map[string]talentText{
 	},
 	"ArthasRuneTap": {
 		Name: "Rune Tap",
-		Text: "Every 3rd Basic Attack heals Arthas for 3.9% of his max Health.",
+		Text: "Every 3rd Basic Attack heals Arthas for 4% of his max Health.",
 	},
 	"ArthasShatteredArmor": {
 		Name: "Shattered Armor",
@@ -1156,7 +1156,7 @@ var talentData = map[string]talentText{
 	},
 	"AurielLightSpeedResurrectTalent": {
 		Name: "Light Speed",
-		Text: "Resurrected allies gain 199.7% increased Movement Speed, decaying over 4 seconds.  While a resurrected ally remains alive, Resurrect's next cooldown recharges 100% faster.",
+		Text: "Resurrected allies gain 200% increased Movement Speed, decaying over 4 seconds.  While a resurrected ally remains alive, Resurrect's next cooldown recharges 100% faster.",
 	},
 	"AurielMajesticSpanSacredSweepTalent": {
 		Name: "Majestic Span",
@@ -1308,7 +1308,7 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanSinsGrasp": {
 		Name: "Sin's Grasp",
-		Text: "Activate to curse an enemy Hero, dealing 247.5 damage over 8 seconds. Minion kills reduce this cooldown by 10 seconds. Can be cast while channeling All Shall Burn.",
+		Text: "Activate to curse an enemy Hero, dealing 248 damage over 8 seconds. Minion kills reduce this cooldown by 10 seconds. Can be cast while channeling All Shall Burn.",
 	},
 	"BarbarianAmplifiedHealing": {
 		Name: "Amplified Healing",
@@ -1320,7 +1320,7 @@ var talentData = map[string]talentText{
 	},
 	"BarbarianCombatStyleFerociousHealing": {
 		Name: "Ferocious Healing",
-		Text: "Consume 20 Fury to heal 10.2% of Sonya's maximum Health.\nUsable while Whirlwinding.",
+		Text: "Consume 20 Fury to heal 10% of Sonya's maximum Health.\nUsable while Whirlwinding.",
 	},
 	"BarbarianCombatStyleNoEscape": {
 		Name: "No Escape",
@@ -1456,7 +1456,7 @@ var talentData = map[string]talentText{
 	},
 	"BrightwingGreaterPolymorphPolymorph": {
 		Name: "Greater Polymorph",
-		Text: "Increases the duration of Polymorph by 0.8 seconds.",
+		Text: "Increases the duration of Polymorph by 0.75 seconds.",
 	},
 	"BrightwingHyperShiftPhaseShift": {
 		Name: "Hyper Shift",
@@ -1576,7 +1576,7 @@ var talentData = map[string]talentText{
 	},
 	"ButcherMasteryRuthlessOnslaughtUnrelentingPursuit": {
 		Name: "Unrelenting Pursuit",
-		Text: "Reduces the cooldown of Ruthless Onslaught by 33.3% upon impact.",
+		Text: "Reduces the cooldown of Ruthless Onslaught by 33% upon impact.",
 	},
 	"ButcherMasterySlaughterhouse": {
 		Name: "Slaughterhouse",
@@ -1632,7 +1632,7 @@ var talentData = map[string]talentText{
 	},
 	"ChenHeroicAbilityStormEarthFire": {
 		Name: "Storm, Earth, Fire",
-		Text: "After 1 second, Chen splits into three elemental spirits for 12.2 seconds, each with 75% of Chen's maximum Health and a unique ability. If all three spirits are killed, Chen will die as well.\nStorm can grant the spirits Movement Speed. \nEarth can leap to an area and slow enemies. \nFire can grant the spirits Attack Speed.",
+		Text: "After 1 second, Chen splits into three elemental spirits for 12 seconds, each with 75% of Chen's maximum Health and a unique ability. If all three spirits are killed, Chen will die as well.\nStorm can grant the spirits Movement Speed. \nEarth can leap to an area and slow enemies. \nFire can grant the spirits Attack Speed.",
 	},
 	"ChenHeroicAbilityWanderingKeg": {
 		Name: "Wandering Keg",
@@ -1844,7 +1844,7 @@ var talentData = map[string]talentText{
 	},
 	"ChromieTimeTrapTimelySurprise": {
 		Name: "Timely Surprise",
-		Text: "Increase Time Trap's cast range by 33.3%. Additionally, the cooldowns of Sand Blast and Dragon's Breath are reset when Time Trap is triggered.",
+		Text: "Increase Time Trap's cast range by 33%. Additionally, the cooldowns of Sand Blast and Dragon's Breath are reset when Time Trap is triggered.",
 	},
 	"ChromieTimewalkersPursuit": {
 		Name: "Timewalker's Pursuit",
@@ -2000,11 +2000,11 @@ var talentData = map[string]talentText{
 	},
 	"DVaMechAblativeArmor": {
 		Name: "Ablative Armor",
-		Text: "Damage against D.Va's Mech that would deal 4.1% or less of its maximum Health is reduced by 50%.\nThis does not decrease the amount of Self-Destruct Charge gained.",
+		Text: "Damage against D.Va's Mech that would deal 4% or less of its maximum Health is reduced by 50%.\nThis does not decrease the amount of Self-Destruct Charge gained.",
 	},
 	"DVaMechEmergencyShielding": {
 		Name: "Emergency Shielding",
-		Text: "When D.Va's Mech would be destroyed, it instead gains a Shield that absorbs 209.5 damage over 6 seconds.\nThis effect has a 15 second cooldown.",
+		Text: "When D.Va's Mech would be destroyed, it instead gains a Shield that absorbs 210 damage over 6 seconds.\nThis effect has a 15 second cooldown.",
 	},
 	"DVaMechExpensivePlating": {
 		Name: "Expensive Plating",
@@ -2636,7 +2636,7 @@ var talentData = map[string]talentText{
 	},
 	"GallHeroicAbilityShadowboltVolley": {
 		Name: "Shadow Bolt Volley",
-		Text: "After 1 second, unleash 19.4 Shadow Bolts over 3.9 seconds, each dealing 87 damage to the first target hit. The bolts fire towards your mouse.",
+		Text: "After 1 second, unleash 19 Shadow Bolts over 4 seconds, each dealing 87 damage to the first target hit. The bolts fire towards your mouse.",
 	},
 	"GallHeroicAbilityTwistingNether": {
 		Name: "Twisting Nether",
@@ -2700,7 +2700,7 @@ var talentData = map[string]talentText{
 	},
 	"GallWeSeeYou": {
 		Name: "We See You!",
-		Text: "Eye of Kilrogg's cooldown is decreased by 15 seconds and its range is increased by 33.3%.",
+		Text: "Eye of Kilrogg's cooldown is decreased by 15 seconds and its range is increased by 33%.",
 	},
 	"GarroshArmorUpBodyCheck": {
 		Name: "Body Check",
@@ -2716,7 +2716,7 @@ var talentData = map[string]talentText{
 	},
 	"GarroshBloodthirstBloodcraze": {
 		Name: "Bloodcraze",
-		Text: "When hitting a Hero, Bloodthirst heals for an additional 9.9% of Garrosh's maximum Health over 3 seconds.",
+		Text: "When hitting a Hero, Bloodthirst heals for an additional 10% of Garrosh's maximum Health over 3 seconds.",
 	},
 	"GarroshBloodthirstInFortheKill": {
 		Name: "In For the Kill",
@@ -2856,7 +2856,7 @@ var talentData = map[string]talentText{
 	},
 	"GenericTalentFirstAid": {
 		Name: "First Aid",
-		Text: "Activate to heal 35.5% of your max Health over 6 seconds.",
+		Text: "Activate to heal 35% of your max Health over 6 seconds.",
 	},
 	"GenericTalentFlashoftheStorms": {
 		Name: "Bolt of the Storm",
@@ -2888,7 +2888,7 @@ var talentData = map[string]talentText{
 	},
 	"GenericTalentHealingWard": {
 		Name: "Healing Ward",
-		Text: "Activate to place a ward on the ground that heals allies in an area for 1.9% of their maximum Health every second for 10 seconds.",
+		Text: "Activate to place a ward on the ground that heals allies in an area for 2% of their maximum Health every second for 10 seconds.",
 	},
 	"GenericTalentIceBlock": {
 		Name: "Ice Block",
@@ -3052,7 +3052,7 @@ var talentData = map[string]talentText{
 	},
 	"GenjiSwiftStrikeFinalCut": {
 		Name: "Final Cut",
-		Text: "After 0.9 second, Swift Strike deals an additional 125 damage to all enemies in the area.",
+		Text: "After 1 second, Swift Strike deals an additional 125 damage to all enemies in the area.",
 	},
 	"GenjiSwiftStrikeFlowLikeWater": {
 		Name: "Flow Like Water",
@@ -3328,7 +3328,7 @@ var talentData = map[string]talentText{
 	},
 	"IllidanMasteryRapidChaseDive": {
 		Name: "Rapid Chase",
-		Text: "Dive grants 15% Movement Speed for 2.2 seconds.",
+		Text: "Dive grants 15% Movement Speed for 2 seconds.",
 	},
 	"IllidanMasterySecondSweepSweepingStrike": {
 		Name: "Second Sweep",
@@ -3496,7 +3496,7 @@ var talentData = map[string]talentText{
 	},
 	"JunkratFragLauncherPutSomeEnglishOnIt": {
 		Name: "Put Some English On It",
-		Text: "Increase Frag Launcher's travel distance by 50.4%, but does not increase its speed.",
+		Text: "Increase Frag Launcher's travel distance by 50%, but does not increase its speed.",
 	},
 	"JunkratFragLauncherTasteForExplosions": {
 		Name: "Taste For Explosions",
@@ -3560,7 +3560,7 @@ var talentData = map[string]talentText{
 	},
 	"KaelthasFlamestrikeManaTap": {
 		Name: "Mana Tap",
-		Text: "Activating Verdant Spheres restores 3.9% of Kael'thas's maximum Mana.",
+		Text: "Activating Verdant Spheres restores 4% of Kael'thas's maximum Mana.",
 	},
 	"KaelthasGravityLapseEnergyRoil": {
 		Name: "Energy Roil",
@@ -3796,7 +3796,7 @@ var talentData = map[string]talentText{
 	},
 	"KerriganMasteryRavageSiphoningImpact": {
 		Name: "Siphoning Impact",
-		Text: "If the targeted enemy dies within 1.5 seconds, Kerrigan heals for 10.2% of her maximum Health.",
+		Text: "If the targeted enemy dies within 1.5 seconds, Kerrigan heals for 10% of her maximum Health.",
 	},
 	"KerriganMasteryTorrasqueSummonUltralisk": {
 		Name: "Torrasque",
@@ -3848,7 +3848,7 @@ var talentData = map[string]talentText{
 	},
 	"LeoricDrainHopeHardenedBonesTalent": {
 		Name: "Hardened Bones",
-		Text: "Gain 20 Armor while Drain Hope is active. If Drain Hope lasts its full duration, retain the Armor bonus for 3.1 seconds.",
+		Text: "Gain 20 Armor while Drain Hope is active. If Drain Hope lasts its full duration, retain the Armor bonus for 3 seconds.",
 	},
 	"LeoricHeroicAbilityEntomb": {
 		Name: "Entomb",
@@ -4124,7 +4124,7 @@ var talentData = map[string]talentText{
 	},
 	"LucioAmpItUpRejuvenescencia": {
 		Name: "Rejuvenescência",
-		Text: "While Amp It Up is active, Crossfade's Healing Boost heals for an additional 3.2% of the target's maximum health each second.",
+		Text: "While Amp It Up is active, Crossfade's Healing Boost heals for an additional 3% of the target's maximum health each second.",
 	},
 	"LucioAmpItUpSonicAmplifier": {
 		Name: "Sonic Amplifier",
@@ -4164,7 +4164,7 @@ var talentData = map[string]talentText{
 	},
 	"LucioReverseAmp": {
 		Name: "Reverse Amp",
-		Text: "Blast Lúcio's Crossfade track at enemy Heroes for 4 seconds, causing Healing Boost to inflict 112 damage per second and Speed Boost to slow for 45%.\nThis ability is unaffected by Crossfade talents.\nPassive: Increase Amp It Up's duration to 4.1 seconds.",
+		Text: "Blast Lúcio's Crossfade track at enemy Heroes for 4 seconds, causing Healing Boost to inflict 112 damage per second and Speed Boost to slow for 45%.\nThis ability is unaffected by Crossfade talents.\nPassive: Increase Amp It Up's duration to 4 seconds.",
 	},
 	"LucioReverseAmpNonstopRemix": {
 		Name: "Nonstop Remix",
@@ -4260,7 +4260,7 @@ var talentData = map[string]talentText{
 	},
 	"MalfurionMasteryTenaciousRootsEntanglingRoots": {
 		Name: "Tenacious Roots",
-		Text: "Entangling Roots grows 25% larger, lasts 25% longer, and Roots targets for 0.2 seconds longer.",
+		Text: "Entangling Roots grows 25% larger, lasts 25% longer, and Roots targets for 0.25 seconds longer.",
 	},
 	"MalfurionMasteryVengefulRoots": {
 		Name: "Vengeful Roots",
@@ -4352,7 +4352,7 @@ var talentData = map[string]talentText{
 	},
 	"MalthaelThrowingShade": {
 		Name: "Throwing Shade",
-		Text: "Quest: Hit 20 Heroes with Death Shroud.\nReward: Permanently increase Death Shroud's range by 33.3%, reduce its cooldown by 4 seconds, and reduce its Mana cost from 50 to 25.",
+		Text: "Quest: Hit 20 Heroes with Death Shroud.\nReward: Permanently increase Death Shroud's range by 33%, reduce its cooldown by 4 seconds, and reduce its Mana cost from 50 to 25.",
 	},
 	"MalthaelTormentedSouls": {
 		Name: "Tormented Souls",
@@ -4396,7 +4396,7 @@ var talentData = map[string]talentText{
 	},
 	"MedicHeroicAbilityMedivacDropship": {
 		Name: "Medivac Dropship",
-		Text: "Target a location for a Medivac transport. For up to 10.5 seconds before takeoff, allies can right-click to enter the Medivac.",
+		Text: "Target a location for a Medivac transport. For up to 10 seconds before takeoff, allies can right-click to enter the Medivac.",
 	},
 	"MedicHeroicAbilityStimDrone": {
 		Name: "Stim Drone",
@@ -4496,7 +4496,7 @@ var talentData = map[string]talentText{
 	},
 	"MedivhLeyLineSealMedivhCheats": {
 		Name: "Medivh Cheats!",
-		Text: "Increase the duration of the Time Stop by 33.3% and gain the ability to redirect the wave once while it's active.",
+		Text: "Increase the duration of the Time Stop by 33% and gain the ability to redirect the wave once while it's active.",
 	},
 	"MedivhPolyBomb": {
 		Name: "Poly Bomb",
@@ -4576,7 +4576,7 @@ var talentData = map[string]talentText{
 	},
 	"MonkEpiphany": {
 		Name: "Epiphany",
-		Text: "Activate to restore 32.8% of Kharazim's maximum Mana and refill 2 charges of Radiant Dash. ",
+		Text: "Activate to restore 33% of Kharazim's maximum Mana and refill 2 charges of Radiant Dash. ",
 	},
 	"MonkFistsofFuryDeadlyReach": {
 		Name: "Fists of Fury",
@@ -4592,7 +4592,7 @@ var talentData = map[string]talentText{
 	},
 	"MonkHeroicAbilitySevenSidedStrike": {
 		Name: "Seven-Sided Strike",
-		Text: "Become Invulnerable and strike 7 times over 1.8 seconds. Each strike hits the highest Health nearby Hero for 7% of their maximum Health.",
+		Text: "Become Invulnerable and strike 7 times over 2 seconds. Each strike hits the highest Health nearby Hero for 7% of their maximum Health.",
 	},
 	"MonkInsight": {
 		Name: "Insight",
@@ -4616,7 +4616,7 @@ var talentData = map[string]talentText{
 	},
 	"MonkSpiritAlly": {
 		Name: "Spirit Ally",
-		Text: "Place a Spirit Ally that heals allies in a large area around it for 1.9% of their maximum Health every second. Has 150 Health and lasts 10 seconds. Kharazim can Radiant Dash to Spirit Allies.",
+		Text: "Place a Spirit Ally that heals allies in a large area around it for 2% of their maximum Health every second. Has 150 Health and lasts 10 seconds. Kharazim can Radiant Dash to Spirit Allies.",
 	},
 	"MonkTranscendence": {
 		Name: "Transcendence",
@@ -4636,7 +4636,7 @@ var talentData = map[string]talentText{
 	},
 	"MuradinCombatStyleThirdWind": {
 		Name: "Third Wind",
-		Text: "Increases Health Restoration rate to 83 per second, and raises Health threshold to 60% Health for improved 165.9 per second Restoration.",
+		Text: "Increases Health Restoration rate to 83 per second, and raises Health threshold to 60% Health for improved 166 per second Restoration.",
 	},
 	"MuradinGiveEmTheAxeExecutioner60DamageBonus": {
 		Name: "Give 'em the Axe!",
@@ -4728,7 +4728,7 @@ var talentData = map[string]talentText{
 	},
 	"MurkyFishEye": {
 		Name: "Fish Eye",
-		Text: "Egg's Health is increased by 100%, its sight radius is increased by 300% and it can see Stealthed enemies. \nPassive: Spawning from his Egg increases Murky's mount speed to 44.9% for 5 seconds.",
+		Text: "Egg's Health is increased by 100%, its sight radius is increased by 300% and it can see Stealthed enemies. \nPassive: Spawning from his Egg increases Murky's mount speed to 45% for 5 seconds.",
 	},
 	"MurkyFishOil": {
 		Name: "Fish Oil",
@@ -4744,7 +4744,7 @@ var talentData = map[string]talentText{
 	},
 	"MurkyHeroicAbilityOctoGrab": {
 		Name: "Octo-Grab",
-		Text: "Murky summons an octopus to stun target enemy Hero for 3.1 seconds while he hits them for 1 damage a second.",
+		Text: "Murky summons an octopus to stun target enemy Hero for 3 seconds while he hits them for 1 damage a second.",
 	},
 	"MurkyLivingtheDream": {
 		Name: "Living the Dream",
@@ -4796,11 +4796,11 @@ var talentData = map[string]talentText{
 	},
 	"NecromancerHeroicAbilitySkeletalMages": {
 		Name: "Skeletal Mages",
-		Text: "Vector Targeting\nSummon 4 Frost Mages in a line that attack nearby enemies for 46.9 damage a second and Slow them by 30% for 2 seconds. Last up to 15 seconds.",
+		Text: "Vector Targeting\nSummon 4 Frost Mages in a line that attack nearby enemies for 47 damage a second and Slow them by 30% for 2 seconds. Last up to 15 seconds.",
 	},
 	"NecromancerTalentAmplifyDamage": {
 		Name: "Amplify Damage",
-		Text: "Enemies Rooted by Bone Prison lose 25 Armor for 1.8 seconds.",
+		Text: "Enemies Rooted by Bone Prison lose 25 Armor for 1.75 seconds.",
 	},
 	"NecromancerTalentAndarielsVisage": {
 		Name: "Andariel's Visage",
@@ -5048,7 +5048,7 @@ var talentData = map[string]talentText{
 	},
 	"ProbiusShieldBatteryWarpInPylon": {
 		Name: "Shield Battery",
-		Text: "Pylon's Power Field grants allied Heroes 28 Shields per second, up to 112. Shields persist for 2.2 seconds after exiting a Pylon Power Field.",
+		Text: "Pylon's Power Field grants allied Heroes 28 Shields per second, up to 112. Shields persist for 2 seconds after exiting a Pylon Power Field.",
 	},
 	"ProbiusShieldCapacitor": {
 		Name: "Shield Capacitor",
@@ -5168,7 +5168,7 @@ var talentData = map[string]talentText{
 	},
 	"RaynorHeroicAbilityRaynorsRaiders": {
 		Name: "Raynor's Raiders",
-		Text: "Summon two Stealthed Banshees that attack an enemy. Each Banshee deals 49.6 damage a second and lasts 22 seconds. Can reactivate the Ability to retarget the Banshees.",
+		Text: "Summon two Stealthed Banshees that attack an enemy. Each Banshee deals 50 damage a second and lasts 22 seconds. Can reactivate the Ability to retarget the Banshees.",
 	},
 	"RaynorHyperionGroundStrafe": {
 		Name: "Scorched Earth",
@@ -5248,7 +5248,7 @@ var talentData = map[string]talentText{
 	},
 	"RehgarHungeroftheWolf": {
 		Name: "Hunger of the Wolf",
-		Text: "Ghost Wolf attacks against Heroes deal an additional 5% of the target's maximum Health and heal Rehgar for 5.1% of his maximum Health.",
+		Text: "Ghost Wolf attacks against Heroes deal an additional 5% of the target's maximum Health and heal Rehgar for 5% of his maximum Health.",
 	},
 	"RehgarMasteryChainReaction": {
 		Name: "Chain Reaction",
@@ -5304,7 +5304,7 @@ var talentData = map[string]talentText{
 	},
 	"RehgarMasteryShamanHealingWard": {
 		Name: "Healing Totem",
-		Text: "Activate to place a Totem that heals allies in an area for 1.9% of their maximum Health every second for 10 seconds.",
+		Text: "Activate to place a Totem that heals allies in an area for 2% of their maximum Health every second for 10 seconds.",
 	},
 	"RehgarMasterySpiritwalkersGrace": {
 		Name: "Spiritwalker's Grace",
@@ -5504,7 +5504,7 @@ var talentData = map[string]talentText{
 	},
 	"SamuroWayOfTheWind": {
 		Name: "Way of the Wind",
-		Text: " Quest: Attacking a Hero from Stealth increases the Movement Speed bonus of Wind Walk by 1.25%, up to 24.8%.\nReward: After attacking 20 Heroes, Wind Walk's Unrevealable duration is increased to 2.5 seconds.",
+		Text: " Quest: Attacking a Hero from Stealth increases the Movement Speed bonus of Wind Walk by 1.25%, up to 25%.\nReward: After attacking 20 Heroes, Wind Walk's Unrevealable duration is increased to 2.5 seconds.",
 	},
 	"SamuroWhirlwindStorm": {
 		Name: "Dance Of Death",
@@ -5604,7 +5604,7 @@ var talentData = map[string]talentText{
 	},
 	"StitchesCannibalize": {
 		Name: "Cannibalize",
-		Text: "Basic Attacks against Heroes heal Stitches for 5.1% of his maximum Health.",
+		Text: "Basic Attacks against Heroes heal Stitches for 5% of his maximum Health.",
 	},
 	"StitchesCombatStyleTenderizer": {
 		Name: "Tenderizer",
@@ -5632,7 +5632,7 @@ var talentData = map[string]talentText{
 	},
 	"StitchesMasteryChewYourFood": {
 		Name: "Chew Your Food",
-		Text: "Using Devour also heals Stitches for 9.6% of his max Health over 3.1 seconds.",
+		Text: "Using Devour also heals Stitches for 10% of his max Health over 3 seconds.",
 	},
 	"StitchesMasteryFishingHook": {
 		Name: "Fishing Hook",
@@ -5824,7 +5824,7 @@ var talentData = map[string]talentText{
 	},
 	"SylvanasTalentLostSoul": {
 		Name: "Lost Soul",
-		Text: "Reduce Shadow Dagger's cooldown by 1.2 seconds each time it spreads to a Hero.",
+		Text: "Reduce Shadow Dagger's cooldown by 1.25 seconds each time it spreads to a Hero.",
 	},
 	"SylvanasTalentMercenaryQueen": {
 		Name: "Mercenary Queen",
@@ -5892,7 +5892,7 @@ var talentData = map[string]talentText{
 	},
 	"TassadarHeroicAbilityArchon": {
 		Name: "Phase Shift",
-		Text: "Tassadar transforms into an Archon and gains a Plasma Shield. His Basic Attacks deal 166 damage, slow the target by 30% for 1 second and splash for 83 damage to enemies within 2.5 range. Lasts for 10.5 seconds.\nPassive: Archon refreshes the cooldown of Dimensional Shift.",
+		Text: "Tassadar transforms into an Archon and gains a Plasma Shield. His Basic Attacks deal 166 damage, slow the target by 30% for 1 second and splash for 83 damage to enemies within 2.5 range. Lasts for 10 seconds.\nPassive: Archon refreshes the cooldown of Dimensional Shift.",
 	},
 	"TassadarHeroicAbilityForceWall": {
 		Name: "Force Wall",
@@ -6028,7 +6028,7 @@ var talentData = map[string]talentText{
 	},
 	"ThrallMasteryWorldbreaker": {
 		Name: "Worldbreaker",
-		Text: "Lower the cooldown of Sundering by 20 seconds. After Sundering impacts, it leaves behind an impassable rift, blocking unit movement for 2.6 seconds.",
+		Text: "Lower the cooldown of Sundering by 20 seconds. After Sundering impacts, it leaves behind an impassable rift, blocking unit movement for 3 seconds.",
 	},
 	"ThrallSpiritShield": {
 		Name: "Spirit Shield",
@@ -6048,7 +6048,7 @@ var talentData = map[string]talentText{
 	},
 	"TinkerCombatStyleBreakitDown": {
 		Name: "Break it Down!",
-		Text: "Scrap causes Abilities to cooldown four times as fast for 3.1 seconds.",
+		Text: "Scrap causes Abilities to cooldown four times as fast for 3 seconds.",
 	},
 	"TinkerCombatStyleClockwerkSteamFists": {
 		Name: "Clockwerk Steam Fists",
@@ -6156,7 +6156,7 @@ var talentData = map[string]talentText{
 	},
 	"TracerFocusFire": {
 		Name: "Focus Fire",
-		Text: "If an entire ammo magazine is unloaded on an enemy, the last bullet will deal 94.5 bonus damage.  This is equal to 35% of the total magazine.",
+		Text: "If an entire ammo magazine is unloaded on an enemy, the last bullet will deal 94 bonus damage.  This is equal to 35% of the total magazine.",
 	},
 	"TracerGetStuffedMelee": {
 		Name: "Get Stuffed!",
@@ -6436,7 +6436,7 @@ var talentData = map[string]talentText{
 	},
 	"TyrandeMarkofMending": {
 		Name: "Mark of Mending",
-		Text: "Tyrande's Basic Attacks heal her for 1.8% of her maximum Health. Basic Attacks against targets with Hunter's Mark heal the attacker for 1.9% of their maximum Health.",
+		Text: "Tyrande's Basic Attacks heal her for 2% of her maximum Health. Basic Attacks against targets with Hunter's Mark heal the attacker for 2% of their maximum Health.",
 	},
 	"TyrandeMasteryLightofEluneQuickeningBlessing": {
 		Name: "Quickening Blessing",
@@ -6740,7 +6740,7 @@ var talentData = map[string]talentText{
 	},
 	"VarianSecondWind": {
 		Name: "Second Wind",
-		Text: "Basic Attacks heal Varian for 1.2% of his maximum Health. While below 50% Health, they also heal him for 50% of the damage dealt.",
+		Text: "Basic Attacks heal Varian for 1% of his maximum Health. While below 50% Health, they also heal him for 50% of the damage dealt.",
 	},
 	"VarianShatteringThrow": {
 		Name: "Shattering Throw",
@@ -6776,7 +6776,7 @@ var talentData = map[string]talentText{
 	},
 	"WitchDoctorBloodRitual": {
 		Name: "Blood Ritual",
-		Text: "If an enemy dies while poisoned by Voodoo Ritual, restore 1.9% of Nazeebo's maximum Health and Mana.",
+		Text: "If an enemy dies while poisoned by Voodoo Ritual, restore 2% of Nazeebo's maximum Health and Mana.",
 	},
 	"WitchDoctorDeadRush": {
 		Name: "Dead Rush",
@@ -6796,7 +6796,7 @@ var talentData = map[string]talentText{
 	},
 	"WitchDoctorHeroicAbilityRavenousSpirits": {
 		Name: "Ravenous Spirit",
-		Text: "Channel a Ravenous Spirit that deals 206.8 damage per second. Cannot move while channeling. Lasts for 8 seconds.",
+		Text: "Channel a Ravenous Spirit that deals 207 damage per second. Cannot move while channeling. Lasts for 8 seconds.",
 	},
 	"WitchDoctorHexedCrawlers": {
 		Name: "Hexed Crawlers",
@@ -6812,7 +6812,7 @@ var talentData = map[string]talentText{
 	},
 	"WitchDoctorRingOfPoison": {
 		Name: "Ring of Poison",
-		Text: "Zombie Wall lasts 1 second longer, and the center is filled with poison that deals a total of 318.8 damage over 4 seconds. This damage starts small and increases over the duration.",
+		Text: "Zombie Wall lasts 1 second longer, and the center is filled with poison that deals a total of 319 damage over 4 seconds. This damage starts small and increases over the duration.",
 	},
 	"WitchDoctorSoulHarvest": {
 		Name: "Soul Harvest",
@@ -6884,7 +6884,7 @@ var talentData = map[string]talentText{
 	},
 	"WizardDominance": {
 		Name: "Dominance",
-		Text: "Takedowns restore 19.9% of Li-Ming's maximum Health.",
+		Text: "Takedowns restore 20% of Li-Ming's maximum Health.",
 	},
 	"WizardFireflies": {
 		Name: "Fireflies",
@@ -6952,7 +6952,7 @@ var talentData = map[string]talentText{
 	},
 	"ZagaraHeroicAbilityNydusAssault": {
 		Name: "Nydus Network",
-		Text: "Summon a Nydus Worm on Creep anywhere that Zagara has vision. Zagara can enter a Nydus Worm and travel to any other Nydus Worm by right-clicking near it. While inside a Nydus Worm, Zagara regenerates 9.8% Health and Mana per second.\nStores up to 2 charges. Maximum of 10 Nydus Worms at a time.\nPassive: Creep spreads 15% farther. \nPassive: While on Creep, each Basic Attack reduces all of Zagara's cooldowns by .75 seconds.",
+		Text: "Summon a Nydus Worm on Creep anywhere that Zagara has vision. Zagara can enter a Nydus Worm and travel to any other Nydus Worm by right-clicking near it. While inside a Nydus Worm, Zagara regenerates 10% Health and Mana per second.\nStores up to 2 charges. Maximum of 10 Nydus Worms at a time.\nPassive: Creep spreads 15% farther. \nPassive: While on Creep, each Basic Attack reduces all of Zagara's cooldowns by .75 seconds.",
 	},
 	"ZagaraMasteryBanelingMassacre": {
 		Name: "Baneling Massacre",
@@ -7084,7 +7084,7 @@ var talentData = map[string]talentText{
 	},
 	"ZaryaParticleGrenadePinpointAccuracy": {
 		Name: "Pinpoint Accuracy",
-		Text: "Particle Grenade deals 28.4 more damage to enemies hit by the center of the blast.",
+		Text: "Particle Grenade deals 28 more damage to enemies hit by the center of the blast.",
 	},
 	"ZaryaParticleGrenadePlasmaShock": {
 		Name: "Plasma Shock",
@@ -7124,7 +7124,7 @@ var talentData = map[string]talentText{
 	},
 	"ZaryaShieldAllyTogetherWeAreStrong": {
 		Name: "Together We Are Strong",
-		Text: "Every 6.2 damage done by allies while under Shield Ally contributes 1 Energy, up to 30 Energy per Shield.",
+		Text: "Every 6 damage done by allies while under Shield Ally contributes 1 Energy, up to 30 Energy per Shield.",
 	},
 	"ZaryaUnyieldingDefender": {
 		Name: "Unyielding Defender",
@@ -7208,7 +7208,7 @@ var talentData = map[string]talentText{
 	},
 	"ZeratulWormhole": {
 		Name: "Wormhole",
-		Text: "For 2.1 seconds, reactivate Blink to return to the point where it was cast from.",
+		Text: "For 2 seconds, reactivate Blink to return to the point where it was cast from.",
 	},
 	"ZuljinAmaniRageTalent": {
 		Name: "Amani Rage",

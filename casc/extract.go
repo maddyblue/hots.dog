@@ -398,7 +398,7 @@ func getTooltip(s string, x XML) (string, error) {
 		var v string
 		fmtStr := fFmt
 		for _, attr := range se.Attr {
-			switch attr.Name.Local {
+			switch strings.ToLower(attr.Name.Local) {
 			case "ref":
 				v = reVal.ReplaceAllStringFunc(attr.Value, lookup)
 			case "precision":
@@ -424,7 +424,7 @@ func getTooltip(s string, x XML) (string, error) {
 		return v
 	}
 	s = reD1.ReplaceAllStringFunc(s, dRepl)
-	fFmt = "%0.1f"
+	fFmt = "%.0f"
 	s = reD2.ReplaceAllStringFunc(s, dRepl)
 	var err error
 	if gotErr {
