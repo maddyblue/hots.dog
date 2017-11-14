@@ -186,6 +186,9 @@ func main() {
 	wrap := func(f func(context.Context, *http.Request) (interface{}, error)) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
 			ctx, _ := context.WithTimeout(context.Background(), time.Second*60)
+			if v, err := url.ParseQuery(r.URL.RawQuery); err == nil {
+				r.URL.RawQuery = v.Encode()
+			}
 			url := r.URL.String()
 			start := time.Now()
 			defer func() { fmt.Printf("%s: %s\n", url, time.Since(start)) }()
