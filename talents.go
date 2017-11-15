@@ -21,6 +21,12 @@ var heroData = []Hero{
 		MultiRole: []string{"Damage"},
 	},
 	{
+		Name:      "Alexstrasza",
+		Slug:      "alexstrasza",
+		Role:      "Support",
+		MultiRole: []string{"Support"},
+	},
+	{
 		Name:      "Ana",
 		Slug:      "ana",
 		Role:      "Support",
@@ -642,6 +648,90 @@ var talentData = map[string]talentText{
 		Name: "Sustaining Power",
 		Text: "Increase the healing received from damaging Heroes with Lightning Surge by 40%.",
 	},
+	"AlexstraszaAncientFlameFlameBuffet": {
+		Name: "Ancient Flame",
+		Text: "While Dragonqueen is active, Alexstrasza's Basic Attacks apply Flame Buffet, but her Attack Speed is reduced by 25%.",
+	},
+	"AlexstraszaBlessingOfTheRed": {
+		Name: "Blessing of the Red",
+		Text: "Activate to grant an allied Hero 500 bonus maximum Health until they die.\nCannot be used on Alexstrasza, or on a Hero who already has Blessing of the Red.",
+	},
+	"AlexstraszaCircleOfLifeAbundance": {
+		Name: "Circle of Life",
+		Text: "Quest: Collect Regeneration Globes.\nReward: After collecting 15 Regeneration Globes, Abundance heals for an additional 5% maximum Health.\nReward: After collecting 25 Regeneration Globes, Abundance's healing burst creates a Regeneration Globe.",
+	},
+	"AlexstraszaCleansingFlame": {
+		Name: "Cleansing Flame",
+		Text: "After 1.25 seconds, take to the sky and drop 5 fireballs over 6 seconds at the position of the mouse cursor. Fireballs deal 150 damage to enemies and heal allied Heroes for 300 Health.\n2 seconds after dropping all fireballs, Alexstrasza lands at the position of the mouse cursor.",
+	},
+	"AlexstraszaDraconicDisciplineDragonqueen": {
+		Name: "Draconic Discipline",
+		Text: "Increase Dragonqueen's duration by 9 seconds.",
+	},
+	"AlexstraszaDragonScales": {
+		Name: "Dragon Scales",
+		Text: "Gain 30 Armor while Stunned, Silenced, or Rooted, and for 2 seconds after. Can only trigger once every 10 seconds.",
+	},
+	"AlexstraszaExuberance": {
+		Name: "Exuberance",
+		Text: "While above 75% Health, gain 15% Movement Speed.",
+	},
+	"AlexstraszaFireWithinFlameBuffet": {
+		Name: "Fire Within",
+		Text: "Hitting a Burning Hero with Flame Buffet heals Alexstrasza for 10% of her maximum Health.",
+	},
+	"AlexstraszaFlamesOfFuryFlameBuffet": {
+		Name: "Flames of Fury",
+		Text: "Quest: Hit 20 Burning Heroes with Flame Buffet.\nReward: Hitting a Burning Hero with Flame Buffet reduces Dragonqueen's cooldown by 5 seconds.",
+	},
+	"AlexstraszaHeatExhaustionFlameBuffet": {
+		Name: "Heat Exhaustion",
+		Text: "Increase Flame Buffet's initial Slow from 40% to 60%.",
+	},
+	"AlexstraszaLifeUnbound": {
+		Name: "Life Unbound",
+		Text: "Activate to heal an allied Hero for 15% of their maximum Health and deal 200 damage to nearby enemies.\nHealing a Stunned, Rooted, or Silenced ally reduces Life Unbound's cooldown by 30 seconds.\nCannot be used on Alexstrasza.",
+	},
+	"AlexstraszaLifebinder": {
+		Name: "Life-Binder",
+		Text: "Bind Alexstrasa's life force with an allied Hero. After 2 seconds, the Hero with a lower percentage of Health is set to the same Health percentage as the other Hero.",
+	},
+	"AlexstraszaLifeblossomGiftOfLife": {
+		Name: "Lifeblossom",
+		Text: "While Alexstrasza is above 75% Health, Gift of Life creates a Lifeblossom at the target's location. Alexstrasza can collect the Lifeblossom to make her next Gift of Life cost no Health.",
+	},
+	"AlexstraszaLiveAndLetLiveGiftOfLife": {
+		Name: "Live and Let Live",
+		Text: "While Alexstrasza is above 75% Health, Gift of Life's cooldown recharges 100% faster.",
+	},
+	"AlexstraszaOnRubyWingsCleansingFlame": {
+		Name: "On Ruby Wings",
+		Text: "Healing or damaging Heroes 8 or more times with Cleansing Flame activates Dragonqueen for 15 seconds upon landing.",
+	},
+	"AlexstraszaOverprotectiveAbundance": {
+		Name: "Overprotective",
+		Text: "Heroes healed by Abundance gain a Shield for 3 seconds equal to 60% of the amount healed.",
+	},
+	"AlexstraszaPacify": {
+		Name: "Pacify",
+		Text: "Activate to Slow and reduce an enemy Hero's damage by 50% for 3 seconds.\nHealing a Stunned, Silenced, or Rooted ally reduces Pacify's cooldown by 30 seconds.",
+	},
+	"AlexstraszaRitualOfLife": {
+		Name: "Ritual of Life",
+		Text: "Life-Binder activates 3 times over 6 seconds.",
+	},
+	"AlexstraszaSurgeOfVitalityAbundance": {
+		Name: "Surge of Vitality",
+		Text: "Abundance's healing burst grants allied Heroes 30% Movement Speed for 3 seconds.",
+	},
+	"AlexstraszaToughLoveGiftOfLife": {
+		Name: "Tough Love",
+		Text: "While Alexstrasza is above 75% Health, Gift of Life grants its target 20 Armor for 2 seconds.",
+	},
+	"AlexstraszaVerdantFlourishAbundance": {
+		Name: "Verdant Flourish",
+		Text: "Alexstrasza receives 30% more healing from Abundance and 100% more healing from Regeneration Globes.",
+	},
 	"AmazonBallLightning": {
 		Name: "Ball Lightning",
 		Text: "Throw a ball of lightning at an enemy Hero that bounces up to 6 times between nearby enemy Heroes and Cassia, dealing 180 damage to enemies hit.",
@@ -688,7 +778,7 @@ var talentData = map[string]talentText{
 	},
 	"AmazonPlateoftheWhale": {
 		Name: "Plate of the Whale",
-		Text: "Regenerate 5 Health per second while Avoidance is active.\nQuest: For every 5 Basic Attacks absorbed with Avoidance, it regenerates an additional 1 Health per second.\nReward: After absorbing 75 Basic Attacks, increase Cassia's maximum Health by 10%.",
+		Text: "Regenerate 5 Health per second while Avoidance is active.\nQuest: For every 1 Basic Attacks absorbed with Avoidance, it regenerates an additional 1 Health per second.\nReward: After absorbing 75 Basic Attacks, increase Cassia's maximum Health by 10%.",
 	},
 	"AmazonRingoftheLeech": {
 		Name: "Ring of the Leech",
@@ -1280,7 +1370,7 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanMasteryInfusedPower": {
 		Name: "Infused Power",
-		Text: "All Shall Burn's damage growth maximum is increased by 40%.",
+		Text: "All Shall Burn's damage increases over an additional 1.75 seconds, gaining up to 40% more maximum damage.",
 	},
 	"AzmodanMasteryMarchOfSin": {
 		Name: "March of Sin",
@@ -1410,10 +1500,6 @@ var talentData = map[string]talentText{
 		Name: "Blessed Momentum",
 		Text: "Basic Attacks reduce Johanna's Basic Ability cooldowns by 0.5 seconds.",
 	},
-	"BattleMomentumETC": {
-		Name: "Battle Momentum",
-		Text: "Basic Attacks reduce Ability cooldowns by 0.5 seconds.",
-	},
 	"BattleMomentumKerrigan": {
 		Name: "Bladed Momentum",
 		Text: "Basic Attacks reduce Kerrigan's Basic Ability cooldowns by 0.6 seconds.",
@@ -1458,10 +1544,6 @@ var talentData = map[string]talentText{
 		Name: "Greater Polymorph",
 		Text: "Increases the duration of Polymorph by 0.75 seconds.",
 	},
-	"BrightwingHyperShiftPhaseShift": {
-		Name: "Hyper Shift",
-		Text: "Each allied Hero healed by Soothing Mist reduces the cooldown of Phase Shift by 3 seconds.",
-	},
 	"BrightwingManicPixiePixieDust": {
 		Name: "Manic Pixie",
 		Text: "When Soothing Mist heals an ally with Pixie Dust on them, they heal for an additional 104 over 4 seconds.",
@@ -1470,9 +1552,17 @@ var talentData = map[string]talentText{
 		Name: "Mistified",
 		Text: "Reduces the cooldown of Soothing Mist by 0.5 seconds every time Brightwing casts a Basic Ability.",
 	},
-	"BrightwingPeekabooPhaseShift": {
+	"BrightwingPhaseShiftHyperShift": {
+		Name: "Hyper Shift",
+		Text: "Each allied Hero healed by Soothing Mist reduces the cooldown of Phase Shift by 3 seconds.",
+	},
+	"BrightwingPhaseShiftPeekaboo": {
 		Name: "Peekaboo!",
-		Text: "Phase Shifting to an ally casts a free Pixie Dust on them and reveals a large area around them and all enemies in it for 6 seconds. ",
+		Text: "Phase Shifting to an ally casts a free Pixie Dust on them and reveals a large area around them and all enemies in it for 6 seconds.",
+	},
+	"BrightwingPhaseShiftPhaseShield": {
+		Name: "Phase Shield",
+		Text: "After finishing the teleport, both Brightwing and her target gain a 350 point Shield for 10 seconds.",
 	},
 	"BrightwingPixieBoostPixieDust": {
 		Name: "Pixie Boost",
@@ -1756,7 +1846,7 @@ var talentData = map[string]talentText{
 	},
 	"ChoTwilightVeil": {
 		Name: "Twilight Veil",
-		Text: "Activate to increase the Armor bonus of Ogre Hide by 300% for 2 seconds. If cast while Ogre Rage is active, it instantly swaps to Ogre Hide.",
+		Text: "Activate to increase the Armor bonus of Ogre Hide by 200% for 2 seconds. If cast while Ogre Rage is active, it instantly swaps to Ogre Hide.",
 	},
 	"ChoUppercut": {
 		Name: "Uppercut",
@@ -2506,10 +2596,6 @@ var talentData = map[string]talentText{
 		Name: "Critterize",
 		Text: "While Polymorphed, the target's Armor is reduced by 25, increasing the damage they take by 25%.",
 	},
-	"FaerieDragonMasteryPhaseShield": {
-		Name: "Phase Shield",
-		Text: "After finishing the teleport, both Brightwing and her target gain a 350 point Shield for 10 seconds.",
-	},
 	"FaerieDragonMasteryShieldDust": {
 		Name: "Shield Dust",
 		Text: "Pixie Dust grants 50 Physical Armor for 3 seconds, reducing Physical damage taken by 50%.",
@@ -2581,10 +2667,6 @@ var talentData = map[string]talentText{
 	"FalstadMasteryLightningRodChargedUp": {
 		Name: "Charged Up",
 		Text: "Increases the number of Lightning Rod strikes by 2 and its range by 25%. ",
-	},
-	"FalstadMasteryLightningRodLightningChain": {
-		Name: "Lightning Chain",
-		Text: "Lightning Chain \nLightning Rod chains to up to 2 additional targets for 25% damage each. ",
 	},
 	"FalstadMasteryLightningRodStaticShield": {
 		Name: "Static Shield",
@@ -3684,7 +3766,7 @@ var talentData = map[string]talentText{
 	},
 	"KelThuzadHungeringCold": {
 		Name: "Hungering Cold",
-		Text: "Enemies Rooted by Frost Nova take an additional 55 damage each time they are damaged by Kel'Thuzad during the next 4 seconds.",
+		Text: "Enemy Heroes Rooted by Frost Nova take an additional 55 damage each time they are damaged by Kel'Thuzad during the next 4 seconds.",
 	},
 	"KelThuzadIcyGrasp": {
 		Name: "Icy Grasp",
@@ -3930,97 +4012,89 @@ var talentData = map[string]talentText{
 		Name: "Ominous Wraith",
 		Text: "Increase Wraith Walk's duration by 100%. Enemy Heroes that come in contact with the wraith deal 50% less damage for 4 seconds.",
 	},
+	"LiLiBlessingsOfYulon": {
+		Name: "Blessings Of Yu’lon",
+		Text: "Cloud Serpent heals its bearer for 1.5% of their maximum Health each time it attacks.",
+	},
+	"LiLiEagerAdventurer": {
+		Name: "Eager Adventurer",
+		Text: "Increase Fast Feet's duration by 50% and increase Mana regeneration by 150% while Fast Feet is active.",
+	},
+	"LiLiFreeDrinks": {
+		Name: "Free Drinks",
+		Text: "Healing Brew's cooldown is reduced by 1 second and its Mana cost is refunded if it heals a Hero under 50% Health.",
+	},
 	"LiLiHeroicAbilityJugof1000Cups": {
 		Name: "Jug of 1,000 Cups",
-		Text: "Rapidly tosses brew to the most injured nearby allies within 10 range, restoring 1632 Health over 6 seconds.",
+		Text: "Channel for up to 6 seconds. Every 0.25 seconds, heal the lowest Health nearby allied Hero for 66 Health and increase the cooldown of Jug of 1,000 Cups by 2 seconds, up to 50.",
 	},
 	"LiLiHeroicAbilityWaterDragon": {
 		Name: "Water Dragon",
 		Text: "Li Li channels for 2 seconds, summoning a Water Dragon that hits the nearest enemy Hero within 12 range and all enemies near them, dealing 318 damage and slowing their Movement Speed by 70% for 4 seconds.",
 	},
+	"LiLiHinderingWinds": {
+		Name: "Hindering Winds",
+		Text: "Blinding Wind Slows enemy Hero Movement Speed by 30% for 2 seconds.",
+	},
+	"LiLiLetsGo": {
+		Name: "Let's Go!",
+		Text: "Activate to heal an allied Hero for 140 and make them Unstoppable for 1 second. Let's Go's cooldown is affected by Fast Feet.\nCannot be used on Li Li.",
+	},
 	"LiLiMasteryBlindingWindGaleForce": {
 		Name: "Gale Force",
-		Text: "Increases Blinding Wind damage by 40%.",
-	},
-	"LiLiMasteryBlindingWindHinderingWinds": {
-		Name: "Hindering Winds",
-		Text: "Blinding Wind also slows enemy Movement Speed by 25% for 2 seconds.",
-	},
-	"LiLiMasteryBlindingWindLingeringBlind": {
-		Name: "Lingering Blind",
-		Text: "Increases the duration of Blinding Wind by 50%.",
+		Text: "Increase Blinding Wind's duration by 1 second. Li Li's Basic Attacks against Blinded Heroes deal 50% increased damage.",
 	},
 	"LiLiMasteryBlindingWindMassVortex": {
 		Name: "Mass Vortex",
-		Text: "Increases the number of enemies hit by Blinding Wind from 2 to 4.",
+		Text: "Increase the number of enemies hit by Blinding Wind from 2 to 3. Blinding Wind deals 75% additional damage if all 3 enemies hit are Heroes.",
 	},
 	"LiLiMasteryBlindingWindSurgingWinds": {
 		Name: "Surging Winds",
-		Text: "Gain 5% Spell Power for 8 seconds for every enemy hit by Blinding Wind. Additional enemies hit refresh the duration of this buff and further increase Spell Power. Stacks up to 4 times.",
-	},
-	"LiLiMasteryCloudSerpentBringerofGifts": {
-		Name: "Bringer of Gifts",
-		Text: "Cloud Serpent also heals the target for 196 Health and 0 Mana.",
+		Text: "If Blinding Wind hits 2 Heroes, its cooldown is reduced by 3 seconds and Li Li gains 10% Spell Power for 10 seconds.",
 	},
 	"LiLiMasteryCloudSerpentLightningSerpent": {
 		Name: "Lightning Serpent",
-		Text: "Cloud Serpent's attacks bounce to 3 nearby enemy targets, dealing 14 damage each.",
-	},
-	"LiLiMasteryCloudSerpentMendingSerpent": {
-		Name: "Mending Serpent",
-		Text: "Cloud Serpent heals the friendly unit for 22 Health each time it attacks.",
+		Text: "Cloud Serpent attacks bounce to hit 2 additional Heroes for 50% damage and healing.",
 	},
 	"LiLiMasteryCloudSerpentSerpentSidekick": {
 		Name: "Serpent Sidekick",
-		Text: "Li Li also gains a Cloud Serpent whenever it is cast on another ally.",
-	},
-	"LiLiMasteryCloudSerpentTimelessCreature": {
-		Name: "Timeless Creature",
-		Text: "Increases the duration of Cloud Serpent by 50%.",
-	},
-	"LiLiMasteryFastFeetElusiveFeet": {
-		Name: "Elusive Feet",
-		Text: "When Fast Feet is triggered, gain 75 Physical Armor against the next 2 Hero Basic Attacks for 10 seconds, reducing the damage taken by 75%.\nThis effect has a 10 second cooldown.",
+		Text: "Cloud Serpent's duration is increased by 0.5 seconds every time it attacks an Hero.",
 	},
 	"LiLiMasteryFastFeetSafetySprint": {
 		Name: "Safety Sprint",
-		Text: "Increases Fast Feet's Movement Speed bonus from 10% to 20%. ",
-	},
-	"LiLiMasteryHealingBrewPitchPerfect": {
-		Name: "Pitch Perfect",
-		Text: "After casting Healing Brew, its cost is reduced by 10 Mana for 6 seconds.  This effect does not stack.",
-	},
-	"LiLiMasteryHealingBrewProToss": {
-		Name: "Pro Toss",
-		Text: "Increases the range of Healing Brew by 30%.",
+		Text: "Activate to gain Fast Feet for 2 seconds and increase its Movement Speed bonus to 30% while active.",
 	},
 	"LiLiMasteryHealingBrewTheGoodStuff": {
 		Name: "The Good Stuff",
-		Text: "Healing Brew heals for an additional 60 Health over 6 seconds.",
+		Text: "Healing Brew heals for an additional 42 over 3 seconds. While Fast Feet is active, this heal amount is increased by 100%.",
 	},
 	"LiLiMasteryHealingBrewTwoForOne": {
 		Name: "Two For One",
-		Text: "Increases the number of allies healed by Healing Brew to 2, but increases the cooldown by 1.5 seconds.",
+		Text: "Increases the number of allies healed by Healing Brew to 2, but increases the cooldown by 1 second.",
 	},
 	"LiLiMasteryJugof1000CupsJugof1000000Cups": {
 		Name: "Jug of 1,000,000 Cups",
-		Text: "Jug of 1,000 Cups hits two targets at a time.",
-	},
-	"LiLiMasteryKungFuHustle": {
-		Name: "Kung Fu Hustle",
-		Text: "Ability cooldowns refresh 150% faster while Fast Feet is active.",
-	},
-	"LiLiMasteryMagicalEssence": {
-		Name: "Magical Essence",
-		Text: "Magical Essence\nIncreases the range of Healing Brew, Cloud Serpent, and Blinding Wind by 25%.",
-	},
-	"LiLiMasteryShakeItOff": {
-		Name: "Shake It Off",
-		Text: "Being Stunned or Rooted gives 50 Armor, reducing the damage taken by 50% for 4 seconds.\nThis effect has a 10 second cooldown.",
+		Text: "Jug of 1,000 Cups heals two allies at a time.",
 	},
 	"LiLiMasteryWaterDragonDoubleDragon": {
 		Name: "Double Dragon",
 		Text: "After hitting a target with Water Dragon, another Water Dragon is summoned at the point of impact.",
+	},
+	"LiLiMistweaver": {
+		Name: "Mistweaver",
+		Text: "Activate to heal nearby allied Heroes for 165. Basic Attacks and Cloud Serpent attacks reduce the cooldown of Mistweaver by 1 second.",
+	},
+	"LiLiPickMeUp": {
+		Name: "Pick Me Up",
+		Text: "Healing Brew's healing for Heroes is increased by 33% if they are under 50% Health.",
+	},
+	"LiLiShakeItOff": {
+		Name: "Shake It Off",
+		Text: "Gain 0 Armor per second while Fast Feet is active, up to 30 Armor.",
+	},
+	"LiLiWindSerpent": {
+		Name: "Wind Serpent",
+		Text: "Each Hero hit by Blinding Wind reduces the cooldown of Cloud Serpent by 3 seconds.",
 	},
 	"LostVikingsGoGoGo64KBMarathon": {
 		Name: "64 KB Marathon",
@@ -4596,7 +4670,7 @@ var talentData = map[string]talentText{
 	},
 	"MonkInsight": {
 		Name: "Insight",
-		Text: "Quest: Every 3rd Basic Attack restores 14 Mana and grants a stack of Insight and gives 25% increased Move Speed for 2 seconds.\nReward: Upon getting 100 stacks of Insight, every 3rd attack also reduces the cooldown of all of Kharazim's Basic Abilities by 1.75 seconds.",
+		Text: "Quest: Every 3rd Basic Attack restores 14 Mana, grants a stack of Insight, and gives 25% increased Movement Speed for 2 seconds.\nReward: Upon getting 100 stacks of Insight, every 3rd attack also reduces Basic Ability cooldowns by 1.75 seconds.",
 	},
 	"MonkIronFists": {
 		Name: "Iron Fists",
@@ -4744,7 +4818,7 @@ var talentData = map[string]talentText{
 	},
 	"MurkyHeroicAbilityOctoGrab": {
 		Name: "Octo-Grab",
-		Text: "Murky summons an octopus to stun target enemy Hero for 3 seconds while he hits them for 1 damage a second.",
+		Text: "Murky becomes Unstoppable and Stuns target enemy Hero for 3 seconds while he hits them for 1 damage a second.",
 	},
 	"MurkyLivingtheDream": {
 		Name: "Living the Dream",
@@ -4872,7 +4946,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaAdvancedCloaking": {
 		Name: "Advanced Cloaking",
-		Text: "While Stealthed, Nova gains 2 Mana per second and 25% increased movement speed.",
+		Text: "While Stealthed, Nova gains 2 Mana per second and 25% increased Movement Speed.",
 	},
 	"NovaCombatStyleAntiArmorShells": {
 		Name: "Anti-Armor Shells",
@@ -4888,7 +4962,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaCovertOps": {
 		Name: "Covert Ops",
-		Text: "After being Stealthed for 5 seconds, Pinning Shot's slow is increased to 55% and costs no Mana. Bonus is lost after losing Stealth for 1 second.",
+		Text: "After being Stealthed for 5 seconds, Pinning Shot's Slow is increased to 55% and costs no Mana. Bonus is lost after losing Stealth for 1 second.",
 	},
 	"NovaGhostProtocol": {
 		Name: "Ghost Protocol",
@@ -4960,7 +5034,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaNewRemoteDelivery": {
 		Name: "Remote Delivery",
-		Text: "Increases Holo Decoy cast range by 100% and its sight range by 50%",
+		Text: "Increases Holo Decoy cast range by 100% and its sight range by 50%.",
 	},
 	"NovaRailgun": {
 		Name: "Railgun",
@@ -5190,10 +5264,6 @@ var talentData = map[string]talentText{
 		Name: "Activated Rush",
 		Text: "Lowers the cooldown of Adrenaline Rush by 10 seconds, and it can be manually activated.",
 	},
-	"RaynorMasteryBattleHyperionHyperion": {
-		Name: "Battle Hyperion",
-		Text: "Battle Hyperion \nNumber of shots on each target increased to 2 per volley. Every 4 seconds Hyperion will fire its Yamato cannon at enemy structures.",
-	},
 	"RaynorMasteryBullseyePenetratingRound": {
 		Name: "Bullseye",
 		Text: "The first enemy hit by Penetrating Round is stunned for 1 second.",
@@ -5202,6 +5272,10 @@ var talentData = map[string]talentText{
 		Name: "Cluster Round",
 		Text: "Penetrating Round damage is increased by 20% for each additional target hit up to 100%, and the width is increased by 50%.",
 	},
+	"RaynorMasteryDuskWingsRaynorsBanshees": {
+		Name: "Dusk Wings",
+		Text: "Banshees remain Stealthed while attacking and fire 50% more frequently.",
+	},
 	"RaynorMasteryFightorFlightAdrenalineRush": {
 		Name: "Fight or Flight",
 		Text: "Whenever Adrenaline Rush activates, it gives 25 Armor, reducing damage taken by 25% for 4 seconds.  Adrenaline Rush can also be manually activated.",
@@ -5209,10 +5283,6 @@ var talentData = map[string]talentText{
 	"RaynorMasteryGiveMeMoreAdrenalineRush": {
 		Name: "Give Me More!",
 		Text: "Increases Adrenaline Rush healing by 50%.",
-	},
-	"RaynorMasteryHelsAngelsRaynorsBanshees": {
-		Name: "Dusk Wings",
-		Text: "Banshees remain Stealthed while attacking and fire 50% more frequently.",
 	},
 	"RaynorMasteryInspireRevolutionOverdrive": {
 		Name: "Revolution Overdrive",
@@ -5228,7 +5298,7 @@ var talentData = map[string]talentText{
 	},
 	"RaynorRelentlessLeader": {
 		Name: "Relentless Leader",
-		Text: "Being Stunned or Rooted knocks away nearby enemies.\nThis effect has a 8 second cooldown.\nPassive: The cooldown of Adrenaline Rush is reduced by 10 seconds.",
+		Text: "Being Stunned or Rooted knocks away nearby enemies.\nThis effect has an 8 second cooldown.\nPassive: The cooldown of Adrenaline Rush is reduced by 10 seconds.",
 	},
 	"RehgarEarthlivingEnchant": {
 		Name: "Earthliving Enchant",
@@ -6454,10 +6524,6 @@ var talentData = map[string]talentText{
 		Name: "Pierce",
 		Text: "Sentinel no longer stops at the first Hero hit, affecting all enemy Heroes along the path.",
 	},
-	"TyrandeMasteryShadowstalkHuntersSwiftness": {
-		Name: "Hunter's Swiftness",
-		Text: "Shadowstalk grants 30% Movement Speed for 5 seconds.",
-	},
 	"TyrandeMasteryStarfallCelestialWrath": {
 		Name: "Celestial Wrath",
 		Text: "Starfall applies Hunter's Mark to enemy Heroes while inside of its area of effect.",
@@ -6477,10 +6543,6 @@ var talentData = map[string]talentText{
 	"TyrandeRangersMark": {
 		Name: "Ranger's Mark",
 		Text: "Basic Attacks reduce the cooldown of Hunter's Mark by 1 second.\nRepeatable Quest: Every 50 Basic Attacks against enemy Heroes increase the duration of Hunter's Mark by 1 second.",
-	},
-	"TyrandeSearingArrows": {
-		Name: "Searing Arrows",
-		Text: "Activate to increase Basic Attack damage at the cost of Mana",
 	},
 	"TyrandeShootingStar": {
 		Name: "Shooting Star",
