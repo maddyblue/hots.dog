@@ -440,8 +440,20 @@ var (
 	accessKey string
 	secretKey string
 
-	processSema = make(chan struct{}, 10)
+	processSema   = make(chan struct{}, 100)
+	processTicker = time.Tick(time.Second / 3)
 )
+
+// Setting processSema to 100 resulted in a bunch of errors like:
+//
+// Could not find the specified handler assembly with the file name
+// '/var/task/hotslambda.dll' or '/var/task/hotslambda.ni.dll'. The assembly
+// should be located in the root of your uploaded .zip file."
+//
+// Try limiting the speed of requests.
+func processTimeSlowdown() {
+	<-processTicker
+}
 
 func init() {
 	creds := credentials.NewSharedCredentials("", "")
@@ -466,6 +478,7 @@ func processReplay(ctx context.Context, r *Replay, g *groupConfig) error {
 	case <-ctx.Done():
 		return ctx.Err()
 	}
+	processTimeSlowdown()
 	fmt.Println("process", r.ID)
 
 	b, err := json.Marshal(struct {
