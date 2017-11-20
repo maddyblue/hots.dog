@@ -37,7 +37,8 @@ func (h *hotsContext) cron() error {
 		var start time.Time
 		req := &http.Request{URL: url}
 		if err := retry(func() error {
-			ctx, _ := context.WithTimeout(context.Background(), time.Minute*2)
+			ctx, cancel := context.WithTimeout(context.Background(), time.Minute*2)
+			defer cancel()
 			var res interface{}
 			start = time.Now()
 			switch url.Path {

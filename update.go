@@ -625,7 +625,8 @@ func httpGet(ctx context.Context, url string) ([]byte, error) {
 		if i > 0 {
 			fmt.Printf("retry %d: %s", i, url)
 		}
-		ctx, _ := context.WithTimeout(ctx, time.Minute*2)
+		ctx, cancel := context.WithTimeout(ctx, time.Minute*2)
+		defer cancel()
 		resp, err := ctxhttp.Get(ctx, httpClient, url)
 		if err != nil {
 			return nil, errors.Wrap(err, url)

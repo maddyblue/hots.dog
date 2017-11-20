@@ -183,7 +183,8 @@ func main() {
 
 	wrap := func(f func(context.Context, *http.Request) (interface{}, error)) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
-			ctx, _ := context.WithTimeout(context.Background(), time.Second*60)
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second*60)
+			defer cancel()
 			if v, err := url.ParseQuery(r.URL.RawQuery); err == nil {
 				r.URL.RawQuery = v.Encode()
 			}
@@ -495,7 +496,7 @@ type initData struct {
 	Maps       []string
 	Heroes     []Hero
 	BuildStats map[string]map[Mode]Stats
-	config     groupConfig
+	config     *groupConfig
 	lookups    map[string]func(string) string
 }
 
@@ -556,7 +557,7 @@ func (h *hotsContext) updateInit(ctx context.Context) error {
 		Modes:      modeNames,
 		Heroes:     heroData,
 		BuildStats: bs,
-		config:     c,
+		config:     &c,
 		lookups:    make(map[string]func(string) string),
 	}
 	for m := range c.Map["map"] {
