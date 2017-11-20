@@ -14,6 +14,18 @@
   version = "v1.0.0"
 
 [[projects]]
+  name = "github.com/aws/aws-sdk-go"
+  packages = ["aws","aws/awserr","aws/awsutil","aws/client","aws/client/metadata","aws/corehandlers","aws/credentials","aws/credentials/ec2rolecreds","aws/credentials/endpointcreds","aws/credentials/stscreds","aws/defaults","aws/ec2metadata","aws/endpoints","aws/request","aws/session","aws/signer/v4","internal/shareddefaults","private/protocol","private/protocol/json/jsonutil","private/protocol/jsonrpc","private/protocol/query","private/protocol/query/queryutil","private/protocol/rest","private/protocol/restjson","private/protocol/xml/xmlutil","service/lambda","service/sts"]
+  revision = "e4f7e38b704e3ed0acc4a7f8196b777696f6f1f3"
+  version = "v1.12.30"
+
+[[projects]]
+  name = "github.com/go-ini/ini"
+  packages = ["."]
+  revision = "32e4c1e6bc4e7d0d8451aa6b75200d19e37a536a"
+  version = "v1.32.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/golang/freetype"
   packages = [".","raster","truetype"]
@@ -36,6 +48,11 @@
   packages = [".","chunkreader","internal/sanitize","pgio","pgproto3","pgtype"]
   revision = "66918e80dfde8d5cb09af9aebf40e2cce2eb0cc0"
   version = "v3.0.1"
+
+[[projects]]
+  name = "github.com/jmespath/go-jmespath"
+  packages = ["."]
+  revision = "0b12d6b5"
 
 [[projects]]
   branch = "master"
@@ -124,6 +141,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "34bfcd4143cdae4a164518402333b6127435423a2369a98c99b90b70e15f5f74"
+  inputs-digest = "a5677cb288917ba4bb1ef0cc0b3d0117ce7e75080119600d87f24bab95de12d6"
   solver-name = "gps-cdcl"
   solver-version = 1
