@@ -6,15 +6,21 @@ import (
 	"encoding/csv"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"path"
 	"strconv"
 	"strings"
 	"sync"
 	"time"
 
+	"golang.org/x/net/context/ctxhttp"
 	"golang.org/x/sync/errgroup"
 
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/lib/pq"
 	"github.com/pkg/errors"
 
@@ -194,7 +200,7 @@ func updateNew(bucketName string) error {
 			fmt.Println("next block not done, sleeping")
 			time.Sleep(time.Hour)
 		} else if err != nil {
-			log.Println(err)
+			log.Printf("update next group error: %+v", err)
 			time.Sleep(time.Hour)
 		}
 	}
@@ -208,6 +214,21 @@ func updateNextGroup(ctx context.Context, bucket *storage.BucketHandle, config *
 	fmt.Println("UNG", start, until)
 	if start%perFile != 0 {
 		return 0, errors.Errorf("bad start id: %d", start)
+	}
+	{
+		// Make sure the current block is present by fetching the next one.
+		url := fmt.Sprintf(HotsApi+"/replays?min_id=%d", until)
+		b, err := httpGet(ctx, url)
+		if err != nil {
+			return 0, errors.Wrapf(err, "http get: %s", b)
+		}
+		var replays Replays
+		if err := json.Unmarshal(b, &replays); err != nil {
+			return 0, errors.Wrap(err, "json decode")
+		}
+		if len(replays) == 0 {
+			return 0, ErrNotEnough
+		}
 	}
 	base := fmt.Sprintf(configBase, start)
 	{
@@ -263,6 +284,7 @@ func updateNextGroup(ctx context.Context, bucket *storage.BucketHandle, config *
 		// Unmarshal bytes, send as replays.
 		g.Go(func() error {
 			defer close(replayCh)
+			sub, subCtx := errgroup.WithContext(ctx)
 			for b := range replaysCh {
 				var replays Replays
 				if err := json.Unmarshal(b, &replays); err != nil {
@@ -270,19 +292,25 @@ func updateNextGroup(ctx context.Context, bucket *storage.BucketHandle, config *
 				}
 				for _, r := range replays {
 					if r.ID >= until {
+						continue
+					}
+					r := r
+					sub.Go(func() error {
+						if !r.Processed {
+							if err := processReplay(subCtx, &r, config); err != nil {
+								return errors.Wrapf(err, "processing %d", r.ID)
+							}
+						}
+						select {
+						case <-done:
+							return ctx.Err()
+						case replayCh <- r:
+						}
 						return nil
-					}
-					select {
-					case <-done:
-						return ctx.Err()
-					case replayCh <- r:
-					}
-				}
-				if len(replays) != perRequest {
-					return ErrNotEnough
+					})
 				}
 			}
-			return nil
+			return sub.Wait()
 		})
 		g.Go(func() error {
 			seen := make(map[int]bool)
@@ -295,14 +323,6 @@ func updateNextGroup(ctx context.Context, bucket *storage.BucketHandle, config *
 				if !ok {
 					continue
 				}
-				/*
-					if !r.Processed {
-						if err := bucket.Object(path.Join(dirUnprocessed, strconv.Itoa(r.ID))).NewWriter(ctx).Close(); err != nil {
-							return errors.Wrapf(err, "write unprocessed: %d", r.ID)
-						}
-						continue
-					}
-				*/
 				var bans []string
 				for _, bs := range r.Bans {
 					for _, b := range bs {
@@ -403,6 +423,213 @@ func groupWorkers(ctx context.Context, num int, f func(context.Context) error) e
 		})
 	}
 	return group.Wait()
+}
+
+var (
+	awsSess = session.New(&aws.Config{
+		Region: aws.String("eu-west-1"),
+	})
+	lambdaSvc   = lambda.New(awsSess)
+	processSema = make(chan struct{}, 100)
+)
+
+func processReplay(ctx context.Context, r *Replay, g *groupConfig) error {
+	select {
+	case processSema <- struct{}{}:
+		defer func() { <-processSema }()
+	case <-ctx.Done():
+		return ctx.Err()
+	}
+	fmt.Println("process", r.ID)
+
+	value, err := awsSess.Config.Credentials.Get()
+	if err != nil {
+		return err
+	}
+
+	b, err := json.Marshal(struct {
+		Input  string `json:"input"`
+		Access string `json:"access"`
+		Secret string `json:"secret"`
+	}{
+		Input:  r.URL,
+		Access: value.AccessKeyID,
+		Secret: value.SecretAccessKey,
+	})
+	if err != nil {
+		return err
+	}
+
+	input := &lambda.InvokeInput{
+		FunctionName: aws.String("parse-hots"),
+		Payload:      b,
+	}
+
+	var result *lambda.InvokeOutput
+	for i := 0; i < 5; i++ {
+		result, err = lambdaSvc.InvokeWithContext(ctx, input)
+		if err != nil {
+			return errors.Wrap(err, "invoke")
+		}
+		if result.FunctionError != nil {
+			result = nil
+			fmt.Println("retry process", r.ID)
+		}
+	}
+	if result == nil {
+		return errors.New("failed after retries")
+	}
+	if result.FunctionError != nil {
+		return errors.Errorf("function error: %s", *result.FunctionError)
+	}
+	if result.StatusCode == nil || *result.StatusCode != 200 {
+		return errors.New("bad status code")
+	}
+	var pr ProcessedReplay
+	if err := json.Unmarshal(result.Payload, &pr); err != nil {
+		return err
+	}
+
+	players := make(map[int]ProcessedPlayer)
+	for _, p := range pr.Players {
+		players[p.BlizzID] = p
+	}
+
+	for _, p := range r.Players {
+		np, ok := players[p.BlizzID]
+		if !ok {
+			return errors.Errorf("unfound player %d", p.BlizzID)
+		}
+		p.Battletag = fmt.Sprintf("%s#%d", np.BattletagName, np.BattletagID)
+		switch len(np.Talents) {
+		case 7:
+			p.Talents.Num20 = np.Talents[6]
+			fallthrough
+		case 6:
+			p.Talents.Num16 = np.Talents[5]
+			fallthrough
+		case 5:
+			p.Talents.Num13 = np.Talents[4]
+			fallthrough
+		case 4:
+			p.Talents.Num10 = np.Talents[3]
+			fallthrough
+		case 3:
+			p.Talents.Num7 = np.Talents[2]
+			fallthrough
+		case 2:
+			p.Talents.Num4 = np.Talents[1]
+			fallthrough
+		case 1:
+			p.Talents.Num1 = np.Talents[0]
+		}
+	}
+
+	var bans []string
+	g.Lock()
+	if g.Map != nil && g.Map["hero"] != nil {
+		heroes := g.Map["hero"]
+		for _, teamBans := range pr.Bans {
+			for _, b := range teamBans {
+				if len(b) < 4 {
+					continue
+				}
+				for name := range heroes {
+					if strings.HasPrefix(name, b) {
+						bans = append(bans, name)
+					}
+				}
+			}
+		}
+	}
+	r.Bans = [][]string{bans}
+	g.Unlock()
+	return nil
+}
+
+type ProcessedPlayer struct {
+	BattletagName string   `json:"battletag_name"`
+	BattletagID   int      `json:"battletag_id"`
+	BlizzID       int      `json:"blizz_id"`
+	Hero          string   `json:"hero"`
+	HeroLevel     int      `json:"hero_level"`
+	Team          int      `json:"team"`
+	Winner        bool     `json:"winner"`
+	Silenced      bool     `json:"silenced"`
+	Party         int      `json:"party"`
+	Talents       []string `json:"talents"`
+	Score         struct {
+		Level                  int         `json:"Level"`
+		Takedowns              int         `json:"Takedowns"`
+		SoloKills              int         `json:"SoloKills"`
+		Assists                int         `json:"Assists"`
+		Deaths                 int         `json:"Deaths"`
+		HighestKillStreak      int         `json:"HighestKillStreak"`
+		HeroDamage             int         `json:"HeroDamage"`
+		SiegeDamage            int         `json:"SiegeDamage"`
+		StructureDamage        int         `json:"StructureDamage"`
+		MinionDamage           int         `json:"MinionDamage"`
+		CreepDamage            int         `json:"CreepDamage"`
+		SummonDamage           int         `json:"SummonDamage"`
+		TimeCCdEnemyHeroes     string      `json:"TimeCCdEnemyHeroes"`
+		Healing                interface{} `json:"Healing"`
+		SelfHealing            int         `json:"SelfHealing"`
+		DamageTaken            interface{} `json:"DamageTaken"`
+		ExperienceContribution int         `json:"ExperienceContribution"`
+		TownKills              int         `json:"TownKills"`
+		TimeSpentDead          string      `json:"TimeSpentDead"`
+		MercCampCaptures       int         `json:"MercCampCaptures"`
+		WatchTowerCaptures     int         `json:"WatchTowerCaptures"`
+		MetaExperience         int         `json:"MetaExperience"`
+		MatchAwards            []int       `json:"MatchAwards"`
+	} `json:"score"`
+}
+
+type ProcessedReplay struct {
+	Mode    string            `json:"mode"`
+	Date    time.Time         `json:"date"`
+	Length  string            `json:"length"`
+	Map     string            `json:"map"`
+	Version string            `json:"version"`
+	Bans    [][]string        `json:"bans"`
+	Players []ProcessedPlayer `json:"players"`
+}
+
+var httpClient = &http.Client{
+	Timeout: time.Minute * 2,
+}
+
+func httpGet(ctx context.Context, url string) ([]byte, error) {
+	start := time.Now()
+	defer func() {
+		fmt.Println("GET", url, "took", time.Since(start))
+	}()
+	for i := 0; i < 100; i++ {
+		if i > 0 {
+			fmt.Printf("retry %d: %s", i, url)
+		}
+		ctx, _ := context.WithTimeout(ctx, time.Minute*2)
+		resp, err := ctxhttp.Get(ctx, httpClient, url)
+		if err != nil {
+			return nil, errors.Wrap(err, url)
+		}
+		b, err := ioutil.ReadAll(resp.Body)
+		resp.Body.Close()
+		if err != nil {
+			return nil, errors.Wrap(err, url)
+		}
+		// Too many requests, backoff a bit.
+		if resp.StatusCode == 429 {
+			log.Println(resp.Status, url)
+			time.Sleep(time.Second * 30)
+			continue
+		}
+		if resp.StatusCode != 200 {
+			return nil, errors.Errorf("%s: %s: %s", url, resp.Status, b)
+		}
+		return b, nil
+	}
+	return nil, errors.Errorf("%s: too many retries", url)
 }
 
 type groupConfig struct {
@@ -508,7 +735,7 @@ type Replay struct {
 	CreatedAt   string     `json:"created_at"`
 	UpdatedAt   string     `json:"updated_at"`
 	Bans        [][]string `json:"bans"`
-	Players     []struct {
+	Players     []*struct {
 		Hero      string `json:"hero"`
 		HeroLevel int    `json:"hero_level"`
 		Team      int    `json:"team"`

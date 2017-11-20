@@ -13,7 +13,6 @@ import (
 	"image/draw"
 	_ "image/jpeg"
 	"image/png"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -34,7 +33,6 @@ import (
 	"golang.org/x/crypto/acme"
 	"golang.org/x/crypto/acme/autocert"
 	"golang.org/x/image/font/gofont/goregular"
-	"golang.org/x/net/context/ctxhttp"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -586,43 +584,6 @@ func (h *hotsContext) updateInit(ctx context.Context) error {
 	}
 	h.mu.Unlock()
 	return nil
-}
-
-var httpClient = &http.Client{
-	Timeout: time.Minute,
-}
-
-func httpGet(ctx context.Context, url string) ([]byte, error) {
-	start := time.Now()
-	defer func() {
-		fmt.Println("GET", url, "took", time.Since(start))
-	}()
-	for i := 0; i < 100; i++ {
-		if i > 0 {
-			fmt.Printf("retry %d: %s", i, url)
-		}
-		ctx, _ := context.WithTimeout(ctx, time.Minute*2)
-		resp, err := ctxhttp.Get(ctx, httpClient, url)
-		if err != nil {
-			return nil, errors.Wrap(err, url)
-		}
-		b, err := ioutil.ReadAll(resp.Body)
-		resp.Body.Close()
-		if err != nil {
-			return nil, errors.Wrap(err, url)
-		}
-		// Too many requests, backoff a bit.
-		if resp.StatusCode == 429 {
-			log.Println(resp.Status, url)
-			time.Sleep(time.Minute)
-			continue
-		}
-		if resp.StatusCode != 200 {
-			return nil, errors.Errorf("%s: %s: %s", url, resp.Status, b)
-		}
-		return b, nil
-	}
-	return nil, errors.Errorf("%s: too many retries", url)
 }
 
 func (h *hotsContext) ClearCache(_ http.ResponseWriter, _ *http.Request) {
