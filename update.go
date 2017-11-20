@@ -19,6 +19,7 @@ import (
 	"golang.org/x/sync/errgroup"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/lib/pq"
@@ -430,12 +431,29 @@ func groupWorkers(ctx context.Context, num int, f func(context.Context) error) e
 }
 
 var (
-	awsSess = session.New(&aws.Config{
-		Region: aws.String("eu-west-1"),
-	})
-	lambdaSvc   = lambda.New(awsSess)
+	awsSess   *session.Session
+	lambdaSvc *lambda.Lambda
+	accessKey string
+	secretKey string
+
 	processSema = make(chan struct{}, 100)
 )
+
+func init() {
+	creds := credentials.NewSharedCredentials("", "")
+	value, err := creds.Get()
+	if err != nil {
+		panic(errors.Wrap(err, "get session creds"))
+	}
+	accessKey = value.AccessKeyID
+	secretKey = value.SecretAccessKey
+	fmt.Println("AWS KEYS", accessKey[:10], secretKey[:4])
+	awsSess = session.New(&aws.Config{
+		Credentials: creds,
+		Region:      aws.String("eu-west-1"),
+	})
+	lambdaSvc = lambda.New(awsSess)
+}
 
 func processReplay(ctx context.Context, r *Replay, g *groupConfig) error {
 	select {
@@ -446,19 +464,14 @@ func processReplay(ctx context.Context, r *Replay, g *groupConfig) error {
 	}
 	fmt.Println("process", r.ID)
 
-	value, err := awsSess.Config.Credentials.Get()
-	if err != nil {
-		return err
-	}
-
 	b, err := json.Marshal(struct {
 		Input  string `json:"input"`
 		Access string `json:"access"`
 		Secret string `json:"secret"`
 	}{
 		Input:  r.URL,
-		Access: value.AccessKeyID,
-		Secret: value.SecretAccessKey,
+		Access: accessKey,
+		Secret: secretKey,
 	})
 	if err != nil {
 		return err
@@ -477,7 +490,7 @@ func processReplay(ctx context.Context, r *Replay, g *groupConfig) error {
 		}
 		if result.FunctionError != nil {
 			result = nil
-			fmt.Println("retry process", r.ID)
+			fmt.Printf("retry process %d: %s", r.ID, *result.FunctionError)
 		}
 	}
 	if result == nil {
