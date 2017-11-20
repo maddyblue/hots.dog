@@ -7,7 +7,7 @@ RUN apt-get update -y && apt-get install --no-install-recommends -y -q curl pyth
     apt-get clean && rm /var/lib/apt/lists/*_*
 
 # Install the latest LTS release of nodejs
-RUN mkdir /nodejs && curl https://nodejs.org/dist/v8.9.0/node-v8.9.0-linux-x64.tar.gz | tar xvzf - -C /nodejs --strip-components=1
+RUN mkdir /nodejs && curl https://nodejs.org/dist/v8.9.1/node-v8.9.1-linux-x64.tar.gz | tar xvzf - -C /nodejs --strip-components=1
 ENV PATH $PATH:/nodejs/bin
 
 # Install the latest stable release of Yarn
@@ -32,6 +32,7 @@ FROM alpine:3.6
 RUN apk add --no-cache ca-certificates curl
 COPY hots.json /
 ENV GOOGLE_APPLICATION_CREDENTIALS /hots.json
+COPY aws.creds /root/.aws/credentials
 COPY --from=static /frontend/build /static
 COPY --from=go /go/bin/website /website
 ENTRYPOINT ["/website"]
