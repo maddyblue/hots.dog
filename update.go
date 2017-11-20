@@ -307,7 +307,7 @@ func updateNextGroup(ctx context.Context, bucket *storage.BucketHandle, config *
 					sub.Go(func() error {
 						if !r.Processed {
 							if err := processReplay(subCtx, &r, config); err != nil {
-								return errors.Wrapf(err, "processing %d", r.ID)
+								return errors.Wrapf(err, "processing error %d", r.ID)
 							}
 						}
 						select {
@@ -440,7 +440,7 @@ var (
 	accessKey string
 	secretKey string
 
-	processSema = make(chan struct{}, 100)
+	processSema = make(chan struct{}, 10)
 )
 
 func init() {
@@ -487,18 +487,19 @@ func processReplay(ctx context.Context, r *Replay, g *groupConfig) error {
 	}
 
 	var result *lambda.InvokeOutput
-	for i := 0; i < 5; i++ {
+	for i := 0; i < 3; i++ {
 		result, err = lambdaSvc.InvokeWithContext(ctx, input)
 		if err != nil {
 			return errors.Wrap(err, "invoke")
 		}
 		if result.FunctionError != nil {
+			fmt.Printf("retry process (%d) %d: %s: %s\n", i, r.ID, *result.FunctionError, result.Payload)
 			result = nil
-			fmt.Printf("retry process %d: %s", r.ID, *result.FunctionError)
 		}
 	}
 	if result == nil {
-		return errors.New("failed after retries")
+		fmt.Printf("process giving up %d\n", r.ID)
+		return nil
 	}
 	if result.FunctionError != nil {
 		return errors.Errorf("function error: %s", *result.FunctionError)
@@ -508,7 +509,8 @@ func processReplay(ctx context.Context, r *Replay, g *groupConfig) error {
 	}
 	var pr ProcessedReplay
 	if err := json.Unmarshal(result.Payload, &pr); err != nil {
-		return err
+		fmt.Printf("processing %d json error: %s: %s\n", r.ID, err, result.Payload)
+		return nil
 	}
 
 	players := make(map[int]ProcessedPlayer)
@@ -627,7 +629,7 @@ func httpGet(ctx context.Context, url string) ([]byte, error) {
 	}()
 	for i := 0; i < 100; i++ {
 		if i > 0 {
-			fmt.Printf("retry %d: %s", i, url)
+			fmt.Printf("retry %d: %s\n", i, url)
 		}
 		ctx, cancel := context.WithTimeout(ctx, time.Minute*2)
 		defer cancel()
