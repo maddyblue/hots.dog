@@ -232,12 +232,16 @@ func updateNextGroup(ctx context.Context, bucket *storage.BucketHandle, config *
 	}
 	base := fmt.Sprintf(configBase, start)
 	{
-		gw := bucket.Object(path.Join("test", base)).NewWriter(ctx)
+		obj := bucket.Object(path.Join("test", base))
+		gw := obj.NewWriter(ctx)
 		if _, err := gw.Write([]byte("blah")); err != nil {
 			return 0, errors.Wrap(err, "gb write test")
 		}
 		if err := gw.Close(); err != nil {
 			return 0, errors.Wrap(err, "gw close test")
+		}
+		if err := obj.Delete(ctx); err != nil {
+			return 0, errors.Wrap(err, "gw delete test")
 		}
 		fmt.Println("write test passed")
 	}
