@@ -45,16 +45,16 @@ func (h *hotsContext) updateDB() error {
 	if err != nil {
 		return errors.Wrap(err, "new client")
 	}
-	firstRun := true
+	// Possibly we are on a new image, so update cache if the underlying
+	// implementation changed.
+	updated := true
 	bucket := cl.Bucket(*flagImport)
 	for {
 		err := h.updateDBNext(bucket)
 		if err == storage.ErrObjectNotExist {
 			fmt.Println("no new data; sleeping")
-			if firstRun {
-				firstRun = false
-				// Possibly we are on a new image, so update cache if the underlying
-				// implementation changed.
+			if updated {
+				updated = false
 				if err := h.cronLoop(); err != nil {
 					return errors.Wrap(err, "cronLoop")
 				}
@@ -62,6 +62,8 @@ func (h *hotsContext) updateDB() error {
 			time.Sleep(time.Minute * 10)
 		} else if err != nil {
 			return errors.Wrap(err, "updateDBNext")
+		} else if err == nil {
+			updated = true
 		}
 	}
 }
@@ -180,9 +182,6 @@ func (h *hotsContext) updateDBNext(bucket *storage.BucketHandle) error {
 	}
 	if _, err := h.db.Exec(`UPDATE config SET i = $1 WHERE key = $2`, start+perFile, nextUpdateKey); err != nil {
 		return errors.Wrap(err, "update config")
-	}
-	if err := h.cronLoop(); err != nil {
-		return errors.Wrap(err, "cron")
 	}
 
 	return nil
