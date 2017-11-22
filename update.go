@@ -440,20 +440,8 @@ var (
 	accessKey string
 	secretKey string
 
-	processSema   = make(chan struct{}, 100)
-	processTicker = time.Tick(time.Second / 3)
+	processSema = make(chan struct{}, 100)
 )
-
-// Setting processSema to 100 resulted in a bunch of errors like:
-//
-// Could not find the specified handler assembly with the file name
-// '/var/task/hotslambda.dll' or '/var/task/hotslambda.ni.dll'. The assembly
-// should be located in the root of your uploaded .zip file."
-//
-// Try limiting the speed of requests.
-func processTimeSlowdown() {
-	<-processTicker
-}
 
 func init() {
 	creds := credentials.NewSharedCredentials("", "")
@@ -478,7 +466,6 @@ func processReplay(ctx context.Context, r *Replay, g *groupConfig) error {
 	case <-ctx.Done():
 		return ctx.Err()
 	}
-	processTimeSlowdown()
 	fmt.Println("process", r.ID)
 
 	b, err := json.Marshal(struct {
@@ -500,25 +487,26 @@ func processReplay(ctx context.Context, r *Replay, g *groupConfig) error {
 	}
 
 	var result *lambda.InvokeOutput
-	for i := 0; i < 3; i++ {
+	for retries := 0; true; retries++ {
 		result, err = lambdaSvc.InvokeWithContext(ctx, input)
 		if err != nil {
 			return errors.Wrap(err, "invoke")
 		}
 		if result.FunctionError != nil {
-			fmt.Printf("retry process (%d) %d: %s: %s\n", i, r.ID, *result.FunctionError, result.Payload)
-			result = nil
+			if retries >= 10 {
+				fmt.Printf("process %d giving up\n", r.ID)
+				return nil
+			}
+			fmt.Printf("retry process (%d) %d: %d: %s: %s\n", retries, r.ID, *result.StatusCode, *result.FunctionError, result.Payload)
+			if *result.FunctionError == "Unhandled" && strings.Contains(string(result.Payload), "Process exited before completing request") {
+				continue
+			}
+			return nil
 		}
-	}
-	if result == nil {
-		fmt.Printf("process giving up %d\n", r.ID)
-		return nil
-	}
-	if result.FunctionError != nil {
-		return errors.Errorf("function error: %s", *result.FunctionError)
-	}
-	if result.StatusCode == nil || *result.StatusCode != 200 {
-		return errors.New("bad status code")
+		if result.StatusCode == nil || *result.StatusCode != 200 {
+			return errors.New("bad status code")
+		}
+		break
 	}
 	var pr ProcessedReplay
 	if err := json.Unmarshal(result.Payload, &pr); err != nil {
