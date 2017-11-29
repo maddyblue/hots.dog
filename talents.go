@@ -7350,7 +7350,7 @@ var talentData = map[string]talentText{
 	},
 	"ZuljinVoodooShuffle": {
 		Name: "Voodoo Shuffle",
-		Text: "Activate to remove Roots and Slows.\nPassive: Lower the cooldown and Mana cost of Regeneration by 33%.",
+		Text: "Activate to remove Roots and Slows.\nPassive: Lower the cooldown and Mana cost of Regeneration by 40%.",
 	},
 	"ZuljinWrongPlaceWrongTime": {
 		Name: "Wrong Place Wrong Time",
