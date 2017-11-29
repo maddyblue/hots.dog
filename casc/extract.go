@@ -123,12 +123,15 @@ func extract() error {
 			}
 			if _, err := os.Stat(output); err == nil {
 				// Already generated.
-				return
+				// return
 			}
 			cargs := []string{input, "-strip"}
 			cargs = append(cargs, args...)
 			cargs = append(cargs, output)
 			if out, err := exec.Command("convert", cargs...).CombinedOutput(); err != nil {
+				panic(errors.Errorf("%v: %s", err, out))
+			}
+			if out, err := exec.Command("optipng", output).CombinedOutput(); err != nil {
 				panic(errors.Errorf("%v: %s", err, out))
 			}
 		}()
