@@ -26,7 +26,7 @@ import (
 
 func main() {
 	if err := extract(); err != nil {
-		log.Fatalf("%+v", err)
+		log.Fatalf("extract error: %+v", err)
 	}
 }
 
@@ -93,8 +93,9 @@ func extract() error {
 		}
 	}
 	if err := filepath.Walk(dir, stringsWalk); err != nil {
-		return err
+		return errors.Wrap(err, "strings walk")
 	}
+	fmt.Fprintln(os.Stderr, "LOAD WALK DONE")
 
 	type Talent struct {
 		Name   string
@@ -168,7 +169,7 @@ func extract() error {
 		}
 		f, err := os.Open(path)
 		if err != nil {
-			return err
+			return errors.Wrapf(err, "open %s", path)
 		}
 		defer f.Close()
 		var v Catalog
@@ -177,7 +178,7 @@ func extract() error {
 			return r, nil
 		}
 		if err := dec.Decode(&v); err != nil {
-			return err
+			return errors.Wrapf(err, "decode: %s", path)
 		}
 		for _, b := range v.CButton {
 			icons[b.Id] = iconClean(b.Icon.Value)
@@ -230,7 +231,7 @@ func extract() error {
 		return nil
 	}
 	if err := filepath.Walk(dir, walk); err != nil {
-		return err
+		return errors.Wrap(err, "xml walk")
 	}
 
 	/*
