@@ -874,7 +874,7 @@ var talentData = map[string]talentText{
 	},
 	"AnaHeroicAbilityEyeOfHorus": {
 		Name: "Eye of Horus",
-		Text: "Assume a sniping position, gaining the ability to fire up to 8 specialized rounds with unlimited range. Rounds hit the first allied or enemy Hero or enemy Structure in their path. Allies are healed for 300 and enemies are damaged for 175. Deals 50% less damage to Structures.\nAna is unable to move while Eye of Horus is active.",
+		Text: "Assume a sniping position, gaining the ability to fire up to 8 specialized rounds with unlimited range. Rounds hit the first allied or enemy Hero or enemy Structure in their path. Allies are healed for 285 and enemies are damaged for 166. Deals 50% less damage to Structures.\nAna is unable to move while Eye of Horus is active.",
 	},
 	"AnaHeroicAbilityNanaBoost": {
 		Name: "Nano Boost",
@@ -1234,7 +1234,7 @@ var talentData = map[string]talentText{
 	},
 	"AurielHeroicCrystalAegis": {
 		Name: "Crystal Aegis",
-		Text: "Place an allied Hero into Stasis for 2 seconds. Upon expiration, Crystal Aegis deals 270 damage to all nearby enemies.",
+		Text: "Place an allied Hero into Stasis for 2 seconds. Upon expiration, Crystal Aegis deals 255 damage to all nearby enemies.",
 	},
 	"AurielHeroicResurrect": {
 		Name: "Resurrect",
@@ -1482,7 +1482,7 @@ var talentData = map[string]talentText{
 	},
 	"BarbarianMasteryPoisonedSpearAncientSpear": {
 		Name: "Poisoned Spear",
-		Text: "Ancient Spear deals an additional 150% damage over 6 seconds.",
+		Text: "Ancient Spear deals an additional 125% damage over 6 seconds.",
 	},
 	"BarbarianMasteryShatteredGroundSeismicSlam": {
 		Name: "Shattered Ground",
@@ -1562,7 +1562,7 @@ var talentData = map[string]talentText{
 	},
 	"BrightwingPhaseShiftPhaseShield": {
 		Name: "Phase Shield",
-		Text: "After finishing the teleport, both Brightwing and her target gain a 350 point Shield for 10 seconds.",
+		Text: "After finishing the teleport, both Brightwing and her target gain a 335 point Shield for 10 seconds.",
 	},
 	"BrightwingPixieBoostPixieDust": {
 		Name: "Pixie Boost",
@@ -1582,7 +1582,7 @@ var talentData = map[string]talentText{
 	},
 	"BrightwingUnstableAnomalyPolymorph": {
 		Name: "Unstable Anomaly",
-		Text: "When Polymorph ends, deal 114 damage to the target and all nearby enemies.",
+		Text: "When Polymorph ends, deal 108 damage to the target and all nearby enemies.",
 	},
 	"BrightwingWoundedAnimalPolymorph": {
 		Name: "Wounded Animal",
@@ -2578,11 +2578,11 @@ var talentData = map[string]talentText{
 	},
 	"FaerieDragonHeroicAbilityBlinkHeal": {
 		Name: "Blink Heal",
-		Text: "Teleport to a nearby ally, healing them for 204.\nStores up to 2 charges.",
+		Text: "Teleport to a nearby ally, healing them for 194.\nStores up to 2 charges.",
 	},
 	"FaerieDragonHeroicAbilityEmeraldWind": {
 		Name: "Emerald Wind",
-		Text: "After 0.5 seconds, create an expanding nova of wind, dealing 319 damage and pushing enemies away. \nPassive: Increases the healing of Soothing Mist by 5%.",
+		Text: "After 0.5 seconds, create an expanding nova of wind, dealing 303 damage and pushing enemies away. \nPassive: Increases the healing of Soothing Mist by 5%.",
 	},
 	"FaerieDragonMasteryArcanePrecision": {
 		Name: "Arcane Precision",
@@ -2961,6 +2961,10 @@ var talentData = map[string]talentText{
 		Text: "Quest: Hero Takedowns increase Spell Power by 2%, up to 130%. This bonus Spell Power is lost on death.",
 	},
 	"GenericTalentGiantKiller": {
+		Name: "Giant Killer",
+		Text: "Basic Attacks against enemy Heroes deal bonus damage equal to 1.5% of the Hero's maximum Health.",
+	},
+	"GenericTalentGiantKillerSgtHammer": {
 		Name: "Giant Killer",
 		Text: "Basic Attacks against enemy Heroes deal bonus damage equal to 1.5% of the Hero's maximum Health.",
 	},
@@ -4026,11 +4030,11 @@ var talentData = map[string]talentText{
 	},
 	"LiLiHeroicAbilityJugof1000Cups": {
 		Name: "Jug of 1,000 Cups",
-		Text: "Channel for up to 6 seconds. Every 0.25 seconds, heal the lowest Health nearby allied Hero for 66 Health and increase the cooldown of Jug of 1,000 Cups by 2 seconds, up to 50.",
+		Text: "Channel for up to 6 seconds. Every 0.25 seconds, heal the lowest Health nearby allied Hero for 70 Health and increase the cooldown of Jug of 1,000 Cups by 2 seconds, up to 50.",
 	},
 	"LiLiHeroicAbilityWaterDragon": {
 		Name: "Water Dragon",
-		Text: "Li Li channels for 2 seconds, summoning a Water Dragon that hits the nearest enemy Hero within 12 range and all enemies near them, dealing 318 damage and slowing their Movement Speed by 70% for 4 seconds.",
+		Text: "Li Li channels for 2 seconds, summoning a Water Dragon that hits the nearest enemy Hero within 12 range and all enemies near them, dealing 300 damage and slowing their Movement Speed by 70% for 4 seconds.",
 	},
 	"LiLiHinderingWinds": {
 		Name: "Hindering Winds",
@@ -4198,7 +4202,7 @@ var talentData = map[string]talentText{
 	},
 	"LucioAmpItUpRejuvenescencia": {
 		Name: "Rejuvenescência",
-		Text: "While Amp It Up is active, Crossfade's Healing Boost heals for an additional 3% of the target's maximum health each second.",
+		Text: "While Amp It Up is active, Crossfade's Healing Boost heals for an additional 2.5% of the target's maximum health each second.",
 	},
 	"LucioAmpItUpSonicAmplifier": {
 		Name: "Sonic Amplifier",
@@ -4218,7 +4222,7 @@ var talentData = map[string]talentText{
 	},
 	"LucioBackInTheMix": {
 		Name: "Back in the Mix",
-		Text: "Heal for 260 upon entering a Stun, Silence, or Time Stop effect. This cannot happen more than once every 10 seconds.",
+		Text: "Heal for 245 upon entering a Stun, Silence, or Time Stop effect. This cannot happen more than once every 10 seconds.",
 	},
 	"LucioBoombox": {
 		Name: "Boombox",
@@ -4238,7 +4242,7 @@ var talentData = map[string]talentText{
 	},
 	"LucioReverseAmp": {
 		Name: "Reverse Amp",
-		Text: "Blast Lúcio's Crossfade track at enemy Heroes for 4 seconds, causing Healing Boost to inflict 112 damage per second and Speed Boost to slow for 45%.\nThis ability is unaffected by Crossfade talents.\nPassive: Increase Amp It Up's duration to 4 seconds.",
+		Text: "Blast Lúcio's Crossfade track at enemy Heroes for 4 seconds, causing Healing Boost to inflict 104 damage per second and Speed Boost to slow for 45%.\nThis ability is unaffected by Crossfade talents.\nPassive: Increase Amp It Up's duration to 4 seconds.",
 	},
 	"LucioReverseAmpNonstopRemix": {
 		Name: "Nonstop Remix",
@@ -4246,7 +4250,7 @@ var talentData = map[string]talentText{
 	},
 	"LucioSoundBarrier": {
 		Name: "Sound Barrier",
-		Text: "After 1 second, Lúcio and nearby Allied Heroes gain a 1392 point shield that rapidly decays over 6 seconds.",
+		Text: "After 1 second, Lúcio and nearby Allied Heroes gain a 1296 point shield that rapidly decays over 6 seconds.",
 	},
 	"LucioSoundBarrierBossaNova": {
 		Name: "Bossa Nova",
@@ -4284,6 +4288,10 @@ var talentData = map[string]talentText{
 		Name: "Slip",
 		Text: "Passing through or near an enemy Hero during Wall Ride's effect increases its Movement Speed bonus to 70% for 1 second.",
 	},
+	"MalfurionCelestialAlignment": {
+		Name: "Celestial Alignment",
+		Text: "Increases the reveal time of Moonfire by 3 seconds. Basic attacks against revealed enemy Heroes is increased by 100%.",
+	},
 	"MalfurionCombatStyleElunesGrace": {
 		Name: "Elune's Grace",
 		Text: "Increases the range of Regrowth, Moonfire, and Entangling Roots by 25%.",
@@ -4294,11 +4302,11 @@ var talentData = map[string]talentText{
 	},
 	"MalfurionHeroicAbilityTranquility": {
 		Name: "Tranquility",
-		Text: "Heals 80 Health per second to nearby allied Heroes over 10 seconds.",
+		Text: "Heals 76 Health per second to nearby allied Heroes over 10 seconds.",
 	},
 	"MalfurionHeroicAbilityTwilightDream": {
 		Name: "Twilight Dream",
-		Text: "After 0.5 seconds, deal 374 damage in a large area around Malfurion, Silencing enemies making them unable to use Abilities for 3 seconds.",
+		Text: "After 0.5 seconds, deal 355 damage in a large area around Malfurion, Silencing enemies making them unable to use Abilities for 3 seconds.",
 	},
 	"MalfurionMasteryAstralCommunion": {
 		Name: "Astral Communion",
@@ -4338,7 +4346,7 @@ var talentData = map[string]talentText{
 	},
 	"MalfurionMasteryVengefulRoots": {
 		Name: "Vengeful Roots",
-		Text: "Entangling Roots spawns a Treant that deals 70 damage per second and lasts 10 seconds.\nRepeatable Quest: Hitting enemy Heroes with Entangling Roots permanently increases the Treant's damage per second by 8.",
+		Text: "Entangling Roots spawns a Treant that deals 65 damage per second and lasts 10 seconds.\nRepeatable Quest: Hitting enemy Heroes with Entangling Roots permanently increases the Treant's damage per second by 7.",
 	},
 	"MalfurionRevitalizeInnervateTalent": {
 		Name: "Revitalize",
@@ -4662,7 +4670,7 @@ var talentData = map[string]talentText{
 	},
 	"MonkHeroicAbilityDivinePalm": {
 		Name: "Divine Palm",
-		Text: "Protect an allied Hero from death, causing them to be healed for 1141 if they take fatal damage in the next 3 seconds.",
+		Text: "Protect an allied Hero from death, causing them to be healed for 1084 if they take fatal damage in the next 3 seconds.",
 	},
 	"MonkHeroicAbilitySevenSidedStrike": {
 		Name: "Seven-Sided Strike",
@@ -4694,11 +4702,11 @@ var talentData = map[string]talentText{
 	},
 	"MonkTranscendence": {
 		Name: "Transcendence",
-		Text: "Every 3rd Basic Attack heals the lowest nearby allied Hero for 103 and gives 25% increased Move Speed for 2 seconds.",
+		Text: "Every 3rd Basic Attack heals the lowest nearby allied Hero for 98 and gives 25% increased Move Speed for 2 seconds.",
 	},
 	"MonkWayoftheHundredFistsRadiantDash": {
 		Name: "Way of the Hundred Fists",
-		Text: "Radiant Dashing to an enemy launches a rapid volley of 6 Basic Attacks dealing 50% damage each.",
+		Text: "Radiant Dashing to an enemy launches a rapid volley of 6 Basic Attacks dealing 45% damage each.",
 	},
 	"MuradinBronzebeardRage": {
 		Name: "Bronzebeard Rage",
@@ -5310,7 +5318,7 @@ var talentData = map[string]talentText{
 	},
 	"RehgarHeroicAbilityAncestralHealing": {
 		Name: "Ancestral Healing",
-		Text: "After 1 second, heal an allied Hero for 1552 Health.\nCannot be used on Rehgar.",
+		Text: "After 1 second, heal an allied Hero for 1475 Health.\nCannot be used on Rehgar.",
 	},
 	"RehgarHeroicAbilityBloodlust": {
 		Name: "Bloodlust",
@@ -5594,19 +5602,15 @@ var talentData = map[string]talentText{
 	},
 	"SgtHammerAmbush": {
 		Name: "Ambush",
-		Text: "Stealth when entering Siege Mode. Sgt. Hammer's next Basic Attack from Siege Mode will deal 100% more damage. Lose Stealth when Basic Attacking, using an Ability, taking damage, or returning to Tank Mode.",
+		Text: "Gain Stealth when entering Siege Mode or after not taking or dealing damage for 3 seconds while in Siege Mode. Basic Attacks while Stealthed deal 100% more damage.",
 	},
-	"SgtHammerBullheadMines": {
-		Name: "Bullhead Mines",
-		Text: "Middle Spider Mine knocks target back a short distance.",
-	},
-	"SgtHammerFirstStrike": {
-		Name: "First Strike",
-		Text: "Basic Attacks deal 25% more damage if Sgt. Hammer hasn't been attacked within the last 5 seconds.",
+	"SgtHammerConcussiveBlastEntrenched": {
+		Name: "Entrenched",
+		Text: "While in Siege Mode, Concussive Blasts's damage and knockback distance are increased by 75%.",
 	},
 	"SgtHammerGraduatingRange": {
 		Name: "Graduating Range",
-		Text: "While in Siege Mode, Sgt. Hammer's Attack range increases by 1.1 every 3 seconds, up to 5.5.",
+		Text: "While in Siege Mode, Basic Attack range is increased by 1.1 every 3 seconds, up to 3.3.",
 	},
 	"SgtHammerHeroicAbilityBluntForceGun": {
 		Name: "Blunt Force Gun",
@@ -5618,51 +5622,59 @@ var talentData = map[string]talentText{
 	},
 	"SgtHammerHyperCoolingEngines": {
 		Name: "Hyper-Cooling Engines",
-		Text: "Reduce the cooldown of Thrusters by 15 seconds.",
-	},
-	"SgtHammerMasteryAdvancedArtillery": {
-		Name: "Advanced Artillery",
-		Text: "Increase the damage bonus to long distance enemies by 10%.",
+		Text: "While in Siege Mode, hitting Heroes with Basic Attacks reduces the cooldown of Thrusters by 5 seconds.",
 	},
 	"SgtHammerMasteryAdvancedLavaStrikeNapalmStrike": {
 		Name: "Advanced Lava Strike",
 		Text: "Napalm Strike's range is increased by 75% and its impact does 50% more damage.",
 	},
-	"SgtHammerMasteryExcessiveForceConcussiveBlast": {
-		Name: "Excessive Force",
-		Text: "Double the knock back distance.",
-	},
 	"SgtHammerMasteryFlakCannons": {
 		Name: "Barricade",
-		Text: "Create a wall of path blocking debris for 4 seconds.",
+		Text: "Concussive Blast creates an impassable wall in front of Sgt. Hammer for 4 seconds.",
 	},
 	"SgtHammerMasteryHoverSiegeMode": {
 		Name: "Hover Siege Mode",
-		Text: "Sgt. Hammer can move at 50% Movement Speed in Siege Mode.",
-	},
-	"SgtHammerMasteryLethalBlastConcussiveBlast": {
-		Name: "Lethal Blast",
-		Text: "Increase the damage of Concussive Blast by 50%.",
-	},
-	"SgtHammerMasteryMaelstromShells": {
-		Name: "Maelstrom Shells",
-		Text: "Increase standard Basic Attack range by 20%.",
-	},
-	"SgtHammerMasteryMineField": {
-		Name: "Mine Field",
-		Text: "Increase the number of mines by 2.",
+		Text: "Sgt. Hammer can move at 25% Movement Speed while in Siege Mode.",
 	},
 	"SgtHammerMasteryOrbitalBFGBluntForceGun": {
 		Name: "Orbital BFG",
 		Text: "Blunt Force Gun's missile orbits the planet every 5 seconds. Only the last missile fired orbits.",
 	},
-	"SgtHammerMasterySlowingMinesSpiderMines": {
-		Name: "Slowing Mines",
-		Text: "Increase the Movement Speed slow of Spider Mines to 40%, and the duration to 2 seconds.",
+	"SgtHammerNeosteelPlatingMechanicalKnowhow": {
+		Name: "Mechanical Know-how",
+		Text: "Neosteel Plating grants 5% maximum Health as a Shield for 2 seconds. If this Shield is destroyed, Basic Attack damage is increased by 50% for 5 seconds.",
 	},
-	"SgtHammerResistant": {
-		Name: "Resistant",
-		Text: "Being Stunned or Rooted while in Siege Mode grants 50 Armor for 3 seconds, reducing damage taken by 50%.",
+	"SgtHammerNeosteelPlatingSiegeTactics": {
+		Name: "Siege Tactics",
+		Text: "Using Neosteel Plating while in Siege Mode grants Unstoppable for 2 seconds.",
+	},
+	"SgtHammerSiegeModeAdvancedArtillery": {
+		Name: "Advanced Artillery",
+		Text: "Increase Siege Mode's splash damage to 50% of Basic Attack damage, and increase its splash radius by 25%.",
+	},
+	"SgtHammerSiegeModeMaelstromRounds": {
+		Name: "Maelstrom Rounds",
+		Text: "Activate to increase Basic Attack damage dealt by 40% for 5 seconds. Hitting Structures with Basic Attacks reduces the cooldown of Maelstrom Rounds by 5 seconds.\nStores up to 3 charges.",
+	},
+	"SgtHammerSiegeModeRegenerativeBioSteel": {
+		Name: "Regenerative Bio-Steel",
+		Text: "Basic Attacks while in Siege Mode heal for 15% of the damage dealt.",
+	},
+	"SgtHammerSiegeModeUltraCapacitors": {
+		Name: "Ultra Capacitors",
+		Text: "Hitting enemy Heroes with Basic Attacks while in Siege Mode grants 5% Attack Speed for 5 seconds, up to 40%.",
+	},
+	"SgtHammerSpiderMinesPulseDetonationCore": {
+		Name: "Pulse Detonation Core",
+		Text: "Spider Mines detonate 3 times over 3 seconds.",
+	},
+	"SgtHammerSpiderMinesShrapnelMines": {
+		Name: "Shrapnel Mines",
+		Text: "Upon detonating, Spider Mines reduce the armor of enemy Heroes hit by 10 for 3 seconds.",
+	},
+	"SgtHammerSpiderMinesTacticalMineDeployment": {
+		Name: "Tactical Mine Deployment",
+		Text: "Moving while Thrusters is active leaves a trail of up to 5 Spider Mines. Additionally, increase the Slow of Spider Mines by 15%.",
 	},
 	"SonyaTalentIgnorePain": {
 		Name: "Ignore Pain",
@@ -5782,11 +5794,11 @@ var talentData = map[string]talentText{
 	},
 	"StukovHeroicAbilityFlailingSwipe": {
 		Name: "Flailing Swipe",
-		Text: "Swipe 3 times in front of Stukov over 1.75 seconds, dealing 50 damage to enemies hit and knocking them away. Each swipe is larger than the previous.",
+		Text: "Swipe 3 times in front of Stukov over 1.75 seconds, dealing 48 damage to enemies hit and knocking them away. Each swipe is larger than the previous.",
 	},
 	"StukovHeroicAbilityMassiveShove": {
 		Name: "Massive Shove",
-		Text: "Extend Stukov's arm. If it hits an enemy Hero, they are rapidly shoved until they collide with terrain, dealing 200 damage and Stunning them for 0.5 seconds. Stukov gains 50 Armor while shoving an enemy.",
+		Text: "Extend Stukov's arm. If it hits an enemy Hero, they are rapidly shoved until they collide with terrain, dealing 190 damage and Stunning them for 0.5 seconds. Stukov gains 50 Armor while shoving an enemy.",
 	},
 	"StukovItHungers": {
 		Name: "It Hungers",
@@ -5962,7 +5974,7 @@ var talentData = map[string]talentText{
 	},
 	"TassadarHeroicAbilityArchon": {
 		Name: "Phase Shift",
-		Text: "Tassadar transforms into an Archon and gains a Plasma Shield. His Basic Attacks deal 166 damage, slow the target by 30% for 1 second and splash for 83 damage to enemies within 2.5 range. Lasts for 10 seconds.\nPassive: Archon refreshes the cooldown of Dimensional Shift.",
+		Text: "Tassadar transforms into an Archon and gains a Plasma Shield. His Basic Attacks deal 158 damage, slow the target by 30% for 1 second and splash for 79 damage to enemies within 2.5 range. Lasts for 10 seconds.\nPassive: Archon refreshes the cooldown of Dimensional Shift.",
 	},
 	"TassadarHeroicAbilityForceWall": {
 		Name: "Force Wall",
@@ -6490,7 +6502,7 @@ var talentData = map[string]talentText{
 	},
 	"TyrandeHeroicAbilityStarfall": {
 		Name: "Starfall",
-		Text: "Deal 182 damage per second and slow enemies by 20% in an area. Lasts 6 seconds.",
+		Text: "Deal 176 damage per second and slow enemies by 20% in an area. Lasts 6 seconds.",
 	},
 	"TyrandeHuntressFury": {
 		Name: "Huntress' Fury",
@@ -6594,11 +6606,11 @@ var talentData = map[string]talentText{
 	},
 	"UtherHeroicAbilityDivineStorm": {
 		Name: "Divine Storm",
-		Text: "Deal 187 damage and Stun nearby enemies for 1.75 seconds.",
+		Text: "Deal 170 damage and Stun nearby enemies for 1.75 seconds.",
 	},
 	"UtherHolyFire": {
 		Name: "Holy Fire",
-		Text: "Deal 14 damage per second to nearby enemies. Basic Attacks against enemy Heroes increase this damage by 20% for 3 seconds. This can stack up to 3 times.",
+		Text: "Deal 13 damage per second to nearby enemies. Basic Attacks against enemy Heroes increase this damage by 20% for 3 seconds. This can stack up to 3 times.",
 	},
 	"UtherHolyLightSilverTouch": {
 		Name: "Silver Touch",
@@ -7274,7 +7286,7 @@ var talentData = map[string]talentText{
 	},
 	"ZuljinAmaniRageTalent": {
 		Name: "Amani Rage",
-		Text: "Activate to cause Zul'jin to instantly lose 50% of his current Health and heal for that amount over 6 seconds. Zul'jin gains 10 Armor while regenerating health from Amani Rage.",
+		Text: "Activate to cause Zul'jin to instantly lose 50% of his current Health and heal for that amount over 10 seconds. Zul'jin gains 5 Armor while regenerating health from Amani Rage.",
 	},
 	"ZuljinAmaniResilience": {
 		Name: "Amani Resilience",
@@ -7282,7 +7294,7 @@ var talentData = map[string]talentText{
 	},
 	"ZuljinArcaniteAxes": {
 		Name: "Arcanite Axes",
-		Text: "Reduce Twin Cleave's cooldown by 2 seconds.\nQuest: Twin Cleave's damage is permanently increased by 0.75 every time it hits a Hero.",
+		Text: "Quest: Twin Cleave's damage is permanently increased by 0.75 every time it hits a Hero.",
 	},
 	"ZuljinBoneslicer": {
 		Name: "Boneslicer",
@@ -7310,7 +7322,7 @@ var talentData = map[string]talentText{
 	},
 	"ZuljinGuillotine": {
 		Name: "Guillotine",
-		Text: "Zul'jin launches a massive axe into the air that drops on the targeted area, dealing 350 damage plus bonus damage the lower his Health is.",
+		Text: "Zul'jin launches a massive axe into the air that drops on the targeted area, dealing 330 damage plus bonus damage the lower his Health is.",
 	},
 	"ZuljinHeadhunter": {
 		Name: "Headhunter",
@@ -7318,7 +7330,7 @@ var talentData = map[string]talentText{
 	},
 	"ZuljinLacerate": {
 		Name: "Lacerate",
-		Text: "Increase the Slow amount of each Twin Cleave axe by 15%.",
+		Text: "Increase the Slow amount of each Twin Cleave axe by 10%.",
 	},
 	"ZuljinLetTheKillingBegin": {
 		Name: "Let the Killing Begin",
@@ -7330,7 +7342,7 @@ var talentData = map[string]talentText{
 	},
 	"ZuljinRecklessness": {
 		Name: "Recklessness",
-		Text: "While Zul'jin is below 75% Health, his Basic Attack damage is increased by 10%. While he is below 50% Health, he gains 20% Spell Power.",
+		Text: "While Zul'jin is below 75% Health, he gains 10% Spell Power. While he is below 50% Health, his Basic Attack damage is increased by 20%.",
 	},
 	"ZuljinSwirlingDeath": {
 		Name: "Swirling Death",
@@ -7346,7 +7358,7 @@ var talentData = map[string]talentText{
 	},
 	"ZuljinViciousAssault": {
 		Name: "Vicious Assault",
-		Text: "Increase Grievous Throw's damage bonus by 35%.",
+		Text: "Increase the duration of Grievous Throw's mark by 3 seconds and its damage bonus by 35%.",
 	},
 	"ZuljinVoodooShuffle": {
 		Name: "Voodoo Shuffle",
@@ -7354,7 +7366,7 @@ var talentData = map[string]talentText{
 	},
 	"ZuljinWrongPlaceWrongTime": {
 		Name: "Wrong Place Wrong Time",
-		Text: "If an enemy is hit by both Twin Cleave axes at the same time, they take an additional 150 damage and count as 5 Hero hits for You Want Axe?.",
+		Text: "If an enemy is hit by both Twin Cleave axes at the same time, they take an additional 100 damage and count as 5 Hero hits for You Want Axe?.",
 	},
 	"ZuljinYouWantAxe": {
 		Name: "You Want Axe?",
