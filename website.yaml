@@ -28,6 +28,11 @@ spec:
         ports:
         - containerPort: 443
         - containerPort: 80
+        livenessProbe:
+          initialDelaySeconds: 3
+          httpGet:
+            path: /healthz
+            port: 443
 ---
 apiVersion: v1
 kind: Service

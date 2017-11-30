@@ -266,6 +266,8 @@ func main() {
 	http.HandleFunc("/talents/", serveIndex)
 	http.HandleFunc("/", serveFiles)
 
+	http.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {})
+
 	go func() {
 		for range time.Tick(time.Minute * 10) {
 			if err := h.updateInit(context.Background()); err != nil {
