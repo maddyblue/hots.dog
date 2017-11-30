@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Fetch, pct, toLength, toDate, TalentImg } from './common';
+import { Helmet } from 'react-helmet';
 import SortedTable from './SortedTable';
 
 type Props = {
@@ -61,6 +62,9 @@ class Players extends Component<
 		}
 		return (
 			<div>
+				<Helmet>
+					<title>Search for player by name</title>
+				</Helmet>
 				<form onSubmit={this.onSubmit}>
 					<label>Search for player by name</label>
 					<input
@@ -211,6 +215,9 @@ class Player extends Component<
 		}
 		return (
 			<div>
+				<Helmet>
+					<title>{this.state.Battletag}</title>
+				</Helmet>
 				<h2>{this.state.Battletag}</h2>
 				{skill}
 				{game}
@@ -238,6 +245,11 @@ class Game extends Component<
 		const baseSearch = '?build=' + this.state.Game.Build;
 		return (
 			<div>
+				<Helmet>
+					<title>
+						{this.state.Game.Map} on {toDate(this.state.Game.Date)}
+					</title>
+				</Helmet>
 				<h2>
 					{this.state.Game.Map} on {toDate(this.state.Game.Date)}
 				</h2>

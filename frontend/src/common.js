@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 const skillPercentiles = [0, 30, 50, 70, 90, 95, 100];
 
@@ -264,6 +265,18 @@ const TalentImg = (props: { name: string, text?: boolean, data: any }) => {
 	);
 };
 
+const Title = (props: any) => (
+	<Helmet>
+		<title>
+			{props.prefix +
+				(props.build ? ' at ' + props.build : '') +
+				(props.mode ? ' in ' + props.Modes[props.mode] : '') +
+				(props.map ? ' on ' + props.map : '') +
+				(props.herolevel !== '5' ? ' above level ' + props.herolevel : '')}
+		</title>
+	</Helmet>
+);
+
 export {
 	BuildsOpts,
 	createCookie,
@@ -276,4 +289,5 @@ export {
 	toLength,
 	toDate,
 	TalentImg,
+	Title,
 };

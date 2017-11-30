@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Fetch, pct, toLength, BuildsOpts, HeroHeader } from './common';
+import { Fetch, pct, toLength, BuildsOpts, HeroHeader, Title } from './common';
 import SortedTable from './SortedTable';
 
 class Hero extends Component {
@@ -177,6 +177,10 @@ class Hero extends Component {
 		));
 		return (
 			<div>
+				<Title
+					{...this.props}
+					prefix={this.props.match.params.hero + ' relative winrates'}
+				/>
 				<HeroHeader
 					name={this.props.match.params.hero}
 					heroes={this.props.Heroes}

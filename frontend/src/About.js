@@ -1,8 +1,12 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 const About = props => {
 	return (
 		<div>
+			<Helmet>
+				<title>About hots.dog</title>
+			</Helmet>
 			<h2>about</h2>
 			<p>
 				This site is a{' '}

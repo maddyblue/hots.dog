@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Fetch, pct, readCookie, Filter } from './common';
+import { Fetch, pct, readCookie, Filter, Title } from './common';
 import SortedTable from './SortedTable';
 
 type Props = {
@@ -108,6 +108,7 @@ class HeroWinrates extends Component<
 		}
 		return (
 			<div>
+				<Title {...this.props} prefix="Hero winrates" />
 				<Filter handleChange={this.props.handleChange} {...this.props} />
 				{winrates}
 			</div>

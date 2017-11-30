@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { Link, Route, withRouter } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import * as usp from 'url-search-params';
 
 import About from './About';
@@ -180,6 +181,13 @@ class HotsApp extends Component<{ location: Location, history: any }, State> {
 						</ul>
 					</section>
 				</nav>
+				<Helmet>
+					<title>hots.dog</title>
+					<meta
+						name="description"
+						content="Heroes of the Storm statistics from aggregating replays."
+					/>
+				</Helmet>
 				<section className="container">
 					<Route
 						exact
