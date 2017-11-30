@@ -33,6 +33,7 @@ spec:
           httpGet:
             path: /healthz
             port: 443
+            scheme: HTTPS
 ---
 apiVersion: v1
 kind: Service
