@@ -325,10 +325,13 @@ class Game extends Component<
 						{
 							name: 'TalentList',
 							header: 'Talents',
-							cell: v =>
-								v.map(v => (
-									<TalentImg key={v} name={v} data={this.state.Talents[v]} />
-								)),
+							cell: v => (
+								<span style={{ whiteSpace: 'nowrap' }}>
+									{v.map(v => (
+										<TalentImg key={v} name={v} data={this.state.Talents[v]} />
+									))}
+								</span>
+							),
 						},
 					]}
 					data={this.state.Players}
