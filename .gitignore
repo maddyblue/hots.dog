@@ -5,7 +5,7 @@ casc/png
 cockroach
 cockroach-data
 cockroach-data-full
+csv
 data.sql
 *.json
-replays
 static
