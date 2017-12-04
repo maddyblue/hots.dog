@@ -10,5 +10,5 @@ spec:
       containers:
       - name: import
         image: gcr.io/hots-cockroach/website:latest
-        command: ["/website", "-importnum", "-2", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
-      restartPolicy: OnFailure
+        command: ["/website", "-importnum", "5080000", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
+      restartPolicy: Never

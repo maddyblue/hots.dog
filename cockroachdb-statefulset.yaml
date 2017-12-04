@@ -23,7 +23,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cockroach
+  name: cockroachui
   labels:
     app: website
 spec:
@@ -112,7 +112,7 @@ spec:
         imagePullPolicy: Always
         resources:
           limits:
-            memory: "4G"
+            memory: "2G"
         ports:
         - containerPort: 26257
           name: grpc
@@ -146,4 +146,4 @@ spec:
         - "ReadWriteOnce"
       resources:
         requests:
-          storage: 20Gi
+          storage: 40Gi
