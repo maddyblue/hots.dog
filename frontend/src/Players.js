@@ -55,7 +55,7 @@ class Players extends Component<
 			names = 'No matches.';
 		} else {
 			names = this.state.ids.map(e => (
-				<li key={e.ID}>
+				<li key={e.Name}>
 					<Link to={'/players/' + e.ID}>{e.Name}</Link>
 				</li>
 			));
