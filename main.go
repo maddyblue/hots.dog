@@ -842,6 +842,7 @@ func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (inter
 		err := h.x.GetContext(ctx, &e, `
 			SELECT blizzid id , battletag "name" FROM players
 			WHERE battletag >= $1
+			AND battletag LIKE $1 || '%'
 			AND battletag > $2
 			LIMIT 1
 		`, name, last)
