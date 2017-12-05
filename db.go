@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"time"
 
 	"cloud.google.com/go/storage"
 
@@ -38,6 +39,14 @@ func logQuery(query string, args interface{}) {
 		as = as[:100] + "..."
 	}
 	log.Printf("Query: %v: %s", as, query)
+}
+
+func trace(s string) (string, time.Time) {
+	return s, time.Now()
+}
+
+func un(s string, start time.Time) {
+	log.Printf("%s: %s", time.Since(start), s)
 }
 
 type drv struct{}
@@ -74,12 +83,14 @@ func (c *conn) BeginTx(ctx context.Context, opts driver.TxOptions) (driver.Tx, e
 func (c *conn) QueryContext(ctx context.Context, query string, args []driver.NamedValue) (driver.Rows, error) {
 	logQuery(query, args)
 	c.ExplainNamed(query, args)
+	un(trace(query))
 	return c.Conn.(driver.QueryerContext).QueryContext(ctx, query, args)
 }
 
 func (c *conn) Query(query string, args []driver.Value) (driver.Rows, error) {
 	logQuery(query, args)
 	c.Explain(query, args)
+	un(trace(query))
 	return c.Conn.(driver.Queryer).Query(query, args)
 }
 
