@@ -244,6 +244,9 @@ func main() {
 
 	talents := make(map[string]bool)
 	if err := filepath.Walk(filepath.Join("static", "img", "talent"), func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			log.Fatal(err)
+		}
 		talents[info.Name()] = true
 		return nil
 	}); err != nil {
