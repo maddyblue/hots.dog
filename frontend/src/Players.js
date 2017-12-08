@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Fetch, pct, toLength, toDate, TalentImg } from './common';
+import { Fetch, pct, toLength, toDate, TalentImg, BuildsOpts } from './common';
 import { Helmet } from 'react-helmet';
 import SortedTable from './SortedTable';
 
@@ -82,87 +82,188 @@ class Players extends Component<
 }
 
 class Player extends Component<
-	{ match: any, BuildStats: any, Modes: any },
-	{ Games: any, Skills: any, Battletag: string }
+	{
+		match: any,
+		Modes: any,
+		Builds: any,
+		build?: string,
+		handleChange: any,
+		history: any,
+	},
+	{ Profile: any, Battletag: string, search: string }
 > {
+	state = {
+		Profile: null,
+		Battletag: '',
+		search: '',
+	};
 	componentDidMount() {
-		Fetch(
-			'/api/get-player-data?id=' +
-				encodeURIComponent(this.props.match.params.id),
-			data => {
-				if (!data.Skills) {
-					data.Skills = [];
-				}
-				if (!data.Games) {
-					data.Games = [];
-				}
+		this.update();
+	}
+	componentDidUpdate() {
+		this.update();
+	}
+	makeSearch = () => {
+		const build = this.props.build || '90';
+		return (
+			'/api/get-player-profile?blizzid=' +
+			encodeURIComponent(this.props.match.params.id) +
+			'&build=' +
+			encodeURIComponent(build)
+		);
+	};
+	update = () => {
+		const search = this.makeSearch();
+		if (this.state.search === search) {
+			return;
+		}
+		this.setState({ Profile: null, search: search });
+		Fetch(search, data => {
+			if (search === this.makeSearch()) {
 				this.setState(data);
 			}
+		});
+	};
+	makeTable(name: string, prop: string, displayFn?: any) {
+		const obj = this.state.Profile ? this.state.Profile[prop] : {};
+		const elems = Object.keys(obj).map(k => {
+			const v = obj[k];
+			const total = v.Wins + v.Losses;
+			const wr = v.Wins / total * 100;
+			return {
+				header: k,
+				games: total,
+				winrate: wr,
+			};
+		});
+		return (
+			<SortedTable
+				name="profile"
+				sort="header"
+				headers={[
+					{
+						name: 'header',
+						cell: displayFn,
+						header: [
+							<div key="anchor" className="anchor" id={prop.toLowerCase()} />,
+							<span key="name">{name.toLowerCase()}</span>,
+						],
+					},
+					{
+						name: 'games',
+						desc: true,
+					},
+					{
+						name: 'winrate',
+						cell: pct,
+						desc: true,
+					},
+				]}
+				data={elems}
+				notable={true}
+			/>
 		);
 	}
-	percentile = (s: any) => {
-		const modes = this.props.BuildStats[s.Build];
-		if (!modes) {
-			return;
-		}
-		const stats = modes[s.Mode];
-		if (!stats) {
-			return;
-		}
-		const qs = Object.keys(stats.Quantile);
-		qs.sort((a, b) => a - b);
-		if (s.Skill < stats.Quantile[qs[0]]) {
-			return pct(0, 0);
-		}
-		for (let i = 1; i < qs.length; i++) {
-			const q1 = qs[i];
-			const p1 = stats.Quantile[q1];
-			if (p1 >= s.Skill) {
-				const q0 = qs[i - 1];
-				const p0 = stats.Quantile[q0];
-				// If p lies a fraction f of the way from p{i} to p{i+1}, define the pth
-				// quantile to be:
-				// Q(p) = (1-f)Q(p{i}) + fQ(p{i+1})
-				const f = (s.Skill - p0) / (p1 - p0);
-				const qp = (1 - f) * q0 + f * q1;
-				return pct(qp, 0);
-			}
-		}
-		return pct(100, 0);
-	};
 	render() {
-		if (!this.state) {
-			return 'loading...';
-		}
-		const skills = this.state.Skills.map((s, i) => (
-			<tr key={i}>
-				<td>{s.Build}</td>
-				<td>{this.props.Modes[s.Mode]}</td>
-				<td>{s.Skill}</td>
-				<td>{this.percentile(s)}</td>
-			</tr>
-		));
-		let game, skill;
-		if (skills.length) {
-			skill = (
+		let content;
+		if (!this.state.Profile) {
+			content = 'loading...';
+		} else {
+			content = (
 				<div>
-					<p>Skill rating at the end of each patch with played games:</p>
-					<table>
-						<thead>
-							<tr>
-								<th>Patch</th>
-								<th>Game Mode</th>
-								<th>Skill Rating</th>
-								<th>Percentile</th>
-							</tr>
-						</thead>
-						<tbody>{skills}</tbody>
+					<table className="sorted">
+						{this.makeTable('Game Mode', 'Modes', m => this.props.Modes[m])}
+						{this.makeTable('Roles', 'Roles')}
+						{this.makeTable('Hero', 'Heroes', v => (
+							<Link to={'/talents/' + encodeURI(v)}>{v}</Link>
+						))}
+						{this.makeTable('Map', 'Maps')}
 					</table>
 				</div>
 			);
 		}
-		if (this.state.Games.length) {
-			game = (
+		return (
+			<div>
+				<Helmet>
+					<title>{this.state.Battletag} profile</title>
+				</Helmet>
+				<PlayerHeader
+					history={this.props.history}
+					name={this.state.Battletag}
+					id={this.props.match.params.id}
+				/>
+				<p>
+					<a href="#modes">[game modes]</a> <a href="#roles">[roles]</a>{' '}
+					<a href="#heroes">[heroes]</a> <a href="#maps">[maps]</a>
+				</p>
+				<div className="row">
+					<div className="column">
+						<label>Patch</label>
+						<select
+							name="build"
+							value={this.props.build}
+							onChange={this.props.handleChange}
+						>
+							<BuildsOpts builds={this.props.Builds} dates={[30, 90]} />
+						</select>
+					</div>
+					<div className="column" />
+				</div>
+				{content}
+			</div>
+		);
+	}
+}
+
+class PlayerGames extends Component<
+	{
+		match: any,
+		Modes: any,
+		history: any,
+		build?: string,
+		handleChange: any,
+		Builds: any,
+	},
+	{ Games: any[], Battletag: string, search: string }
+> {
+	state = {
+		Games: [],
+		Battletag: '',
+		search: '',
+	};
+	componentDidMount() {
+		this.update();
+	}
+	componentDidUpdate() {
+		this.update();
+	}
+	makeSearch = () => {
+		const build = this.props.build || '90';
+		return (
+			'/api/get-player-games?blizzid=' +
+			encodeURIComponent(this.props.match.params.id) +
+			'&build=' +
+			encodeURIComponent(build)
+		);
+	};
+	update = () => {
+		const search = this.makeSearch();
+		if (this.state.search === search) {
+			return;
+		}
+		this.setState({ Games: [], search: search });
+		Fetch(search, data => {
+			if (search === this.makeSearch()) {
+				this.setState(data);
+			}
+		});
+	};
+	render() {
+		let content;
+		if (!this.state.Games.length) {
+			content = 'loading...';
+		} else {
+			content = (
 				<SortedTable
 					name="player"
 					sort="Date"
@@ -216,11 +317,27 @@ class Player extends Component<
 		return (
 			<div>
 				<Helmet>
-					<title>{this.state.Battletag}</title>
+					<title>{this.state.Battletag} games</title>
 				</Helmet>
-				<h2>{this.state.Battletag}</h2>
-				{skill}
-				{game}
+				<PlayerHeader
+					history={this.props.history}
+					name={this.state.Battletag}
+					id={this.props.match.params.id}
+				/>
+				<div className="row">
+					<div className="column">
+						<label>Patch</label>
+						<select
+							name="build"
+							value={this.props.build}
+							onChange={this.props.handleChange}
+						>
+							<BuildsOpts builds={this.props.Builds} dates={[30, 90]} />
+						</select>
+					</div>
+					<div className="column" />
+				</div>
+				{content}
 			</div>
 		);
 	}
@@ -341,4 +458,30 @@ class Game extends Component<
 	}
 }
 
-export { Players, Player, Game };
+const PlayerHeader = (props: { name: string, id: string, history: any }) => {
+	const getClass = s =>
+		props.history.location.pathname.endsWith(s)
+			? 'button button-outline'
+			: 'button';
+	return (
+		<div>
+			<h2>{props.name}</h2>
+			<Link
+				key="profile"
+				className={getClass(props.id)}
+				to={'/players/' + props.id}
+			>
+				profile
+			</Link>{' '}
+			<Link
+				key="games"
+				className={getClass('games')}
+				to={'/players/' + props.id + '/games'}
+			>
+				games
+			</Link>
+		</div>
+	);
+};
+
+export { Players, Player, Game, PlayerGames };

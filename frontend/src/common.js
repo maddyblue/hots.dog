@@ -6,18 +6,29 @@ import { Helmet } from 'react-helmet';
 
 const skillPercentiles = [0, 30, 50, 70, 90, 95, 100];
 
-const BuildsOpts = (props: { builds: any }) => {
+const BuildsOpts = (props: { builds: any, dates?: number[] }) => {
 	let builds = props.builds.map(b => (
 		<option key={b.ID} value={b.ID}>
 			{b.ID} ({new Date(b.Start).toLocaleDateString()} -{' '}
 			{new Date(b.Finish).toLocaleDateString()})
 		</option>
 	));
-	builds.unshift(
-		<option key="latest" value="">
-			latest ({props.builds[0].ID})
-		</option>
-	);
+	if (props.dates) {
+		const len = props.dates ? props.dates.length : 0;
+		props.dates.forEach((d, i) => {
+			builds.unshift(
+				<option key={d} value={i === len - 1 ? '' : d}>
+					last {d} days
+				</option>
+			);
+		});
+	} else {
+		builds.unshift(
+			<option key="latest" value="">
+				latest ({props.builds[0].ID})
+			</option>
+		);
+	}
 	return builds;
 };
 

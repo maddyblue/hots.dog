@@ -219,7 +219,8 @@ func main() {
 	http.Handle("/api/get-game-data", wrap(h.GetGameData))
 	http.Handle("/api/get-hero-data", wrap(h.GetHero))
 	http.Handle("/api/get-player-by-name", wrap(h.GetPlayerName))
-	http.Handle("/api/get-player-data", wrap(h.GetPlayerData))
+	http.Handle("/api/get-player-profile", wrap(h.GetPlayerProfile))
+	http.Handle("/api/get-player-games", wrap(h.GetPlayerGames))
 	http.Handle("/api/get-winrates", wrap(h.GetWinrates))
 	if *flagInit {
 		http.HandleFunc("/api/clear-cache", h.ClearCache)
@@ -861,20 +862,120 @@ func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (inter
 	return res, nil
 }
 
-func (h *hotsContext) GetPlayerData(ctx context.Context, r *http.Request) (interface{}, error) {
-	id := r.FormValue("id")
+func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (interface{}, error) {
+	blizzid := r.FormValue("blizzid")
+	build := r.FormValue("build")
+	if blizzid == "" {
+		return nil, errors.New("no blizzid parameter")
+	}
+	if build == "" {
+		return nil, errors.New("no build parameter")
+	}
 	init := h.getInit()
-	if id == "" {
-		return nil, errors.New("no id parameter")
+	var wheres []string
+	var params []interface{}
+	for _, key := range []string{"blizzid", "hero"} {
+		v := r.FormValue(key)
+		if v == "" {
+			continue
+		}
+		if m, ok := init.config.Map[key]; ok {
+			v = m[v]
+			if v == "" {
+				return nil, errors.Errorf("unrecognized %s: %s", key, r.FormValue(key))
+			}
+		}
+		wheres = append(wheres, fmt.Sprintf("%s = $%d", key, len(params)+1))
+		params = append(params, v)
+	}
+	if days, _ := strconv.Atoi(build); days > 0 && days < 100 {
+		v := time.Now().UTC().Add(-time.Hour * 24 * time.Duration(days)).Format("2006-01-02")
+		wheres = append(wheres, fmt.Sprintf("time >= $%d", len(params)+1))
+		params = append(params, v)
+	} else {
+		key := "build"
+		v := init.config.Map[key][build]
+		if v == "" {
+			return nil, errors.Errorf("unrecognized %s: %s", key, build)
+		}
+		wheres = append(wheres, fmt.Sprintf("%s = $%d", key, len(params)+1))
+		params = append(params, v)
+	}
+
+	var res struct {
+		Battletag string
+		Profile   struct {
+			Heroes map[string]Total
+			Maps   map[string]Total
+			Modes  map[string]Total
+			Roles  map[string]Total
+		}
+	}
+	res.Profile.Heroes = make(map[string]Total)
+	res.Profile.Maps = make(map[string]Total)
+	res.Profile.Modes = make(map[string]Total)
+	res.Profile.Roles = make(map[string]Total)
+
+	if err := h.x.GetContext(ctx, &res.Battletag, `
+			SELECT battletag
+			FROM players
+			WHERE blizzid = $1
+			ORDER BY time DESC
+			LIMIT 1
+			`, blizzid); err != nil {
+		return nil, err
+	}
+
+	var games []struct {
+		Hero   string
+		Winner bool
+		Map    string
+		Mode   string
+	}
+	if err := h.x.SelectContext(ctx, &games, fmt.Sprintf(`
+			SELECT hero, winner, map, mode
+			FROM players@players_blizzid_time_idx
+			WHERE %s
+			`, strings.Join(wheres, " AND ")), params...); err != nil {
+		return nil, err
+	}
+	count := func(winner bool, m map[string]Total, name string) {
+		v := m[name]
+		if winner {
+			v.Wins++
+		} else {
+			v.Losses++
+		}
+		m[name] = v
+	}
+	roles := make(map[string]string)
+	for _, h := range init.Heroes {
+		roles[h.Name] = h.Role
+	}
+	for _, g := range games {
+		g.Hero = init.lookups["hero"](g.Hero)
+		g.Map = init.lookups["map"](g.Map)
+		count(g.Winner, res.Profile.Heroes, g.Hero)
+		count(g.Winner, res.Profile.Maps, g.Map)
+		count(g.Winner, res.Profile.Modes, g.Mode)
+		count(g.Winner, res.Profile.Roles, roles[g.Hero])
+	}
+
+	return res, nil
+}
+
+func (h *hotsContext) GetPlayerGames(ctx context.Context, r *http.Request) (interface{}, error) {
+	blizzid := r.FormValue("blizzid")
+	build := r.FormValue("build")
+	if blizzid == "" {
+		return nil, errors.New("no blizzid parameter")
+	}
+	if build == "" {
+		return nil, errors.New("no build parameter")
 	}
 	var res struct {
 		Battletag string
-		Skills    []struct {
-			Build string
-			Mode  Mode
-			Skill int
-		}
-		Games []struct {
+		Games     []struct {
 			Game      int
 			Hero      string
 			HeroLevel int    `db:"hero_level"`
@@ -887,22 +988,23 @@ func (h *hotsContext) GetPlayerData(ctx context.Context, r *http.Request) (inter
 			Skill     *int
 		}
 	}
-	/*
-		if err := h.x.SelectContext(ctx, &res.Skills, `
-			SELECT build, mode, skill FROM playerskills
-			WHERE blizzid = $1
-			`, id); err != nil {
-			return nil, err
+
+	init := h.getInit()
+	wheres := []string{"blizzid = $1"}
+	params := []interface{}{blizzid}
+	if days, _ := strconv.Atoi(build); days > 0 && days < 100 {
+		v := time.Now().UTC().Add(-time.Hour * 24 * time.Duration(days)).Format("2006-01-02")
+		wheres = append(wheres, fmt.Sprintf("time >= $%d", len(params)+1))
+		params = append(params, v)
+	} else {
+		key := "build"
+		v := init.config.Map[key][build]
+		if v == "" {
+			return nil, errors.Errorf("unrecognized %s: %s", key, build)
 		}
-		sort.Slice(res.Skills, func(i, j int) bool {
-			a := res.Skills[j]
-			b := res.Skills[i]
-			if a.Build != b.Build {
-				return a.Build < b.Build
-			}
-			return a.Mode < b.Mode
-		})
-	*/
+		wheres = append(wheres, fmt.Sprintf("%s = $%d", key, len(params)+1))
+		params = append(params, v)
+	}
 
 	if err := h.x.GetContext(ctx, &res.Battletag, `
 			SELECT battletag
@@ -910,17 +1012,16 @@ func (h *hotsContext) GetPlayerData(ctx context.Context, r *http.Request) (inter
 			WHERE blizzid = $1
 			ORDER BY time DESC
 			LIMIT 1
-			`, id); err != nil {
+			`, blizzid); err != nil {
 		return nil, err
 	}
 
-	if err := h.x.SelectContext(ctx, &res.Games, `
+	if err := h.x.SelectContext(ctx, &res.Games, fmt.Sprintf(`
 			SELECT game, hero, hero_level, build, winner, length, map, mode, time
 			FROM players
-			WHERE blizzid = $1
+			WHERE %s
 			ORDER BY time DESC
-			LIMIT 1000
-			`, id); err != nil {
+			`, strings.Join(wheres, " AND ")), params...); err != nil {
 		return nil, err
 	}
 	for i, g := range res.Games {
