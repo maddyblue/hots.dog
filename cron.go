@@ -44,10 +44,6 @@ func (h *hotsContext) cron() error {
 			switch url.Path {
 			case "/api/get-winrates":
 				res, err = h.GetWinrates(ctx, req)
-			case "/api/get-player-by-name":
-				res, err = h.GetPlayerName(ctx, req)
-			case "/api/get-player-data":
-				res, err = h.GetPlayerData(ctx, req)
 			case "/api/get-hero-data":
 				res, err = h.GetHero(ctx, req)
 			case "/api/get-build-winrates":
