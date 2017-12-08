@@ -9,7 +9,7 @@ metadata:
     run: warp-controller
   name: warp-controller
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       run: warp-controller
