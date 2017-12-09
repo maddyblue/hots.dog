@@ -11,7 +11,6 @@ import (
 	"fmt"
 	"image"
 	"image/draw"
-	_ "image/jpeg"
 	"image/png"
 	"log"
 	"net/http"
