@@ -218,8 +218,9 @@ func main() {
 	http.Handle("/api/get-game-data", wrap(h.GetGameData))
 	http.Handle("/api/get-hero-data", wrap(h.GetHero))
 	http.Handle("/api/get-player-by-name", wrap(h.GetPlayerName))
-	http.Handle("/api/get-player-profile", wrap(h.GetPlayerProfile))
 	http.Handle("/api/get-player-games", wrap(h.GetPlayerGames))
+	http.Handle("/api/get-player-matchups", wrap(h.GetPlayerMatchups))
+	http.Handle("/api/get-player-profile", wrap(h.GetPlayerProfile))
 	http.Handle("/api/get-winrates", wrap(h.GetWinrates))
 	if *flagInit {
 		http.HandleFunc("/api/clear-cache", h.ClearCache)
@@ -1028,6 +1029,101 @@ func (h *hotsContext) GetPlayerGames(ctx context.Context, r *http.Request) (inte
 		g.Map = init.lookups["map"](g.Map)
 		g.Build = init.lookups["build"](g.Build)
 		res.Games[i] = g
+	}
+
+	return res, nil
+}
+
+func (h *hotsContext) GetPlayerMatchups(ctx context.Context, r *http.Request) (interface{}, error) {
+	blizzid := r.FormValue("blizzid")
+	build := r.FormValue("build")
+	if blizzid == "" {
+		return nil, errors.New("no blizzid parameter")
+	}
+	if build == "" {
+		return nil, errors.New("no build parameter")
+	}
+	res := struct {
+		Battletag string
+		Same      map[string]Total
+		Opposing  map[string]Total
+	}{
+		Same:     make(map[string]Total),
+		Opposing: make(map[string]Total),
+	}
+
+	init := h.getInit()
+	wheres := []string{"blizzid = $1"}
+	params := []interface{}{blizzid}
+	if days, _ := strconv.Atoi(build); days > 0 && days < 100 {
+		v := time.Now().UTC().Add(-time.Hour * 24 * time.Duration(days)).Format("2006-01-02")
+		wheres = append(wheres, fmt.Sprintf("time >= $%d", len(params)+1))
+		params = append(params, v)
+	} else {
+		key := "build"
+		v := init.config.Map[key][build]
+		if v == "" {
+			return nil, errors.Errorf("unrecognized %s: %s", key, build)
+		}
+		wheres = append(wheres, fmt.Sprintf("%s = $%d", key, len(params)+1))
+		params = append(params, v)
+	}
+
+	if err := h.x.GetContext(ctx, &res.Battletag, `
+			SELECT battletag
+			FROM players
+			WHERE blizzid = $1
+			ORDER BY time DESC
+			LIMIT 1
+			`, blizzid); err != nil {
+		return nil, err
+	}
+
+	type Game struct {
+		Game   int
+		Winner bool
+		Hero   string
+	}
+	var games, all []Game
+	if err := h.x.SelectContext(ctx, &games, fmt.Sprintf(`
+			SELECT game, winner, hero
+			FROM players@players_blizzid_time_idx
+			WHERE %s
+			`, strings.Join(wheres, " AND ")), params...); err != nil {
+		return nil, err
+	}
+	ids := make([]interface{}, len(games))
+	gs := make(map[int]Game)
+	for i, g := range games {
+		ids[i] = g.Game
+		gs[g.Game] = g
+	}
+	if err := h.x.SelectContext(ctx, &all, fmt.Sprintf(`
+		SELECT game, winner, hero
+		FROM players
+		WHERE game IN %s
+		`, makeValues(len(games), 1)), ids...); err != nil {
+		return nil, err
+	}
+	count := func(winner bool, m map[string]Total, name string) {
+		v := m[name]
+		if winner {
+			v.Wins++
+		} else {
+			v.Losses++
+		}
+		m[name] = v
+	}
+	for _, g := range all {
+		pg := gs[g.Game]
+		if pg == g {
+			continue
+		}
+		if pg.Winner == g.Winner {
+			count(pg.Winner, res.Same, init.lookups["hero"](g.Hero))
+		} else {
+			count(pg.Winner, res.Opposing, init.lookups["hero"](g.Hero))
+		}
 	}
 
 	return res, nil

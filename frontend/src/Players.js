@@ -343,6 +343,138 @@ class PlayerGames extends Component<
 	}
 }
 
+class PlayerMatchups extends Component<
+	{
+		match: any,
+		Modes: any,
+		history: any,
+		build?: string,
+		handleChange: any,
+		Builds: any,
+	},
+	{ Same: any, Opposing: any, Battletag: string, search: string }
+> {
+	state = {
+		Same: null,
+		Opposing: null,
+		Battletag: '',
+		search: '',
+	};
+	componentDidMount() {
+		this.update();
+	}
+	componentDidUpdate() {
+		this.update();
+	}
+	makeSearch = () => {
+		const build = this.props.build || '90';
+		return (
+			'/api/get-player-matchups?blizzid=' +
+			encodeURIComponent(this.props.match.params.id) +
+			'&build=' +
+			encodeURIComponent(build)
+		);
+	};
+	update = () => {
+		const search = this.makeSearch();
+		if (this.state.search === search) {
+			return;
+		}
+		this.setState({ Same: null, search: search });
+		Fetch(search, data => {
+			if (search === this.makeSearch()) {
+				this.setState(data);
+			}
+		});
+	};
+	makeTable(name: string, prop: string) {
+		const obj = this.state[prop] ? this.state[prop] : {};
+		const elems = Object.keys(obj).map(k => {
+			const v = obj[k];
+			const total = v.Wins + v.Losses;
+			const wr = v.Wins / total * 100;
+			return {
+				header: k,
+				games: total,
+				winrate: wr,
+			};
+		});
+		return (
+			<SortedTable
+				name="profile"
+				sort="header"
+				headers={[
+					{
+						name: 'header',
+						cell: v => <Link to={'/talents/' + encodeURI(v)}>{v}</Link>,
+						header: [
+							<div key="anchor" className="anchor" id={prop.toLowerCase()} />,
+							<span key="name">{name.toLowerCase()}</span>,
+						],
+					},
+					{
+						name: 'games',
+						desc: true,
+					},
+					{
+						name: 'winrate',
+						cell: pct,
+						desc: true,
+						title: 'winrate of ' + this.state.Battletag,
+					},
+				]}
+				data={elems}
+				notable={true}
+			/>
+		);
+	}
+	render() {
+		let content;
+		if (!this.state.Same) {
+			content = 'loading...';
+		} else {
+			content = (
+				<div>
+					<table className="sorted">
+						{this.makeTable('Opposing Team', 'Opposing')}
+						{this.makeTable('Same Team', 'Same')}
+					</table>
+				</div>
+			);
+		}
+		return (
+			<div>
+				<Helmet>
+					<title>{this.state.Battletag} matchups</title>
+				</Helmet>
+				<PlayerHeader
+					history={this.props.history}
+					name={this.state.Battletag}
+					id={this.props.match.params.id}
+				/>
+				<p>
+					<a href="#opposing">[opposing team]</a>{' '}
+					<a href="#same">[same team]</a>
+				</p>
+				<div className="row">
+					<div className="column">
+						<label>Patch</label>
+						<select
+							name="build"
+							value={this.props.build}
+							onChange={this.props.handleChange}
+						>
+							<BuildsOpts builds={this.props.Builds} dates={[30, 90]} />
+						</select>
+					</div>
+					<div className="column" />
+				</div>
+				{content}
+			</div>
+		);
+	}
+}
+
 class Game extends Component<
 	{ match: any, Modes: any },
 	{ Game: any, Talents: any, Players: any }
@@ -479,9 +611,16 @@ const PlayerHeader = (props: { name: string, id: string, history: any }) => {
 				to={'/players/' + props.id + '/games'}
 			>
 				games
+			</Link>{' '}
+			<Link
+				key="matchups"
+				className={getClass('matchups')}
+				to={'/players/' + props.id + '/matchups'}
+			>
+				matchups
 			</Link>
 		</div>
 	);
 };
 
-export { Players, Player, Game, PlayerGames };
+export { Players, Player, Game, PlayerGames, PlayerMatchups };
