@@ -108,7 +108,7 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
       - name: cockroachdb
-        image: cockroachdb/cockroach-unstable:v1.2-alpha.20171204
+        image: cockroachdb/cockroach-unstable:latest
         imagePullPolicy: Always
         resources:
           limits:
@@ -146,4 +146,4 @@ spec:
         - "ReadWriteOnce"
       resources:
         requests:
-          storage: 40Gi
+          storage: 30Gi
