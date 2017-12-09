@@ -19,18 +19,35 @@ spec:
         env:
           - name: ADDR
             value: ":80" # for https redirection
-          #- name: AUTOCERT
-          #  value: "hots.dog"
-          #- name: ACMEDIR
-          #  value: "cloudflare-origin"
+          - name: AUTOCERT
+            value: "hots.dog"
+          - name: ACMEDIR
+            value: "cloudflare-origin"
           - name: COCKROACH
             value: "postgres://root@cockroachdb-public:26257/?sslmode=disable"
         ports:
-        #- containerPort: 443
+        - containerPort: 443
         - containerPort: 80
         livenessProbe:
           initialDelaySeconds: 3
           httpGet:
             path: /healthz
-            port: 80
-            scheme: HTTP
+            port: 443
+            scheme: HTTPS
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: website
+spec:
+  selector:
+    app: website
+  ports:
+  - port: 443
+    targetPort: 443
+    name: https
+  - port: 80
+    targetPort: 80
+    name: http
+  type: LoadBalancer
+  loadBalancerIP: "35.194.60.218"

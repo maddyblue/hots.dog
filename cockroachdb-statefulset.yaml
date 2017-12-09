@@ -23,6 +23,22 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: cockroachui
+  labels:
+    app: website
+spec:
+  selector:
+    app: cockroachdb
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: adminui
+  type: LoadBalancer
+  loadBalancerIP: "35.194.60.218"
+---
+apiVersion: v1
+kind: Service
+metadata:
   # This service only exists to create DNS entries for each pod in the stateful
   # set such that they can resolve each other's IP addresses. It does not
   # create a load-balanced ClusterIP and should not be used directly by clients
