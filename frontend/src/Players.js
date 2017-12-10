@@ -191,6 +191,7 @@ class Player extends Component<
 					history={this.props.history}
 					name={this.state.Battletag}
 					id={this.props.match.params.id}
+					build={this.props.build}
 				/>
 				<p>
 					<a href="#modes">[game modes]</a> <a href="#roles">[roles]</a>{' '}
@@ -323,6 +324,7 @@ class PlayerGames extends Component<
 					history={this.props.history}
 					name={this.state.Battletag}
 					id={this.props.match.params.id}
+					build={this.props.build}
 				/>
 				<div className="row">
 					<div className="column">
@@ -451,6 +453,7 @@ class PlayerMatchups extends Component<
 					history={this.props.history}
 					name={this.state.Battletag}
 					id={this.props.match.params.id}
+					build={this.props.build}
 				/>
 				<p>
 					<a href="#opposing">[opposing team]</a>{' '}
@@ -590,32 +593,38 @@ class Game extends Component<
 	}
 }
 
-const PlayerHeader = (props: { name: string, id: string, history: any }) => {
+const PlayerHeader = (props: {
+	name: string,
+	id: string,
+	history: any,
+	build?: string,
+}) => {
 	const getClass = s =>
 		props.history.location.pathname.endsWith(s)
 			? 'button button-outline'
 			: 'button';
+	const build = props.build ? '?build=' + encodeURIComponent(props.build) : '';
 	return (
 		<div>
 			<h2>{props.name}</h2>
 			<Link
 				key="profile"
 				className={getClass(props.id)}
-				to={'/players/' + props.id}
+				to={'/players/' + props.id + build}
 			>
 				profile
 			</Link>{' '}
 			<Link
 				key="games"
 				className={getClass('games')}
-				to={'/players/' + props.id + '/games'}
+				to={'/players/' + props.id + '/games' + build}
 			>
 				games
 			</Link>{' '}
 			<Link
 				key="matchups"
 				className={getClass('matchups')}
-				to={'/players/' + props.id + '/matchups'}
+				to={'/players/' + props.id + '/matchups' + build}
 			>
 				matchups
 			</Link>
