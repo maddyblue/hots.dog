@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Fetch, pct, readCookie, Filter, Title } from './common';
+import { Fetch, pct, Filter, Title } from './common';
 import SortedTable from './SortedTable';
 
 type Props = {
@@ -25,10 +25,6 @@ class HeroWinrates extends Component<
 	constructor(props: Props) {
 		super(props);
 		this.state = {};
-		const params = readCookie('params');
-		if (params && !this.props.history.location.search) {
-			this.props.history.replace({ search: params });
-		}
 	}
 	componentDidMount() {
 		this.update();
