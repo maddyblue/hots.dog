@@ -197,24 +197,24 @@ class Player extends Component<
 					<a href="#modes">[game modes]</a> <a href="#roles">[roles]</a>{' '}
 					<a href="#heroes">[heroes]</a> <a href="#maps">[maps]</a>
 				</p>
-				<div className="row">
-					<div className="column">
-						<label>Patch</label>
-						<select
-							name="build"
-							value={this.props.build}
-							onChange={this.props.handleChange}
-						>
-							<BuildsOpts builds={this.props.Builds} dates={[30, 90]} />
-						</select>
-					</div>
-					<div className="column" />
-				</div>
+				<PlayerOpts {...this.props} />
 				{content}
 			</div>
 		);
 	}
 }
+
+const PlayerOpts = (props: { Builds: any, handleChange: any, build: any }) => (
+	<div className="row">
+		<div className="column">
+			<label>Patch</label>
+			<select name="build" value={props.build} onChange={props.handleChange}>
+				<BuildsOpts builds={props.Builds} dates={[30, 90]} />
+			</select>
+		</div>
+		<div className="column" />
+	</div>
+);
 
 class PlayerGames extends Component<
 	{
@@ -326,19 +326,7 @@ class PlayerGames extends Component<
 					id={this.props.match.params.id}
 					build={this.props.build}
 				/>
-				<div className="row">
-					<div className="column">
-						<label>Patch</label>
-						<select
-							name="build"
-							value={this.props.build}
-							onChange={this.props.handleChange}
-						>
-							<BuildsOpts builds={this.props.Builds} dates={[30, 90]} />
-						</select>
-					</div>
-					<div className="column" />
-				</div>
+				<PlayerOpts {...this.props} />
 				{content}
 			</div>
 		);
@@ -459,19 +447,7 @@ class PlayerMatchups extends Component<
 					<a href="#opposing">[opposing team]</a>{' '}
 					<a href="#same">[same team]</a>
 				</p>
-				<div className="row">
-					<div className="column">
-						<label>Patch</label>
-						<select
-							name="build"
-							value={this.props.build}
-							onChange={this.props.handleChange}
-						>
-							<BuildsOpts builds={this.props.Builds} dates={[30, 90]} />
-						</select>
-					</div>
-					<div className="column" />
-				</div>
+				<PlayerOpts {...this.props} />
 				{content}
 			</div>
 		);
