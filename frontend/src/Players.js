@@ -173,7 +173,7 @@ class Player extends Component<
 				<div>
 					<table className="sorted">
 						{this.makeTable('Game Mode', 'Modes', m => this.props.Modes[m])}
-						{this.makeTable('Roles', 'Roles')}
+						{this.makeTable('Role', 'Roles')}
 						{this.makeTable('Hero', 'Heroes', v => (
 							<Link to={'/talents/' + encodeURI(v)}>{v}</Link>
 						))}
