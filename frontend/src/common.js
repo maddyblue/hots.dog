@@ -199,7 +199,7 @@ const HeroHeader = (props: {
 
 function Fetch(url: string, success: any => void, error?: any => void) {
 	if (!error) {
-		error = alert;
+		error = console.log;
 	}
 	fetch(url)
 		.then(resp => {
