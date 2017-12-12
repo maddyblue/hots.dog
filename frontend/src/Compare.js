@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Fetch, pct, Filter, HeroHeader, Title } from './common';
+import { Fetch, pct, Filter, HeroHeader } from './common';
 import SortedTable from './SortedTable';
 
 class CompareHero extends Component {
@@ -140,15 +140,13 @@ class CompareHero extends Component {
 		));
 		return (
 			<div>
-				<Title
-					{...this.props}
-					prefix={this.props.match.params.hero + ' comparison'}
-				/>
 				<HeroHeader
 					name={this.props.match.params.hero}
 					heroes={this.props.Heroes}
 					build={this.props.build}
 					history={this.props.history}
+					prefix="comparison"
+					title={this.props}
 				/>
 				<p>
 					<a href="#other">[opposing team]</a> <a href="#same">[same team]</a>

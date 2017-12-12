@@ -149,6 +149,8 @@ const HeroHeader = (props: {
 	name: string,
 	build?: string,
 	history: any,
+	title: any,
+	prefix: any,
 }) => {
 	const hero = props.heroes.find(e => e.Name === props.name);
 	if (!hero) {
@@ -164,14 +166,19 @@ const HeroHeader = (props: {
 			: 'button';
 	return (
 		<div>
-			<h2>
-				{hero.Name}{' '}
-				<img
-					src={'/img/hero_full/' + hero.Slug + '.png'}
-					alt={hero.Name}
-					style={{ height: '3.4rem' }}
-				/>
-			</h2>
+			<Title
+				{...props.title}
+				prefix={props.name + ' ' + props.prefix}
+				h={[
+					<img
+						key="img"
+						src={'/img/hero_full/' + hero.Slug + '.png'}
+						alt={hero.Name}
+						style={{ height: '3.4rem' }}
+					/>,
+					' ',
+				]}
+			/>
 			<Link
 				key="relative"
 				className={getClass('heroes')}
@@ -276,17 +283,23 @@ const TalentImg = (props: { name: string, text?: boolean, data: any }) => {
 	);
 };
 
-const Title = (props: any) => (
-	<Helmet>
-		<title>
-			{props.prefix +
-				(props.build ? ' at ' + props.build : '') +
-				(props.mode ? ' in ' + props.Modes[props.mode] : '') +
-				(props.map ? ' on ' + props.map : '') +
-				(props.herolevel !== '5' ? ' above level ' + props.herolevel : '')}
-		</title>
-	</Helmet>
-);
+const Title = (props: any) => {
+	const title =
+		props.prefix +
+		(props.build ? ' at ' + props.build : '') +
+		(props.mode ? ' in ' + props.Modes[props.mode] : '') +
+		(props.map ? ' on ' + props.map : '') +
+		(props.herolevel !== '5' ? ' above level ' + props.herolevel : '');
+	return [
+		<h2 key="h2">
+			{props.h}
+			{title}
+		</h2>,
+		<Helmet key="helmet">
+			<title>{title}</title>
+		</Helmet>,
+	];
+};
 
 export {
 	BuildsOpts,

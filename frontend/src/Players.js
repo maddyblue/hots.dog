@@ -184,14 +184,12 @@ class Player extends Component<
 		}
 		return (
 			<div>
-				<Helmet>
-					<title>{this.state.Battletag} profile</title>
-				</Helmet>
 				<PlayerHeader
 					history={this.props.history}
 					name={this.state.Battletag}
 					id={this.props.match.params.id}
 					build={this.props.build}
+					prefix="profile"
 				/>
 				<p>
 					<a href="#modes">[game modes]</a> <a href="#roles">[roles]</a>{' '}
@@ -317,14 +315,12 @@ class PlayerGames extends Component<
 		}
 		return (
 			<div>
-				<Helmet>
-					<title>{this.state.Battletag} games</title>
-				</Helmet>
 				<PlayerHeader
 					history={this.props.history}
 					name={this.state.Battletag}
 					id={this.props.match.params.id}
 					build={this.props.build}
+					prefix="games"
 				/>
 				<PlayerOpts {...this.props} />
 				{content}
@@ -434,14 +430,12 @@ class PlayerMatchups extends Component<
 		}
 		return (
 			<div>
-				<Helmet>
-					<title>{this.state.Battletag} matchups</title>
-				</Helmet>
 				<PlayerHeader
 					history={this.props.history}
 					name={this.state.Battletag}
 					id={this.props.match.params.id}
 					build={this.props.build}
+					prefix="matchups"
 				/>
 				<p>
 					<a href="#opposing">[opposing team]</a>{' '}
@@ -471,16 +465,13 @@ class Game extends Component<
 			return 'loading...';
 		}
 		const baseSearch = '?build=' + this.state.Game.Build;
+		const title = this.state.Game.Map + ' on ' + toDate(this.state.Game.Date);
 		return (
 			<div>
 				<Helmet>
-					<title>
-						{this.state.Game.Map} on {toDate(this.state.Game.Date)}
-					</title>
+					<title>{title}</title>
 				</Helmet>
-				<h2>
-					{this.state.Game.Map} on {toDate(this.state.Game.Date)}
-				</h2>
+				<h2>{title}</h2>
 				<table>
 					<tbody>
 						<tr>
@@ -574,15 +565,20 @@ const PlayerHeader = (props: {
 	id: string,
 	history: any,
 	build?: string,
+	prefix: string,
 }) => {
 	const getClass = s =>
 		props.history.location.pathname.endsWith(s)
 			? 'button button-outline'
 			: 'button';
 	const build = props.build ? '?build=' + encodeURIComponent(props.build) : '';
+	const title = props.name + ' ' + props.prefix;
 	return (
 		<div>
-			<h2>{props.name}</h2>
+			<h2>{title}</h2>
+			<Helmet>
+				<title>{title}</title>
+			</Helmet>
 			<Link
 				key="profile"
 				className={getClass(props.id)}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Fetch, pct, Filter, HeroHeader, TalentImg, Title } from './common';
+import { Fetch, pct, Filter, HeroHeader, TalentImg } from './common';
 import SortedTable from './SortedTable';
 
 class TalentWinrates extends Component {
@@ -73,15 +73,13 @@ class TalentWinrates extends Component {
 		));
 		return (
 			<div>
-				<Title
-					{...this.props}
-					prefix={this.props.match.params.hero + ' talents'}
-				/>
 				<HeroHeader
 					name={this.props.match.params.hero}
 					heroes={this.props.Heroes}
 					build={this.props.build}
 					history={this.props.history}
+					prefix="talents"
+					title={this.props}
 				/>
 				<p>
 					<a href="#winning">[winning builds]</a>{' '}
