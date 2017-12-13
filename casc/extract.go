@@ -262,8 +262,8 @@ func extract() error {
 			if names[face] == "" {
 				panic(talent.Talent)
 			}
-			if texts[face] == "" {
-				panic(talent.Talent)
+			if _, ok := texts[face]; !ok {
+				panic(fmt.Errorf("%s: %s", talent.Talent, face))
 			}
 		}
 	}

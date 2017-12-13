@@ -159,6 +159,12 @@ var heroData = []Hero{
 		MultiRole: []string{"Damage"},
 	},
 	{
+		Name:      "Hanzo",
+		Slug:      "hanzo",
+		Role:      "Damage",
+		MultiRole: []string{"Damage"},
+	},
+	{
 		Name:      "Illidan",
 		Slug:      "illidan",
 		Role:      "Damage",
@@ -474,7 +480,7 @@ var talentData = map[string]talentText{
 	},
 	"AbathurCombatStyleSurvivalInstincts": {
 		Name: "Survival Instincts",
-		Text: "Increases Locust's Health by 50% and duration by 40%.",
+		Text: "Increases Locust's Health by 40% and duration by 40%.",
 	},
 	"AbathurHeroicAbilityEvolveMonstrosity": {
 		Name: "Evolve Monstrosity",
@@ -778,7 +784,7 @@ var talentData = map[string]talentText{
 	},
 	"AmazonPlateoftheWhale": {
 		Name: "Plate of the Whale",
-		Text: "Regenerate 5 Health per second while Avoidance is active.\nQuest: For every 1 Basic Attacks absorbed with Avoidance, it regenerates an additional 1 Health per second.\nReward: After absorbing 75 Basic Attacks, increase Cassia's maximum Health by 10%.",
+		Text: "Regenerate 5 Health per second while Avoidance is active.\nQuest: For every 8 Basic Attacks absorbed with Avoidance, it regenerates an additional 1 Health per second.\nReward: After absorbing 75 Basic Attacks, increase Cassia's maximum Health by 10%.",
 	},
 	"AmazonRingoftheLeech": {
 		Name: "Ring of the Leech",
@@ -850,7 +856,7 @@ var talentData = map[string]talentText{
 	},
 	"AnaEyeOfHorusBallisticAdvantage": {
 		Name: "Ballistic Advantage",
-		Text: "Eye of Horus rounds explodes upon impacting a Hero, healing nearby allies for 300 and dealing 150 damage to nearby enemy Heroes.",
+		Text: "Eye of Horus rounds explode upon impacting a Hero, healing nearby allies for 300 and dealing 150 damage to nearby enemy Heroes.",
 	},
 	"AnaHealingDartConcentratedDoses": {
 		Name: "Concentrated Doses",
@@ -1370,7 +1376,7 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanMasteryInfusedPower": {
 		Name: "Infused Power",
-		Text: "All Shall Burn's damage increases over an additional 1.75 seconds, gaining up to 40% more maximum damage.",
+		Text: "All Shall Burn's damage growth maximum is increased by 40%.",
 	},
 	"AzmodanMasteryMarchOfSin": {
 		Name: "March of Sin",
@@ -2914,7 +2920,7 @@ var talentData = map[string]talentText{
 	},
 	"GenericTalentCalldownMULE": {
 		Name: "Calldown: MULE",
-		Text: "Activate to calldown a Mule that repairs Structures, one at a time, near target point for 40 seconds, healing for 100 Health every 1 second.  Grants 1 ammo every  3 seconds.",
+		Text: "Activate to calldown a Mule that repairs Structures, one at a time, near target point for 40 seconds, healing for 100 Health every 1 second. ",
 	},
 	"GenericTalentClairvoyance": {
 		Name: "Clairvoyance",
@@ -3351,6 +3357,90 @@ var talentData = map[string]talentText{
 	"GuldanRainOfDestructionDeepImpact": {
 		Name: "Deep Impact",
 		Text: "Rain of Destruction slows enemies Movement Speed by 90% for 0.5 seconds.",
+	},
+	"HanzoBullseye": {
+		Name: "Bullseye",
+		Text: "Increase Sonic Arrow's speed and center radius by 100%. Additionally, Heroes hit by Sonic Arrow's center are Stunned for 1 second.",
+	},
+	"HanzoDragonsArrow": {
+		Name: "Dragon's Arrow",
+		Text: "Fire a missile that travels across the battleground. Explodes upon hitting an enemy Hero, dealing 130 damage to all nearby enemies and Stunning them for 0.5 seconds.\nAfter traveling a medium distance, the damage is increased to 260 and the Stun duration to 1.25 seconds.\nAfter traveling a long distance, the damage is increased to 390 and the Stun duration to 2 seconds.",
+	},
+	"HanzoDragonstrike": {
+		Name: "Dragonstrike",
+		Text: "After 1.5 seconds, summon a pair of Spirit Dragons which travel forward, dealing 58 damage every 0.25 seconds to enemy Heroes in its area.  Enemies in the center take 150% damage.",
+	},
+	"HanzoExplosiveArrows": {
+		Name: "Explosive Arrows",
+		Text: "Upon hitting a Minion or Monster, Storm Bow deals 100% of its damage to enemies around its target.",
+	},
+	"HanzoFlawlessTechnique": {
+		Name: "Flawless Technique",
+		Text: "Hitting Heroes with Storm Bow increases the damage of Hanzo's next Basic Attack within 5 seconds by 25%. Basic Attacks against Heroes increase the damage of Hanzo's next Storm Bow within 5 seconds by 25%.",
+	},
+	"HanzoFleetofFoot": {
+		Name: "Fleet of Foot",
+		Text: "Hitting a Hero with Storm Bow grants 10% Movement Speed for 6 seconds, up to 30%.",
+	},
+	"HanzoGiantSlayer": {
+		Name: "Giant Slayer",
+		Text: "Enemy Heroes hit by Scatter Arrow and Basic Attacks take a bonus 1.25% of their maximum Health as damage.",
+	},
+	"HanzoIgnoreAllDistractions": {
+		Name: "Ignore All Distractions",
+		Text: "Basic Attacks instantly kill Minions and increase Hanzo's Basic Attack range by 2 for 3 seconds.",
+	},
+	"HanzoMountedArchery": {
+		Name: "Mounted Archery",
+		Text: "Upon mounting, gain 30% additional Movement Speed for 5 seconds. Using Natural Agility instantly mounts.",
+	},
+	"HanzoNeverOutmatched": {
+		Name: "Never Outmatched",
+		Text: "Reduce Scatter Arrow's Mana cost from 40 to 20. Basic Attacks lower the cooldown of Scatter Arrow by 4 seconds.",
+	},
+	"HanzoNinjaAssassin": {
+		Name: "Ninja Assassin",
+		Text: "Hitting Heroes with Storm Bow lowers Natural Agility's cooldown by 10 seconds. Additionally, Hero Takedowns reset Natural Agility's cooldown.",
+	},
+	"HanzoPOTG": {
+		Name: "Play of the Game",
+		Text: "While in flight or for up to 2 seconds after impacting a target, Dragon's Arrow can be reactivated to teleport to its location and jump backwards. If used after impact, Hanzo shoots arrows that deal 132 damage to each target hit by the impact.\nHanzo is Unstoppable during Play of the Game.",
+	},
+	"HanzoPiercingArrows": {
+		Name: "Piercing Arrows",
+		Text: "Storm Bow and Scatter Arrow pierce, hitting an additional enemy. Additionally, Scatter Arrow can pierce through 1 enemy each time it ricochets.",
+	},
+	"HanzoRedemption": {
+		Name: "Redemption",
+		Text: "Quest: Every 2 Basic Attacks against the same Hero within 10 seconds grants 1 Redemption, stacking up to 12. Dying decreases Redemption by 3, and Redemption can be lost even at maximum stacks.\nReward: At 12 Redemption, gain 50% Attack Speed.",
+	},
+	"HanzoSerratedArrows": {
+		Name: "Serrated Arrows",
+		Text: "Scatter Arrow deals 150% more damage to Minions, Mercenaries, and Monsters.",
+	},
+	"HanzoSharpenedArrowheads": {
+		Name: "Sharpened Arrowheads",
+		Text: "Scatter Arrow limits the maximum Armor for Heroes hit to 0 for 5 seconds.",
+	},
+	"HanzoShieldbreakerArrows": {
+		Name: "Shieldbreaker Arrows",
+		Text: "Basic Attacks and Storm Bow deal 250% bonus damage to Shields on Heroic targets.",
+	},
+	"HanzoSimpleGeometry": {
+		Name: "Simple Geometry",
+		Text: "Quest: Hit a Hero with multiple arrows from the same Scatter Arrow cast 20 times. Each arrow hit after the second grants additional progress.\nReward: Upon hitting terrain for the first time, Scatter Arrow creates 2 additional arrows.",
+	},
+	"HanzoTargetPractice": {
+		Name: "Target Practice",
+		Text: "Quest: Hit every enemy Hero with Storm Bow.\nReward: After hitting every enemy Hero once with Storm Bow, its range is increased by 30%.\nReward: After hitting every enemy Hero 3 times with Storm Bow, its damage is increased by 100.",
+	},
+	"HanzoTheDragonAwakens": {
+		Name: "The Dragon Awakens",
+		Text: "Hitting a Hero with Storm Bow, Scatter Arrow, or Basic Attacks reduces the cooldown of Dragonstrike by 5 seconds.",
+	},
+	"HanzoTheDragonHungers": {
+		Name: "The Dragon Hungers",
+		Text: "Hitting a Hero with Storm Bow grants 5% Spell Power for 10 seconds, stacking up to 20%.",
 	},
 	"HeroGenericExecutionerPassive": {
 		Name: "Executioner",
@@ -4142,7 +4232,7 @@ var talentData = map[string]talentText{
 	},
 	"LostVikingsMasteryItsASabotage": {
 		Name: "It's a Sabotage!",
-		Text: "Erik's Basic Attacks against Structures light them on fire for 10 seconds, causing 135 damage and destroying 5 Ammo.",
+		Text: "Erik's Basic Attacks against Structures light them on fire for 10 seconds, causing 175 damage.",
 	},
 	"LostVikingsMasteryJump": {
 		Name: "Jump!",
@@ -4259,10 +4349,6 @@ var talentData = map[string]talentText{
 	"LucioSoundwaveChaseTheBassQuest": {
 		Name: "Chase the Bass",
 		Text: "Quest: Hit 20 enemy Heroes with Soundwave.\nReward: Increase Soundwave's arc by 50% and its range by 20%.",
-	},
-	"LucioSoundwaveHeliotropics": {
-		Name: "Heliotropics",
-		Text: "Soundwave Blinds enemies hit for 2.5 seconds.",
 	},
 	"LucioSoundwaveOffTheWall": {
 		Name: "Off the Wall",
@@ -4570,7 +4656,7 @@ var talentData = map[string]talentText{
 	},
 	"MedivhInvisibility": {
 		Name: "Invisibility",
-		Text: "Stealth an allied Hero for 20 seconds.\nStores up to 2 charges.",
+		Text: "Stealth an allied Hero for 20 seconds. Remaining stationary for at least 1.5 seconds while Stealthed grants Invisible.\nStores up to 2 charges.",
 	},
 	"MedivhLeyLineSeal": {
 		Name: "Ley Line Seal",
@@ -4758,7 +4844,7 @@ var talentData = map[string]talentText{
 	},
 	"MuradinMasteryStormhammerSledgehammer": {
 		Name: "Sledgehammer",
-		Text: "Deals 350% damage to non-Heroic enemies. Destroys 4 ammo from Structures.",
+		Text: "Deals 350% damage to non-Heroic enemies. ",
 	},
 	"MuradinMasteryThunderburn": {
 		Name: "Thunder Burn",
@@ -4954,7 +5040,11 @@ var talentData = map[string]talentText{
 	},
 	"NovaAdvancedCloaking": {
 		Name: "Advanced Cloaking",
-		Text: "While Stealthed, Nova gains 2 Mana per second and 25% increased Movement Speed.",
+		Text: "After being Stealthed for 2 seconds, gain an additional 5% Movement Speed. While Stealthed, regenerate 2 Mana per second.",
+	},
+	"NovaApolloSuit": {
+		Name: "Apollo Suit",
+		Text: "Reduce the cooldown of Permanent Cloak by 2 seconds..",
 	},
 	"NovaCombatStyleAntiArmorShells": {
 		Name: "Anti-Armor Shells",
@@ -4962,7 +5052,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaCombatStyleOneintheChamber": {
 		Name: "One in the Chamber",
-		Text: "After using an Ability, Nova's next Basic Attack within 3 seconds deals 80% additional damage.",
+		Text: "After using an Ability, Nova's next Basic Attack within 3 seconds deals 70% additional damage.",
 	},
 	"NovaCovertMission": {
 		Name: "Covert Mission",
@@ -4972,33 +5062,25 @@ var talentData = map[string]talentText{
 		Name: "Covert Ops",
 		Text: "After being Stealthed for 5 seconds, Pinning Shot's Slow is increased to 55% and costs no Mana. Bonus is lost after losing Stealth for 1 second.",
 	},
-	"NovaGhostProtocol": {
-		Name: "Ghost Protocol",
-		Text: "Activate to gain Stealth and become Unrevealable for 2 seconds. Nova's attacks and Abilities will also not break Stealth during this time.",
-	},
 	"NovaHeroicAbilityPrecisionStrike": {
 		Name: "Precision Strike",
 		Text: "After a 1.5 second delay, deals 456 damage to enemies within an area. Unlimited range.",
 	},
 	"NovaHeroicAbilityTripleTap": {
 		Name: "Triple Tap",
-		Text: "Locks in on the target Hero, then fires 3 shots that hit the first Hero or Structure they come in contact with for 338 damage each.",
+		Text: "Locks in on the target Hero, then fires 3 shots that hit the first Hero or Structure they come in contact with for 372 damage each.",
 	},
 	"NovaHoloStability": {
 		Name: "Holo Stability",
 		Text: "Increase the cast range and duration of Holo Decoy by 100%.",
 	},
-	"NovaMasteryAmbushSnipe": {
-		Name: "Ambush Snipe",
-		Text: "Increases Snipe's range by 40% while Cloaked.",
+	"NovaIonicForceField": {
+		Name: "Ionic Force Field",
+		Text: "Gain 25 Armor for 2 seconds after losing Stealth.",
 	},
 	"NovaMasteryCripplingShot": {
 		Name: "Crippling Shot",
-		Text: "Pinning Shot lowers a Hero's Armor by 25 for the duration of the slow, causing them to take 25% increased damage.",
-	},
-	"NovaMasteryDigitalShrapnel": {
-		Name: "Digital Shrapnel",
-		Text: "Digital Shrapnel \nReduces the cooldown of Holo Decoy by 2 seconds. Holo Decoy explodes on expiration, dealing 210 damage to nearby enemies.",
+		Text: "Pinning Shot lowers a Hero's Armor by 25 for the duration of the Slow, causing them to take 25% increased damage.",
 	},
 	"NovaMasteryDoubleTap": {
 		Name: "Double Tap",
@@ -5014,7 +5096,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaMasteryLethalDecoy": {
 		Name: "Lethal Decoy",
-		Text: "Holo Decoy deals 40% of Nova's damage.",
+		Text: "Increases the damage Holo Decoy deals to 50% of Nova's damage.",
 	},
 	"NovaMasteryLongshot": {
 		Name: "Longshot",
@@ -5022,31 +5104,19 @@ var talentData = map[string]talentText{
 	},
 	"NovaMasteryPerfectShotSnipe": {
 		Name: "Perfect Shot",
-		Text: "Hitting an enemy Hero with Snipe reduces the cooldown by 3 seconds. ",
+		Text: "Hitting an enemy Hero with Snipe reduces the cooldown by 2 seconds. ",
 	},
 	"NovaMasteryPrecisionBarrage": {
 		Name: "Precision Barrage",
-		Text: "Precision Strike holds 2 charges with a 3 second cooldown between using each charge.",
-	},
-	"NovaMasteryPsiOpRangefinder": {
-		Name: "Psi-Op Rangefinder",
-		Text: "Increases Snipe's range by 20% and reduces the Cooldown by 2 seconds.",
+		Text: "Precision Strike gains a 2nd charge and its coodown is reduced by 30 seconds.",
 	},
 	"NovaMasteryPsionicEfficiency": {
 		Name: "Psionic Efficiency",
-		Text: "Removes Snipe's Mana cost and increases its range by 15%.",
-	},
-	"NovaMasteryTazerRounds": {
-		Name: "Tazer Rounds",
-		Text: "Increases the duration of Pinning Shot's slow to 4 seconds.",
+		Text: "Snipe's range is increased by 15%, and hitting a Hero with Snipe refunds its Mana cost.",
 	},
 	"NovaNewRemoteDelivery": {
 		Name: "Remote Delivery",
 		Text: "Increases Holo Decoy cast range by 100% and its sight range by 50%.",
-	},
-	"NovaRailgun": {
-		Name: "Railgun",
-		Text: "Snipe penetrates through the first enemy hit and deals 50% damage to subsequent targets. Snipe cooldown is reduced by 1 second for each target hit.",
 	},
 	"NovaRapidProjection": {
 		Name: "Rapid Projection",
@@ -5055,14 +5125,6 @@ var talentData = map[string]talentText{
 	"NovaSnipeMaster": {
 		Name: "Snipe Master",
 		Text: "Hitting an enemy Hero with Snipe permanently increases the damage of Snipe by 15%. Stacks up to 5 times. All stacks are lost if Snipe fails to hit an enemy.",
-	},
-	"NovaTacticalEspionage": {
-		Name: "Tactical Espionage",
-		Text: "While Stealthed, Nova gains 4 Mana per second.",
-	},
-	"PlaceholderRangedCombatStyle": {
-		Name: "Ranged Placeholder",
-		Text: "Placeholder Combat Style\n+20% Basic Attack\n+1 Range",
 	},
 	"ProbiusAggressiveMatrixWarpInPylon": {
 		Name: "Aggressive Matrix",
@@ -5518,31 +5580,35 @@ var talentData = map[string]talentText{
 	},
 	"SamuroAdvancingStrikesDeflection": {
 		Name: "Deflection",
-		Text: "Advancing Strikes grants 25 Physical Armor against Hero Basic Attacks, reducing their damage by 25%.",
+		Text: "Advancing Strikes grants Samuro and his Mirror Images 25 Physical Armor.",
 	},
 	"SamuroBlademastersPursuit": {
 		Name: "Blademaster’s Pursuit",
-		Text: "Advancing Strikes grants an additional 15% bonus Movement Speed, and its duration is increased by 2 seconds.",
+		Text: "Advancing Strikes grants an additional 15% Movement Speed for Samuro and his Mirror Images, and its duration is increased by 2 seconds.",
 	},
 	"SamuroBurningBlade": {
 		Name: "Burning Blade",
-		Text: "Critical Strikes unleash a burst of flame, dealing an additional 65% of Samuro's Basic Attack damage to the target and nearby enemies.",
+		Text: "Critical Strikes from Samuro and Mirror Images deal an additional 65% of their Basic Attack damage to the target and nearby enemies.",
+	},
+	"SamuroCrushingBlow": {
+		Name: "Crushing Blows",
+		Text: "Critical Strike now has 2 charges. Samuro's Basic Attacks against Heroes reduce the cooldown of Critical Strike by 1.5 seconds.",
 	},
 	"SamuroHarshWinds": {
 		Name: "Harsh Winds",
-		Text: "Attacking a Hero from Stealth causes them to take 30% increased damage from Samuro and his Images for 3 seconds.",
+		Text: "Attacking a Hero during Wind Walk causes them to take 30% increased damage from Samuro for 3 seconds.",
 	},
 	"SamuroHeroicAbilityBladestorm": {
 		Name: "Bladestorm",
-		Text: "Become an Unstoppable whirlwind of death, dealing 235 damage per second to nearby enemies for 4 seconds.",
+		Text: "Cause a Bladestorm of destructive force around Samuro for 4 seconds, making him Unstoppable and dealing 235 damage per second to nearby enemies.",
 	},
 	"SamuroHeroicAbilityIllusionMaster": {
 		Name: "Illusion Master",
-		Text: "Switch places with the target Mirror Image, removing most negative effects from Samuro and the target Mirror Image.\nPassive: You can control Mirror Images separately or as a group, and they deal an additional 10% of Samuro's damage.",
+		Text: "Mirror Images can be controlled individually or as a group and their damage is increased by 100%. \nPassive: Samuro's Basic Attack damage is increased by 10%, and Image Transmission's cooldown is reduced to 8 seconds.",
 	},
 	"SamuroMercilessStrikes": {
 		Name: "Merciless Strikes",
-		Text: "Basic Attacks against slowed, rooted, or stunned targets are always Critical Strikes.",
+		Text: "Samuro's Basic Attacks against Stunned, Rooted, or Slowed enemies are always Critical Strikes.",
 	},
 	"SamuroMirage": {
 		Name: "Mirage",
@@ -5550,23 +5616,19 @@ var talentData = map[string]talentText{
 	},
 	"SamuroMirrorImageWayOfTheBlade": {
 		Name: "Way of the Blade",
-		Text: "Critical Strike now happens every 3rd Basic Attack and deals an additional 20% of Samuro's Basic Attack damage.",
+		Text: "Critical Strike now happens for Samuro and his Mirror Images every 3rd Basic Attack.",
 	},
 	"SamuroMirroredSteel": {
 		Name: "Mirrored Steel",
-		Text: "Basic Attacks against Heroes reduce the cooldown of Mirror Image by 1 second.",
-	},
-	"SamuroOverpoweringBlow": {
-		Name: "Crushing Blows",
-		Text: "Critical Strike now has two charges, and Critical Strikes deal an additional 25% of Samuro's Basic Attack damage.",
+		Text: "Samuro's Basic Attacks against Heroes reduce the cooldown of Mirror Image by 1 second.",
 	},
 	"SamuroPhantomPain": {
 		Name: "Phantom Pain",
-		Text: "Critical Strikes deal an additional 40% of Samuro's Basic Attack damage for each Image that is active.",
+		Text: "Samuro's Critical Strikes deal an additional 40% of his Basic Attack damage for each Mirror Image that is active.",
 	},
 	"SamuroPressTheAttack": {
 		Name: "Press the Attack",
-		Text: "While Advancing Strikes is active, Basic Attacks increase Samuro's Attack Speed by 15%, up to 60%.",
+		Text: "While Advancing Strikes is active, Samuro and his Mirror Images gain 10% Attack Speed every time they Basic Attack, up to 40%.",
 	},
 	"SamuroShukuchi": {
 		Name: "Shukuchi",
@@ -5574,19 +5636,19 @@ var talentData = map[string]talentText{
 	},
 	"SamuroThreeBladeStyle": {
 		Name: "Three Blade Style",
-		Text: "Samuro's Images gain an additional 50% of his Health and last up to 36 seconds.",
+		Text: "Samuro's Mirror Images gain an additional 50% of his Health and last up to 36 seconds.",
 	},
 	"SamuroWayOfIllusion": {
 		Name: "Way of Illusion",
-		Text: " Quest: Every time one of Samuro's Images Critically Strikes a Hero, he gains 0.5 Attack Damage, up to 20.\nReward: After hitting 40 Heroes, he gains an additional 20 Attack Damage.",
+		Text: " Quest: Every time a Mirror Image Critically Strikes a Hero, Samuro gains 0.5 Attack Damage, up to 20.\nReward: After hitting 40 Heroes, Samuro gains an additional 20 Attack Damage.",
 	},
 	"SamuroWayOfTheWind": {
 		Name: "Way of the Wind",
-		Text: " Quest: Attacking a Hero from Stealth increases the Movement Speed bonus of Wind Walk by 1.25%, up to 25%.\nReward: After attacking 20 Heroes, Wind Walk's Unrevealable duration is increased to 2.5 seconds.",
+		Text: "Gain 40% Movement Speed for 3 seconds after entering or exiting Wind Walk.",
 	},
 	"SamuroWhirlwindStorm": {
 		Name: "Dance Of Death",
-		Text: "Mirror Images use Bladestorm when Samuro does.",
+		Text: "Mirror Images use Bladestorm when Samuro does, but for 25% damage.",
 	},
 	"SamuroWindStrider": {
 		Name: "Wind Strider",
@@ -5594,15 +5656,15 @@ var talentData = map[string]talentText{
 	},
 	"SamuroWindwalkKawarimi": {
 		Name: "Kawarimi",
-		Text: "Wind Walk creates an Image at Samuro's location that will continue whatever he was doing.",
+		Text: "Wind Walk creates a Mirror Image at Samuro's location that will continue whatever he was doing.",
 	},
 	"SamuroWindwalkOneWithTheWind": {
 		Name: "One With The Wind",
-		Text: "While Stealthed, gain 60 Armor, taking 60% reduced damage from all sources.",
+		Text: "While Samuro has Wind Walk and for 3 seconds after breaking it, both he and his Mirror Images gain 30 Armor, taking 30% reduced damage from all sources.",
 	},
 	"SgtHammerAmbush": {
 		Name: "Ambush",
-		Text: "Gain Stealth when entering Siege Mode or after not taking or dealing damage for 3 seconds while in Siege Mode. Basic Attacks while Stealthed deal 100% more damage.",
+		Text: "Gain Stealth when entering Siege Mode or after not taking or dealing damage for 3 seconds while in Siege Mode. Basic Attacks while Stealthed deal 100% more damage.\nRemaining stationary for at least 1.5 seconds while Stealthed grants Invisible.",
 	},
 	"SgtHammerConcussiveBlastEntrenched": {
 		Name: "Entrenched",
@@ -5634,7 +5696,7 @@ var talentData = map[string]talentText{
 	},
 	"SgtHammerMasteryHoverSiegeMode": {
 		Name: "Hover Siege Mode",
-		Text: "Sgt. Hammer can move at 25% Movement Speed while in Siege Mode.",
+		Text: "Sgt. Hammer can move at 40% Movement Speed while in Siege Mode.",
 	},
 	"SgtHammerMasteryOrbitalBFGBluntForceGun": {
 		Name: "Orbital BFG",
@@ -5654,7 +5716,7 @@ var talentData = map[string]talentText{
 	},
 	"SgtHammerSiegeModeMaelstromRounds": {
 		Name: "Maelstrom Rounds",
-		Text: "Activate to increase Basic Attack damage dealt by 40% for 5 seconds. Hitting Structures with Basic Attacks reduces the cooldown of Maelstrom Rounds by 5 seconds.\nStores up to 3 charges.",
+		Text: "Activate to increase Basic Attack damage dealt by 35% for 5 seconds. Hitting Structures with Basic Attacks reduces the cooldown of Maelstrom Rounds by 5 seconds.\nStores up to 3 charges.",
 	},
 	"SgtHammerSiegeModeRegenerativeBioSteel": {
 		Name: "Regenerative Bio-Steel",
@@ -5670,7 +5732,7 @@ var talentData = map[string]talentText{
 	},
 	"SgtHammerSpiderMinesShrapnelMines": {
 		Name: "Shrapnel Mines",
-		Text: "Upon detonating, Spider Mines reduce the armor of enemy Heroes hit by 10 for 3 seconds.",
+		Text: "Upon detonating, Spider Mines reduce the armor of enemy Heroes hit by 10 for 4 seconds.",
 	},
 	"SgtHammerSpiderMinesTacticalMineDeployment": {
 		Name: "Tactical Mine Deployment",
@@ -5702,7 +5764,7 @@ var talentData = map[string]talentText{
 	},
 	"StitchesHeroicAbilityGorge": {
 		Name: "Gorge",
-		Text: "Consume an enemy Hero, trapping them for 4 seconds. When Gorge ends, the enemy Hero takes 274 damage. The trapped Hero cannot move or act and doesn't take damage from other sources. \nCannot be used on massive Heroes.",
+		Text: "Consume an enemy Hero, trapping them for 4 seconds. When Gorge ends, the enemy Hero takes 274 damage. The trapped Hero cannot move or act and doesn't take damage from other sources.",
 	},
 	"StitchesHeroicAbilityPutridBile": {
 		Name: "Putrid Bile",
@@ -6498,7 +6560,7 @@ var talentData = map[string]talentText{
 	},
 	"TyrandeHeroicAbilityShadowstalk": {
 		Name: "Shadowstalk",
-		Text: "Stealth and gain 30% Movement Speed. When Shadowstalk's Stealth is broken, gain 50% Attack Speed and retain its Movement Speed bonus for 5 seconds.",
+		Text: "Stealth and gain 30% Movement Speed. Remaining stationary for at least 1.5 seconds while Stealthed grants Invisible.\nWhen Shadowstalk's Stealth is broken, gain 50% Attack Speed and retain its Movement Speed bonus for 5 seconds.",
 	},
 	"TyrandeHeroicAbilityStarfall": {
 		Name: "Starfall",
@@ -6650,11 +6712,11 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraAmbushAssassinate": {
 		Name: "Assassinate",
-		Text: "Ambush deals 100% additional damage if no other enemy Heroes are within 4 range of the victim.",
+		Text: "Ambush deals 50% additional damage and reduces the target's Armor by an additional 10 if no other enemy Heroes are within 4 range of the victim.",
 	},
 	"ValeeraAmbushDeathFromAbove": {
 		Name: "Death From Above",
-		Text: "Ambush now has 6 range and teleports Valeera behind the victim.",
+		Text: "Teleporting with Ambush reduces the cooldown of Vanish by 4 seconds.",
 	},
 	"ValeeraBladeFlurryFatalFinesse": {
 		Name: "Fatal Finesse",
@@ -6662,7 +6724,7 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraCheapShotBlind": {
 		Name: "Blind",
-		Text: "When Cheap Shot expires, the victim is blinded for 2.5 seconds.",
+		Text: "Increase the duration of Cheap Shot's Blind by 2 seconds.",
 	},
 	"ValeeraCloakOfShadows": {
 		Name: "Cloak of Shadows",
@@ -6678,31 +6740,31 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraCombatReadiness": {
 		Name: "Combat Readiness",
-		Text: "Each Combo Point spent grants 50 Physical Armor against the next enemy Hero Basic Attack, reducing its damage by 50%. Stores up to 3 charges.",
+		Text: "Each Combo Point spent grants 60 Physical Armor against the next enemy Hero Basic Attack, reducing its damage by 60%. Stores up to 3 charges.",
 	},
 	"ValeeraCripplingPoison": {
 		Name: "Crippling Poison",
-		Text: "Activate to cause Valeera's next instance of Spell Damage to slow enemy Movement Speed by 25% for 5 seconds.\nActivating Crippling Poison does not break Vanish.",
+		Text: "Activate to make Valeera's next damaging Ability and subsequent Abilities within 4 seconds Slow targets by 25% for 4 seconds.\nActivating Crippling Poison does not break Stealth.",
 	},
 	"ValeeraEviscerateExposeArmor": {
 		Name: "Expose Armor",
-		Text: "Eviscerating an enemy with 3 Combo Points causes them to lose 25 Armor for 2 seconds, increasing all damage taken by 25%.",
+		Text: "Eviscerating an enemy with 3 Combo Points causes them to lose -0 Armor for 0 seconds, increasing all damage taken by -0%.",
 	},
 	"ValeeraEviscerateSliceAndDice": {
 		Name: "Slice and Dice",
-		Text: "Eviscerating an enemy with 3 Combo Points causes Valeera's next 3 Basic Attacks to have their Attack Speed increased by 150%. Lasts 3 seconds.",
+		Text: "Eviscerating an enemy with 3 Combo Points grants 150% Attack Speed. Lasts 3 seconds or 3 Basic Attacks.\nPassive: Basic Attacks restore 2 Energy.",
 	},
 	"ValeeraGarroteHemorrhage": {
 		Name: "Hemorrhage",
-		Text: "Valeera's Basic Attacks deal 25% additional damage to enemies affected by Garrote.",
+		Text: "Valeera's Basic Attacks deal 50% additional damage to enemies affected by Garrote.",
 	},
 	"ValeeraGarroteRupture": {
 		Name: "Rupture",
-		Text: "Valeera's Basic Attacks increase the damage over time effect of Garrote by 5%, stacking up to 30%, and refresh the duration.",
+		Text: "Increase Garrote's damage over time by 100%. Valeera's Basic Attacks refresh the duration of Garrote.",
 	},
 	"ValeeraGarroteStrangle": {
 		Name: "Strangle",
-		Text: "Using Garrote on a Hero reduces their Spell Power by 25% for 7 seconds.",
+		Text: "Using Garrote on a Hero reduces their Spell Power by 40% for 6 seconds.",
 	},
 	"ValeeraSinisterStrikeMutilate": {
 		Name: "Mutilate",
@@ -6714,7 +6776,7 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraSinisterStrikeSealFate": {
 		Name: "Seal Fate",
-		Text: "Sinister Strike deals 50% additional damage and generates an additional Combo Point when used against silenced, rooted, or stunned enemy Heroes.",
+		Text: "Sinister Strike deals 50% additional damage and generates an additional Combo Point when used against Silenced, Rooted, or Stunned enemy Heroes.",
 	},
 	"ValeeraSmokeBomb": {
 		Name: "Smoke Bomb",
@@ -6730,7 +6792,7 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraVanishElusiveness": {
 		Name: "Elusiveness",
-		Text: "Increases Valeera's Movement Speed while Vanished by an additional 10%.",
+		Text: "Increases Valeera's Movement Speed while Vanished by an additional 20%.",
 	},
 	"ValeeraVanishInitiative": {
 		Name: "Initiative",
@@ -6742,7 +6804,7 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraVanishSubtlety": {
 		Name: "Subtlety",
-		Text: "After remaining Vanished for at least 4 seconds, using Ambush, Cheap Shot, or Garrote causes Valeera to regenerate an additional 10 Energy per second for 5 seconds.",
+		Text: "After teleporting with Ambush, Cheap Shot, or Garrote, regenerate 8 Energy per second for 5 seconds.",
 	},
 	"ValeeraVigor": {
 		Name: "Vigor",
@@ -6750,7 +6812,7 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraWoundPoison": {
 		Name: "Wound Poison",
-		Text: "Activate to cause Valeera's next instance of Spell Damage to also reduce healing received by the victim by 50% for 5 seconds.\nActivating Wound Poison does not break Vanish.",
+		Text: "Activate to make Valeera's next damaging Ability and subsequent Abilities within 4 seconds reduce enemy healing received by 50% for 4 seconds.\nActivating Wound Poison does not break Stealth.",
 	},
 	"VarianBannerOfDalaran": {
 		Name: "Banner of Dalaran",
@@ -6938,7 +7000,7 @@ var talentData = map[string]talentText{
 	},
 	"WizardArcaneOrbZeisVengeance": {
 		Name: "Zei's Vengeance",
-		Text: "Arcane Orb does up to 25% more damage to enemies based on distance. Additionally, its cooldown is reduced by 2 seconds.",
+		Text: "Increase Arcane Orb's damage increase for distance traveled by 25%. Additionally, reduce its cooldown by 2 seconds.",
 	},
 	"WizardArchonPurePower": {
 		Name: "Archon: Pure Power",
@@ -7214,7 +7276,11 @@ var talentData = map[string]talentText{
 	},
 	"ZeratulComboSlash": {
 		Name: "Combo Slash",
-		Text: "After using an Ability, Zeratul's next Basic Attack within 6 seconds deals 40% additional damage.",
+		Text: "After using an Ability, Zeratul's next Basic Attack within 0 seconds deals 0% additional damage.",
+	},
+	"ZeratulDarknessDescends": {
+		Name: "Darkness Descends",
+		Text: "Activate to gain 40% Attack Speed for 5 seconds.\nPassive: Gain 10% Attack Speed.",
 	},
 	"ZeratulGiftoftheXelNaga": {
 		Name: "Gift of the Xel’Naga",
@@ -7244,9 +7310,13 @@ var talentData = map[string]talentText{
 		Name: "Mending Strikes",
 		Text: "Basic Attacks heal for 35% of the damage dealt.",
 	},
-	"ZeratulNerazimFury": {
-		Name: "Nerazim Fury",
-		Text: "Shadow Assault grants 30% Life Steal, and the duration is increased by 50%.",
+	"ZeratulMoveUnseen": {
+		Name: "Move Unseen",
+		Text: "Gain 25% Movement Speed while Stealthed.",
+	},
+	"ZeratulPsionicStrength": {
+		Name: "Psionic Strength",
+		Text: "Dealing damage to enemy Heroes increases all damage dealt by 6% for 3 seconds, stacking up to 30%.",
 	},
 	"ZeratulRendingCleave": {
 		Name: "Rending Cleave",
@@ -7258,31 +7328,43 @@ var talentData = map[string]talentText{
 	},
 	"ZeratulSentencedtoDeath": {
 		Name: "Sentenced to Death",
-		Text: "Deal 40% increased damage to enemies while they have a Singularity Spike attached to them.",
+		Text: "Deal 30% increased damage to enemies while they have a Singularity Spike attached to them.",
 	},
 	"ZeratulShadowHunter": {
 		Name: "Shadow Hunter",
-		Text: "Quest: Gather Regeneration Globes to lower the Mana cost of Blink by 2 .\nReward: Upon gathering 20 Regeneration Globes, Basic Attacks reduce the cooldown of Blink by 1 second.",
+		Text: "Quest: Gather Regeneration Globes to lower the Mana cost of Blink by 3.\nReward: Upon gathering 15 Regeneration Globes, Basic Attacks reduce the cooldown of Blink by 1 second.",
+	},
+	"ZeratulShadowMending": {
+		Name: "Shadow Mending",
+		Text: "Heal for 75% of Spell Damage dealt to Heroes.",
 	},
 	"ZeratulShroudofAdun": {
 		Name: "Shroud of Adun",
-		Text: "Zeratul gains a shield equal to 15% of his Maximum Health over 5 seconds while under Permanent Cloak.",
+		Text: "Zeratul gains a Shield equal to 15% of his Maximum Health over 5 seconds while under Permanent Cloak.",
 	},
 	"ZeratulSlipintoShadow": {
 		Name: "Slip into Shadow",
 		Text: "Blink gains an additional charge, but its cooldown is increased by 8 seconds.",
 	},
+	"ZeratulTwilightFalls": {
+		Name: "Twilight Falls",
+		Text: "Might of the Nerazim resets the cooldown of all Basic Abilities.",
+	},
 	"ZeratulVoidSlash": {
 		Name: "Void Slash",
-		Text: "If Cleave hits more than one enemy Hero, it deals 40% increased damage and its cooldown is reduced by 3 seconds.",
+		Text: "If Cleave hits more than one enemy Hero, it deals 50% increased damage and its cooldown is reduced by 3 seconds.",
 	},
 	"ZeratulVorpalBlade": {
 		Name: "Vorpal Blade",
 		Text: "Activate to teleport to Zeratul's last non-structure Basic Attack target within 3 seconds. The target is revealed during these 3 seconds.",
 	},
+	"ZeratulWarpSkirmisherTalent": {
+		Name: "Warp Skirmisher",
+		Text: "Vorpal Blade gains a 2nd charge. Teleporting to an enemy with Vorpal Blade causes Zeratul's next Basic Attack within 6 seconds to deal 30% more damage.",
+	},
 	"ZeratulWormhole": {
 		Name: "Wormhole",
-		Text: "For 2 seconds, reactivate Blink to return to the point where it was cast from.",
+		Text: "For 3 seconds, reactivate Blink to return to the point where it was cast from.",
 	},
 	"ZuljinAmaniRageTalent": {
 		Name: "Amani Rage",
