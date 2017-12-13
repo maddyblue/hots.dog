@@ -1237,7 +1237,7 @@ func (h *hotsContext) getHero(ctx context.Context, init initData, build, hero st
 			WHERE build = $1 AND hero = $2
 			GROUP BY winner
 		`, params)
-		if len(res.Base) == 0 {
+		if res.Base != nil && len(res.Base) == 0 {
 			res.Base[""] = Total{}
 		}
 		return errors.Wrap(err, "base")
