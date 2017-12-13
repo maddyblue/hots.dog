@@ -489,7 +489,8 @@ func processReplay(ctx context.Context, r *Replay, g *groupConfig) error {
 	for retries := 0; true; retries++ {
 		result, err = lambdaSvc.InvokeWithContext(ctx, input)
 		if err != nil {
-			return errors.Wrap(err, "invoke")
+			fmt.Printf("invoke error: %s: %s", err, b)
+			continue
 		}
 		if result.FunctionError != nil {
 			if retries >= 10 {
