@@ -668,11 +668,11 @@ var talentData = map[string]talentText{
 	},
 	"AlexstraszaCleansingFlame": {
 		Name: "Cleansing Flame",
-		Text: "After 1.25 seconds, take to the sky and drop 5 fireballs over 6 seconds at the position of the mouse cursor. Fireballs deal 150 damage to enemies and heal allied Heroes for 300 Health.\n2 seconds after dropping all fireballs, Alexstrasza lands at the position of the mouse cursor.",
+		Text: "After 1.25 seconds, take to the sky and drop 5 fireballs over 6 seconds at the position of the mouse cursor. Fireballs deal 135 damage to enemies and heal allied Heroes for 300 Health.\n2 seconds after dropping all fireballs, Alexstrasza lands at the position of the mouse cursor.",
 	},
 	"AlexstraszaDraconicDisciplineDragonqueen": {
 		Name: "Draconic Discipline",
-		Text: "Increase Dragonqueen's duration by 9 seconds.",
+		Text: "Increase Dragonqueen's duration by 7 seconds.",
 	},
 	"AlexstraszaDragonScales": {
 		Name: "Dragon Scales",
@@ -996,7 +996,7 @@ var talentData = map[string]talentText{
 	},
 	"ArtanisBladeDashTemplarsZeal": {
 		Name: "Templar's Zeal",
-		Text: "Blade Dash cooldown recharges 150% faster while below 50% Health.",
+		Text: "Blade Dash cooldown recharges 200% faster while below 50% Health.",
 	},
 	"ArtanisHeroicAbilitySpearofAdunPurifierBeam": {
 		Name: "Purifier Beam",
@@ -1008,7 +1008,7 @@ var talentData = map[string]talentText{
 	},
 	"ArtanisPhasePrismChronoSurge": {
 		Name: "Chrono Surge",
-		Text: "Hitting an enemy Hero with Phase Prism grants 50% bonus Attack Speed for 5 seconds.",
+		Text: "Hitting an enemy Hero with Phase Prism grants 75% bonus Attack Speed for 5 seconds.",
 	},
 	"ArtanisPhasePrismGravitonVortex": {
 		Name: "Graviton Vortex",
@@ -1028,7 +1028,7 @@ var talentData = map[string]talentText{
 	},
 	"ArtanisShieldOverloadPhaseBulwark": {
 		Name: "Phase Bulwark",
-		Text: "When Shield Overload activates, gain 40 Spell Armor for 4 seconds, reducing Ability Damage taken by 40%.",
+		Text: "When Shield Overload activates, gain 50 Spell Armor for 4 seconds, reducing Ability Damage taken by 50%.",
 	},
 	"ArtanisShieldOverloadShieldBattery": {
 		Name: "Shield Battery",
@@ -2824,7 +2824,7 @@ var talentData = map[string]talentText{
 	},
 	"GarroshGroundbreakerDefensiveMeasures": {
 		Name: "Defensive Measures",
-		Text: "Pulling a Hero with Groundbreaker grants Garrosh a 350 Shield for 6 seconds.",
+		Text: "If Groundbreaker Stuns a Hero, Garrosh gains a 350 Shield for 6 seconds.",
 	},
 	"GarroshGroundbreakerIntimidation": {
 		Name: "Intimidation",
@@ -2832,15 +2832,15 @@ var talentData = map[string]talentText{
 	},
 	"GarroshGroundbreakerMortalCombo": {
 		Name: "Mortal Combo",
-		Text: "If Wrecking Ball is used on a Hero within 2 seconds of pulling them with Groundbreaker, Wrecking Ball's cooldown is reduced by 10 seconds.",
+		Text: "If Wrecking Ball is used on a Hero within 3 seconds of Stunning them with Groundbreaker, Wrecking Ball's cooldown is reduced by 8 seconds.",
 	},
 	"GarroshGroundbreakerRoughLanding": {
 		Name: "Rough Landing",
-		Text: "Heroes pulled by Groundbreaker are Slowed by 50% for 3 seconds.",
+		Text: "Increase Groundbreaker's Slow amount by 20% and duration by 1 second.",
 	},
 	"GarroshGroundbreakerWarbreaker": {
 		Name: "Warbreaker",
-		Text: "Quest: Pull Heroes with Groundbreaker.\nReward: After pulling 5 Heroes, Groundbreaker deals an additional 150 damage over 3 seconds to Heroes.\nReward: After pulling 15 Heroes, reduce Groundbreaker's cooldown by 3 seconds.",
+		Text: "Quest: Stun Heroes with Groundbreaker.\nReward: After Stunning 5 Heroes, Groundbreaker deals an additional 150 damage over 3 seconds to Heroes.\nReward: After Stunning 15 Heroes, permanently reduce Groundbreaker's cooldown by 3 seconds.",
 	},
 	"GarroshHeroicAbilityDecimate": {
 		Name: "Decimate",
@@ -3368,7 +3368,7 @@ var talentData = map[string]talentText{
 	},
 	"HanzoDragonstrike": {
 		Name: "Dragonstrike",
-		Text: "After 1.5 seconds, summon a pair of Spirit Dragons which travel forward, dealing 58 damage every 0.25 seconds to enemy Heroes in its area.  Enemies in the center take 150% damage.",
+		Text: "After 1.5 seconds, summon a pair of Spirit Dragons which travel forward, dealing 64 damage every 0.25 seconds to enemy Heroes in its area.  Enemies in the center take 150% damage.",
 	},
 	"HanzoExplosiveArrows": {
 		Name: "Explosive Arrows",
@@ -4136,7 +4136,7 @@ var talentData = map[string]talentText{
 	},
 	"LiLiMasteryBlindingWindGaleForce": {
 		Name: "Gale Force",
-		Text: "Increase Blinding Wind's duration by 1 second. Li Li's Basic Attacks against Blinded Heroes deal 50% increased damage.",
+		Text: "Increase Blinding Wind's duration by 1 second. Li Li's Basic Attacks against Blinded Heroes deal 75% increased damage.",
 	},
 	"LiLiMasteryBlindingWindMassVortex": {
 		Name: "Mass Vortex",
@@ -4152,11 +4152,11 @@ var talentData = map[string]talentText{
 	},
 	"LiLiMasteryCloudSerpentSerpentSidekick": {
 		Name: "Serpent Sidekick",
-		Text: "Cloud Serpent's duration is increased by 0.5 seconds every time it attacks an Hero.",
+		Text: "Cloud Serpent's duration is increased by 0.6 seconds every time it attacks an Hero.",
 	},
 	"LiLiMasteryFastFeetSafetySprint": {
 		Name: "Safety Sprint",
-		Text: "Activate to gain Fast Feet for 2 seconds and increase its Movement Speed bonus to 30% while active.",
+		Text: "Activate to gain Fast Feet for 3 seconds and increase its Movement Speed bonus to 30% while active.",
 	},
 	"LiLiMasteryHealingBrewTheGoodStuff": {
 		Name: "The Good Stuff",
@@ -4188,7 +4188,7 @@ var talentData = map[string]talentText{
 	},
 	"LiLiWindSerpent": {
 		Name: "Wind Serpent",
-		Text: "Each Hero hit by Blinding Wind reduces the cooldown of Cloud Serpent by 3 seconds.",
+		Text: "Each Hero hit by Blinding Wind reduces the cooldown of Cloud Serpent by 4 seconds.",
 	},
 	"LostVikingsGoGoGo64KBMarathon": {
 		Name: "64 KB Marathon",
@@ -5096,7 +5096,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaMasteryLethalDecoy": {
 		Name: "Lethal Decoy",
-		Text: "Increases the damage Holo Decoy deals to 50% of Nova's damage.",
+		Text: "Increases the damage Holo Decoy deals to 40% of Nova's damage.",
 	},
 	"NovaMasteryLongshot": {
 		Name: "Longshot",
@@ -5880,7 +5880,7 @@ var talentData = map[string]talentText{
 	},
 	"StukovOneGoodSpread": {
 		Name: "One Good Spread...",
-		Text: "After a Healing Pathogen infests 3 targets, restore 40 Mana and reduce the cooldown of Healing Pathogen by 2 seconds.",
+		Text: "After a Healing Pathogen infests 3 targets, restore 30 Mana and reduce the cooldown of Healing Pathogen by 2 seconds.",
 	},
 	"StukovPoppinPustules": {
 		Name: "Poppin' Pustules",
@@ -6176,7 +6176,7 @@ var talentData = map[string]talentText{
 	},
 	"ThrallSpiritShield": {
 		Name: "Spirit Shield",
-		Text: "Every 45 seconds, gain 50 Spell Armor against the next enemy Ability and subsequent Abilities for 1.5 seconds. Frostwolf Resilience reduces this cooldown by 8 seconds.\nCan be toggled to allow or prevent this talent from triggering automatically.",
+		Text: "Every 45 seconds, gain 50 Spell Armor against the next enemy Ability and subsequent Abilities for 1.5 seconds. Frostwolf Resilience reduces this cooldown by 10 seconds.\nCan be toggled to allow or prevent this talent from triggering automatically.",
 	},
 	"ThrallThunderstorm": {
 		Name: "Thunderstorm",
@@ -6932,11 +6932,11 @@ var talentData = map[string]talentText{
 	},
 	"WitchDoctorHeroicAbilityRavenousSpirits": {
 		Name: "Ravenous Spirit",
-		Text: "Channel a Ravenous Spirit that deals 207 damage per second. Cannot move while channeling. Lasts for 8 seconds.",
+		Text: "Channel a Ravenous Spirit that deals 216 damage per second. Cannot move while channeling. Lasts for 8 seconds.",
 	},
 	"WitchDoctorHexedCrawlers": {
 		Name: "Hexed Crawlers",
-		Text: "Corpse Spiders restore 0.75% of Nazeebo's maximum Health and Mana when they attack an enemy Hero.",
+		Text: "Corpse Spiders restore 1% of Nazeebo's maximum Health and Mana when they attack an enemy Hero.",
 	},
 	"WitchDoctorHumongoid": {
 		Name: "Humongoid",
@@ -6980,7 +6980,7 @@ var talentData = map[string]talentText{
 	},
 	"WitchDoctorVileInfection": {
 		Name: "Vile Infection",
-		Text: "Quest: Reach 175 stacks of Voodoo Ritual.\nReward: After reaching 175 stacks of Voodoo Ritual, it can also be applied to Heroes and its damage is increased by 200%.",
+		Text: "Quest: Reach 175 stacks of Voodoo Ritual.\nReward: After reaching 175 stacks of Voodoo Ritual, it can also be applied to Heroes and its damage is increased by 150%.",
 	},
 	"WitchDoctorWidowmakers": {
 		Name: "Widowmakers",
