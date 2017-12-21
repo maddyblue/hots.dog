@@ -7310,6 +7310,10 @@ var talentData = map[string]talentText{
 		Name: "Mending Strikes",
 		Text: "Basic Attacks heal for 35% of the damage dealt.",
 	},
+	"ZeratulMightOfTheNerazim": {
+		Name: "Might Of The Nerazim",
+		Text: "Activate to cast an untalented version of Zeratul's most recently used Basic Ability, dealing 50% less damage.\nPassive: After using an Ability, Zeratul's next Basic Attack within 6 seconds deals 40% more damage.",
+	},
 	"ZeratulMoveUnseen": {
 		Name: "Move Unseen",
 		Text: "Gain 25% Movement Speed while Stealthed.",

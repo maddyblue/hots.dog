@@ -73,6 +73,9 @@ func extract() error {
 					text := strings.TrimPrefix(parts[0], buttontooltip)
 					tooltips[text] = parts[1]
 					t := texts[text]
+					// TODO: This should probably len(t) < len(parts[1]), but until the bribery
+					// stacks bugs are fixed it's ok.
+
 					if t == "" || len(t) > len(parts[1]) {
 						texts[text] = clean(parts[1])
 					}
@@ -166,6 +169,10 @@ func extract() error {
 		return s
 	}
 	var heroes []Hero
+	// Not sure what is going on here, but this fixes it.
+	faceMap := map[string]string{
+		"ZeratulMightOfTheNerazimPassive": "ZeratulMightOfTheNerazimTalent",
+	}
 	walk := func(path string, _ os.FileInfo, err error) error {
 		if !strings.HasSuffix(path, ".xml") {
 			return nil
@@ -187,7 +194,11 @@ func extract() error {
 			icons[b.Id] = iconClean(b.Icon.Value)
 		}
 		for _, b := range v.CTalent {
-			talentFaces[b.Id] = b.Face.Value
+			if v, ok := faceMap[b.Face.Value]; ok {
+				talentFaces[b.Id] = v
+			} else {
+				talentFaces[b.Id] = b.Face.Value
+			}
 		}
 		for _, chero := range v.CHero {
 			if len(chero.TalentTreeArray) > 0 && chero.Id != "" {
@@ -262,7 +273,7 @@ func extract() error {
 			if names[face] == "" {
 				panic(talent.Talent)
 			}
-			if _, ok := texts[face]; !ok {
+			if texts[face] == "" {
 				panic(fmt.Errorf("%s: %s", talent.Talent, face))
 			}
 		}
