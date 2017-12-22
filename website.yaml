@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: website
 spec:
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
@@ -49,5 +49,5 @@ spec:
   - port: 80
     targetPort: 80
     name: http
-  type: LoadBalancer
-  loadBalancerIP: "35.194.60.218"
+  externalIPs:
+    - 10.128.0.5
