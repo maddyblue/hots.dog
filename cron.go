@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 
 	"github.com/pkg/errors"
@@ -94,7 +95,9 @@ func (h *hotsContext) cron() error {
 				u.RawQuery = v.Encode()
 				log.Printf("force update: %s", u.String())
 				if err := update(u.String(), true); err != nil {
-					return err
+					if !strings.Contains(err.Error(), "unrecognized hero") {
+						return err
+					}
 				}
 			}
 		}
