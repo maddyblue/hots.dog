@@ -63,6 +63,12 @@ var heroData = []Hero{
 		MultiRole: []string{"Specialist"},
 	},
 	{
+		Name:      "Blaze",
+		Slug:      "blaze",
+		Role:      "Warrior",
+		MultiRole: []string{"Warrior"},
+	},
+	{
 		Name:      "Brightwing",
 		Slug:      "brightwing",
 		Role:      "Support",
@@ -2698,6 +2704,94 @@ var talentData = map[string]talentText{
 		Name: "Wingman",
 		Text: "Enemy Minions killed near Falstad grant a stack of Bribe. Falstad can use 20 stacks to bribe a Mercenary, instantly defeating them and permanently increasing the damage of Lightning Rod by 5%. Does not work on Bosses. Maximum of 80 stacks.",
 	},
+	"FirebatActiveJuggernautPlating": {
+		Name: "Juggernaut Plating",
+		Text: "Activate to gain 50 Spell Armor for 3 seconds. Upon expiration, gain a Shield equal to 100% of the Spell Damage reduced by Juggernaut Plating.",
+	},
+	"FirebatAdrenalineStimpack": {
+		Name: "Adrenaline Stimpack",
+		Text: "Activate to gain 100% Attack Speed and 25% Movement Speed for 5 seconds.",
+	},
+	"FirebatBunkerDropFortifiedBunker": {
+		Name: "Fortified Bunker",
+		Text: "Occupants can cast Oil Spill from Bunker Drop every 6 seconds. Additionally, Bunker Drop's Armor bonus upon exiting is increased by 25, and its duration by 1 second.",
+	},
+	"FirebatCombustionFlashFire": {
+		Name: "Flash Fire",
+		Text: "While Channeling Combution, Blaze's Movement Speed is no longer reduced, and nearby enemies are Slowed by 60%.",
+	},
+	"FirebatEnduranceStimpack": {
+		Name: "Endurance Stimpack",
+		Text: "Activate to gain a Shield that absorbs 450 damage over 5 seconds.",
+	},
+	"FirebatFlameStreamCrossfire": {
+		Name: "Crossfire",
+		Text: "Hitting an enemy with both streams of Flame Stream deals 132 bonus damage.",
+	},
+	"FirebatFlameStreamFeedingtheFlame": {
+		Name: "Feeding the Flame",
+		Text: "Each enemy Hero hit by Flame Stream reduces the cooldown of Oil Spill by 1.5 seconds.",
+	},
+	"FirebatFlameStreamSuppressiveFire": {
+		Name: "Suppressive Fire",
+		Text: "Each stream of Flame Stream reduces the Spell Power of Heroes hit by 15% for 4 seconds, up to 30%.",
+	},
+	"FirebatHeroicAbilityBunkerDrop": {
+		Name: "Bunker Drop",
+		Text: "After 0.5 seconds, deploy and enter a Bunker with 1305 Health. Blaze and his allies can enter and exit the Bunker at will. While in the Bunker, occupants gain access to Flamethrower, dealing 179 damage to enemies in a line. \nExiting the Bunker grants 25 Armor for 2 seconds. Bunkers last 10 seconds, or until destroyed.",
+	},
+	"FirebatHeroicAbilityCombustion": {
+		Name: "Combustion",
+		Text: "Channel for up to 2.6 seconds. Upon ending, Slow nearby enemies by 60% and deal 48 damage to them every 0.5 seconds. Combustion's Slow and damage over time duration is extend the longer Blaze Channels, from 1 second up to 5 seconds.\nBlaze's Movement Speed is reduced by 50% while Channeling.",
+	},
+	"FirebatIgniteHeatTreatment": {
+		Name: "Heat Treatment",
+		Text: "Heal for 75% of the damage dealt by Pyromania.",
+	},
+	"FirebatIgniteMeltdown": {
+		Name: "Meltdown",
+		Text: "Hitting an enemy Hero with Pyromania reduces their damage dealt by 5% for 2.5 seconds, up to 30%.",
+	},
+	"FirebatJetPropulsionFuelLeak": {
+		Name: "Fuel Leak",
+		Text: "Jet Propulsion creates Oil Spills along Blaze's path. If Jet Propulsion impacts an enemy Hero, an additional Oil Spill is created underneath them.",
+	},
+	"FirebatJetPropulsionThermalProtection": {
+		Name: "Thermal Protection",
+		Text: "Each enemy hit by Jet Propulsion grants 10 Armor for 3 seconds and reduces its cooldown by 2 seconds.",
+	},
+	"FirebatNeuralStimpack": {
+		Name: "Neural Stimpack",
+		Text: "Activate to gain 50 Mana and cause Ability cooldowns to recharge 100% faster for 5 seconds.",
+	},
+	"FirebatNewHabits": {
+		Name: "New Habits",
+		Text: "Collecting Regeneration Globes reduces the cooldown of Pyromania by 5 seconds.\nQuest: Collect 15 Regeneration Globes.\nReward: Pyromania grants Unstoppable for 2 seconds.",
+	},
+	"FirebatOilSpillAdhesivePetroleum": {
+		Name: "Adhesive Petroleum",
+		Text: "Enemies standing in Oil Spill when it is Ignited are Slowed by 30% for 2.5 seconds.",
+	},
+	"FirebatOilSpillGrillandKill": {
+		Name: "Grill and Kill",
+		Text: "Quest: Damage enemy Heroes with Ignited Oil Spills 60 times.\nReward: Increase Oil Spill's Ignite duration by 2 seconds, and damage by 25%.",
+	},
+	"FirebatOilSpillNanomachineCoating": {
+		Name: "Nanomachine Coating",
+		Text: "Enemies standing in Oil Spills have their Attack Speed reduced by 40% for 2.5 seconds.",
+	},
+	"FirebatOilSpillOilDispersal": {
+		Name: "Oil Dispersal",
+		Text: "Increase Oil Spill's area by 20% and Slow amount by 10%.",
+	},
+	"FirebatWeaponBurnNotice": {
+		Name: "Burn Notice",
+		Text: "Basic Attacks Slow enemies by 5% and deal an additional 18 damage over 2.5 seconds. Stacks up to 5 times.",
+	},
+	"FirebatWeaponIncineratorGauntlets": {
+		Name: "Incinerator Gauntlets",
+		Text: "Increase Basic Attack area by 15%, and Basic Attack damage to Minions, Mercenaries, and Monsters by 50%. Additionally, Basic Attack splashes Ignite Oil Spills.",
+	},
 	"GallBombsAway": {
 		Name: "Bomb's Away",
 		Text: "Quest: Damaging a Hero with Runic Blast increases its damage by 5.\nReward: After damaging 20 Heroes, the range and speed of Cho's Rune Bomb is increased by 20%.",
@@ -2832,15 +2926,15 @@ var talentData = map[string]talentText{
 	},
 	"GarroshGroundbreakerMortalCombo": {
 		Name: "Mortal Combo",
-		Text: "If Wrecking Ball is used on a Hero within 3 seconds of Stunning them with Groundbreaker, Wrecking Ball's cooldown is reduced by 8 seconds.",
+		Text: "If Wrecking Ball is used on a Hero within 3 seconds of Stunning them with Groundbreaker, Wrecking Ball's cooldown is reduced by 7 seconds.",
 	},
 	"GarroshGroundbreakerRoughLanding": {
 		Name: "Rough Landing",
-		Text: "Increase Groundbreaker's Slow amount by 20% and duration by 1 second.",
+		Text: "Increase Groundbreaker's Slow amount by 15% and duration by 1 second.",
 	},
 	"GarroshGroundbreakerWarbreaker": {
 		Name: "Warbreaker",
-		Text: "Quest: Stun Heroes with Groundbreaker.\nReward: After Stunning 5 Heroes, Groundbreaker deals an additional 150 damage over 3 seconds to Heroes.\nReward: After Stunning 15 Heroes, permanently reduce Groundbreaker's cooldown by 3 seconds.",
+		Text: "Quest: Stun Heroes with Groundbreaker.\nReward: After Stunning 5 Heroes, Groundbreaker deals an additional 165 damage over 3 seconds to Heroes.\nReward: After Stunning 15 Heroes, permanently reduce Groundbreaker's cooldown by 2 seconds.",
 	},
 	"GarroshHeroicAbilityDecimate": {
 		Name: "Decimate",
@@ -2864,7 +2958,7 @@ var talentData = map[string]talentText{
 	},
 	"GarroshWreckingBallEarthshaker": {
 		Name: "Earthshaker",
-		Text: "Wrecking Ball Stuns enemies near the impact area for 0.6 seconds.",
+		Text: "Wrecking Ball Stuns enemies near the impact area for 0.5 seconds.",
 	},
 	"GarroshWreckingBallIntotheFray": {
 		Name: "Into the Fray",
@@ -2876,7 +2970,7 @@ var talentData = map[string]talentText{
 	},
 	"GarroshWreckingBallUnrivaledStrength": {
 		Name: "Unrivaled Strength",
-		Text: "Increase Wrecking Ball's throw range by 25% and its damage by 125%.",
+		Text: "Increase Wrecking Ball's throw range by 25% and its damage by 75%.",
 	},
 	"GenericArcanePower": {
 		Name: "Arcane Power",
@@ -3384,7 +3478,7 @@ var talentData = map[string]talentText{
 	},
 	"HanzoGiantSlayer": {
 		Name: "Giant Slayer",
-		Text: "Enemy Heroes hit by Scatter Arrow and Basic Attacks take a bonus 1.25% of their maximum Health as damage.",
+		Text: "Enemy Heroes hit by Scatter Arrow and Basic Attacks take a bonus 1.5% of their maximum Health as damage.",
 	},
 	"HanzoIgnoreAllDistractions": {
 		Name: "Ignore All Distractions",
@@ -3392,7 +3486,7 @@ var talentData = map[string]talentText{
 	},
 	"HanzoMountedArchery": {
 		Name: "Mounted Archery",
-		Text: "Upon mounting, gain 30% additional Movement Speed for 5 seconds. Using Natural Agility instantly mounts.",
+		Text: "Upon mounting, gain 20% additional Movement Speed for 5 seconds. Using Natural Agility instantly mounts.",
 	},
 	"HanzoNeverOutmatched": {
 		Name: "Never Outmatched",
@@ -3405,6 +3499,10 @@ var talentData = map[string]talentText{
 	"HanzoPOTG": {
 		Name: "Play of the Game",
 		Text: "While in flight or for up to 2 seconds after impacting a target, Dragon's Arrow can be reactivated to teleport to its location and jump backwards. If used after impact, Hanzo shoots arrows that deal 132 damage to each target hit by the impact.\nHanzo is Unstoppable during Play of the Game.",
+	},
+	"HanzoPerfectAgility": {
+		Name: "Perfect Agility",
+		Text: "Natural Agility gains a 2nd charge and its cooldown is reduced by 5 seconds.",
 	},
 	"HanzoPiercingArrows": {
 		Name: "Piercing Arrows",
@@ -3420,11 +3518,7 @@ var talentData = map[string]talentText{
 	},
 	"HanzoSharpenedArrowheads": {
 		Name: "Sharpened Arrowheads",
-		Text: "Scatter Arrow limits the maximum Armor for Heroes hit to 0 for 5 seconds.",
-	},
-	"HanzoShieldbreakerArrows": {
-		Name: "Shieldbreaker Arrows",
-		Text: "Basic Attacks and Storm Bow deal 250% bonus damage to Shields on Heroic targets.",
+		Text: "Hitting a Hero with Storm Bow or Basic Attacks reduces their Armor by 5 for 4 seconds, up to a maximum reduction of 25 Armor.",
 	},
 	"HanzoSimpleGeometry": {
 		Name: "Simple Geometry",
@@ -3629,10 +3723,6 @@ var talentData = map[string]talentText{
 	"JainaSummonWaterElementalWintermute": {
 		Name: "Wintermute",
 		Text: "Increases the cast range of Water Elemental by 50%, and the Water Elemental will now mimic Jaina's Basic Abilities for 50% damage.",
-	},
-	"JunkratBombPacks": {
-		Name: "Bomb Packs",
-		Text: "Activate to place a Bomb Pack on the ground that can be picked up by an allied Hero. Heroes that die while in possession of a Bomb Pack drop 3 grenades that explode after 1.25 seconds, dealing 250 damage in an area.\nLimit 0 Bomb Pack per Hero, and 5 Bomb Packs on the ground at one time.",
 	},
 	"JunkratConcussionMineBOOMPOW": {
 		Name: "BOOM POW",
@@ -4120,7 +4210,7 @@ var talentData = map[string]talentText{
 	},
 	"LiLiHeroicAbilityJugof1000Cups": {
 		Name: "Jug of 1,000 Cups",
-		Text: "Channel for up to 6 seconds. Every 0.25 seconds, heal the lowest Health nearby allied Hero for 70 Health and increase the cooldown of Jug of 1,000 Cups by 2 seconds, up to 50.",
+		Text: "Channel for up to 0 seconds. Every 0.25 seconds, heal the lowest Health nearby allied Hero for 70 Health and increase the cooldown of Jug of 1,000 Cups by 2 seconds, up to 50.",
 	},
 	"LiLiHeroicAbilityWaterDragon": {
 		Name: "Water Dragon",
@@ -4376,7 +4466,11 @@ var talentData = map[string]talentText{
 	},
 	"MalfurionCelestialAlignment": {
 		Name: "Celestial Alignment",
-		Text: "Increases the reveal time of Moonfire by 3 seconds. Basic attacks against revealed enemy Heroes is increased by 100%.",
+		Text: "Increase Moonfire's reveal duration by 1 second. Malfurion's Basic Attacks against Heroes revealed by Moonfire deal 75% more damage.",
+	},
+	"MalfurionCenarionWard": {
+		Name: "Cenarion Ward",
+		Text: "[PH] Activate to grant nearby allied Heroes a Regrowth.",
 	},
 	"MalfurionCombatStyleElunesGrace": {
 		Name: "Elune's Grace",
@@ -4384,15 +4478,23 @@ var talentData = map[string]talentText{
 	},
 	"MalfurionCombatStyleShandosClarity": {
 		Name: "Shan'do's Clarity",
-		Text: "Reduces Innervate's cooldown by 8 seconds.",
+		Text: "Innervate's cooldown recharges 25% faster per ally affected by Regrowth.",
+	},
+	"MalfurionEntanglingRootsDeepRootsTalent": {
+		Name: "Deep Roots",
+		Text: "Entangling Roots grows 25% larger, and persist on the ground 25% longer.",
 	},
 	"MalfurionHeroicAbilityTranquility": {
 		Name: "Tranquility",
-		Text: "Heals 76 Health per second to nearby allied Heroes over 10 seconds.",
+		Text: "Heal nearby allied Heroes for 80 Health per second for 8 seconds. Allies affected by Regrowth within Tranquility's area gain 10 Armor.",
 	},
 	"MalfurionHeroicAbilityTwilightDream": {
 		Name: "Twilight Dream",
 		Text: "After 0.5 seconds, deal 355 damage in a large area around Malfurion, Silencing enemies making them unable to use Abilities for 3 seconds.",
+	},
+	"MalfurionLifebloomRegrowth": {
+		Name: "Lifebloom",
+		Text: "Regrowth instantly heals its target for 10% of their missing Health.",
 	},
 	"MalfurionMasteryAstralCommunion": {
 		Name: "Astral Communion",
@@ -4404,43 +4506,63 @@ var talentData = map[string]talentText{
 	},
 	"MalfurionMasteryHinderingMoonfire": {
 		Name: "Hindering Moonfire",
-		Text: "Moonfire Slows enemy Heroes by 25% for 2 seconds.",
+		Text: "Moonfire Slows Heroes hit by 25% for 2 seconds.",
 	},
 	"MalfurionMasteryLifeSeed": {
 		Name: "Life Seed",
-		Text: "Nearby damaged allied Heroes will automatically gain the heal over time portion of Regrowth. This effect has a 20 second cooldown.",
+		Text: "[PH] Increase the heal amount of your Moonfire by 25%.  Nearby damaged allied Heroes will automatically gain the heal-over-time effect of Regrowth. This effect has a 20 second cooldown.",
 	},
 	"MalfurionMasteryLunarShower": {
 		Name: "Lunar Shower",
-		Text: "Using Moonfire reduces the cooldown of the next Moonfire by 0.5 seconds, and increases the damage by 15%. Stacks up to 3 times and resets after 6 seconds.",
+		Text: "If Moonfire hits a Hero, its cooldown is reduced by 1 second and the next Moonfire within 6 seconds deals 20% more damage. This damage bonus stacks up to 60%.",
 	},
 	"MalfurionMasteryMoonburn": {
 		Name: "Moonburn",
-		Text: "Increase Moonfire's damage to Minions by 75%.\nRepeatable Quest: Every 5 Minions killed nearby increase this bonus by 1%, up to 25%. After reaching a 25% bonus, Moonburn's bonus damage also applies to Mercenaries and Monsters.",
+		Text: "[PH] Increase Moonfire's damage to Mercenaries and Monsters by 150%. Refund 10 mana for every one of these types of enemies hit.",
 	},
 	"MalfurionMasterySerenity": {
 		Name: "Serenity",
-		Text: "Increases Tranquility's healing by 25% and it also restores 5 Mana per second.",
+		Text: "Each enemy Hero hit by Moonfire reduces the cooldown of Tranquility by 3 seconds. Increase Tranquility's healing by 10% per ally affected by Regrowth.",
 	},
 	"MalfurionMasteryStranglingVinesEntanglingRoots": {
 		Name: "Strangling Vines",
-		Text: "Enemy Heroes Rooted by Entangling Roots receive 30% less healing from all sources.",
+		Text: "Enemy Heroes Rooted by Entangling Roots receive 30% less healing from all sources for 2 seconds.",
 	},
 	"MalfurionMasteryTenaciousRootsEntanglingRoots": {
 		Name: "Tenacious Roots",
-		Text: "Entangling Roots grows 25% larger, lasts 25% longer, and Roots targets for 0.25 seconds longer.",
+		Text: "Increase the Root duration of Entangling Roots by 0.3 seconds. When Malfurion is Stunned, the cooldown of Entangling Roots instantly reset. This can only occur every 10 seconds.",
 	},
 	"MalfurionMasteryVengefulRoots": {
 		Name: "Vengeful Roots",
-		Text: "Entangling Roots spawns a Treant that deals 65 damage per second and lasts 10 seconds.\nRepeatable Quest: Hitting enemy Heroes with Entangling Roots permanently increases the Treant's damage per second by 7.",
+		Text: "Entangling Roots spawns a Treant that deals 65 damage per second and lasts 10 seconds.\nRepeatable Quest: Hitting enemy Heroes with Entangling Roots permanently increases the Treant's Basic Attack damage by 7.",
+	},
+	"MalfurionMoonfireMoonlitHarmonyTalent": {
+		Name: "Moonlit Harmony",
+		Text: "Increase Moonfire's heal by 15% per ally affected by Regrowth.",
+	},
+	"MalfurionNaturesCureRegrowth": {
+		Name: "Nature's Cure",
+		Text: "Activate to remove all Stuns, Roots, and Slows from allies affected by Regrowth.",
+	},
+	"MalfurionRegrowthNaturesBalance": {
+		Name: "Nature's Balance",
+		Text: "Increase Moonfire's area by 25% and Regrowth's duration by 5 seconds.",
+	},
+	"MalfurionRegrowthNaturesSwiftness": {
+		Name: "Nature's Swiftness",
+		Text: "Malfurion gains 5% Movement Speed per ally Hero affected by Regrowth.",
 	},
 	"MalfurionRevitalizeInnervateTalent": {
 		Name: "Revitalize",
 		Text: "Using Innervate also grants Malfurion 50 Mana and causes his Basic Ability cooldowns to refresh 50% faster for 5 seconds.",
 	},
+	"MalfurionWildGrowthTalent": {
+		Name: "Wild Growth",
+		Text: "Each Hero hit by Moonfire extends the duration of currently active Regrowths by 1 second.",
+	},
 	"MalfurionYserasGift": {
 		Name: "Ysera's Gift",
-		Text: "While above 75% Health, Regrowth's additional healing-over-time is increased by 40%.",
+		Text: "While Malfurion is above 75% Health, Regrowth's healing-over-time is increased by 60%.",
 	},
 	"MalthaelAngelOfDeath": {
 		Name: "Angel of Death",
@@ -5052,7 +5174,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaCombatStyleOneintheChamber": {
 		Name: "One in the Chamber",
-		Text: "After using an Ability, Nova's next Basic Attack within 3 seconds deals 70% additional damage.",
+		Text: "After using an Ability, Nova's next Basic Attack within 3 seconds deals 60% additional damage.",
 	},
 	"NovaCovertMission": {
 		Name: "Covert Mission",
@@ -5064,7 +5186,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaHeroicAbilityPrecisionStrike": {
 		Name: "Precision Strike",
-		Text: "After a 1.5 second delay, deals 456 damage to enemies within an area. Unlimited range.",
+		Text: "After a 1.5 second delay, deals 435 damage to enemies within an area. Unlimited range.",
 	},
 	"NovaHeroicAbilityTripleTap": {
 		Name: "Triple Tap",
@@ -5096,7 +5218,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaMasteryLethalDecoy": {
 		Name: "Lethal Decoy",
-		Text: "Increases the damage Holo Decoy deals to 40% of Nova's damage.",
+		Text: "Increases the damage Holo Decoy deals to 35% of Nova's damage.",
 	},
 	"NovaMasteryLongshot": {
 		Name: "Longshot",
@@ -5104,7 +5226,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaMasteryPerfectShotSnipe": {
 		Name: "Perfect Shot",
-		Text: "Hitting an enemy Hero with Snipe reduces the cooldown by 2 seconds. ",
+		Text: "Hitting an enemy Hero with Snipe reduces the cooldown by 3 seconds. ",
 	},
 	"NovaMasteryPrecisionBarrage": {
 		Name: "Precision Barrage",
@@ -5580,7 +5702,7 @@ var talentData = map[string]talentText{
 	},
 	"SamuroAdvancingStrikesDeflection": {
 		Name: "Deflection",
-		Text: "Advancing Strikes grants Samuro and his Mirror Images 25 Physical Armor.",
+		Text: "Advancing Strikes grants Samuro and his Mirror Images 30 Physical Armor.",
 	},
 	"SamuroBlademastersPursuit": {
 		Name: "Blademaster’s Pursuit",
@@ -5588,11 +5710,11 @@ var talentData = map[string]talentText{
 	},
 	"SamuroBurningBlade": {
 		Name: "Burning Blade",
-		Text: "Critical Strikes from Samuro and Mirror Images deal an additional 65% of their Basic Attack damage to the target and nearby enemies.",
+		Text: "Critical Strikes from Samuro and Mirror Images deal an additional 50% of their Basic Attack damage to the target and nearby enemies.",
 	},
 	"SamuroCrushingBlow": {
 		Name: "Crushing Blows",
-		Text: "Critical Strike now has 2 charges. Samuro's Basic Attacks against Heroes reduce the cooldown of Critical Strike by 1.5 seconds.",
+		Text: "Critical Strike now has 2 charges. Samuro's Basic Attacks against Heroes reduce the cooldown of Critical Strike by 1.75 seconds.",
 	},
 	"SamuroHarshWinds": {
 		Name: "Harsh Winds",
@@ -5624,7 +5746,7 @@ var talentData = map[string]talentText{
 	},
 	"SamuroPhantomPain": {
 		Name: "Phantom Pain",
-		Text: "Samuro's Critical Strikes deal an additional 40% of his Basic Attack damage for each Mirror Image that is active.",
+		Text: "Samuro's Critical Strikes deal an additional 45% of his Basic Attack damage for each Mirror Image that is active.",
 	},
 	"SamuroPressTheAttack": {
 		Name: "Press the Attack",
@@ -6744,7 +6866,7 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraCripplingPoison": {
 		Name: "Crippling Poison",
-		Text: "Activate to make Valeera's next damaging Ability and subsequent Abilities within 4 seconds Slow targets by 25% for 4 seconds.\nActivating Crippling Poison does not break Stealth.",
+		Text: "Activate to make Valeera's next damaging Ability and subsequent Abilities within 4 seconds Slow targets by 20% for 4 seconds.\nActivating Crippling Poison does not break Stealth.",
 	},
 	"ValeeraEviscerateExposeArmor": {
 		Name: "Expose Armor",
@@ -6756,7 +6878,7 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraGarroteHemorrhage": {
 		Name: "Hemorrhage",
-		Text: "Valeera's Basic Attacks deal 50% additional damage to enemies affected by Garrote.",
+		Text: "Valeera's Basic Attacks deal 30% additional damage to enemies affected by Garrote.",
 	},
 	"ValeeraGarroteRupture": {
 		Name: "Rupture",
@@ -7280,7 +7402,7 @@ var talentData = map[string]talentText{
 	},
 	"ZeratulDarknessDescends": {
 		Name: "Darkness Descends",
-		Text: "Activate to gain 40% Attack Speed for 5 seconds.\nPassive: Gain 10% Attack Speed.",
+		Text: "Activate to gain 40% Attack Speed for 5 seconds.\nPassive: Gain 20% Attack Speed.",
 	},
 	"ZeratulGiftoftheXelNaga": {
 		Name: "Gift of the Xel’Naga",
@@ -7316,7 +7438,7 @@ var talentData = map[string]talentText{
 	},
 	"ZeratulMoveUnseen": {
 		Name: "Move Unseen",
-		Text: "Gain 25% Movement Speed while Stealthed.",
+		Text: "Gain 30% Movement Speed while Stealthed.",
 	},
 	"ZeratulPsionicStrength": {
 		Name: "Psionic Strength",
@@ -7364,7 +7486,7 @@ var talentData = map[string]talentText{
 	},
 	"ZeratulWarpSkirmisherTalent": {
 		Name: "Warp Skirmisher",
-		Text: "Vorpal Blade gains a 2nd charge. Teleporting to an enemy with Vorpal Blade causes Zeratul's next Basic Attack within 6 seconds to deal 30% more damage.",
+		Text: "Vorpal Blade gains a 2nd charge. Teleporting to an enemy with Vorpal Blade causes Zeratul's next Basic Attack within 6 seconds to deal 40% more damage.",
 	},
 	"ZeratulWormhole": {
 		Name: "Wormhole",
