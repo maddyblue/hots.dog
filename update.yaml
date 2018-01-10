@@ -13,5 +13,7 @@ spec:
         command: ["/website", "-updatenew", "csv.hots.dog"]
         resources:
           limits:
-            cpu: 1m
+            cpu: 1
+          requests:
+            cpu: 10m
       restartPolicy: OnFailure

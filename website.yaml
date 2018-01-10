@@ -13,6 +13,9 @@ spec:
       - name: migrate
         image: gcr.io/hots-cockroach/website:latest
         command: ["/website", "-migrate", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
+        resources:
+          requests:
+            cpu: 10m
       containers:
       - name: website
         image: gcr.io/hots-cockroach/website:latest
@@ -26,8 +29,10 @@ spec:
           - name: COCKROACH
             value: "postgres://root@cockroachdb-public:26257/?sslmode=disable"
         resources:
+          requests:
+            cpu: 50m
           limits:
-            cpu: 1m
+            cpu: 1
         ports:
         - containerPort: 443
         - containerPort: 80
