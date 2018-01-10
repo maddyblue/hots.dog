@@ -11,4 +11,7 @@ spec:
       - name: updatedb
         image: gcr.io/hots-cockroach/website:latest
         command: ["/website", "-updatedb", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
+        resources:
+          limits:
+            cpu: 1m
       restartPolicy: OnFailure

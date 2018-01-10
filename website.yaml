@@ -25,6 +25,9 @@ spec:
             value: "cloudflare-origin"
           - name: COCKROACH
             value: "postgres://root@cockroachdb-public:26257/?sslmode=disable"
+        resources:
+          limits:
+            cpu: 1m
         ports:
         - containerPort: 443
         - containerPort: 80
