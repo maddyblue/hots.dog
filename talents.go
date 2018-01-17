@@ -6588,13 +6588,41 @@ var talentData = map[string]talentText{
 		Name: "The Bigger They Are...",
 		Text: "Increases Minigun damage bonus to 4% while enemy Heroes are above 35% Health, but Minigun no longer has any effect on targets below 35%.",
 	},
+	"TyraelArdentRestoration": {
+		Name: "Ardent Restoration",
+		Text: "Dealing damage to a Hero heals Tyrael for 12 Health over 5 seconds. Dealing damage resets this timer, and the heal amount stacks up to 10 times.",
+	},
+	"TyraelBurningHalo": {
+		Name: "Burning Halo",
+		Text: "While El'druin's Might is active, both Tyrael and El'druin deal 15 damage per second to nearby enemies. For 3 seconds after teleporting, Tyrael continues to deal this damage and the damage amount is increased by 100%.",
+	},
+	"TyraelDefenseOfTheAngels": {
+		Name: "Defense of the Angels",
+		Text: "Activate to gain 40 Armor for 5 seconds.\nEach time Righteousness's Shield absorbs damage, Defense of the Angel's cooldown is reduced by 3 seconds.",
+	},
+	"TyraelDivineVigor": {
+		Name: "Divine Vigor",
+		Text: "If Smite hits an enemy, Tyrael's Basic Attacks within the next 4 seconds heal for 50% of the damage dealt.",
+	},
+	"TyraelElDruinsMightBoundByLaw": {
+		Name: "Bound by Law",
+		Text: "Increase El'druin's Might's Slow by 10%. Tyrael's Basic Attacks against enemies Slowed by El'druin's Might increase the Slow duration by 1 second, up to 4 seconds.",
+	},
 	"TyraelHeroicAbilityJudgement": {
 		Name: "Judgment",
-		Text: "After 0.75 seconds, charge an enemy Hero dealing 150 damage and stunning them for 1.5 seconds. Nearby enemies are knocked away and take 75 damage.",
+		Text: "After 0.75 seconds, charge an enemy Hero, dealing 150 damage and Stunning them for 1.5 seconds. Nearby enemies are knocked away and take 75 damage.",
 	},
 	"TyraelHeroicAbilitySanctification": {
 		Name: "Sanctification",
 		Text: "After 0.5 seconds create a field of holy energy that makes allied Heroes Invulnerable. Lasts 3 seconds.",
+	},
+	"TyraelHoradricReforging": {
+		Name: "Horadric Reforging",
+		Text: "Tyrael's Basic Attacks reduce the cooldown of El'druin's Might by 1.5 seconds.",
+	},
+	"TyraelJusticeForAll": {
+		Name: "Justice for All",
+		Text: "Increase the Shield applied to allies by Righteousness to 100% of the Shield gained by Tyrael.",
 	},
 	"TyraelMasteryAngelicAbsorption": {
 		Name: "Angelic Absorption",
@@ -6608,13 +6636,9 @@ var talentData = map[string]talentText{
 		Name: "Angel's Grace",
 		Text: "After teleporting using El'druin's Might, gain 40% Movement Speed for 3 seconds.",
 	},
-	"TyraelMasteryElDruinsMightBladeOfJustice": {
-		Name: "Blade of Justice",
-		Text: "After teleporting using El'druin's Might, Tyrael's Attack Speed is increased by 50% for 5 seconds.",
-	},
-	"TyraelMasteryElDruinsMightHoradricReforging": {
-		Name: "Horadric Reforging",
-		Text: "If El'druin's Might hits an enemy, its cooldown is reduced by 5 seconds.",
+	"TyraelMasteryElDruinsMightSwordOfJustice": {
+		Name: "Sword of Justice",
+		Text: "Upon teleporting using El'druin's Might, El'druin swaps places with Tyrael, and El'druin's Might can be reactivated to teleport an additional time.",
 	},
 	"TyraelMasteryEvenInDeath": {
 		Name: "Even In Death",
@@ -6628,33 +6652,49 @@ var talentData = map[string]talentText{
 		Name: "Angel of Justice",
 		Text: "Increases the cast range of Judgment by 50%, and reduces the cooldown by 40 seconds.",
 	},
+	"TyraelMasteryLawAndOrder": {
+		Name: "Law and Order",
+		Text: "Each enemy Hero hit by Smite reduces the cooldown of Righteousness by 1 second. Each allied Hero Shielded by Righteousness increases the damage of the next Smite by 25%.",
+	},
 	"TyraelMasteryPassiveProtectioninDeath": {
 		Name: "Protection in Death",
 		Text: "When Archangel's Wrath explodes, shield nearby allies for 50% of their max Health for 10 seconds.",
 	},
 	"TyraelMasteryPurgeEvil": {
 		Name: "Purge Evil",
-		Text: "Smite deals 30% more damage to Heroes.",
+		Text: "Each enemy Hero hit by Smite increases Tyrael's Basic Attack damage by 35% for 4 seconds.",
 	},
 	"TyraelMasteryRighteousnessReciprocate": {
 		Name: "Reciprocate",
-		Text: "When Righteousness expires, it explodes for 170 damage to nearby enemies.",
-	},
-	"TyraelMasterySalvation": {
-		Name: "Salvation",
-		Text: "Each allied Hero that is affected by Righteousness increases Tyrael's Shield amount by 45%.",
+		Text: "When Tyrael's Shield from Righteousness expires or is destroyed, it deals for 170 damage to nearby enemies.",
 	},
 	"TyraelMasterySanctificationHolyArena": {
 		Name: "Holy Arena",
-		Text: "Increases duration of Sanctification by 1 second and increases the damage of allies by 25%.",
+		Text: "Increase the duration of Sanctification by 1 second and increase the damage of allies inside by 25%.",
 	},
 	"TyraelMasterySwiftRetribution": {
 		Name: "Swift Retribution",
-		Text: "Increases Smite's Movement Speed by 10% and duration by 1 second.",
+		Text: "Smite grants 20% more Movement Speed and also grants 25% Attack Speed for 2 seconds.",
 	},
 	"TyraelMasteryZealotry": {
 		Name: "Zealotry",
-		Text: "Increases the duration of Righteousness by 50%, and reduces its cooldown by 2 seconds.",
+		Text: "[PH] The shield value and duration of Righteousness is increased by 25% for each Ally affected.",
+	},
+	"TyraelSalvation": {
+		Name: "Salvation",
+		Text: "Increase the Shield amount Tyrael gains from Righteousness by 25% and heal Tyrael for 125 Health if his Shield is destroyed. Does not increase the Shield amount gained by allies.",
+	},
+	"TyraelSealOfElDruin": {
+		Name: "Seal of El'Druin",
+		Text: "Using a Basic Ability grants 50% Attack Speed for 3 seconds.",
+	},
+	"TyraelSmiteTheWicked": {
+		Name: "Smite the Wicked",
+		Text: "While El'druin's Might is active, and for 3 seconds after teleporting, Smite's cooldown recharges 100% faster.",
+	},
+	"TyraelStalwartAngel": {
+		Name: "Stalwart Angel",
+		Text: "Gain 25 Armor while El'druin's Might is active, and for 3 seconds after teleporting.",
 	},
 	"TyrandeCelestialAttunement": {
 		Name: "Celestial Attunement",
