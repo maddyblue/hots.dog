@@ -58,4 +58,4 @@ spec:
     targetPort: 80
     name: http
   externalIPs:
-    - 10.128.0.5
+    - 10.128.0.2
