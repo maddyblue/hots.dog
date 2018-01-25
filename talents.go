@@ -1494,7 +1494,7 @@ var talentData = map[string]talentText{
 	},
 	"BarbarianMasteryPoisonedSpearAncientSpear": {
 		Name: "Poisoned Spear",
-		Text: "Ancient Spear deals an additional 125% damage over 6 seconds.",
+		Text: "Ancient Spear deals an additional 100% damage over 6 seconds.",
 	},
 	"BarbarianMasteryShatteredGroundSeismicSlam": {
 		Name: "Shattered Ground",
@@ -2706,7 +2706,7 @@ var talentData = map[string]talentText{
 	},
 	"FirebatActiveJuggernautPlating": {
 		Name: "Juggernaut Plating",
-		Text: "Activate to gain 50 Spell Armor for 3 seconds. Upon expiration, gain a Shield equal to 100% of the Spell Damage reduced by Juggernaut Plating.",
+		Text: "Activate to gain 50 Spell Armor for 3 seconds. Upon expiration, gain a Shield equal to 125% of the Spell Damage reduced by Juggernaut Plating.",
 	},
 	"FirebatAdrenalineStimpack": {
 		Name: "Adrenaline Stimpack",
@@ -2726,19 +2726,19 @@ var talentData = map[string]talentText{
 	},
 	"FirebatFlameStreamCrossfire": {
 		Name: "Crossfire",
-		Text: "Hitting an enemy with both streams of Flame Stream deals 132 bonus damage.",
+		Text: "Hitting an enemy with both streams of Flame Stream deals 139 bonus damage.",
 	},
 	"FirebatFlameStreamFeedingtheFlame": {
 		Name: "Feeding the Flame",
-		Text: "Each enemy Hero hit by Flame Stream reduces the cooldown of Oil Spill by 1.5 seconds.",
+		Text: "Each enemy Hero hit by Flame Stream reduces the cooldown of Oil Spill by 2 seconds.",
 	},
 	"FirebatFlameStreamSuppressiveFire": {
 		Name: "Suppressive Fire",
-		Text: "Each stream of Flame Stream reduces the Spell Power of Heroes hit by 15% for 4 seconds, up to 30%.",
+		Text: "Each stream of Flame Stream reduces the Spell Power of Heroes hit by 20% for 4 seconds, up to 40%.",
 	},
 	"FirebatHeroicAbilityBunkerDrop": {
 		Name: "Bunker Drop",
-		Text: "After 0.5 seconds, deploy and enter a Bunker with 1305 Health. Blaze and his allies can enter and exit the Bunker at will. While in the Bunker, occupants gain access to Flamethrower, dealing 179 damage to enemies in a line. \nExiting the Bunker grants 25 Armor for 2 seconds. Bunkers last 10 seconds, or until destroyed.",
+		Text: "After 0.5 seconds, deploy and enter a Bunker with 1435 Health. Blaze and his allies can enter and exit the Bunker at will. While in the Bunker, occupants gain access to Flamethrower, dealing 179 damage to enemies in a line. \nExiting the Bunker grants 25 Armor for 2 seconds. Bunkers last 10 seconds, or until destroyed.",
 	},
 	"FirebatHeroicAbilityCombustion": {
 		Name: "Combustion",
@@ -2774,11 +2774,11 @@ var talentData = map[string]talentText{
 	},
 	"FirebatOilSpillGrillandKill": {
 		Name: "Grill and Kill",
-		Text: "Quest: Damage enemy Heroes with Ignited Oil Spills 60 times.\nReward: Increase Oil Spill's Ignite duration by 2 seconds, and damage by 25%.",
+		Text: "Quest: Damage enemy Heroes with Ignited Oil Spills 60 times.\nReward: Increase Oil Spill's Ignite duration by 2 seconds, and damage by 20%.",
 	},
 	"FirebatOilSpillNanomachineCoating": {
 		Name: "Nanomachine Coating",
-		Text: "Enemies standing in Oil Spills have their Attack Speed reduced by 40% for 2.5 seconds.",
+		Text: "Enemies standing in Oil Spills and Ignited Oil Spills have their Attack Speed reduced by 40% for 2.5 seconds.",
 	},
 	"FirebatOilSpillOilDispersal": {
 		Name: "Oil Dispersal",
@@ -2790,7 +2790,7 @@ var talentData = map[string]talentText{
 	},
 	"FirebatWeaponIncineratorGauntlets": {
 		Name: "Incinerator Gauntlets",
-		Text: "Increase Basic Attack area by 15%, and Basic Attack damage to Minions, Mercenaries, and Monsters by 50%. Additionally, Basic Attack splashes Ignite Oil Spills.",
+		Text: "Increase Basic Attack area by 15%, and Basic Attack damage to Minions, Mercenaries, and Monsters by 70%. Additionally, Basic Attack splashes Ignite Oil Spills.",
 	},
 	"GallBombsAway": {
 		Name: "Bomb's Away",
@@ -3518,7 +3518,7 @@ var talentData = map[string]talentText{
 	},
 	"HanzoSharpenedArrowheads": {
 		Name: "Sharpened Arrowheads",
-		Text: "Hitting a Hero with Storm Bow or Basic Attacks reduces their Armor by 5 for 4 seconds, up to a maximum reduction of 25 Armor.",
+		Text: "Hitting a Hero with Storm Bow or Basic Attacks reduces their Armor by 4 for 4 seconds, up to a maximum reduction of 20 Armor.",
 	},
 	"HanzoSimpleGeometry": {
 		Name: "Simple Geometry",
@@ -4210,7 +4210,7 @@ var talentData = map[string]talentText{
 	},
 	"LiLiHeroicAbilityJugof1000Cups": {
 		Name: "Jug of 1,000 Cups",
-		Text: "Channel for up to 0 seconds. Every 0.25 seconds, heal the lowest Health nearby allied Hero for 70 Health and increase the cooldown of Jug of 1,000 Cups by 2 seconds, up to 50.",
+		Text: "Channel for up to 6 seconds. Every 0.25 seconds, heal the lowest Health nearby allied Hero for 70 Health and increase the cooldown of Jug of 1,000 Cups by 2 seconds, up to 50.",
 	},
 	"LiLiHeroicAbilityWaterDragon": {
 		Name: "Water Dragon",
@@ -5126,15 +5126,15 @@ var talentData = map[string]talentText{
 	},
 	"NecromancerTalentGrimScythe": {
 		Name: "Grim Scythe",
-		Text: "Each enemy hit by Cursed Strikes reduces its cooldown by 0.75 seconds, up to 12 seconds.",
+		Text: "Each enemy hit by Cursed Strikes reduces its cooldown by 1 second, up to 12 seconds.",
 	},
 	"NecromancerTalentHarvestVitality": {
 		Name: "Harvest Vitality",
-		Text: "Cursed Strikes heals for 60% of the damage dealt to Heroes.",
+		Text: "Cursed Strikes heals for 70% of the damage dealt to Heroes.",
 	},
 	"NecromancerTalentJailors": {
 		Name: "Jailors",
-		Text: "Bone Prison spawns 2 Skeletal Warriors.  These do not count towards Xul's Raise Skeleton maximum.\nQuest: Spawn 80 Skeletal Warriors.\nReward: While fixating on an enemy, Skeletal Warriors gain 50% Movement and Attack Speed.",
+		Text: "Bone Prison spawns 2 Skeletal Warriors.  These do not count towards Xul's Raise Skeleton maximum.\nQuest: Spawn 80 Skeletal Warriors.\nReward: While fixating on an enemy, Skeletal Warriors gain 40% Movement and Attack Speed.",
 	},
 	"NecromancerTalentKalansEdict": {
 		Name: "Kalan's Edict",
@@ -5794,7 +5794,7 @@ var talentData = map[string]talentText{
 	},
 	"SgtHammerGraduatingRange": {
 		Name: "Graduating Range",
-		Text: "While in Siege Mode, Basic Attack range is increased by 1.1 every 3 seconds, up to 3.3.",
+		Text: "While in Siege Mode, Basic Attack range is increased by 1 every 3 seconds, up to 3.",
 	},
 	"SgtHammerHeroicAbilityBluntForceGun": {
 		Name: "Blunt Force Gun",
@@ -5842,7 +5842,7 @@ var talentData = map[string]talentText{
 	},
 	"SgtHammerSiegeModeRegenerativeBioSteel": {
 		Name: "Regenerative Bio-Steel",
-		Text: "Basic Attacks while in Siege Mode heal for 15% of the damage dealt.",
+		Text: "Basic Attacks while in Siege Mode heal for 10% of the damage dealt.",
 	},
 	"SgtHammerSiegeModeUltraCapacitors": {
 		Name: "Ultra Capacitors",
@@ -5866,7 +5866,7 @@ var talentData = map[string]talentText{
 	},
 	"SonyaTalentNervesOfSteel": {
 		Name: "Nerves of Steel",
-		Text: "Activate to gain 30% of your maximum Health as a Shield for 5 seconds. Usable while Whirlwinding.",
+		Text: "Activate to gain 25% of your maximum Health as a Shield for 3 seconds. Usable while Whirlwinding.",
 	},
 	"StitchesCannibalize": {
 		Name: "Cannibalize",
@@ -6090,7 +6090,7 @@ var talentData = map[string]talentText{
 	},
 	"SylvanasTalentLostSoul": {
 		Name: "Lost Soul",
-		Text: "Reduce Shadow Dagger's cooldown by 1.25 seconds each time it spreads to a Hero.",
+		Text: "Reduce Shadow Dagger's cooldown by 1 seconds each time it spreads to a Hero.",
 	},
 	"SylvanasTalentMercenaryQueen": {
 		Name: "Mercenary Queen",
@@ -6594,7 +6594,7 @@ var talentData = map[string]talentText{
 	},
 	"TyraelBurningHalo": {
 		Name: "Burning Halo",
-		Text: "While El'druin's Might is active, both Tyrael and El'druin deal 15 damage per second to nearby enemies. For 3 seconds after teleporting, Tyrael continues to deal this damage and the damage amount is increased by 100%.",
+		Text: "Both Tyrael and El'druin deal 15 damage per second to nearby enemies. Teleporting increases this damage from Tyrael by 100% for 3 seconds.",
 	},
 	"TyraelDefenseOfTheAngels": {
 		Name: "Defense of the Angels",
@@ -6646,7 +6646,7 @@ var talentData = map[string]talentText{
 	},
 	"TyraelMasteryHolyGround": {
 		Name: "Holy Ground",
-		Text: "Create a ring that blocks enemies from entering the area teleported to using El'druin's Might.",
+		Text: "Create a ring for 4 seconds that blocks enemies from entering the area teleported to using El'druin's Might.",
 	},
 	"TyraelMasteryJudgmentAngelofJustice": {
 		Name: "Angel of Justice",
@@ -6666,7 +6666,7 @@ var talentData = map[string]talentText{
 	},
 	"TyraelMasteryRighteousnessReciprocate": {
 		Name: "Reciprocate",
-		Text: "When Tyrael's Shield from Righteousness expires or is destroyed, it deals for 170 damage to nearby enemies.",
+		Text: "When Tyrael's Shield from Righteousness expires or is destroyed, it deals 170 damage to nearby enemies.",
 	},
 	"TyraelMasterySanctificationHolyArena": {
 		Name: "Holy Arena",
@@ -6882,11 +6882,11 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraBladeFlurryFatalFinesse": {
 		Name: "Fatal Finesse",
-		Text: "Quest: Each time Blade Flurry damages an enemy Hero, its damage increases by 3, up to 60.\nReward: After damaging 20 Heroes with Blade Flurry, permanently reduce its Energy cost by 20.",
+		Text: "Quest: Each time Blade Flurry damages an enemy Hero, its damage increases by 4, up to 80.\nReward: After damaging 20 Heroes with Blade Flurry, permanently reduce its Energy cost by 20.",
 	},
 	"ValeeraCheapShotBlind": {
 		Name: "Blind",
-		Text: "Increase the duration of Cheap Shot's Blind by 2 seconds.",
+		Text: "Increase the duration of Cheap Shot's Blind by 2.5 seconds.",
 	},
 	"ValeeraCloakOfShadows": {
 		Name: "Cloak of Shadows",
@@ -6902,7 +6902,7 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraCombatReadiness": {
 		Name: "Combat Readiness",
-		Text: "Each Combo Point spent grants 60 Physical Armor against the next enemy Hero Basic Attack, reducing its damage by 60%. Stores up to 3 charges.",
+		Text: "Each Combo Point spent grants 75 Physical Armor against the next enemy Hero Basic Attack, reducing its damage by 75%. Stores up to 3 charges.",
 	},
 	"ValeeraCripplingPoison": {
 		Name: "Crippling Poison",
@@ -6930,11 +6930,11 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraSinisterStrikeMutilate": {
 		Name: "Mutilate",
-		Text: "Sinister Strike now hits with both blades, dealing 100% additional damage, but its range is reduced by 1.",
+		Text: "Sinister Strike now hits with both blades, dealing 125% additional damage, but its range is reduced by 1.",
 	},
 	"ValeeraSinisterStrikeRelentlessStrikes": {
 		Name: "Relentless Strikes",
-		Text: "Reduces the Energy cost of Sinister Strike by 10.",
+		Text: "Reduces the Energy cost of Sinister Strike by 15.",
 	},
 	"ValeeraSinisterStrikeSealFate": {
 		Name: "Seal Fate",
@@ -6946,7 +6946,7 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraSmokeBombAdrenalineRush": {
 		Name: "Adrenaline Rush",
-		Text: "While in the Smoke Bomb, Valeera regenerates an additional 30 Energy per second.",
+		Text: "While in the Smoke Bomb, Valeera regenerates an additional 40 Energy per second.",
 	},
 	"ValeeraThistleTea": {
 		Name: "Thistle Tea",
@@ -6970,7 +6970,7 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraVigor": {
 		Name: "Vigor",
-		Text: "Valeera regenerates an additional 2 Energy per second.\nReward: After Gathering 20 Regen Globes, increase Valeera's maximum Energy to 120.",
+		Text: "Valeera regenerates an additional 2.5 Energy per second.\nReward: After Gathering 20 Regen Globes, increase Valeera's maximum Energy to 120.",
 	},
 	"ValeeraWoundPoison": {
 		Name: "Wound Poison",
