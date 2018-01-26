@@ -13,8 +13,7 @@
     "url-search-params": "^0.10.0"
   },
   "devDependencies": {
-    "react-scripts": "1.0.7",
-    "tachyons": "^4.7.4"
+    "react-scripts": "1.0.7"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",

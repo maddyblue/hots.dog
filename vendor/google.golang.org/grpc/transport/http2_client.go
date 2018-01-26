@@ -20,6 +20,7 @@ package transport
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"math"
 	"net"
@@ -302,7 +303,7 @@ func newHTTP2Client(connectCtx, ctx context.Context, addr TargetInfo, opts Conne
 	t.framer.writer.Flush()
 	go func() {
 		loopyWriter(t.ctx, t.controlBuf, t.itemHandler)
-		t.Close()
+		t.conn.Close()
 	}()
 	if t.kp.Time != infinity {
 		go t.keepalive()
@@ -644,6 +645,8 @@ func (t *http2Client) Write(s *Stream, hdr []byte, data []byte, opts *Options) e
 	select {
 	case <-s.ctx.Done():
 		return ContextErr(s.ctx.Err())
+	case <-s.done:
+		return io.EOF
 	case <-t.ctx.Done():
 		return ErrConnClosing
 	default:
@@ -1109,12 +1112,13 @@ func (t *http2Client) operateHeaders(frame *http2.MetaHeadersFrame) {
 	}()
 
 	s.mu.Lock()
-	if !endStream {
-		s.recvCompress = state.encoding
-	}
 	if !s.headerDone {
-		if !endStream && len(state.mdata) > 0 {
-			s.header = state.mdata
+		// Headers frame is not actually a trailers-only frame.
+		if !endStream {
+			s.recvCompress = state.encoding
+			if len(state.mdata) > 0 {
+				s.header = state.mdata
+			}
 		}
 		close(s.headerChan)
 		s.headerDone = true
@@ -1124,7 +1128,6 @@ func (t *http2Client) operateHeaders(frame *http2.MetaHeadersFrame) {
 		s.mu.Unlock()
 		return
 	}
-
 	if len(state.mdata) > 0 {
 		s.trailer = state.mdata
 	}
@@ -1237,8 +1240,7 @@ func (t *http2Client) applySettings(ss []http2.Setting) {
 // TODO(mmukhi): A lot of this code(and code in other places in the tranpsort layer)
 // is duplicated between the client and the server.
 // The transport layer needs to be refactored to take care of this.
-func (t *http2Client) itemHandler(i item) error {
-	var err error
+func (t *http2Client) itemHandler(i item) (err error) {
 	defer func() {
 		if err != nil {
 			errorf(" error in itemHandler: %v", err)
@@ -1246,10 +1248,11 @@ func (t *http2Client) itemHandler(i item) error {
 	}()
 	switch i := i.(type) {
 	case *dataFrame:
-		err = t.framer.fr.WriteData(i.streamID, i.endStream, i.d)
-		if err == nil {
-			i.f()
+		if err := t.framer.fr.WriteData(i.streamID, i.endStream, i.d); err != nil {
+			return err
 		}
+		i.f()
+		return nil
 	case *headerFrame:
 		t.hBuf.Reset()
 		for _, f := range i.hf {
@@ -1283,31 +1286,33 @@ func (t *http2Client) itemHandler(i item) error {
 				return err
 			}
 		}
+		return nil
 	case *windowUpdate:
-		err = t.framer.fr.WriteWindowUpdate(i.streamID, i.increment)
+		return t.framer.fr.WriteWindowUpdate(i.streamID, i.increment)
 	case *settings:
-		err = t.framer.fr.WriteSettings(i.ss...)
+		return t.framer.fr.WriteSettings(i.ss...)
 	case *settingsAck:
-		err = t.framer.fr.WriteSettingsAck()
+		return t.framer.fr.WriteSettingsAck()
 	case *resetStream:
 		// If the server needs to be to intimated about stream closing,
 		// then we need to make sure the RST_STREAM frame is written to
 		// the wire before the headers of the next stream waiting on
 		// streamQuota. We ensure this by adding to the streamsQuota pool
 		// only after having acquired the writableChan to send RST_STREAM.
-		err = t.framer.fr.WriteRSTStream(i.streamID, i.code)
+		err := t.framer.fr.WriteRSTStream(i.streamID, i.code)
 		t.streamsQuota.add(1)
+		return err
 	case *flushIO:
-		err = t.framer.writer.Flush()
+		return t.framer.writer.Flush()
 	case *ping:
 		if !i.ack {
 			t.bdpEst.timesnap(i.data)
 		}
-		err = t.framer.fr.WritePing(i.ack, i.data)
+		return t.framer.fr.WritePing(i.ack, i.data)
 	default:
 		errorf("transport: http2Client.controller got unexpected item type %v", i)
+		return fmt.Errorf("transport: http2Client.controller got unexpected item type %v", i)
 	}
-	return err
 }
 
 // keepalive running in a separate goroutune makes sure the connection is alive by sending pings.

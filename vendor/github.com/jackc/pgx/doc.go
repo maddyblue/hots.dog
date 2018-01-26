@@ -1,9 +1,9 @@
 // Package pgx is a PostgreSQL database driver.
 /*
-pgx provides lower level access to PostgreSQL than the standard database/sql
+pgx provides lower level access to PostgreSQL than the standard database/sql.
 It remains as similar to the database/sql interface as possible while
 providing better speed and access to PostgreSQL specific features. Import
-github.com/jack/pgx/stdlib to use pgx as a database/sql compatible driver.
+github.com/jackc/pgx/stdlib to use pgx as a database/sql compatible driver.
 
 Query Interface
 
@@ -233,7 +233,7 @@ Logging
 
 pgx defines a simple logger interface. Connections optionally accept a logger
 that satisfies this interface. Set LogLevel to control logging verbosity.
-Adapters for github.com/inconshreveable/log15, github.com/Sirupsen/logrus, and
+Adapters for github.com/inconshreveable/log15, github.com/sirupsen/logrus, and
 the testing log are provided in the log directory.
 */
 package pgx

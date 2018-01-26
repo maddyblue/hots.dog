@@ -149,6 +149,9 @@ func (rows *Rows) Next() bool {
 			rows.values = msg.Values
 			return true
 		case *pgproto3.CommandComplete:
+			if rows.batch != nil {
+				rows.batch.pendingCommandComplete = false
+			}
 			rows.Close()
 			return false
 
@@ -364,18 +367,19 @@ type QueryExOptions struct {
 }
 
 func (c *Conn) QueryEx(ctx context.Context, sql string, options *QueryExOptions, args ...interface{}) (rows *Rows, err error) {
+	c.lastActivityTime = time.Now()
+	rows = c.getRows(sql, args)
+
 	err = c.waitForPreviousCancelQuery(ctx)
 	if err != nil {
-		return nil, err
+		rows.fatal(err)
+		return rows, err
 	}
 
 	if err := c.ensureConnectionReadyForQuery(); err != nil {
-		return nil, err
+		rows.fatal(err)
+		return rows, err
 	}
-
-	c.lastActivityTime = time.Now()
-
-	rows = c.getRows(sql, args)
 
 	if err := c.lock(); err != nil {
 		rows.fatal(err)
@@ -389,7 +393,7 @@ func (c *Conn) QueryEx(ctx context.Context, sql string, options *QueryExOptions,
 		return rows, rows.err
 	}
 
-	if options != nil && options.SimpleProtocol {
+	if (options == nil && c.config.PreferSimpleProtocol) || (options != nil && options.SimpleProtocol) {
 		err = c.sanitizeAndSendSimpleQuery(sql, args...)
 		if err != nil {
 			rows.fatal(err)
@@ -413,14 +417,14 @@ func (c *Conn) QueryEx(ctx context.Context, sql string, options *QueryExOptions,
 		if err != nil && fatalWriteErr(n, err) {
 			rows.fatal(err)
 			c.die(err)
-			return nil, err
+			return rows, err
 		}
 		c.pendingReadyForQueryCount++
 
 		fieldDescriptions, err := c.readUntilRowDescription()
 		if err != nil {
 			rows.fatal(err)
-			return nil, err
+			return rows, err
 		}
 
 		if len(options.ResultFormatCodes) == 0 {
