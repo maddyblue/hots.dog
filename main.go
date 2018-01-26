@@ -846,7 +846,6 @@ func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (inter
 		err := h.x.GetContext(ctx, &e, `
 			SELECT blizzid id, battletag "name" FROM players
 			WHERE battletag >= $1
-			AND battletag LIKE $1 || '%'
 			AND battletag > $2
 			ORDER BY battletag
 			LIMIT 1
@@ -855,6 +854,9 @@ func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (inter
 			break
 		} else if err != nil {
 			return nil, err
+		}
+		if !strings.HasPrefix(e.Name, name) {
+			break
 		}
 		last = e.Name
 		res = append(res, e)
