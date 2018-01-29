@@ -29,13 +29,6 @@ func mustMigrate(db *sql.DB) {
 					i INT NULL,
 					s STRING NULL
 				);
-
-				CREATE TABLE heroes (
-					"name" STRING PRIMARY KEY,
-					slug STRING,
-					roles STRING[],
-					icon BYTES
-				);
 			`,
 		},
 	}
