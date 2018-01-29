@@ -45,7 +45,7 @@ var (
 	flagMigrate   = flag.Bool("migrate", false, "run migration")
 	flagCron      = flag.Bool("cron", false, "run cronjob")
 	flagUpdateNew = flag.String("updatenew", "", "run new update to specified gs bucket")
-	flagImport    = flag.String("import", "csv.hots.dog", "import from bucket")
+	flagImport    = flag.String("import", "csv2.hots.dog", "import from bucket")
 	flagImportNum = flag.Int("importnum", -1, "max id to import; set to 0 for first block only")
 	flagUpdateDB  = flag.Bool("updatedb", false, "update db from import bucket")
 	initDB        = false
