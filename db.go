@@ -162,10 +162,9 @@ func (h *hotsContext) Import(bucket string, max int) error {
 				map INT,
 				length INT,
 				build INT,
+				region INT,
 
-				bans INT[],
-
-				INDEX (build, map, mode) STORING (bans)
+				bans INT[]
 			) CSV DATA %s
 			WITH TEMP = $%d, distributed
 		`, makeValues(count, 1), count+1),
@@ -184,6 +183,7 @@ func (h *hotsContext) Import(bucket string, max int) error {
 				map INT,
 				length INT,
 				build INT,
+				region INT,
 
 				hero INT,
 				hero_level INT,
@@ -191,12 +191,12 @@ func (h *hotsContext) Import(bucket string, max int) error {
 				winner BOOL,
 				blizzid INT,
 				skill INT,
-				battletag STRING,
+				battletag STRING COLLATE en_u_ks_level1,
 				talents INT[],
 
 				INDEX (game),
 				INDEX (blizzid, time DESC),
-				INDEX (battletag),
+				INDEX (region, battletag),
 
 				INDEX (build, map, mode, hero_level) STORING (hero, winner),
 				INDEX (build, map, hero_level) STORING (hero, winner),
@@ -208,7 +208,6 @@ func (h *hotsContext) Import(bucket string, max int) error {
 				INDEX (build, hero, mode, hero_level) STORING (winner, talents),
 				INDEX (build, hero, hero_level) STORING (winner, talents)
 			) CSV DATA %s
-			WITH TEMP = $%d, distributed
 		`, makeValues(count, 1), count+1),
 		args...); err != nil {
 		return errors.Wrap(err, "import games")
@@ -238,6 +237,3 @@ func (h *hotsContext) syncConfig(bucket string) error {
 }
 
 const cacheConfig = "cacheconfig"
-
-// import table games ( id int primary key, mode INt, time timestamp, map int, length int, build int, bans int[]) csv data ('gs://csv.hots.dog/game/00000.csv') with temp='gs://csv.hots.dog/temp';
-// import table players ( game int, mode INt, time timestamp, map int, length int, build int, hero int, level int, team int, winner bool, blizzid int, skill int, battletag string, talents int[]) csv data ('gs://csv.hots.dog/player/00000.csv') with temp='gs://csv.hots.dog/temp';

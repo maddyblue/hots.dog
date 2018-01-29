@@ -347,6 +347,7 @@ func updateNextGroup(ctx context.Context, bucket *storage.BucketHandle, config *
 					config.gamemap(r.GameMap),
 					fmt.Sprint(r.GameLength),
 					config.build(r.GameVersion),
+					fmt.Sprint(r.Region),
 				}
 				if err := gc.Write(append(common,
 					fmt.Sprintf("{%s}", strings.Join(bans, ",")),
