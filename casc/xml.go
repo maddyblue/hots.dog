@@ -12,7 +12,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/mjibson/hots-cockroach/casc/xmlpath"
+	"github.com/mjibson/hots.dog/casc/xmlpath"
 )
 
 func (x *XML) loadXML(name string) error {

@@ -144,6 +144,7 @@ func extract() error {
 	talentFaces := make(map[string]string)
 	type Hero struct {
 		Name      string
+		ID        string
 		Slug      string
 		Role      string
 		MultiRole []string
@@ -207,6 +208,7 @@ func extract() error {
 			if chero.Id != "" && len(chero.RolesMultiClass) != 0 {
 				h := Hero{
 					Name: names[chero.Id],
+					ID:   chero.Id,
 					Slug: cleanText(names[chero.Id]),
 					Role: chero.CollectionCategory.Value,
 				}
@@ -324,6 +326,7 @@ func extract() error {
 
 type Hero struct {
 	Name      string
+	ID        string
 	Slug      string
 	Role      string
 	MultiRole []string
@@ -335,10 +338,11 @@ var heroData = []Hero{`)
 		fmt.Fprintf(out, `
 	{
 		Name:      %q,
+		ID:        %q,
 		Slug:      %q,
 		Role:      %q,
 		MultiRole: %#v,
-	},`, h.Name, h.Slug, h.Role, h.MultiRole)
+	},`, h.Name, h.ID, h.Slug, h.Role, h.MultiRole)
 	}
 
 	fmt.Fprint(out, `
