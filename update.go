@@ -29,14 +29,13 @@ import (
 )
 
 const (
-	HotsApi        = "https://hotsapi.net/api/v1"
-	configJSON     = "config.json"
-	dirGame        = "game"
-	dirPlayer      = "player"
-	dirUnprocessed = "unprocessed"
-	perFile        = 10000
-	perRequest     = 100
-	configBase     = "%09d.csv"
+	HotsApi    = "https://hotsapi.net/api/v1"
+	configJSON = "config.json"
+	dirGame    = "game"
+	dirPlayer  = "player"
+	perFile    = 10000
+	perRequest = 100
+	configBase = "%09d.csv"
 )
 
 func (h *hotsContext) updateDB() error {
@@ -451,7 +450,6 @@ func init() {
 	}
 	accessKey = value.AccessKeyID
 	secretKey = value.SecretAccessKey
-	fmt.Println("AWS KEYS", accessKey[:10], secretKey[:4])
 	awsSess = session.New(&aws.Config{
 		Credentials: creds,
 		Region:      aws.String("eu-west-1"),
