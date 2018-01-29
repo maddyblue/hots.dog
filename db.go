@@ -193,6 +193,7 @@ func (h *hotsContext) Import(bucket string, max int) error {
 				skill INT,
 				battletag STRING COLLATE en_u_ks_level1,
 				talents INT[],
+				data JSONB,
 
 				INDEX (game),
 				INDEX (blizzid, time DESC),
