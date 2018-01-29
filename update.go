@@ -444,6 +444,7 @@ var (
 	lambdaSvc *lambda.Lambda
 	accessKey string
 	secretKey string
+	banMap    = map[string]string{}
 
 	processSema = make(chan struct{}, 100)
 )
@@ -461,6 +462,14 @@ func init() {
 		Region:      aws.String("eu-west-1"),
 	})
 	lambdaSvc = lambda.New(awsSess)
+
+	for _, h := range heroData {
+		short := h.ID
+		if len(short) > 4 {
+			short = short[:4]
+		}
+		banMap[short] = h.Name
+	}
 }
 
 func processReplay(ctx context.Context, r *Replay, g *groupConfig) error {
@@ -578,24 +587,15 @@ func processReplay(ctx context.Context, r *Replay, g *groupConfig) error {
 	}
 
 	var bans []string
-	g.Lock()
-	if g.Map != nil && g.Map["hero"] != nil {
-		heroes := g.Map["hero"]
-		for _, teamBans := range pr.Bans {
-			for _, b := range teamBans {
-				if len(b) < 4 {
-					continue
-				}
-				for name := range heroes {
-					if strings.HasPrefix(name, b) {
-						bans = append(bans, name)
-					}
-				}
+	for _, teamBans := range pr.Bans {
+		for _, b := range teamBans {
+			b, ok := banMap[b]
+			if ok {
+				bans = append(bans, b)
 			}
 		}
 	}
 	r.Bans = [][]string{bans}
-	g.Unlock()
 
 	return nil
 }
