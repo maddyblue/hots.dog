@@ -338,14 +338,15 @@ func updateNextGroup(ctx context.Context, bucket *storage.BucketHandle, config *
 						}
 					}
 				}
-				config.addBuild(r.GameVersion, time.Time(r.GameDate))
+				version := strings.Join(strings.Split(r.GameVersion, ".")[:3], ".")
+				config.addBuild(version, time.Time(r.GameDate))
 				common := []string{
 					fmt.Sprint(r.ID),
 					fmt.Sprint(mode),
 					time.Time(r.GameDate).Format(time.RFC3339Nano),
 					config.gamemap(r.GameMap),
 					fmt.Sprint(r.GameLength),
-					config.build(r.GameVersion),
+					config.build(version),
 					fmt.Sprint(r.Region),
 				}
 				if err := gc.Write(append(common,
