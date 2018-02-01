@@ -831,31 +831,37 @@ func (h *hotsContext) getBuildWinrates(ctx context.Context, init initData, args 
 }
 
 func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (interface{}, error) {
-	name := r.FormValue("name")
+	name := strings.ToLower(r.FormValue("name"))
 	if name == "" {
 		return nil, errors.New("no name parameter")
 	}
+	region := r.FormValue("region")
+	if region == "" {
+		return nil, errors.New("no region parameter")
+	}
 	type entry struct {
-		ID   int64
-		Name string
+		ID     int64
+		Region int
+		Name   string
 	}
 	var res []entry
 	var last string
 	for i := 0; i < 10; i++ {
 		var e entry
 		err := h.x.GetContext(ctx, &e, `
-			SELECT blizzid id, battletag "name" FROM players
-			WHERE battletag >= $1
-			AND battletag > $2
-			ORDER BY battletag
+			SELECT blizzid id, battletag "name", region FROM players
+			WHERE battletag >= $1 COLLATE en_u_ks_level1
+			AND battletag > $2 COLLATE en_u_ks_level1
+			AND region = $3
+			ORDER BY battletag COLLATE en_u_ks_level1
 			LIMIT 1
-		`, name, last)
+		`, name, last, region)
 		if err == sql.ErrNoRows {
 			break
 		} else if err != nil {
 			return nil, err
 		}
-		if !strings.HasPrefix(e.Name, name) {
+		if !strings.HasPrefix(strings.ToLower(e.Name), name) {
 			break
 		}
 		last = e.Name
@@ -867,8 +873,12 @@ func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (inter
 func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (interface{}, error) {
 	blizzid := r.FormValue("blizzid")
 	build := r.FormValue("build")
+	region := r.FormValue("region")
 	if blizzid == "" {
 		return nil, errors.New("no blizzid parameter")
+	}
+	if region == "" {
+		return nil, errors.New("no region parameter")
 	}
 	if build == "" {
 		return nil, errors.New("no build parameter")
@@ -876,7 +886,7 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 	init := h.getInit()
 	var wheres []string
 	var params []interface{}
-	for _, key := range []string{"blizzid", "hero"} {
+	for _, key := range []string{"blizzid", "region", "hero"} {
 		v := r.FormValue(key)
 		if v == "" {
 			continue
@@ -918,13 +928,9 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 	res.Profile.Modes = make(map[string]Total)
 	res.Profile.Roles = make(map[string]Total)
 
-	if err := h.x.GetContext(ctx, &res.Battletag, `
-			SELECT battletag
-			FROM players
-			WHERE blizzid = $1
-			ORDER BY time DESC
-			LIMIT 1
-			`, blizzid); err != nil {
+	var err error
+	res.Battletag, err = h.getBattletag(ctx, blizzid, region)
+	if err != nil {
 		return nil, err
 	}
 
@@ -936,7 +942,7 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 	}
 	if err := h.x.SelectContext(ctx, &games, fmt.Sprintf(`
 			SELECT hero, winner, map, mode
-			FROM players@players_blizzid_time_idx
+			FROM players
 			WHERE %s
 			`, strings.Join(wheres, " AND ")), params...); err != nil {
 		return nil, err
@@ -969,8 +975,12 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 func (h *hotsContext) GetPlayerGames(ctx context.Context, r *http.Request) (interface{}, error) {
 	blizzid := r.FormValue("blizzid")
 	build := r.FormValue("build")
+	region := r.FormValue("region")
 	if blizzid == "" {
 		return nil, errors.New("no blizzid parameter")
+	}
+	if region == "" {
+		return nil, errors.New("no region parameter")
 	}
 	if build == "" {
 		return nil, errors.New("no build parameter")
@@ -992,8 +1002,8 @@ func (h *hotsContext) GetPlayerGames(ctx context.Context, r *http.Request) (inte
 	}
 
 	init := h.getInit()
-	wheres := []string{"blizzid = $1"}
-	params := []interface{}{blizzid}
+	wheres := []string{"blizzid = $1", "region = $2"}
+	params := []interface{}{blizzid, region}
 	if days, _ := strconv.Atoi(build); days > 0 && days < 100 {
 		v := time.Now().UTC().Add(-time.Hour * 24 * time.Duration(days)).Format("2006-01-02")
 		wheres = append(wheres, fmt.Sprintf("time >= $%d", len(params)+1))
@@ -1008,13 +1018,9 @@ func (h *hotsContext) GetPlayerGames(ctx context.Context, r *http.Request) (inte
 		params = append(params, v)
 	}
 
-	if err := h.x.GetContext(ctx, &res.Battletag, `
-			SELECT battletag
-			FROM players
-			WHERE blizzid = $1
-			ORDER BY time DESC
-			LIMIT 1
-			`, blizzid); err != nil {
+	var err error
+	res.Battletag, err = h.getBattletag(ctx, blizzid, region)
+	if err != nil {
 		return nil, err
 	}
 
@@ -1036,11 +1042,27 @@ func (h *hotsContext) GetPlayerGames(ctx context.Context, r *http.Request) (inte
 	return res, nil
 }
 
+func (h *hotsContext) getBattletag(ctx context.Context, blizzid, region string) (string, error) {
+	var battletag string
+	err := h.x.GetContext(ctx, &battletag, `
+		SELECT battletag
+		FROM players
+		WHERE blizzid = $1 and region = $2
+		ORDER BY time DESC
+		LIMIT 1
+		`, blizzid, region)
+	return battletag, err
+}
+
 func (h *hotsContext) GetPlayerMatchups(ctx context.Context, r *http.Request) (interface{}, error) {
 	blizzid := r.FormValue("blizzid")
 	build := r.FormValue("build")
+	region := r.FormValue("region")
 	if blizzid == "" {
 		return nil, errors.New("no blizzid parameter")
+	}
+	if region == "" {
+		return nil, errors.New("no region parameter")
 	}
 	if build == "" {
 		return nil, errors.New("no build parameter")
@@ -1055,8 +1077,8 @@ func (h *hotsContext) GetPlayerMatchups(ctx context.Context, r *http.Request) (i
 	}
 
 	init := h.getInit()
-	wheres := []string{"blizzid = $1"}
-	params := []interface{}{blizzid}
+	wheres := []string{"blizzid = $1", "region = $2"}
+	params := []interface{}{blizzid, region}
 	if days, _ := strconv.Atoi(build); days > 0 && days < 100 {
 		v := time.Now().UTC().Add(-time.Hour * 24 * time.Duration(days)).Format("2006-01-02")
 		wheres = append(wheres, fmt.Sprintf("time >= $%d", len(params)+1))
@@ -1071,13 +1093,9 @@ func (h *hotsContext) GetPlayerMatchups(ctx context.Context, r *http.Request) (i
 		params = append(params, v)
 	}
 
-	if err := h.x.GetContext(ctx, &res.Battletag, `
-			SELECT battletag
-			FROM players
-			WHERE blizzid = $1
-			ORDER BY time DESC
-			LIMIT 1
-			`, blizzid); err != nil {
+	var err error
+	res.Battletag, err = h.getBattletag(ctx, blizzid, region)
+	if err != nil {
 		return nil, err
 	}
 
@@ -1089,10 +1107,13 @@ func (h *hotsContext) GetPlayerMatchups(ctx context.Context, r *http.Request) (i
 	var games, all []Game
 	if err := h.x.SelectContext(ctx, &games, fmt.Sprintf(`
 			SELECT game, winner, hero
-			FROM players@players_blizzid_time_idx
+			FROM players
 			WHERE %s
 			`, strings.Join(wheres, " AND ")), params...); err != nil {
 		return nil, err
+	}
+	if len(games) == 0 {
+		return res, nil
 	}
 	ids := make([]interface{}, len(games))
 	gs := make(map[int]Game)

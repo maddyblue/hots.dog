@@ -193,7 +193,7 @@ func (h *hotsContext) Import(bucket string, max int) error {
 				data JSONB,
 
 				INDEX (game),
-				INDEX (blizzid, time DESC),
+				INDEX (region, blizzid, time DESC),
 				INDEX (region, battletag),
 
 				INDEX (build, map, mode, hero_level) STORING (hero, winner),

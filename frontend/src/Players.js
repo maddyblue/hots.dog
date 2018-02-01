@@ -5,10 +5,20 @@ import { Link } from 'react-router-dom';
 import { Fetch, pct, toLength, toDate, TalentImg, BuildsOpts } from './common';
 import { Helmet } from 'react-helmet';
 import SortedTable from './SortedTable';
+import { createCookie, readCookie } from './common';
 
 type Props = {
 	match: any,
 };
+
+const regionNames = {
+	'1': 'Americas',
+	'2': 'Europe',
+	'3': 'Asia',
+	'5': 'China',
+};
+
+const regionCookie = 'region';
 
 class Players extends Component<
 	Props,
@@ -16,12 +26,14 @@ class Players extends Component<
 		name: string,
 		ids: any[],
 		loading: boolean,
+		region: string,
 	}
 > {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
 			name: '',
+			region: readCookie(regionCookie) || '1',
 			ids: [],
 			loading: false,
 		};
@@ -29,6 +41,9 @@ class Players extends Component<
 	update = (ev: SyntheticInputEvent<HTMLInputElement>) => {
 		const st = {};
 		st[ev.target.name] = ev.target.value;
+		if (ev.target.name === 'region') {
+			createCookie(regionCookie, ev.target.value);
+		}
 		this.setState(st);
 	};
 	onSubmit = (ev: SyntheticInputEvent<HTMLFormElement>) => {
@@ -39,7 +54,10 @@ class Players extends Component<
 		const name = this.state.name;
 		this.setState({ loading: true });
 		Fetch(
-			'/api/get-player-by-name?name=' + encodeURIComponent(this.state.name),
+			'/api/get-player-by-name?name=' +
+				encodeURIComponent(this.state.name) +
+				'&region=' +
+				this.state.region,
 			data => {
 				if (this.state.name === name) {
 					this.setState({ ids: data, loading: false });
@@ -56,7 +74,7 @@ class Players extends Component<
 		} else {
 			names = this.state.ids.map(e => (
 				<li key={e.Name}>
-					<Link to={'/players/' + e.ID}>{e.Name}</Link>
+					<Link to={'/players/' + e.Region + '/' + e.ID}>{e.Name}</Link>
 				</li>
 			));
 		}
@@ -66,13 +84,33 @@ class Players extends Component<
 					<title>Search for player by name</title>
 				</Helmet>
 				<form onSubmit={this.onSubmit}>
-					<label>Search for player by name</label>
-					<input
-						type="text"
-						name="name"
-						value={this.state.name}
-						onChange={this.update}
-					/>
+					<div className="row">
+						<div className="column">
+							<label>Search for player by battletag</label>
+							<input
+								type="text"
+								name="name"
+								value={this.state.name}
+								onChange={this.update}
+							/>
+						</div>
+						<div className="column">
+							<label>Region</label>
+							<select
+								name="region"
+								value={this.state.region}
+								onChange={this.update}
+							>
+								{Object.keys(regionNames)
+									.sort()
+									.map(k => (
+										<option key={k} value={k}>
+											{regionNames[k]}
+										</option>
+									))}
+							</select>
+						</div>
+					</div>
 					<input className="button-primary" type="submit" value="search" />
 				</form>
 				<ul>{names}</ul>
@@ -108,6 +146,8 @@ class Player extends Component<
 		return (
 			'/api/get-player-profile?blizzid=' +
 			encodeURIComponent(this.props.match.params.id) +
+			'&region=' +
+			this.props.match.params.region +
 			'&build=' +
 			encodeURIComponent(build)
 		);
@@ -185,9 +225,9 @@ class Player extends Component<
 		return (
 			<div>
 				<PlayerHeader
+					{...this.props.match.params}
 					history={this.props.history}
 					name={this.state.Battletag}
-					id={this.props.match.params.id}
 					build={this.props.build}
 					prefix="profile"
 				/>
@@ -226,7 +266,7 @@ class PlayerGames extends Component<
 	{ Games: any[], Battletag: string, search: string }
 > {
 	state = {
-		Games: [],
+		Games: null,
 		Battletag: '',
 		search: '',
 	};
@@ -241,6 +281,8 @@ class PlayerGames extends Component<
 		return (
 			'/api/get-player-games?blizzid=' +
 			encodeURIComponent(this.props.match.params.id) +
+			'&region=' +
+			this.props.match.params.region +
 			'&build=' +
 			encodeURIComponent(build)
 		);
@@ -250,16 +292,17 @@ class PlayerGames extends Component<
 		if (this.state.search === search) {
 			return;
 		}
-		this.setState({ Games: [], search: search });
+		this.setState({ Games: null, search: search });
 		Fetch(search, data => {
 			if (search === this.makeSearch()) {
+				data.Games = data.Games || [];
 				this.setState(data);
 			}
 		});
 	};
 	render() {
 		let content;
-		if (!this.state.Games.length) {
+		if (this.state.Games === null) {
 			content = 'loading...';
 		} else {
 			content = (
@@ -316,9 +359,9 @@ class PlayerGames extends Component<
 		return (
 			<div>
 				<PlayerHeader
+					{...this.props.match.params}
 					history={this.props.history}
 					name={this.state.Battletag}
-					id={this.props.match.params.id}
 					build={this.props.build}
 					prefix="games"
 				/>
@@ -357,6 +400,8 @@ class PlayerMatchups extends Component<
 		return (
 			'/api/get-player-matchups?blizzid=' +
 			encodeURIComponent(this.props.match.params.id) +
+			'&region=' +
+			this.props.match.params.region +
 			'&build=' +
 			encodeURIComponent(build)
 		);
@@ -431,9 +476,9 @@ class PlayerMatchups extends Component<
 		return (
 			<div>
 				<PlayerHeader
+					{...this.props.match.params}
 					history={this.props.history}
 					name={this.state.Battletag}
-					id={this.props.match.params.id}
 					build={this.props.build}
 					prefix="matchups"
 				/>
@@ -563,6 +608,7 @@ class Game extends Component<
 const PlayerHeader = (props: {
 	name: string,
 	id: string,
+	region: string,
 	history: any,
 	build?: string,
 	prefix: string,
@@ -573,30 +619,27 @@ const PlayerHeader = (props: {
 			: 'button';
 	const build = props.build ? '?build=' + encodeURIComponent(props.build) : '';
 	const title = props.name + ' ' + props.prefix;
+	const link = '/players/' + props.region + '/' + props.id;
 	return (
 		<div>
 			<h2>{title}</h2>
 			<Helmet>
 				<title>{title}</title>
 			</Helmet>
-			<Link
-				key="profile"
-				className={getClass(props.id)}
-				to={'/players/' + props.id + build}
-			>
+			<Link key="profile" className={getClass(props.id)} to={link + build}>
 				profile
 			</Link>{' '}
 			<Link
 				key="games"
 				className={getClass('games')}
-				to={'/players/' + props.id + '/games' + build}
+				to={link + '/games' + build}
 			>
 				games
 			</Link>{' '}
 			<Link
 				key="matchups"
 				className={getClass('matchups')}
-				to={'/players/' + props.id + '/matchups' + build}
+				to={link + '/matchups' + build}
 			>
 				matchups
 			</Link>

@@ -205,7 +205,7 @@ class HotsApp extends Component<{ location: Location, history: any }, State> {
 					<Route exact path="/players" component={Players} />
 					<Route
 						exact
-						path="/players/:id"
+						path="/players/:region/:id"
 						render={props => (
 							<Player
 								handleChange={this.handleChange}
@@ -216,7 +216,7 @@ class HotsApp extends Component<{ location: Location, history: any }, State> {
 					/>
 					<Route
 						exact
-						path="/players/:id/games"
+						path="/players/:region/:id/games"
 						render={props => (
 							<PlayerGames
 								handleChange={this.handleChange}
@@ -227,7 +227,7 @@ class HotsApp extends Component<{ location: Location, history: any }, State> {
 					/>
 					<Route
 						exact
-						path="/players/:id/matchups"
+						path="/players/:region/:id/matchups"
 						render={props => (
 							<PlayerMatchups
 								handleChange={this.handleChange}
