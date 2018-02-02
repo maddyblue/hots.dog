@@ -183,6 +183,12 @@ class SortedTable extends Component<Props, State> {
 }
 
 const defaultCmp: Cmp = (a, b): number => {
+	if (a === undefined) {
+		return -1;
+	}
+	if (b === undefined) {
+		return 1;
+	}
 	switch (typeof a) {
 		case 'number':
 		case 'boolean':

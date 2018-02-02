@@ -2,10 +2,18 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Fetch, pct, toLength, toDate, TalentImg, BuildsOpts } from './common';
+import {
+	Fetch,
+	pct,
+	toLength,
+	toDate,
+	TalentImg,
+	BuildsOpts,
+	createCookie,
+	readCookie,
+} from './common';
 import { Helmet } from 'react-helmet';
 import SortedTable from './SortedTable';
-import { createCookie, readCookie } from './common';
 
 type Props = {
 	match: any,
@@ -263,7 +271,7 @@ class PlayerGames extends Component<
 		handleChange: any,
 		Builds: any,
 	},
-	{ Games: any[], Battletag: string, search: string }
+	{ Games: any[] | null, Battletag: string, search: string }
 > {
 	state = {
 		Games: null,
@@ -511,6 +519,21 @@ class Game extends Component<
 		}
 		const baseSearch = '?build=' + this.state.Game.Build;
 		const title = this.state.Game.Map + ' on ' + toDate(this.state.Game.Date);
+		const allColumns = {};
+		this.state.Players
+			.map(v => v.Data)
+			.forEach(v => Object.keys(v).forEach(k => (allColumns[k] = true)));
+		const columns = Object.keys(allColumns).sort();
+		const dataHeaders = columns.map(v => ({
+			name: v,
+			key: v,
+			header: v.replace(/_/g, ' '),
+			cell: d => (d && v.startsWith('time') ? toLength(d) : d),
+		}));
+		dataHeaders.unshift({
+			name: 'Hero',
+			cell: v => <Link to={'/talents/' + v + baseSearch}>{v}</Link>,
+		});
 		return (
 			<div>
 				<Helmet>
@@ -584,7 +607,11 @@ class Game extends Component<
 						},
 						{
 							name: 'Battletag',
-							cell: (v, row) => <Link to={'/players/' + row.Blizzid}>{v}</Link>,
+							cell: (v, row) => (
+								<Link to={'/players/' + row.Region + '/' + row.Blizzid}>
+									{v}
+								</Link>
+							),
 						},
 						{
 							name: 'TalentList',
@@ -600,6 +627,16 @@ class Game extends Component<
 					]}
 					data={this.state.Players}
 				/>
+				<div style={{ overflowX: 'scroll' }}>
+					<SortedTable
+						name="data"
+						sort="Hero"
+						headers={dataHeaders}
+						data={this.state.Players.map(v =>
+							Object.assign({ Hero: v.Hero }, v.Data)
+						)}
+					/>
+				</div>
 			</div>
 		);
 	}

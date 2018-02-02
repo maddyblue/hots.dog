@@ -574,13 +574,13 @@ func processReplay(ctx context.Context, r *Replay, g *groupConfig) error {
 		p.Score.MinionDamage = np.Score.MinionDamage
 		p.Score.CreepDamage = np.Score.CreepDamage
 		p.Score.SummonDamage = np.Score.SummonDamage
-		p.Score.TimeCcEnemyHeroes = np.Score.TimeCCdEnemyHeroes
+		p.Score.TimeCcEnemyHeroes = parseTime(np.Score.TimeCCdEnemyHeroes)
 		p.Score.Healing = np.Score.Healing
 		p.Score.SelfHealing = np.Score.SelfHealing
 		p.Score.DamageTaken = np.Score.DamageTaken
 		p.Score.ExperienceContribution = np.Score.ExperienceContribution
 		p.Score.TownKills = np.Score.TownKills
-		p.Score.TimeSpentDead = np.Score.TimeSpentDead
+		p.Score.TimeSpentDead = parseTime(np.Score.TimeSpentDead)
 		p.Score.MercCampCaptures = np.Score.MercCampCaptures
 		p.Score.WatchTowerCaptures = np.Score.WatchTowerCaptures
 		p.Score.MetaExperience = np.Score.MetaExperience
@@ -600,6 +600,19 @@ func processReplay(ctx context.Context, r *Replay, g *groupConfig) error {
 	return nil
 }
 
+func parseTime(s string) int {
+	sp := strings.Split(s, ":")
+	if len(sp) != 3 {
+		return 0
+	}
+	t := 0
+	for i, m := range []int{60 * 60, 60, 1} {
+		v, _ := strconv.Atoi(sp[i])
+		t += v * m
+	}
+	return t
+}
+
 type ProcessedPlayer struct {
 	BattletagName string   `json:"battletag_name"`
 	BattletagID   int      `json:"battletag_id"`
@@ -612,29 +625,29 @@ type ProcessedPlayer struct {
 	Party         int      `json:"party"`
 	Talents       []string `json:"talents"`
 	Score         struct {
-		Level                  int   `json:"Level"`
-		Takedowns              int   `json:"Takedowns"`
-		SoloKills              int   `json:"SoloKills"`
-		Assists                int   `json:"Assists"`
-		Deaths                 int   `json:"Deaths"`
-		HighestKillStreak      int   `json:"HighestKillStreak"`
-		HeroDamage             int   `json:"HeroDamage"`
-		SiegeDamage            int   `json:"SiegeDamage"`
-		StructureDamage        int   `json:"StructureDamage"`
-		MinionDamage           int   `json:"MinionDamage"`
-		CreepDamage            int   `json:"CreepDamage"`
-		SummonDamage           int   `json:"SummonDamage"`
-		TimeCCdEnemyHeroes     int   `json:"TimeCCdEnemyHeroes"`
-		Healing                int   `json:"Healing"`
-		SelfHealing            int   `json:"SelfHealing"`
-		DamageTaken            int   `json:"DamageTaken"`
-		ExperienceContribution int   `json:"ExperienceContribution"`
-		TownKills              int   `json:"TownKills"`
-		TimeSpentDead          int   `json:"TimeSpentDead"`
-		MercCampCaptures       int   `json:"MercCampCaptures"`
-		WatchTowerCaptures     int   `json:"WatchTowerCaptures"`
-		MetaExperience         int   `json:"MetaExperience"`
-		MatchAwards            []int `json:"MatchAwards"`
+		Level                  int    `json:"Level"`
+		Takedowns              int    `json:"Takedowns"`
+		SoloKills              int    `json:"SoloKills"`
+		Assists                int    `json:"Assists"`
+		Deaths                 int    `json:"Deaths"`
+		HighestKillStreak      int    `json:"HighestKillStreak"`
+		HeroDamage             int    `json:"HeroDamage"`
+		SiegeDamage            int    `json:"SiegeDamage"`
+		StructureDamage        int    `json:"StructureDamage"`
+		MinionDamage           int    `json:"MinionDamage"`
+		CreepDamage            int    `json:"CreepDamage"`
+		SummonDamage           int    `json:"SummonDamage"`
+		TimeCCdEnemyHeroes     string `json:"TimeCCdEnemyHeroes"`
+		Healing                int    `json:"Healing"`
+		SelfHealing            int    `json:"SelfHealing"`
+		DamageTaken            int    `json:"DamageTaken"`
+		ExperienceContribution int    `json:"ExperienceContribution"`
+		TownKills              int    `json:"TownKills"`
+		TimeSpentDead          string `json:"TimeSpentDead"`
+		MercCampCaptures       int    `json:"MercCampCaptures"`
+		WatchTowerCaptures     int    `json:"WatchTowerCaptures"`
+		MetaExperience         int    `json:"MetaExperience"`
+		MatchAwards            []int  `json:"MatchAwards"`
 	} `json:"score"`
 }
 
@@ -808,28 +821,28 @@ type Replay struct {
 			Num20 string `json:"20"`
 		} `json:"talents"`
 		Score struct {
-			Level                  int `json:"level"`
-			Kills                  int `json:"kills"`
-			Assists                int `json:"assists"`
-			Takedowns              int `json:"takedowns"`
-			Deaths                 int `json:"deaths"`
-			HighestKillStreak      int `json:"highest_kill_streak"`
-			HeroDamage             int `json:"hero_damage"`
-			SiegeDamage            int `json:"siege_damage"`
-			StructureDamage        int `json:"structure_damage"`
-			MinionDamage           int `json:"minion_damage"`
-			CreepDamage            int `json:"creep_damage"`
-			SummonDamage           int `json:"summon_damage"`
-			TimeCcEnemyHeroes      int `json:"time_cc_enemy_heroes"`
-			Healing                int `json:"healing"`
-			SelfHealing            int `json:"self_healing"`
-			DamageTaken            int `json:"damage_taken"`
-			ExperienceContribution int `json:"experience_contribution"`
-			TownKills              int `json:"town_kills"`
-			TimeSpentDead          int `json:"time_spent_dead"`
-			MercCampCaptures       int `json:"merc_camp_captures"`
-			WatchTowerCaptures     int `json:"watch_tower_captures"`
-			MetaExperience         int `json:"meta_experience"`
+			Level                  int `json:"level,omitempty"`
+			Kills                  int `json:"kills,omitempty"`
+			Assists                int `json:"assists,omitempty"`
+			Takedowns              int `json:"takedowns,omitempty"`
+			Deaths                 int `json:"deaths,omitempty"`
+			HighestKillStreak      int `json:"highest_kill_streak,omitempty"`
+			HeroDamage             int `json:"hero_damage,omitempty"`
+			SiegeDamage            int `json:"siege_damage,omitempty"`
+			StructureDamage        int `json:"structure_damage,omitempty"`
+			MinionDamage           int `json:"minion_damage,omitempty"`
+			CreepDamage            int `json:"creep_damage,omitempty"`
+			SummonDamage           int `json:"summon_damage,omitempty"`
+			TimeCcEnemyHeroes      int `json:"time_cc_enemy_heroes,omitempty"`
+			Healing                int `json:"healing,omitempty"`
+			SelfHealing            int `json:"self_healing,omitempty"`
+			DamageTaken            int `json:"damage_taken,omitempty"`
+			ExperienceContribution int `json:"experience_contribution,omitempty"`
+			TownKills              int `json:"town_kills,omitempty"`
+			TimeSpentDead          int `json:"time_spent_dead,omitempty"`
+			MercCampCaptures       int `json:"merc_camp_captures,omitempty"`
+			WatchTowerCaptures     int `json:"watch_tower_captures,omitempty"`
+			MetaExperience         int `json:"meta_experience,omitempty"`
 		} `json:"score"`
 	} `json:"players"`
 }

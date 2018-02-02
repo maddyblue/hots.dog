@@ -1176,6 +1176,8 @@ func (h *hotsContext) GetGameData(ctx context.Context, r *http.Request) (interfa
 			Battletag  string
 			Talents    string `json:"-"`
 			TalentList []string
+			Data       json.RawMessage
+			Region     int
 		}
 		Talents map[string]talentText
 	}{
@@ -1191,7 +1193,7 @@ func (h *hotsContext) GetGameData(ctx context.Context, r *http.Request) (interfa
 	}
 
 	if err := h.x.SelectContext(ctx, &res.Players, `
-		SELECT hero, hero_level, winner, blizzid, battletag, talents
+		SELECT hero, hero_level, winner, blizzid, battletag, talents, data, region
 		FROM players
 		WHERE game = $1
 		`, id); err != nil {
