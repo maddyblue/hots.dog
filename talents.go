@@ -297,6 +297,13 @@ var heroData = []Hero{
 		MultiRole: []string{"Support"},
 	},
 	{
+		Name:      "Maiev",
+		ID:        "Maiev",
+		Slug:      "maiev",
+		Role:      "Damage",
+		MultiRole: []string{"Damage"},
+	},
+	{
 		Name:      "Malfurion",
 		ID:        "Malfurion",
 		Slug:      "malfurion",
@@ -759,7 +766,7 @@ var talentData = map[string]talentText{
 	},
 	"AlexstraszaDragonScales": {
 		Name: "Dragon Scales",
-		Text: "Gain 30 Armor while Stunned, Silenced, or Rooted, and for 2 seconds after. Can only trigger once every 10 seconds.",
+		Text: "Gain 30 Armor while Stunned, Rooted, or Silenced, and for 2 seconds after. Can only trigger once every 10 seconds.",
 	},
 	"AlexstraszaExuberance": {
 		Name: "Exuberance",
@@ -803,7 +810,7 @@ var talentData = map[string]talentText{
 	},
 	"AlexstraszaPacify": {
 		Name: "Pacify",
-		Text: "Activate to Slow and reduce an enemy Hero's damage by 50% for 3 seconds.\nHealing a Stunned, Silenced, or Rooted ally reduces Pacify's cooldown by 30 seconds.",
+		Text: "Activate to Slow and reduce an enemy Hero's damage by 50% for 3 seconds.\nHealing a Stunned, Rooted, or Silenced ally reduces Pacify's cooldown by 30 seconds.",
 	},
 	"AlexstraszaRitualOfLife": {
 		Name: "Ritual of Life",
@@ -1237,54 +1244,6 @@ var talentData = map[string]talentText{
 		Name: "Shattered Armor",
 		Text: "Enemy Heroes hit by Howling Blast have their Armor reduced by 15 for 4 seconds.",
 	},
-	"ArtifactAbilityPower": {
-		Name: "Brilliant Topaz",
-		Text: "Increases ability damage and healing",
-	},
-	"ArtifactAttackDamage": {
-		Name: "Primal Ruby",
-		Text: "Increases basic attack damage",
-	},
-	"ArtifactAttackSpeed": {
-		Name: "Skyfire Emerald",
-		Text: "Increases speed of basic attacks",
-	},
-	"ArtifactCooldownReduction": {
-		Name: "Royal Diamond",
-		Text: "Reduces cooldowns for abilities",
-	},
-	"ArtifactHealthRegen": {
-		Name: "Warrior's Resolve",
-		Text: "Increases Health regeneration",
-	},
-	"ArtifactLifesteal": {
-		Name: "Blood Siphon",
-		Text: "Basic attacks restore Health",
-	},
-	"ArtifactManaRegen": {
-		Name: "Mana Infusion",
-		Text: "Increases Mana regeneration",
-	},
-	"ArtifactMaxHealth": {
-		Name: "Bold Amethyst",
-		Text: "Increases maximum Health",
-	},
-	"ArtifactMaxMana": {
-		Name: "Khaydarin Amulet",
-		Text: "Increases maximum Mana",
-	},
-	"ArtifactMovementSpeed": {
-		Name: "Wirt's Leg",
-		Text: "Increases movement speed",
-	},
-	"ArtifactShields": {
-		Name: "Nexus Sapphire",
-		Text: "Grants shields",
-	},
-	"ArtifactSiegeDamage": {
-		Name: "Destroyer",
-		Text: "Increases damage vs. minions and towers",
-	},
 	"AurielAngelicFlightTalent": {
 		Name: "Angelic Flight",
 		Text: "After 2 seconds, fly to a target location.",
@@ -1381,21 +1340,9 @@ var talentData = map[string]talentText{
 		Name: "Wrath of Heaven",
 		Text: "Allies with Bestow Hope gain 10% Spell Power.",
 	},
-	"AzmodanBloodForBlood": {
-		Name: "Blood for Blood",
-		Text: "Activate to deal 10% of target enemy Hero's Max Health and heal for twice that amount.",
-	},
 	"AzmodanBoltoftheStorms": {
 		Name: "Bolt of the Storm",
 		Text: "Activate to teleport to a nearby location.",
-	},
-	"AzmodanBombardment": {
-		Name: "Bombardment",
-		Text: "[PH]Reward: Killing an enemy Hero within the last 50% of Globe of Annihilation's range permanently decreases Globe of Annihilation's cooldown by 5 seconds.",
-	},
-	"AzmodanBribe": {
-		Name: "Bribe",
-		Text: "Kill Minions to bribe a Mercenary",
 	},
 	"AzmodanGluttonousWard": {
 		Name: "Gluttonous Ward",
@@ -1489,14 +1436,6 @@ var talentData = map[string]talentText{
 		Name: "Sin's Grasp",
 		Text: "Activate to curse an enemy Hero, dealing 248 damage over 8 seconds. Minion kills reduce this cooldown by 10 seconds. Can be cast while channeling All Shall Burn.",
 	},
-	"BarbarianAmplifiedHealing": {
-		Name: "Amplified Healing",
-		Text: "Increases regeneration effects and all healing received by 30%.",
-	},
-	"BarbarianCombatStyleEndlessFury": {
-		Name: "Endless Fury",
-		Text: "Increases maximum Fury to 200.",
-	},
 	"BarbarianCombatStyleFerociousHealing": {
 		Name: "Ferocious Healing",
 		Text: "Consume 20 Fury to heal 10% of Sonya's maximum Health.\nUsable while Whirlwinding.",
@@ -1515,7 +1454,7 @@ var talentData = map[string]talentText{
 	},
 	"BarbarianHeroicAbilityWrathoftheBerserker": {
 		Name: "Wrath of the Berserker",
-		Text: "Increase damage dealt by 40%. Reduce the duration of stuns, slows, and roots against Sonya by 50%. Lasts 15 seconds, and extends by 1 second for every 10 Fury gained.",
+		Text: "Increase damage dealt by 40%. Reduce the duration of Stuns, Roots, and Slows against Sonya by 50%. Lasts 15 seconds, and extends by 1 second for every 10 Fury gained.",
 	},
 	"BarbarianMasteryAftershock": {
 		Name: "Aftershock",
@@ -1529,33 +1468,13 @@ var talentData = map[string]talentText{
 		Name: "Arreat Crater",
 		Text: "Leap leaves behind an impassable crater for 5 seconds.  Reduces Leap's cooldown by 20 seconds.",
 	},
-	"BarbarianMasteryBoonOfTheAncients": {
-		Name: "Boon Of The Ancients",
-		Text: "Boon Of The Ancients \nHitting an enemy reduces Ancient Spear's cooldown by 5 seconds.",
-	},
 	"BarbarianMasteryCompositeSpearAncientSpear": {
 		Name: "Composite Spear",
 		Text: "Increases the range of Ancient Spear by 30% and increases Fury generated by 20.",
 	},
-	"BarbarianMasteryCycloneWhirlwind": {
-		Name: "Cyclone",
-		Text: "Increases the radius of Whirlwind by 80%.",
-	},
-	"BarbarianMasteryDustDevils": {
-		Name: "Dust Devils",
-		Text: "Whirlwind creates Tornadoes that do an additional 25% damage.",
-	},
-	"BarbarianMasteryEnduringWhirlwind": {
-		Name: "Enduring Whirlwind",
-		Text: "Whirlwind duration increased by 50%.",
-	},
 	"BarbarianMasteryFuriousBlowSeismicSlam": {
 		Name: "Furious Blow",
 		Text: "Increases Seismic Slam damage by 50%, but costs 40 Fury.",
-	},
-	"BarbarianMasteryHamstringSpiralWhirlwind": {
-		Name: "Hamstring Spiral",
-		Text: "Whirlwind slows enemy Movement Speed by 25% for 1 second.",
 	},
 	"BarbarianMasteryHurricaneWhirlwind": {
 		Name: "Hurricane",
@@ -1571,15 +1490,11 @@ var talentData = map[string]talentText{
 	},
 	"BarbarianMasteryPoisonedSpearAncientSpear": {
 		Name: "Poisoned Spear",
-		Text: "Ancient Spear deals an additional 100% damage over 6 seconds.",
+		Text: "Ancient Spear deals an additional 125% damage over 6 seconds.",
 	},
 	"BarbarianMasteryShatteredGroundSeismicSlam": {
 		Name: "Shattered Ground",
 		Text: "Increases Seismic Slam splash damage to 75% of primary target damage.",
-	},
-	"BarbarianMasteryStrengthFromEarthSeismicSlam": {
-		Name: "Strength from Earth",
-		Text: "Strength From Earth \nSeismic Slam heals for 100% of damage dealt.",
 	},
 	"BarbarianMasteryWarPaint": {
 		Name: "War Paint",
@@ -1593,15 +1508,7 @@ var talentData = map[string]talentText{
 		Name: "Bladed Momentum",
 		Text: "Basic Attacks reduce Kerrigan's Basic Ability cooldowns by 0.6 seconds.",
 	},
-	"BattleMomentumMuradin": {
-		Name: "Iron-forged Momentum",
-		Text: "Basic Attacks reduce the cooldown of Storm Bolt and Thunderclap by -0 seconds.",
-	},
 	"BattleMomentumNova": {
-		Name: "Battle Momentum",
-		Text: "Basic Attacks reduce Ability cooldowns by 0.5 seconds.",
-	},
-	"BattleMomentumRehgar": {
 		Name: "Battle Momentum",
 		Text: "Basic Attacks reduce Ability cooldowns by 0.5 seconds.",
 	},
@@ -1676,14 +1583,6 @@ var talentData = map[string]talentText{
 	"BrightwingWoundedAnimalPolymorph": {
 		Name: "Wounded Animal",
 		Text: "Increase the Movement Speed slow of Polymorph to 30%.",
-	},
-	"BucketCallOfTheStorm": {
-		Name: "Onslaught of the Storm",
-		Text: "Onslaught of the Storm\nEnemies killed by Abilities explode for 500 damage in a small area.",
-	},
-	"BucketConstantHeroism": {
-		Name: "Constant Heroism",
-		Text: "Constant Heroism \nYour Heroic Ability's cooldown is reduced by 30%.",
 	},
 	"BucketFuryOfTheStorm": {
 		Name: "Fury of the Storm",
@@ -2673,10 +2572,6 @@ var talentData = map[string]talentText{
 		Name: "Emerald Wind",
 		Text: "After 0.5 seconds, create an expanding nova of wind, dealing 303 damage and pushing enemies away. \nPassive: Increases the healing of Soothing Mist by 5%.",
 	},
-	"FaerieDragonMasteryArcanePrecision": {
-		Name: "Arcane Precision",
-		Text: "Increases Arcane Flare's inner area damage by 50%.",
-	},
 	"FaerieDragonMasteryContinuousWinds": {
 		Name: "Continuous Winds",
 		Text: "Emerald Wind releases two additional novas that deal 25% damage. Also further increases the healing bonus of Soothing Mist by 7%.",
@@ -2740,10 +2635,6 @@ var talentData = map[string]talentText{
 	"FalstadMasteryFlightEpicMount": {
 		Name: "Epic Mount",
 		Text: "Reduce the cooldown of Flight to 30 seconds, reduce the cast time before flying to 0.5 seconds, and increase the speed by 50%.",
-	},
-	"FalstadMasteryFlyAwayFlight": {
-		Name: "Fly Away!",
-		Text: "Fly Away! \nThe cooldown for Flight is reduced by 15 seconds.",
 	},
 	"FalstadMasteryHammerangPowerThrow": {
 		Name: "Power Throw",
@@ -3069,10 +2960,6 @@ var talentData = map[string]talentText{
 		Name: "Battle Momentum",
 		Text: "Basic Attacks reduce Ability cooldowns by 0.5 seconds.",
 	},
-	"GenericTalentBerserk": {
-		Name: "Berserk",
-		Text: "Activate to increase your Attack Speed by 40% and Movement Speed by 10% for 4 seconds.",
-	},
 	"GenericTalentBlock": {
 		Name: "Block",
 		Text: "Every 5 seconds, gain 75 Physical Armor against the next enemy Hero Basic Attack, reducing the damage taken by 75%.\nStores up to 2 charges.",
@@ -3093,21 +2980,9 @@ var talentData = map[string]talentText{
 		Name: "Calldown: MULE",
 		Text: "Activate to calldown a Mule that repairs Structures, one at a time, near target point for 40 seconds, healing for 100 Health every 1 second. ",
 	},
-	"GenericTalentClairvoyance": {
-		Name: "Clairvoyance",
-		Text: "Activate to reveal an area for 10 seconds.  Enemies in the area are revealed for 4 seconds.",
-	},
 	"GenericTalentCleanse": {
 		Name: "Cleanse",
 		Text: "Activate to make target ally Unstoppable for 1 second. Cannot be cast on yourself.",
-	},
-	"GenericTalentConjurersPursuit": {
-		Name: "Conjurer's Pursuit",
-		Text: "Quest: Gathering Regeneration Globes increases your Mana Regeneration by 0.1 per second, up to 2.5 per second. \nReward: After gathering 25 Globes, also increase your maximum Mana by 100.",
-	},
-	"GenericTalentDemolitionist": {
-		Name: "Demolitionist",
-		Text: "Basic Attacks against Structures destroy 1 ammo and deal an additional 10% damage.",
 	},
 	"GenericTalentEnvenom": {
 		Name: "Envenom",
@@ -3132,10 +3007,6 @@ var talentData = map[string]talentText{
 	"GenericTalentFuryoftheStorm": {
 		Name: "Fury of the Storm",
 		Text: "Every 5 seconds, your next Basic Attack will deal an additional 91 damage to the target, and 228 damage to all nearby Minions, Mercenaries, and Monsters.",
-	},
-	"GenericTalentGatheringPower": {
-		Name: "Gathering Power",
-		Text: "Quest: Hero Takedowns increase Spell Power by 2%, up to 130%. This bonus Spell Power is lost on death.",
 	},
 	"GenericTalentGiantKiller": {
 		Name: "Giant Killer",
@@ -3209,10 +3080,6 @@ var talentData = map[string]talentText{
 		Name: "Scouting Drone",
 		Text: "Places a Scouting Drone at target location, granting vision and revealing a large area around it for 45 seconds. This drone cannot be hidden and is killed by enemies with 2 Basic Attacks.\nStores up to 2 charges.",
 	},
-	"GenericTalentSearingAttacks": {
-		Name: "Searing Attacks",
-		Text: "Activate to increase Basic Attack damage by 50% for 5 seconds. Each attack costs 15 Mana.",
-	},
 	"GenericTalentSeasonedMarksman": {
 		Name: "Seasoned Marksman",
 		Text: "Quest: Every Minion killed near you grants 0.2 Attack Damage, and Takedowns grant 0.5 Attack Damage.\nReward: Upon gaining 40 bonus Attack Damage, you can also activate Seasoned Marksman to increase your Attack Speed by 40% for 3 seconds. 60 second cooldown.",
@@ -3224,10 +3091,6 @@ var talentData = map[string]talentText{
 	"GenericTalentSpellShield": {
 		Name: "Spell Shield",
 		Text: "Every 30 seconds, gain 50 Spell Armor against the next enemy Ability and subsequent Abilities for 3 seconds, reducing the damage taken by 50%.\nCan be toggled to allow or prevent this talent from triggering automatically.",
-	},
-	"GenericTalentSprint": {
-		Name: "Sprint",
-		Text: "Activate to gain 75% Movement Speed for 3 seconds.",
 	},
 	"GenericTalentStoneskin": {
 		Name: "Stoneskin",
@@ -3291,11 +3154,11 @@ var talentData = map[string]talentText{
 	},
 	"GenjiDragonbladeTheDragonBecomesMe": {
 		Name: "The Dragon Becomes Me",
-		Text: "Each time Dragonblade hits an enemy Hero, the duration of Dragonblade is increased by 0.75 seconds.",
+		Text: "Each time Dragonblade hits an enemy Hero, the duration of Dragonblade is increased by 0.5 seconds.",
 	},
 	"GenjiHeroicDragonblade": {
 		Name: "Dragonblade",
-		Text: "Unleash the Dragonblade for 8 seconds. While active, Dragonblade can be reactivated to lunge forward and slash in a huge arc, dealing 240 damage. If enemy Heroes are killed within 2 seconds of being hit by Dragonblade, Swift Strike's cooldown is reset.",
+		Text: "Unleash the Dragonblade for 8 seconds. While active, Dragonblade can be reactivated to lunge forward and slash in a huge arc, dealing 220 damage. If enemy Heroes are killed within 2 seconds of being hit by Dragonblade, Swift Strike's cooldown is reset.",
 	},
 	"GenjiHeroicXStrike": {
 		Name: "X-Strike",
@@ -3337,10 +3200,6 @@ var talentData = map[string]talentText{
 		Name: "Living Weapon",
 		Text: "Each enemy Hero hit by X-Strike reduces its cooldown by 12 seconds.",
 	},
-	"GiantKillerTychus": {
-		Name: "Problem Solver",
-		Text: "Basic Attacks against enemy Heroes deal bonus damage equal to 0.5% of the Hero's maximum Health.",
-	},
 	"GreymaneCursedBulletGilneanRoulette": {
 		Name: "Gilnean Roulette",
 		Text: "Cursed Bullet now hits all enemy heroes in its path and has its cooldown reduced by 5 seconds per hit.",
@@ -3375,7 +3234,7 @@ var talentData = map[string]talentText{
 	},
 	"GreymaneGilneanCocktailPerfectAim": {
 		Name: "Perfect Aim",
-		Text: "Increases Gilnean Cocktail's range by 30% and refunds 50 Mana if it hits an enemy Hero.",
+		Text: "Increases Gilnean Cocktail's range by 30% and refunds 35 Mana if it hits an enemy Hero.",
 	},
 	"GreymaneGoForTheThroatUnleashed": {
 		Name: "Unleashed",
@@ -3423,7 +3282,7 @@ var talentData = map[string]talentText{
 	},
 	"GreymaneWizenedDuelist": {
 		Name: "Wizened Duelist",
-		Text: "Quest: Hero takedowns increase Basic Attack damage by 3%, up to 30%. This bonus is lost on death.",
+		Text: "Quest: Every 6 Human Basic Attacks against Heroes increase Basic Attack damage by 1%, up to 30%. Worgen Basic Attacks grant credit for 3 Basic Attacks. Half of this bonus is lost upon death.",
 	},
 	"GreymaneWorgenFormAlphaKiller": {
 		Name: "Alpha Killer",
@@ -3567,7 +3426,7 @@ var talentData = map[string]talentText{
 	},
 	"HanzoNeverOutmatched": {
 		Name: "Never Outmatched",
-		Text: "Reduce Scatter Arrow's Mana cost from 40 to 20. Basic Attacks lower the cooldown of Scatter Arrow by 4 seconds.",
+		Text: "Reduce Scatter Arrow's Mana cost from 40 to 20. Basic Attacks lower the cooldown of Scatter Arrow by 2.5 seconds.",
 	},
 	"HanzoNinjaAssassin": {
 		Name: "Ninja Assassin",
@@ -3595,7 +3454,7 @@ var talentData = map[string]talentText{
 	},
 	"HanzoSharpenedArrowheads": {
 		Name: "Sharpened Arrowheads",
-		Text: "Hitting a Hero with Storm Bow or Basic Attacks reduces their Armor by 4 for 4 seconds, up to a maximum reduction of 20 Armor.",
+		Text: "Hitting a Hero with Storm Bow or Basic Attacks reduces their Armor by 2 for 3 seconds, up to a maximum reduction of 20 Armor.",
 	},
 	"HanzoSimpleGeometry": {
 		Name: "Simple Geometry",
@@ -3651,7 +3510,7 @@ var talentData = map[string]talentText{
 	},
 	"IllidanMasteryDemonicFormMetamorphosis": {
 		Name: "Demonic Form",
-		Text: "Permanently remain in Demonic Form. Metamorphosis also increases Attack Speed by 20% and reduces the duration of slows, roots, and stuns by 50%. Illidan can now mount in Demonic Form.",
+		Text: "Permanently remain in Demonic Form. Metamorphosis also increases Attack Speed by 20% and reduces the duration of Stuns, Roots, and Slows by 50%. Illidan can now mount in Demonic Form.",
 	},
 	"IllidanMasteryFriendOrFoeDive": {
 		Name: "Friend or Foe",
@@ -3695,7 +3554,7 @@ var talentData = map[string]talentText{
 	},
 	"IllidanNimbleDefender": {
 		Name: "Nimble Defender",
-		Text: "If Sweeping Strikes hits an enemy Hero, gain 25 Armor for 2 seconds, reducing damage taken by 25%.",
+		Text: "If Sweeping Strike hits an enemy Hero, gain 25 Armor for 2 seconds, reducing damage taken by 25%.",
 	},
 	"IllidanReflexiveBlock": {
 		Name: "Reflexive Block",
@@ -3855,7 +3714,7 @@ var talentData = map[string]talentText{
 	},
 	"JunkratHeroicRocketRide": {
 		Name: "Rocket Ride",
-		Text: "After 1.25 seconds, Junkrat launches into the air. While in the air, he can steer the landing location by moving.\nAfter 3.5 seconds, Junkrat lands, dealing 750 damage to nearby enemies and activating Total Mayhem. 5 seconds after landing, Junkrat reappears at the Altar and gains 150% additional Movement Speed until dismounted.",
+		Text: "After 1.25 seconds, Junkrat launches into the air. While in the air, he can steer the landing location by moving.\nAfter 3.62 seconds, Junkrat lands, dealing 750 damage to nearby enemies and activating Total Mayhem. 5 seconds after landing, Junkrat reappears at the Altar and gains 150% additional Movement Speed until dismounted.",
 	},
 	"JunkratRIPTireExtraOomph": {
 		Name: "Extra Oomph",
@@ -4097,17 +3956,9 @@ var talentData = map[string]talentText{
 		Name: "Summon Ultralisk",
 		Text: "Summon an Ultralisk that attacks the target to deal 100 damage. Attacks splash to nearby enemies for 50% damage. Can reactivate the Ability to retarget the Ultralisk. Lasts for 20 seconds.",
 	},
-	"KerriganMasteryAdaptation": {
-		Name: "Adaptation",
-		Text: "Ravage can be used to jump to allies, refunding 50% of the cooldown and 100% of the Mana cost.",
-	},
 	"KerriganMasteryAggressiveDefense": {
 		Name: "Aggressive Defense",
 		Text: "Increases base Shield amount gained from Assimilation by 100%.",
-	},
-	"KerriganMasteryCrushingSwarm": {
-		Name: "Impaling Swarm",
-		Text: "Impaling Blades spawns 2 Zerglings.",
 	},
 	"KerriganMasteryEviscerate": {
 		Name: "Eviscerate",
@@ -4319,7 +4170,7 @@ var talentData = map[string]talentText{
 	},
 	"LiLiMasteryCloudSerpentSerpentSidekick": {
 		Name: "Serpent Sidekick",
-		Text: "Cloud Serpent's duration is increased by 0.6 seconds every time it attacks an Hero.",
+		Text: "Cloud Serpent's duration is increased by 0.6 seconds every time it attacks a Hero.",
 	},
 	"LiLiMasteryFastFeetSafetySprint": {
 		Name: "Safety Sprint",
@@ -4541,13 +4392,89 @@ var talentData = map[string]talentText{
 		Name: "Slip",
 		Text: "Passing through or near an enemy Hero during Wall Ride's effect increases its Movement Speed bonus to 70% for 1 second.",
 	},
+	"MaievArmoredAssault": {
+		Name: "Armored Assault",
+		Text: "While Maiev has more than 10 Armor of any kind, all Physical Damage dealt is increased by 35%.",
+	},
+	"MaievContainmentDisc": {
+		Name: "Containment Disc",
+		Text: "Throw a glaive in the target direction. If an enemy Hero is hit, Containment Disc can be reactivated to remove their vision and Time Stop them for 4 seconds.\nContainment Disc automatically activates 6 seconds after hitting a Hero.",
+	},
+	"MaievFanOfKnivesBladeDance": {
+		Name: "Blade Dance",
+		Text: "Using Fan of Knives deals 54 Physical Damage to enemies around Maiev.",
+	},
+	"MaievFanOfKnivesBladedArmor": {
+		Name: "Bladed Armor",
+		Text: "Each enemy Hero hit by Fan of Knives grants 5 Armor for 5 seconds, up to 20 Armor.",
+	},
+	"MaievFanOfKnivesElunesWrath": {
+		Name: "Elune's Wrath",
+		Text: "Hitting at least 2 Heroes with a single Fan of Knives causes the next Fan of Knives to drop a star on targets that deals 77 damage when it impacts.",
+	},
+	"MaievFanOfKnivesNaishasMemento": {
+		Name: "Naisha's Memento",
+		Text: "Activate to make primary Basic Attacks bounce between nearby enemies up to 2 times, dealing 30% more damage to bounce targets. Lasts 8 seconds.\nRecharge Naisha's Memento by hitting at least 2 Heroes with a single Fan of Knives.",
+	},
+	"MaievFanOfKnivesPinDown": {
+		Name: "Pin Down",
+		Text: "Quest: Hit 3 enemy Heroes with a single Fan of Knives.\nReward: Increase Fan of Knives damage by 15%.\nReward: Each additional time 3 enemy Heroes are hit by a single Fan of Knives, gain an additional 5% damage, up to 30%.\nReward: Hit 4 enemy Heroes with a single Fan of Knives to instantly gain all Rewards.",
+	},
+	"MaievShadowOrbHuntress": {
+		Name: "Shadow Orb: Huntress",
+		Text: "Activate to increase Movement Speed and Attack Speed by 40% for 5 seconds.\nRecharge Shadow Orb by dealing Physical Damage to enemy Heroes 10 times.",
+	},
+	"MaievShadowOrbShadowStrike": {
+		Name: "Shadow Orb: Shadow Strike",
+		Text: "Activate to deal 75 damage to an enemy Hero, Slowing them by 30% and reducing their Armor by 20 for 4 seconds.\nRecharge Shadow Orb by dealing Spell Damage to enemy Heroes 10 times.",
+	},
+	"MaievSpiritOfVengeanceRuthlessSpirit": {
+		Name: "Ruthless Spirit",
+		Text: "Spirit of Vengeance's damage is increased by 3% per Minion, Mercenary, or enemy Summon hit, and 24% per enemy Hero hit.",
+	},
+	"MaievSpiritOfVengeanceShadowArmor": {
+		Name: "Shadow Armor",
+		Text: "Blink grants 25 Armor for 2.5 seconds. Maiev's Basic Attacks against enemy Heroes refresh this duration.",
+	},
+	"MaievSpiritOfVengeanceShadowOrbVengeance": {
+		Name: "Shadow Orb: Vengeance",
+		Text: "Activate to reset the cooldown of Spirit of Vengeance.\nRecharge Shadow Orb by damaging enemy Heroes with Spirit of Vengeance 5 times.",
+	},
+	"MaievSpiritOfVengeanceSuddenVengeance": {
+		Name: "Sudden Vengeance",
+		Text: "Using Blink within 0.35 seconds of Spirit of Vengeance hitting an enemy Hero causes the shadow to explode, damaging all nearby enemy Heroes for 5% of their maximum Health.",
+	},
+	"MaievSpiritOfVengeanceVengefulKnives": {
+		Name: "Vengeful Knives",
+		Text: "For each enemy Hero Spirit of Vengeance hits, Maiev's next Fan of Knives deals 1% maximum Health as bonus damage to enemy Heroes.",
+	},
+	"MaievUmbralBindBondsOfCorruption": {
+		Name: "Bonds of Corruption",
+		Text: "Enemy Heroes pulled by Umbral Bind have their Physical Armor reduced by 25 for 3 seconds.",
+	},
+	"MaievUmbralBindBondsOfJustice": {
+		Name: "Bonds of Justice",
+		Text: "Quest: Each tether applied to a secondary target of Umbral Bind permanently increases Umbral Bind's pull damage by 15.\nReward: After applying 5 tethers to secondary targets, increase Umbral Bind's pull damage by 75.\nReward: After applying 10 tethers to secondary targets, increase Umbral Bind's cleave damage by 30%.",
+	},
+	"MaievUmbralBindChainGang": {
+		Name: "Chain Gang",
+		Text: "Tethering at least 2 enemy Heroes with Umbral Bind grants 35 Armor for 4 seconds.",
+	},
+	"MaievUmbralBindCruelChain": {
+		Name: "Cruel Chain",
+		Text: "Umbral Bind grants 25% Movement Speed for 2.5 seconds. In addition, each time Maiev deals damage to tethered targets, Umbral Bind's pull damage to all targets is increased by 40%, up to 200%.",
+	},
+	"MaievUmbralBindPursuitOfVengeance": {
+		Name: "Pursuit of Vengeance",
+		Text: "Each Hero tethered by Umbral Bind reduces the cooldown of Spirit of Vengeance by 1.5 seconds.",
+	},
+	"MaievWardensCage": {
+		Name: "Warden's Cage",
+		Text: "Summon 8 Warden Avatars as a cage around Maiev. After 1.5 seconds, enemy Heroes that come in contact with an Avatar consume it and are knocked to the center of the cage. Warden Avatars last 7 seconds.",
+	},
 	"MalfurionCelestialAlignment": {
 		Name: "Celestial Alignment",
 		Text: "Increase Moonfire's reveal duration by 1 second. Malfurion's Basic Attacks against Heroes revealed by Moonfire deal 75% more damage.",
-	},
-	"MalfurionCenarionWard": {
-		Name: "Cenarion Ward",
-		Text: "[PH] Activate to grant nearby allied Heroes a Regrowth.",
 	},
 	"MalfurionCombatStyleElunesGrace": {
 		Name: "Elune's Grace",
@@ -4587,15 +4514,11 @@ var talentData = map[string]talentText{
 	},
 	"MalfurionMasteryLifeSeed": {
 		Name: "Life Seed",
-		Text: "[PH] Increase the heal amount of your Moonfire by 25%.  Nearby damaged allied Heroes will automatically gain the heal-over-time effect of Regrowth. This effect has a 20 second cooldown.",
+		Text: "Nearby Heroes receive Regrowth periodically",
 	},
 	"MalfurionMasteryLunarShower": {
 		Name: "Lunar Shower",
 		Text: "If Moonfire hits a Hero, its cooldown is reduced by 1 second and the next Moonfire within 6 seconds deals 20% more damage. This damage bonus stacks up to 60%.",
-	},
-	"MalfurionMasteryMoonburn": {
-		Name: "Moonburn",
-		Text: "[PH] Increase Moonfire's damage to Mercenaries and Monsters by 150%. Refund 10 mana for every one of these types of enemies hit.",
 	},
 	"MalfurionMasterySerenity": {
 		Name: "Serenity",
@@ -4647,7 +4570,7 @@ var talentData = map[string]talentText{
 	},
 	"MalthaelBlackHarvest": {
 		Name: "Black Harvest",
-		Text: "Quest: Apply Reaper's Mark to Heroes for a total of 150 seconds.\nReward: Permanently increase Reaper's Mark's duration by 2 seconds.",
+		Text: "Quest: Apply Reaper's Mark to Heroes for a total of 180 seconds.\nReward: Permanently increase Reaper's Mark's duration by 2 seconds.",
 	},
 	"MalthaelColdHand": {
 		Name: "Cold Hand",
@@ -4659,11 +4582,11 @@ var talentData = map[string]talentText{
 	},
 	"MalthaelDieAlone": {
 		Name: "Die Alone",
-		Text: "Soul Rip deals 75% more damage if it hits only one Hero and no other enemies.",
+		Text: "Soul Rip deals 75% more damage to Heroes if it hits only one Hero.",
 	},
 	"MalthaelEtherealExistence": {
 		Name: "Ethereal Existence",
-		Text: "Gain 10 Physical Armor per enemy Hero afflicted by Reaper's Mark, up to a maximum of 40.",
+		Text: "Gain 10 Physical Armor per enemy Hero afflicted by Reaper's Mark, up to a maximum of 30.",
 	},
 	"MalthaelFearTheReaper": {
 		Name: "Fear the Reaper",
@@ -4679,7 +4602,7 @@ var talentData = map[string]talentText{
 	},
 	"MalthaelLastRites": {
 		Name: "Last Rites",
-		Text: "Apply a death sentence to an enemy Hero that, after 2 seconds, deals damage equal to 50% of their missing Health.\nRepeatable Quest: Enemies killed while under the effect of Last Rites permanently reduce its cooldown by 5 seconds, to a minimum of 15 seconds.",
+		Text: "Apply a death sentence to an enemy Hero that, after 2 seconds, deals damage equal to 50% of their missing Health.\nQuest: Enemies killed between the application of Last Rites and within 1.5 seconds of it dealing damage permanently reduce its cooldown by 5 seconds, to a minimum of 15 seconds.",
 	},
 	"MalthaelMassacre": {
 		Name: "Massacre",
@@ -4691,7 +4614,7 @@ var talentData = map[string]talentText{
 	},
 	"MalthaelMortality": {
 		Name: "Mortality",
-		Text: "When damaging a Hero, Wraith Strike deals bonus damage equal to 4% of the Hero's maximum Health.",
+		Text: "When damaging a Hero, Wraith Strike deals bonus damage equal to 6% of the Hero's maximum Health.",
 	},
 	"MalthaelNoOneCanStopDeath": {
 		Name: "No One Can Stop Death",
@@ -4703,7 +4626,7 @@ var talentData = map[string]talentText{
 	},
 	"MalthaelReaperOfSouls": {
 		Name: "Reaper of Souls",
-		Text: "Increase Tormented Souls' duration by 1 second.  While Tormented Souls is active, Hero Takedowns extend its duration by 4 seconds.",
+		Text: "Increase Tormented Souls' duration by 2 seconds.  While Tormented Souls is active, Hero Takedowns refresh the duration.",
 	},
 	"MalthaelShroudOfWisdom": {
 		Name: "Shroud of Wisdom",
@@ -4715,15 +4638,15 @@ var talentData = map[string]talentText{
 	},
 	"MalthaelSoulSiphon": {
 		Name: "Soul Siphon",
-		Text: "Increase Soul Rip's bonus healing from Heroes to 4% of the Hero's maximum Health.",
+		Text: "Increase Soul Rip's bonus healing from Heroes to 3.75% of the Hero's maximum Health.",
 	},
 	"MalthaelThrowingShade": {
 		Name: "Throwing Shade",
-		Text: "Quest: Hit 20 Heroes with Death Shroud.\nReward: Permanently increase Death Shroud's range by 33%, reduce its cooldown by 4 seconds, and reduce its Mana cost from 50 to 25.",
+		Text: "Quest: Hit 15 Heroes with Death Shroud.\nReward: Permanently increase Death Shroud's range by 33%, reduce its cooldown by 4 seconds, and reduce its Mana cost from 50 to 25.",
 	},
 	"MalthaelTormentedSouls": {
 		Name: "Tormented Souls",
-		Text: "Gain 10 Armor and unleash a torrent of souls, continually applying Reaper's Mark to nearby enemies for 4 seconds.",
+		Text: "Unleash a torrent of souls, continually applying Reaper's Mark to nearby enemies for 4 seconds.",
 	},
 	"MalthaelTouchOfDeath": {
 		Name: "Touch of Death",
@@ -5028,10 +4951,6 @@ var talentData = map[string]talentText{
 	"MuradinMasteryDwarfTossHeavyImpact": {
 		Name: "Heavy Impact",
 		Text: "Enemies hit by Dwarf Toss are slowed by 80% for 0.75 seconds.",
-	},
-	"MuradinMasteryDwarfTossLandingMomentum": {
-		Name: "Landing Momentum",
-		Text: "[PH] Increases the range of Dwarf Toss by 40% and increases Muradin's Movement Speed by 25% for 5 seconds upon landing with Dwarf Toss.",
 	},
 	"MuradinMasteryHaymakerGrandSlam": {
 		Name: "Grand Slam",
@@ -5569,105 +5488,89 @@ var talentData = map[string]talentText{
 		Name: "Relentless Leader",
 		Text: "Being Stunned or Rooted knocks away nearby enemies.\nThis effect has an 8 second cooldown.\nPassive: The cooldown of Adrenaline Rush is reduced by 10 seconds.",
 	},
+	"RehgarAncestralHealing": {
+		Name: "Ancestral Healing",
+		Text: "After 1 second, heal an allied Hero for 1475 Health.\nCannot be used on Rehgar.",
+	},
+	"RehgarAncestralHealingFarseersBlessing": {
+		Name: "Farseer's Blessing",
+		Text: "Increases healing amount by 50%. Allies near the target are healed for 50% of the amount of health regained.",
+	},
+	"RehgarBloodAndThunder": {
+		Name: "Blood and Thunder",
+		Text: "Ghost Wolf attacks reduce Basic Ability cooldowns by 2 seconds.",
+	},
+	"RehgarBloodlust": {
+		Name: "Bloodlust",
+		Text: "Grant nearby allied Heroes 40% Attack Speed and 25% Movement Speed and causes them to heal for 30% of the Basic Attack damage to their primary target. Lasts for 8 seconds.",
+	},
+	"RehgarEarthbindTotemColossalTotem": {
+		Name: "Colossal Totem",
+		Text: "Increases the area and range of Earthbind Totem by 50%.",
+	},
+	"RehgarEarthbindTotemEarthgraspTotem": {
+		Name: "Earthgrasp Totem",
+		Text: "When Earthbind Totem is first cast, it slows nearby enemies by 90% for 1 second.",
+	},
 	"RehgarEarthlivingEnchant": {
 		Name: "Earthliving Enchant",
 		Text: "When Chain Heal heals a Hero below 50% Health, they are healed an additional 200 Health over 5 seconds. ",
 	},
-	"RehgarGhostWolfBloodAndThunder": {
-		Name: "Blood and Thunder",
-		Text: "Ghost Wolf attacks reduce Basic Ability cooldowns by 2 seconds.",
-	},
-	"RehgarHeroicAbilityAncestralHealing": {
-		Name: "Ancestral Healing",
-		Text: "After 1 second, heal an allied Hero for 1475 Health.\nCannot be used on Rehgar.",
-	},
-	"RehgarHeroicAbilityBloodlust": {
-		Name: "Bloodlust",
-		Text: "Grant nearby allied Heroes 40% Attack Speed and 25% Movement Speed and causes them to heal for 30% of the Basic Attack damage to their primary target. Lasts for 8 seconds.",
-	},
-	"RehgarHungeroftheWolf": {
-		Name: "Hunger of the Wolf",
-		Text: "Ghost Wolf attacks against Heroes deal an additional 5% of the target's maximum Health and heal Rehgar for 5% of his maximum Health.",
-	},
-	"RehgarMasteryChainReaction": {
-		Name: "Chain Reaction",
-		Text: "Chain Heals on allies with Lightning Shield active are increased by 25%.",
-	},
-	"RehgarMasteryColossalTotem": {
-		Name: "Colossal Totem",
-		Text: "Increases the area and range of Earthbind Totem by 50%.",
-	},
-	"RehgarMasteryDeepHealing": {
-		Name: "Deep Healing",
-		Text: "Deep Healing \nIncreases Chain Heal's healing by 30% on targets that are below 50% health.",
-	},
-	"RehgarMasteryEarthGraspTotem": {
-		Name: "Earthgrasp Totem",
-		Text: "When Earthbind Totem is first cast, it slows nearby enemies by 90% for 1 second.",
-	},
-	"RehgarMasteryEarthShield": {
-		Name: "Earth Shield",
-		Text: "Lightning Shield gives a Shield that absorbs damage equal to 12% of their maximum Health for 3 seconds.",
-	},
-	"RehgarMasteryElectricCharge": {
-		Name: "Electric Charge",
-		Text: "Increases the radius of Lightning Shield by 25%.",
-	},
-	"RehgarMasteryFarseersBlessing": {
-		Name: "Farseer's Blessing",
-		Text: "Increases healing amount by 50%. Allies near the target are healed for 50% of the amount of health regained.",
-	},
-	"RehgarMasteryFarsight": {
+	"RehgarFarsight": {
 		Name: "Farsight",
-		Text: "Activate to reveal an area for 10 seconds.  Enemies in the area are revealed for 4 seconds.",
+		Text: "Activate to reveal an area for 10 seconds. Enemies in the area are revealed for 4 seconds.",
 	},
-	"RehgarMasteryFeralHeart": {
+	"RehgarFeralHeart": {
 		Name: "Feral Heart",
 		Text: "Increases Health and Mana Regeneration by 75% while in Ghost Wolf form.",
 	},
-	"RehgarMasteryGladiatorsWarShout": {
+	"RehgarGladiatorsWarShout": {
 		Name: "Gladiator's War Shout",
 		Text: "Increases Bloodlust's healing from 30% to 60% of Basic Attack damage done.",
 	},
-	"RehgarMasteryHealingSurge": {
-		Name: "Healing Surge",
-		Text: "Increases Chain Heal's healing on the primary target by 25% and heal an additional target.",
+	"RehgarHealingTotem": {
+		Name: "Healing Totem",
+		Text: "Activate to place a Totem that heals allies in an area for 2% of their maximum Health every second for 10 seconds.",
 	},
-	"RehgarMasteryLightningBond": {
+	"RehgarHungerOfTheWolf": {
+		Name: "Hunger of the Wolf",
+		Text: "Ghost Wolf attacks against Heroes deal an additional 5% of the target's maximum Health and heal Rehgar for 5% of his maximum Health.",
+	},
+	"RehgarLightningShieldEarthShield": {
+		Name: "Earth Shield",
+		Text: "Lightning Shield gives a Shield that absorbs damage equal to 12% of their maximum Health for 3 seconds.",
+	},
+	"RehgarLightningShieldElectricCharge": {
+		Name: "Electric Charge",
+		Text: "Increases the radius of Lightning Shield by 25%.",
+	},
+	"RehgarLightningShieldLightningBond": {
 		Name: "Lightning Bond",
 		Text: "Casting Lightning Shield on an ally also casts an untalented version on Rehgar.",
 	},
-	"RehgarMasteryLightningTotem": {
-		Name: "Lightning Totem",
-		Text: "Lightning Totem \nEarthbind Totem automatically gains Lightning Shield when created.",
+	"RehgarLightningShieldRisingStorm": {
+		Name: "Rising Storm",
+		Text: "Every time Lighting Shield damages an enemy Hero, increase that Lightning Shield's damage by 10%. Stacks up to 20 times.",
 	},
-	"RehgarMasteryShamanHealingWard": {
-		Name: "Healing Totem",
-		Text: "Activate to place a Totem that heals allies in an area for 2% of their maximum Health every second for 10 seconds.",
+	"RehgarLightningShieldStormcaller": {
+		Name: "Stormcaller",
+		Text: "When Lightning Shield damages an enemy it restores 4 Mana, up to 40.",
 	},
 	"RehgarMasterySpiritwalkersGrace": {
 		Name: "Spiritwalker's Grace",
 		Text: "Reduces Chain Heal's Mana cost from 65 to 45.",
 	},
-	"RehgarMasteryStormcaller": {
-		Name: "Stormcaller",
-		Text: "When Lightning Shield damages an enemy it restores 4 Mana, up to 40.",
-	},
 	"RehgarMasteryTidalWaves": {
 		Name: "Tidal Waves",
 		Text: "Reduces Chain Heal's cooldown by 1 second for each Hero healed.",
 	},
-	"RehgarMasteryWolfRun": {
-		Name: "Wolf Run",
-		Text: "Increases the Movement Speed of Ghost Wolf from 20% to 30%.",
-	},
-	"RehgarRisingStorm": {
-		Name: "Rising Storm",
-		Text: "Every time Lighting Shield damages an enemy Hero, increase that Lightning Shield's damage by 10%. Stacks up to 20 times.",
-	},
 	"RehgarTotemicProjection": {
 		Name: "Totemic Projection",
 		Text: "Increases Earthbind Totem's duration from 8 to 12 seconds, and it can be reactivated to move an existing totem to a new location once.",
+	},
+	"RehgarWolfRun": {
+		Name: "Wolf Run",
+		Text: "Increases the Movement Speed of Ghost Wolf from 20% to 30%.",
 	},
 	"RexxarAnimalHusbandry": {
 		Name: "Animal Husbandry",
@@ -5760,10 +5663,6 @@ var talentData = map[string]talentText{
 	"RexxarSpiritSwoopCripplingTalons": {
 		Name: "Crippling Talons",
 		Text: "Increases Spirit Swoop's slow amount to 50% and its duration to 3 seconds.",
-	},
-	"RexxarSurvivalistTraining": {
-		Name: "Survivalist Training",
-		Text: "Regeneration Globes restore 100% more Mana.",
 	},
 	"RexxarTakingFlightSpiritSwoop": {
 		Name: "Taking Flight",
@@ -5943,7 +5842,7 @@ var talentData = map[string]talentText{
 	},
 	"SonyaTalentNervesOfSteel": {
 		Name: "Nerves of Steel",
-		Text: "Activate to gain 25% of your maximum Health as a Shield for 3 seconds. Usable while Whirlwinding.",
+		Text: "Activate to gain 30% of your maximum Health as a Shield for 5 seconds. Usable while Whirlwinding.",
 	},
 	"StitchesCannibalize": {
 		Name: "Cannibalize",
@@ -6379,7 +6278,7 @@ var talentData = map[string]talentText{
 	},
 	"ThrallThunderstorm": {
 		Name: "Thunderstorm",
-		Text: "Casting Chain Lightning on a Hero other than the last Hero it was cast on causes it to Slow targets by 8% for 2 seconds.\nRepeatable Quest: Each consecutive cast against a new Hero increases this bonus by 8%, up to 40%. Bonuses are reset if Thrall dies or casts Chain Lightning on the same Hero twice.\nReward: While at a 40% bonus, Chain Lightning's damage is increased by 25%.",
+		Text: "Chain Lightning Slows targets by 8% for 2 seconds.\nQuest: Targeting a Hero directly with Chain Lightning increases this Slow by 8%, up to an additional 40%.\nReward: While at a 40% bonus, Chain Lightning's damage is increased by 25%.\nBonuses are reset if Chain Lightning is used on the same Hero it was last used on, or if Thrall dies.",
 	},
 	"ThrallWindRush": {
 		Name: "Wind Rush",
@@ -6625,10 +6524,6 @@ var talentData = map[string]talentText{
 		Name: "Dash",
 		Text: "Quest: Run and Gun increases Tychus's Movement Speed by 1% for each Regeneration Globe gathered, up to 25%. Lasts 2 seconds. \nReward: Once 25 Regeneration Globes have been gathered, the range of Run and Gun is increased by 50%.",
 	},
-	"TychusMasteryRunandGunStimPack": {
-		Name: "Stim Pack",
-		Text: "After using Run and Gun, gain 0% Attack Speed and 0% Movement Speed for 0 seconds",
-	},
 	"TychusMasteryShredderGrenade": {
 		Name: "Shredder Grenade",
 		Text: "Increases the explosion radius of Frag Grenade by 25%.",
@@ -6667,7 +6562,7 @@ var talentData = map[string]talentText{
 	},
 	"TyraelArdentRestoration": {
 		Name: "Ardent Restoration",
-		Text: "Dealing damage to a Hero heals Tyrael for 12 Health over 5 seconds. Dealing damage resets this timer, and the heal amount stacks up to 10 times.",
+		Text: "Dealing damage to a Hero heals Tyrael for 14 Health over 5 seconds. Dealing damage resets this timer, and the heal amount stacks up to 10 times.",
 	},
 	"TyraelBurningHalo": {
 		Name: "Burning Halo",
@@ -6753,13 +6648,9 @@ var talentData = map[string]talentText{
 		Name: "Swift Retribution",
 		Text: "Smite grants 20% more Movement Speed and also grants 25% Attack Speed for 2 seconds.",
 	},
-	"TyraelMasteryZealotry": {
-		Name: "Zealotry",
-		Text: "[PH] The shield value and duration of Righteousness is increased by 25% for each Ally affected.",
-	},
 	"TyraelSalvation": {
 		Name: "Salvation",
-		Text: "Increase the Shield amount Tyrael gains from Righteousness by 25% and heal Tyrael for 125 Health if his Shield is destroyed. Does not increase the Shield amount gained by allies.",
+		Text: "Increase the Shield amount Tyrael gains from Righteousness by 25% and heal Tyrael for 140 Health if his Shield is destroyed. Does not increase the Shield amount gained by allies.",
 	},
 	"TyraelSealOfElDruin": {
 		Name: "Seal of El'Druin",
@@ -6771,7 +6662,7 @@ var talentData = map[string]talentText{
 	},
 	"TyraelStalwartAngel": {
 		Name: "Stalwart Angel",
-		Text: "Gain 25 Armor while El'druin's Might is active, and for 3 seconds after teleporting.",
+		Text: "Gain 20 Armor while El'druin's Might is active, and for 3 seconds after teleporting.",
 	},
 	"TyrandeCelestialAttunement": {
 		Name: "Celestial Attunement",
@@ -6787,7 +6678,7 @@ var talentData = map[string]talentText{
 	},
 	"TyrandeEmpower": {
 		Name: "Empower",
-		Text: "Reduce Sentinel's cooldown by 2 seconds. Every time it hits a Hero, reduce it's cooldown by an additional 4 seconds.",
+		Text: "Reduce Sentinel's cooldown by 2 seconds. Every time it hits a Hero, reduce its cooldown by an additional 4 seconds.",
 	},
 	"TyrandeEyesOfTheHuntress": {
 		Name: "Eyes of the Huntress",
@@ -6967,7 +6858,7 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraCloakOfShadows": {
 		Name: "Cloak of Shadows",
-		Text: "Valeera is enveloped in a Cloak of Shadows, which immediately removes all damage over time effects from her. For 1.5 seconds, she becomes Unstoppable and gains 75 Spell Armor, reducing Ability Damage taken by 75%.\nUsing this Ability does not break Vanish.",
+		Text: "Valeera is enveloped in a Cloak of Shadows, which immediately removes all damage over time effects from her. For 1.5 seconds, she becomes Unstoppable and gains 75 Spell Armor, reducing Ability Damage taken by 75%.\nUsing this Ability does not break Stealth.",
 	},
 	"ValeeraCloakOfShadowsEnvelopingShadows": {
 		Name: "Enveloping Shadows",
@@ -7019,7 +6910,7 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraSmokeBomb": {
 		Name: "Smoke Bomb",
-		Text: "Create a cloud of smoke. While in the smoke, Valeera is Unrevealable, can pass through other units, and gains 25 Armor, reducing damage taken by 25%. Valeera can continue to attack and use abilities without being revealed. Lasts 5 seconds.\nUsing this Ability does not break Vanish.",
+		Text: "Create a cloud of smoke. While in the smoke, Valeera is Unrevealable, can pass through other units, and gains 25 Armor, reducing damage taken by 25%. Valeera can continue to attack and use abilities without being revealed. Lasts 5 seconds.\nUsing this Ability does not break Stealth.",
 	},
 	"ValeeraSmokeBombAdrenalineRush": {
 		Name: "Adrenaline Rush",
@@ -7027,7 +6918,7 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraThistleTea": {
 		Name: "Thistle Tea",
-		Text: "Activate to instantly restore 100 Energy.\nActivating Thistle Tea does not break Vanish.",
+		Text: "Activate to instantly restore 100 Energy.\nActivating Thistle Tea does not break Stealth.",
 	},
 	"ValeeraVanishElusiveness": {
 		Name: "Elusiveness",
