@@ -3,3 +3,17 @@ gcloud container clusters get-credentials website
 gcloud docker -- push gcr.io/hots-cockroach/cockroach:latest
 kubectl set image deployment/website 'website=gcr.io/hots-cockroach/website:v2017-12-21'
 kubectl exec cockroachdb-0 -it -- /cockroach/cockroach.sh sql --insecure --url 'postgres://root@cockroachdb-public:26257/hots?sslmode=disable'
+
+IMPORT TABLE games (
+	id INT PRIMARY KEY,
+	mode INT,
+	time TIMESTAMP,
+	map INT,
+	length INT,
+	build INT,
+	region INT,
+
+	bans INT[]
+) CSV DATA ('gs://csv2.hots.dog/game/000000000.csv');
+
+gcloud config set compute/zone us-central1-a
