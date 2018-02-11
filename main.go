@@ -854,7 +854,7 @@ func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (inter
 			WHERE battletag >= $1 COLLATE en_u_ks_level1
 			AND battletag > $2 COLLATE en_u_ks_level1
 			AND region = $3
-			ORDER BY battletag COLLATE en_u_ks_level1
+			ORDER BY INDEX players@players_region_battletag_idx
 			LIMIT 1
 		`, name, last, region)
 		if err == sql.ErrNoRows {
