@@ -11,9 +11,4 @@ spec:
       - name: update
         image: gcr.io/hots-cockroach/website:next
         command: ["/website", "-updatenew", "csv2.hots.dog"]
-        resources:
-          limits:
-            cpu: 1
-          requests:
-            cpu: 10m
       restartPolicy: OnFailure

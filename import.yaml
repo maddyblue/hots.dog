@@ -9,6 +9,7 @@ spec:
     spec:
       containers:
       - name: import
-        image: gcr.io/hots-cockroach/website:latest
-        command: ["/website", "-importnum", "5080000", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
+        image: gcr.io/hots-cockroach/website:next
+        command: ["/website", "-importnum", "6570000", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
+        imagePullPolicy: Always
       restartPolicy: Never

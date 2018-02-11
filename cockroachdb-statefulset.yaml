@@ -33,8 +33,8 @@ spec:
   - port: 8080
     targetPort: 8080
     name: adminui
-  externalIPs:
-    - 10.128.0.2
+  type: LoadBalancer
+  loadBalancerIP: "35.188.60.147"
 ---
 apiVersion: v1
 kind: Service
@@ -88,7 +88,7 @@ metadata:
   name: cockroachdb
 spec:
   serviceName: "cockroachdb"
-  replicas: 1
+  replicas: 3
   template:
     metadata:
       labels:
@@ -108,7 +108,7 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
       - name: cockroachdb
-        image: cockroachdb/cockroach-unstable:latest
+        image: gcr.io/hots-cockroach/cockroach:latest
         imagePullPolicy: Always
         resources:
           limits:
@@ -126,7 +126,7 @@ spec:
           - "-ecx"
           # The use of qualified `hostname -f` is crucial:
           # Other nodes aren't able to look up the unqualified hostname.
-          - "exec /cockroach/cockroach start --logtostderr --insecure --host $(hostname -f) --http-host 0.0.0.0 --join cockroachdb-0.cockroachdb,cockroachdb-1.cockroachdb,cockroachdb-2.cockroachdb --cache 40% --max-sql-memory 25%"
+          - "exec /cockroach/cockroach start --logtostderr --insecure --advertise-host $(hostname -f) --http-host 0.0.0.0 --join cockroachdb-0.cockroachdb,cockroachdb-1.cockroachdb,cockroachdb-2.cockroachdb --cache 25% --max-sql-memory 25%"
       # No pre-stop hook is required, a SIGTERM plus some time is all that's
       # needed for graceful shutdown of a node.
       terminationGracePeriodSeconds: 60
@@ -139,11 +139,10 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: datadir
-      annotations:
-        volume.beta.kubernetes.io/storage-class: ssd
     spec:
       accessModes:
         - "ReadWriteOnce"
+      storageClassName: ssd
       resources:
         requests:
-          storage: 20Gi
+          storage: 30Gi
