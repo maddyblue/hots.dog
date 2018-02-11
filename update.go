@@ -173,10 +173,10 @@ func (h *hotsContext) updateDBNext(bucket *storage.BucketHandle) error {
 		}
 		return nil
 	}
-	if err := copyin(games, "games", []string{"id", "mode", "time", "map", "length", "build", "bans"}); err != nil {
+	if err := copyin(games, "games", []string{"id", "mode", "time", "map", "length", "build", "region", "bans"}); err != nil {
 		return errors.Wrap(err, "copy games")
 	}
-	if err := copyin(players, "players", []string{"game", "mode", "time", "map", "length", "build", "hero", "hero_level", "team", "winner", "blizzid", "skill", "battletag", "talents"}); err != nil {
+	if err := copyin(players, "players", []string{"game", "mode", "time", "map", "length", "build", "region", "hero", "hero_level", "team", "winner", "blizzid", "skill", "battletag", "talents", "data"}); err != nil {
 		return errors.Wrap(err, "copy players")
 	}
 	if _, err := h.db.Exec(`UPDATE config SET i = $1 WHERE key = $2`, start+perFile, nextUpdateKey); err != nil {
