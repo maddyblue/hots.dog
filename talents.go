@@ -4394,7 +4394,7 @@ var talentData = map[string]talentText{
 	},
 	"MaievArmoredAssault": {
 		Name: "Armored Assault",
-		Text: "While Maiev has more than 10 Armor of any kind, all Physical Damage dealt is increased by 35%.",
+		Text: "While Maiev has positive Armor of any kind, all Physical Damage dealt is increased by 25%.",
 	},
 	"MaievContainmentDisc": {
 		Name: "Containment Disc",
@@ -4414,7 +4414,7 @@ var talentData = map[string]talentText{
 	},
 	"MaievFanOfKnivesNaishasMemento": {
 		Name: "Naisha's Memento",
-		Text: "Activate to make primary Basic Attacks bounce between nearby enemies up to 2 times, dealing 30% more damage to bounce targets. Lasts 8 seconds.\nRecharge Naisha's Memento by hitting at least 2 Heroes with a single Fan of Knives.",
+		Text: "Activate to make primary Basic Attacks bounce between nearby enemies up to 2 times. Lasts 8 seconds.\nRecharge Naisha's Memento by hitting at least 2 Heroes with a single Fan of Knives.",
 	},
 	"MaievFanOfKnivesPinDown": {
 		Name: "Pin Down",
