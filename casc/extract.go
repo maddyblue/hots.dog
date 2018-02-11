@@ -82,10 +82,23 @@ func extract() error {
 				}
 			}
 			return scanner.Err()
-		case "ActorData.xml":
-			// ignore
-			return nil
 		default:
+			for _, s := range []string{
+				"ActorData",
+				"AnnouncerPackData",
+				"EmoticonData",
+				"LightData",
+				"LootBox",
+				"Mounts",
+				"SkinData",
+				"SoundData",
+				"VOData",
+				"VoiceOverData",
+			} {
+				if strings.Contains(path, s) {
+					return nil
+				}
+			}
 			if strings.HasSuffix(path, ".xml") && (strings.HasPrefix(path, "mods/heromods/") ||
 				strings.HasPrefix(path, "mods/heroesdata.stormmod/") ||
 				strings.HasPrefix(path, "mods/core.stormmod/")) {
