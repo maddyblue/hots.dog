@@ -147,7 +147,7 @@ func makeValues(numArgs, start int) string {
 }
 
 func (h *hotsContext) Import(bucket string, max int) error {
-	mustExec(h.db, `SET CLUSTER SETTING experimental.importcsv.enabled = true`)
+	mustExec(h.db, `CREATE DATABASE IF NOT EXISTS `+dbName)
 	count := max/perFile + 1
 	args := make([]interface{}, count)
 	for i := 0; i < count; i++ {
@@ -192,7 +192,8 @@ func (h *hotsContext) Import(bucket string, max int) error {
 				talents INT[],
 				data JSONB,
 
-				INDEX (game),
+				PRIMARY KEY (game, blizzid),
+
 				INDEX (region, blizzid, time DESC),
 				INDEX (region, battletag),
 

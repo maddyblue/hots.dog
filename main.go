@@ -53,6 +53,8 @@ var (
 	popularGameLimit = 10
 )
 
+const dbName = "hots"
+
 func main() {
 	flag.Parse()
 
@@ -76,7 +78,6 @@ func main() {
 		return
 	}
 
-	const dbName = "hots"
 	dbURL, err := url.Parse(*flagCockroach)
 	if err != nil {
 		log.Fatal(err)
