@@ -9,11 +9,14 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"strconv"
+	"strings"
 	"time"
 
 	"cloud.google.com/go/storage"
 
 	"github.com/lib/pq"
+	servertiming "github.com/mitchellh/go-server-timing"
 	"github.com/pkg/errors"
 )
 
@@ -60,6 +63,29 @@ func (d drv) Open(name string) (driver.Conn, error) {
 	return c, err
 }
 
+func addTiming(ctx context.Context, name string, query string, args []driver.NamedValue) func() {
+	esc := func(s string) string {
+		// Reduce all internal whitespace.
+		return strconv.Quote(
+			strings.TrimSpace(
+				strings.Join(
+					strings.Fields(s),
+					" ",
+				),
+			),
+		)
+	}
+	m := servertiming.FromContext(ctx).NewMetric(name).Start()
+	m.Desc = esc(query)
+	for i, arg := range args {
+		if i == 0 {
+			m.Extra = make(map[string]string, len(args))
+		}
+		m.Extra[strconv.Itoa(arg.Ordinal)] = esc(fmt.Sprint(arg.Value))
+	}
+	return func() { m.Stop() }
+}
+
 // conn implements a logging driver.Conn that logs queries.
 type conn struct {
 	driver.Conn
@@ -83,14 +109,15 @@ func (c *conn) BeginTx(ctx context.Context, opts driver.TxOptions) (driver.Tx, e
 func (c *conn) QueryContext(ctx context.Context, query string, args []driver.NamedValue) (driver.Rows, error) {
 	logQuery(query, args)
 	c.ExplainNamed(query, args)
-	un(trace(query))
+	defer un(trace(query))
+	defer addTiming(ctx, "QUERY", query, args)()
 	return c.Conn.(driver.QueryerContext).QueryContext(ctx, query, args)
 }
 
 func (c *conn) Query(query string, args []driver.Value) (driver.Rows, error) {
 	logQuery(query, args)
 	c.Explain(query, args)
-	un(trace(query))
+	defer un(trace(query))
 	return c.Conn.(driver.Queryer).Query(query, args)
 }
 
@@ -101,6 +128,7 @@ func (c *conn) Exec(query string, args []driver.Value) (driver.Result, error) {
 
 func (c *conn) ExecContext(ctx context.Context, query string, args []driver.NamedValue) (sql.Result, error) {
 	logQuery(query, args)
+	defer addTiming(ctx, "EXEC", query, args)()
 	return c.Conn.(driver.ExecerContext).ExecContext(ctx, query, args)
 }
 

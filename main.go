@@ -28,6 +28,7 @@ import (
 	"github.com/golang/freetype/truetype"
 	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
+	servertiming "github.com/mitchellh/go-server-timing"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/acme"
 	"golang.org/x/crypto/acme/autocert"
@@ -183,8 +184,10 @@ func main() {
 
 	wrap := func(f func(context.Context, *http.Request) (interface{}, error)) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
-			ctx, cancel := context.WithTimeout(context.Background(), time.Second*60)
+			ctx, cancel := context.WithTimeout(r.Context(), time.Second*60)
 			defer cancel()
+			var sh servertiming.Header
+			ctx = servertiming.NewContext(ctx, &sh)
 			if v, err := url.ParseQuery(r.URL.RawQuery); err == nil {
 				r.URL.RawQuery = v.Encode()
 			}
@@ -194,7 +197,12 @@ func main() {
 			if enableCache && h.CheckCache(ctx, start, w, r, r.URL.Path, url) {
 				return
 			}
+			tm := servertiming.FromContext(ctx).NewMetric("req").Start()
 			res, err := f(ctx, r)
+			tm.Stop()
+			if len(sh.Metrics) > 0 {
+				w.Header().Add(servertiming.HeaderKey, sh.String())
+			}
 			if err != nil {
 				log.Printf("%s: %+v", url, err)
 				http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -762,7 +770,7 @@ func (h *hotsContext) getBuildWinrates(ctx context.Context, init initData, args 
 		Talents string
 		Winner  bool
 	}
-	if err := h.x.Select(&winrates, query, params...); err != nil {
+	if err := h.x.SelectContext(ctx, &winrates, query, params...); err != nil {
 		return nil, nil, nil, errors.Wrap(err, "select")
 	}
 	total := make(map[string]struct {
@@ -1327,7 +1335,7 @@ func (h *hotsContext) countWins(ctx context.Context, nameFn func(string) string,
 		Count   int
 		Winner  bool
 	}
-	if err := h.x.Select(&winrates, query, params...); err != nil {
+	if err := h.x.SelectContext(ctx, &winrates, query, params...); err != nil {
 		return nil, errors.Wrap(err, "select wins")
 	}
 	for _, wr := range winrates {
