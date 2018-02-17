@@ -11,7 +11,6 @@ import (
 	"log"
 	"strconv"
 	"strings"
-	"time"
 
 	"cloud.google.com/go/storage"
 
@@ -36,29 +35,13 @@ func mustExec(db *sql.DB, query string, params ...interface{}) {
 	}
 }
 
-func logQuery(query string, args interface{}) {
-	as := fmt.Sprint(args)
-	if len(as) > 100 {
-		as = as[:100] + "..."
-	}
-	log.Printf("Query: %v: %s", as, query)
-}
-
-func trace(s string) (string, time.Time) {
-	return s, time.Now()
-}
-
-func un(s string, start time.Time) {
-	log.Printf("%s: %s", time.Since(start), s)
-}
-
 type drv struct{}
 
 func (d drv) Open(name string) (driver.Conn, error) {
 	c, err := pq.Open(name)
-	if *flagInit {
-		// Verbose logging for local dev.
-		c = &conn{c}
+	c = &conn{
+		Conn: c,
+		log:  *flagInit,
 	}
 	return c, err
 }
@@ -89,45 +72,53 @@ func addTiming(ctx context.Context, name string, query string, args []driver.Nam
 // conn implements a logging driver.Conn that logs queries.
 type conn struct {
 	driver.Conn
+	log bool
+}
+
+func (c *conn) logQuery(query string, args interface{}) {
+	if !c.log {
+		return
+	}
+	as := fmt.Sprint(args)
+	if len(as) > 100 {
+		as = as[:100] + "..."
+	}
+	log.Printf("Query: %v: %s", as, query)
 }
 
 func (c *conn) Prepare(query string) (driver.Stmt, error) {
-	logQuery(query, "[prepare]")
+	c.logQuery(query, "[prepare]")
 	return c.Conn.Prepare(query)
 }
 
 func (c *conn) Begin() (driver.Tx, error) {
-	logQuery("Begin()", nil)
+	c.logQuery("Begin()", nil)
 	return c.Conn.Begin()
 }
 
 func (c *conn) BeginTx(ctx context.Context, opts driver.TxOptions) (driver.Tx, error) {
-	logQuery("BeginTx()", nil)
+	c.logQuery("BeginTx()", nil)
 	return c.Conn.(driver.ConnBeginTx).BeginTx(ctx, opts)
 }
 
 func (c *conn) QueryContext(ctx context.Context, query string, args []driver.NamedValue) (driver.Rows, error) {
-	logQuery(query, args)
 	c.ExplainNamed(query, args)
-	defer un(trace(query))
 	defer addTiming(ctx, "QUERY", query, args)()
 	return c.Conn.(driver.QueryerContext).QueryContext(ctx, query, args)
 }
 
 func (c *conn) Query(query string, args []driver.Value) (driver.Rows, error) {
-	logQuery(query, args)
 	c.Explain(query, args)
-	defer un(trace(query))
 	return c.Conn.(driver.Queryer).Query(query, args)
 }
 
 func (c *conn) Exec(query string, args []driver.Value) (driver.Result, error) {
-	logQuery(query, args)
+	c.logQuery(query, args)
 	return c.Conn.(driver.Execer).Exec(query, args)
 }
 
 func (c *conn) ExecContext(ctx context.Context, query string, args []driver.NamedValue) (sql.Result, error) {
-	logQuery(query, args)
+	c.logQuery(query, args)
 	defer addTiming(ctx, "EXEC", query, args)()
 	return c.Conn.(driver.ExecerContext).ExecContext(ctx, query, args)
 }
@@ -141,6 +132,9 @@ func (c *conn) ExplainNamed(query string, args []driver.NamedValue) {
 }
 
 func (c *conn) Explain(query string, args []driver.Value) {
+	if !c.log {
+		return
+	}
 	fmt.Println("EXPLAIN", query, args)
 	rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN  "+query, args)
 	if err != nil {
