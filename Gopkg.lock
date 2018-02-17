@@ -39,6 +39,7 @@
     "aws/request",
     "aws/session",
     "aws/signer/v4",
+    "internal/sdkrand",
     "internal/shareddefaults",
     "private/protocol",
     "private/protocol/json/jsonutil",
@@ -51,8 +52,14 @@
     "service/lambda",
     "service/sts"
   ]
-  revision = "d7ca0344c929a6e28bf7e1dd17ea32f800634374"
-  version = "v1.12.68"
+  revision = "bff41fb23b7550368282029f6478819d6a99ae0f"
+  version = "v1.12.79"
+
+[[projects]]
+  name = "github.com/felixge/httpsnoop"
+  packages = ["."]
+  revision = "eadd4fad6aac69ae62379194fe0219f3dbc80fd3"
+  version = "v1.0.0"
 
 [[projects]]
   name = "github.com/go-ini/ini"
@@ -72,6 +79,11 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/golang/gddo"
+  packages = ["httputil/header"]
+  revision = "34dd0bc6192656e2c0bca3c8a41f57196aa22cde"
+
+[[projects]]
   name = "github.com/golang/protobuf"
   packages = [
     "proto",
@@ -82,6 +94,7 @@
     "ptypes/timestamp"
   ]
   revision = "925541529c1fa6821df4e44ce2723319eb2be768"
+  version = "v1.0.0"
 
 [[projects]]
   name = "github.com/googleapis/gax-go"
@@ -129,7 +142,13 @@
     ".",
     "oid"
   ]
-  revision = "19c8e9ad00952ce0c64489b60e8df88bb16dd514"
+  revision = "88edab0803230a3898347e77b474f8c1820a1f20"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/mitchellh/go-server-timing"
+  packages = ["."]
+  revision = "22f84e2f2a997b19c4fa5a83528a6c6178c12ce3"
 
 [[projects]]
   name = "github.com/pkg/errors"
@@ -144,7 +163,7 @@
     "acme",
     "acme/autocert"
   ]
-  revision = "0efb9460aaf800c6376acf625be2853bceac2e06"
+  revision = "650f4a345ab4e5b245a3034b110ebc7299e68186"
 
 [[projects]]
   branch = "master"
@@ -171,7 +190,7 @@
     "lex/httplex",
     "trace"
   ]
-  revision = "0ed95abb35c445290478a5348a7b38bb154135fd"
+  revision = "136a25c244d3019482a795d728110278d6ba09a4"
 
 [[projects]]
   branch = "master"
@@ -183,7 +202,7 @@
     "jws",
     "jwt"
   ]
-  revision = "b28fcf2b08a19742b43084fb40ab78ac6c3d8067"
+  revision = "543e37812f10c46c622c9575afd7ad22f22a12ba"
 
 [[projects]]
   branch = "master"
@@ -210,7 +229,7 @@
     "unicode/norm",
     "unicode/rangetable"
   ]
-  revision = "e19ae1496984b1c655b8044a65c0300a3c878dd3"
+  revision = "4e4a3210bb54bb31f6ab2cdca2edcc0b50c420c1"
 
 [[projects]]
   branch = "master"
@@ -226,7 +245,7 @@
     "storage/v1",
     "transport/http"
   ]
-  revision = "61a5611191ce37af3dca50af6d9265cb273ccb88"
+  revision = "c7a403bb5fe12fe4644bb956edd5cd677626120a"
 
 [[projects]]
   name = "google.golang.org/appengine"
@@ -253,7 +272,7 @@
     "googleapis/iam/v1",
     "googleapis/rpc/status"
   ]
-  revision = "4eb30f4778eed4c258ba66527a0d4f9ec8a36c45"
+  revision = "2b5a72b8730b0b16380010cfe5286c42108d88e7"
 
 [[projects]]
   name = "google.golang.org/grpc"
@@ -266,6 +285,7 @@
     "connectivity",
     "credentials",
     "encoding",
+    "encoding/proto",
     "grpclb/grpc_lb_v1/messages",
     "grpclog",
     "internal",
@@ -281,12 +301,12 @@
     "tap",
     "transport"
   ]
-  revision = "6b51017f791ae1cfbec89c52efdf444b13b550ef"
-  version = "v1.9.2"
+  revision = "8e4536a86ab602859c20df5ebfd0bd4228d08655"
+  version = "v1.10.0"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "93394cf1e3129f08fcd704abb2ec6bcca84f623e3462b4ea46fd5e9abab339ad"
+  inputs-digest = "febac0e46629065026f55eb5642e4f7680e17f1cce8f6ede79f0027d91933cfa"
   solver-name = "gps-cdcl"
   solver-version = 1
