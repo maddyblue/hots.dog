@@ -21,7 +21,7 @@ RUN cd frontend && yarn run build
 
 # Build Go app, install cockroach
 
-FROM golang:1.9-alpine AS go
+FROM golang:1.10-alpine AS go
 COPY . /go/src/website
 RUN go install website
 
