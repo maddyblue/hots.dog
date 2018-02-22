@@ -1490,7 +1490,7 @@ var talentData = map[string]talentText{
 	},
 	"BarbarianMasteryPoisonedSpearAncientSpear": {
 		Name: "Poisoned Spear",
-		Text: "Ancient Spear deals an additional 125% damage over 6 seconds.",
+		Text: "Ancient Spear deals an additional 100% damage over 6 seconds.",
 	},
 	"BarbarianMasteryShatteredGroundSeismicSlam": {
 		Name: "Shattered Ground",
@@ -4394,7 +4394,7 @@ var talentData = map[string]talentText{
 	},
 	"MaievArmoredAssault": {
 		Name: "Armored Assault",
-		Text: "While Maiev has positive Armor of any kind, all Physical Damage dealt is increased by 25%.",
+		Text: "While Maiev has positive Armor of any kind, all Physical Damage dealt is increased by 20%.",
 	},
 	"MaievContainmentDisc": {
 		Name: "Containment Disc",
@@ -4446,7 +4446,7 @@ var talentData = map[string]talentText{
 	},
 	"MaievSpiritOfVengeanceVengefulKnives": {
 		Name: "Vengeful Knives",
-		Text: "For each enemy Hero Spirit of Vengeance hits, Maiev's next Fan of Knives deals 1% maximum Health as bonus damage to enemy Heroes.",
+		Text: "For each enemy Hero Spirit of Vengeance hits, Maiev's next Fan of Knives deals 1.2% maximum Health as bonus damage to enemy Heroes.",
 	},
 	"MaievUmbralBindBondsOfCorruption": {
 		Name: "Bonds of Corruption",
@@ -4582,7 +4582,7 @@ var talentData = map[string]talentText{
 	},
 	"MalthaelDieAlone": {
 		Name: "Die Alone",
-		Text: "Soul Rip deals 75% more damage to Heroes if it hits only one Hero.",
+		Text: "Soul Rip deals 50% more damage to Heroes if it hits only one Hero.",
 	},
 	"MalthaelEtherealExistence": {
 		Name: "Ethereal Existence",
@@ -4634,11 +4634,11 @@ var talentData = map[string]talentText{
 	},
 	"MalthaelSoulCollector": {
 		Name: "Soul Collector",
-		Text: "Reduce Soul Rip's cooldown by 0.5 seconds and increase its range by 50%.",
+		Text: "Reduce Soul Rip's cooldown by 0.5 seconds and increase its range by 25%.",
 	},
 	"MalthaelSoulSiphon": {
 		Name: "Soul Siphon",
-		Text: "Increase Soul Rip's bonus healing from Heroes to 3.75% of the Hero's maximum Health.",
+		Text: "Increase Soul Rip's bonus healing from Heroes to 4.75% of the Hero's maximum Health.",
 	},
 	"MalthaelThrowingShade": {
 		Name: "Throwing Shade",
@@ -5150,7 +5150,7 @@ var talentData = map[string]talentText{
 	},
 	"NecromancerTalentTragOulsEssence": {
 		Name: "Trag'Oul's Essence",
-		Text: "Every time a Skeletal Warrior attacks an enemy, restore 0.5% of Xul's maximum Health and 0.5% of his maximum Mana.",
+		Text: "Every time a Skeletal Warrior attacks an enemy, restore 0.5% of Xul's maximum Health and 0.2% of his maximum Mana.",
 	},
 	"NecromancerTalentWeaken": {
 		Name: "Weaken",
@@ -5842,7 +5842,7 @@ var talentData = map[string]talentText{
 	},
 	"SonyaTalentNervesOfSteel": {
 		Name: "Nerves of Steel",
-		Text: "Activate to gain 30% of your maximum Health as a Shield for 5 seconds. Usable while Whirlwinding.",
+		Text: "Activate to gain 25% of your maximum Health as a Shield for 3 seconds. Usable while Whirlwinding.",
 	},
 	"StitchesCannibalize": {
 		Name: "Cannibalize",
@@ -7442,7 +7442,7 @@ var talentData = map[string]talentText{
 	},
 	"ZeratulMightOfTheNerazim": {
 		Name: "Might Of The Nerazim",
-		Text: "Activate to cast an untalented version of Zeratul's most recently used Basic Ability, dealing 50% less damage.\nPassive: After using an Ability, Zeratul's next Basic Attack within 6 seconds deals 40% more damage.",
+		Text: "Activate to cast an untalented version of Zeratul's most recently used Basic Ability, dealing 50% less damage.\nPassive: After using an Ability, Zeratul's next Basic Attack within 6 seconds deals 30% more damage.",
 	},
 	"ZeratulMoveUnseen": {
 		Name: "Move Unseen",
