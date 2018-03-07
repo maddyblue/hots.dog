@@ -922,7 +922,7 @@ var talentData = map[string]talentText{
 	},
 	"AnaBioticGrenadeAirStrike": {
 		Name: "Air Strike",
-		Text: "Activate to use Biotic Grenade with a 200% increased range, but Grenades thrown this way take 4 seconds to land.\nPassive: Reduce Biotic Grenade cooldown by 4 seconds.",
+		Text: "Activate to use Biotic Grenade with a 275% increased range, but Grenades thrown this way take 3 seconds to land.\nPassive: Reduce Biotic Grenade cooldown by 4 seconds.",
 	},
 	"AnaBioticGrenadeContactHealing": {
 		Name: "Contact Healing",
@@ -930,7 +930,7 @@ var talentData = map[string]talentText{
 	},
 	"AnaBioticGrenadeGrenadeCalibration": {
 		Name: "Grenade Calibration",
-		Text: "Quest: Hit enemy Heroes with Biotic Grenade.\nReward: After hitting 10 Heroes, Biotic Grenade does 75% more damage per allied and enemy Hero hit.\nReward: After hitting 20 Heroes, Biotic Grenade's duration on allies is increased from 4 seconds to 12 seconds, and its healing radius is increased by 100%.",
+		Text: "Quest: Hit enemy Heroes with Biotic Grenade.\nReward: After hitting 10 Heroes, Biotic Grenade does 75% more damage per allied and enemy Hero hit.\nReward: After hitting 20 Heroes, Biotic Grenade's duration on allies is increased from 4 seconds to 12 seconds, its healing radius is increased by 100%, and its healing amplification applies to all sources.",
 	},
 	"AnaDebilitatingDart": {
 		Name: "Debilitating Dart",
@@ -938,7 +938,7 @@ var talentData = map[string]talentText{
 	},
 	"AnaDetachableBoxMagazine": {
 		Name: "Detachable Box Magazine",
-		Text: "Quest: Stack 5 Doses on an enemy Hero.\nReward: After reaching maximum Dosage 5 times, Doses deal 50% increase damage to enemies with 5 Doses.\nReward: After reaching maximum Dosage 15 times, unlock the Active Reload Ability, which can be activated to instantly gain 3 charges of Healing Dart.",
+		Text: "Quest: Stack 5 Doses on an enemy Hero.\nReward: After reaching maximum Dosage 5 times, Shrike also heals for the damage it deals to all enemies.\nReward: After reaching maximum Dosage 15 times, unlock the Active Reload Ability, which can be activated to instantly gain 3 charges of Healing Dart.",
 	},
 	"AnaDynamicShooting": {
 		Name: "Dynamic Shooting",
@@ -970,7 +970,7 @@ var talentData = map[string]talentText{
 	},
 	"AnaHeroicAbilityEyeOfHorus": {
 		Name: "Eye of Horus",
-		Text: "Assume a sniping position, gaining the ability to fire up to 8 specialized rounds with unlimited range. Rounds hit the first allied or enemy Hero or enemy Structure in their path. Allies are healed for 285 and enemies are damaged for 166. Deals 50% less damage to Structures.\nAna is unable to move while Eye of Horus is active.",
+		Text: "Assume a sniping position, gaining the ability to fire up to 6 specialized rounds with unlimited range. Rounds hit the first allied or enemy Hero or enemy Structure in their path. Allies are healed for 285 and enemies are damaged for 166. Deals 50% less damage to Structures.\nAna is unable to move while Eye of Horus is active.",
 	},
 	"AnaHeroicAbilityNanaBoost": {
 		Name: "Nano Boost",
@@ -978,7 +978,7 @@ var talentData = map[string]talentText{
 	},
 	"AnaMindNumbingAgent": {
 		Name: "Mind-Numbing Agent",
-		Text: "Every Dose a Hero has reduces their Spell Power by 15%.",
+		Text: "Every Dose a Hero has reduces their Spell Power by 10%.",
 	},
 	"AnaNanoInfusion": {
 		Name: "Nano Infusion",
@@ -990,7 +990,7 @@ var talentData = map[string]talentText{
 	},
 	"AnaPiercingDarts": {
 		Name: "Piercing Darts",
-		Text: "Quest: Hit Heroes with Sleep Dart.\nReward: After hitting 10 Heroes, Sleep Dart now hits 2 Heroes and its range is increased by 50%.\nReward: After hitting 20 Heroes, Healing Dart now hits 2 Heroes and its range is increased by 50%.",
+		Text: "Quest: Hit Heroes with Sleep Dart.\nReward: After hitting 10 Heroes, Sleep Dart now hits 2 Heroes and its range is increased by 25%.\nReward: After hitting 20 Heroes, Healing Dart now hits 2 Heroes and its range is increased by 25%.",
 	},
 	"AnaSleepingDartTemporaryBlindness": {
 		Name: "Temporary Blindness",
@@ -1436,17 +1436,25 @@ var talentData = map[string]talentText{
 		Name: "Sin's Grasp",
 		Text: "Activate to curse an enemy Hero, dealing 248 damage over 8 seconds. Minion kills reduce this cooldown by 10 seconds. Can be cast while channeling All Shall Burn.",
 	},
-	"BarbarianCombatStyleFerociousHealing": {
-		Name: "Ferocious Healing",
-		Text: "Consume 20 Fury to heal 10% of Sonya's maximum Health.\nUsable while Whirlwinding.",
+	"BarbarianArreatCrater": {
+		Name: "Arreat Crater",
+		Text: "Leap leaves behind an impassable crater for 5 seconds.  Reduces Leap's cooldown by 20 seconds.",
 	},
-	"BarbarianCombatStyleNoEscape": {
-		Name: "No Escape",
-		Text: "Increases the Movement Speed bonus from using Basic and Heroic Abilities to 25%.",
+	"BarbarianBattleRage": {
+		Name: "Battle Rage",
+		Text: "Activate to instantly restore 10% of Sonya's maximum Health. Stores up to 3 charges. \nPassive: Sonya deals 25% more damage to Mercenaries.",
 	},
-	"BarbarianCombatStyleShotofFury": {
-		Name: "Shot of Fury",
-		Text: "Increases maximum Fury by 50. Sonya's Trait can be activated to gain 50 Fury. \nUsable while Whirlwinding.",
+	"BarbarianCompositeSpear": {
+		Name: "Composite Spear",
+		Text: "Increases Ancient Spear's range by 50%. Hitting an enemy Hero with Ancient Spear grants 25 Armor for 4 seconds.",
+	},
+	"BarbarianFuriousBlow": {
+		Name: "Furious Blow",
+		Text: "Every 4th cast of Seismic Slam deals 40% more damage to the primary target and costs no Fury.",
+	},
+	"BarbarianGiantSlammer": {
+		Name: "Giant Slammer",
+		Text: "Seismic Slam deals an additional 2% of Heroes' maximum Health as damage.",
 	},
 	"BarbarianHeroicAbilityLeap": {
 		Name: "Leap",
@@ -1456,49 +1464,61 @@ var talentData = map[string]talentText{
 		Name: "Wrath of the Berserker",
 		Text: "Increase damage dealt by 40%. Reduce the duration of Stuns, Roots, and Slows against Sonya by 50%. Lasts 15 seconds, and extends by 1 second for every 10 Fury gained.",
 	},
-	"BarbarianMasteryAftershock": {
-		Name: "Aftershock",
-		Text: "Using Seismic Slam reduces its Fury cost by 50% for 2 seconds.",
-	},
-	"BarbarianMasteryAngerManagementWrathoftheBerserker": {
-		Name: "Anger Management",
-		Text: "Increases all Fury generated during Wrath of the Berserker by 100%.",
-	},
-	"BarbarianMasteryArreatCraterLeap": {
-		Name: "Arreat Crater",
-		Text: "Leap leaves behind an impassable crater for 5 seconds.  Reduces Leap's cooldown by 20 seconds.",
-	},
-	"BarbarianMasteryCompositeSpearAncientSpear": {
-		Name: "Composite Spear",
-		Text: "Increases the range of Ancient Spear by 30% and increases Fury generated by 20.",
-	},
-	"BarbarianMasteryFuriousBlowSeismicSlam": {
-		Name: "Furious Blow",
-		Text: "Increases Seismic Slam damage by 50%, but costs 40 Fury.",
-	},
-	"BarbarianMasteryHurricaneWhirlwind": {
+	"BarbarianHurricane": {
 		Name: "Hurricane",
-		Text: "Reduces the cooldown of Whirlwind by 1 second and Whirlwind removes all slows and roots on Sonya.",
+		Text: "Reduce the cooldown of Whirlwind by 1 second. Casting Whirlwind removes all Slows and Roots from Sonya.",
 	},
-	"BarbarianMasteryLifeFunnelWhirlwind": {
+	"BarbarianIgnorePain": {
+		Name: "Ignore Pain",
+		Text: "Activate to gain 60 Armor for 4 seconds, taking 60% less damage.\nUsable while Whirlwinding.",
+	},
+	"BarbarianLifeFunnel": {
 		Name: "Life Funnel",
-		Text: "Increases the healing of Whirlwind to 35%, tripled versus Heroes.",
+		Text: "Increases the healing of Whirlwind to 35% of damage dealt.",
 	},
-	"BarbarianMasteryMysticalSpearAncientSpear": {
+	"BarbarianMysticalSpear": {
 		Name: "Mystical Spear",
-		Text: "Reduces the cooldown of Ancient Spear by 3 seconds. Sonya is pulled to the target location even if an enemy isn't hit.",
+		Text: "Reduces the cooldown of Ancient Spear by 3 seconds. Ancient Spear always pulls Sonya to the target location even if it doesn't hit an enemy.",
 	},
-	"BarbarianMasteryPoisonedSpearAncientSpear": {
+	"BarbarianNervesOfSteel": {
+		Name: "Nerves of Steel",
+		Text: "Activate to gain 25% of your maximum Health as a Shield for 3 seconds. Usable while Whirlwinding.",
+	},
+	"BarbarianNoEscape": {
+		Name: "No Escape",
+		Text: "Increases the Movement Speed bonus from using Basic and Heroic Abilities to 20%.",
+	},
+	"BarbarianPoisonedSpear": {
 		Name: "Poisoned Spear",
 		Text: "Ancient Spear deals an additional 100% damage over 6 seconds.",
 	},
-	"BarbarianMasteryShatteredGroundSeismicSlam": {
-		Name: "Shattered Ground",
-		Text: "Increases Seismic Slam splash damage to 75% of primary target damage.",
+	"BarbarianRampage": {
+		Name: "Rampage",
+		Text: "Increase Basic Attack damage by 25%. Basic Attacks reduce the cooldown of Ancient Spear by 0.75 seconds.",
 	},
-	"BarbarianMasteryWarPaint": {
+	"BarbarianRuthless": {
+		Name: "Ruthless",
+		Text: "Whirlwind deals an additional 50 damage per second to Heroes below 33% Health. Does not generate additional healing.",
+	},
+	"BarbarianShatteredGround": {
+		Name: "Shattered Ground",
+		Text: "Increase the length of Seismic Slam's splash by 66% and increase its splash damage to 75% of its base damage.",
+	},
+	"BarbarianShotOfFury": {
+		Name: "Shot Of Fury",
+		Text: "Activate to gain 50 Fury. Usable while Whirlwinding.\nPassive: After casting Seismic Slam, your next Basic Attack deals 40% more damage.",
+	},
+	"BarbarianStridingGiant": {
+		Name: "Striding Giant",
+		Text: "Wrath of the Berserker increases maximum Health by 10% and grants Striding Giant, which can be activated to become Unstoppable for 2 seconds. 30 second cooldown.",
+	},
+	"BarbarianToughAsNails": {
+		Name: "Tough As Nails",
+		Text: "Every 12 seconds, gain 75 Physical Armor against the next enemy Hero Basic Attack, reducing the damage taken by 75%.\nStores up to 3 charges. Charges refresh 200% faster while Fury's Movement Speed bonus is active.",
+	},
+	"BarbarianWarPaint": {
 		Name: "War Paint",
-		Text: "Basic Attacks heal Sonya for 30% of the damage dealt.",
+		Text: "Sonya's Basic Attacks heal for 30% of the damage dealt.",
 	},
 	"BattleMomentumCrusader": {
 		Name: "Blessed Momentum",
@@ -1730,7 +1750,7 @@ var talentData = map[string]talentText{
 	},
 	"ChenMasteryWanderingKegUntappedPotential": {
 		Name: "Untapped Potential",
-		Text: "Wandering Keg increases Movement Speed by 60% and grants 50 Armor, reducing damage taken by 50%.",
+		Text: "Wandering Keg increases Movement Speed by 100% and grants 50 Armor, reducing damage taken by 50%.",
 	},
 	"ChenPressurePoint": {
 		Name: "Pressure Point",
@@ -2918,7 +2938,7 @@ var talentData = map[string]talentText{
 	},
 	"GarroshOppressor": {
 		Name: "Oppressor ",
-		Text: "Basic Attacks against Heroes reduce the target's Spell Power by -100% for 2.5 seconds.",
+		Text: "Basic Attacks against Heroes reduce the target's Spell Power by 40% for 2.5 seconds.",
 	},
 	"GarroshWarlordsChallengeDeathWish": {
 		Name: "Death Wish",
@@ -4674,7 +4694,7 @@ var talentData = map[string]talentText{
 	},
 	"MedicEMPGrenade": {
 		Name: "EMP Grenade",
-		Text: "Displacement Grenade deals an additional +Inf damage over 2 seconds, and up to 400 bonus damage to Shields.",
+		Text: "Displacement Grenade deals an additional 80 damage over 2 seconds, and up to 400 bonus damage to Shields.",
 	},
 	"MedicExtendedCare": {
 		Name: "Extended Care",
@@ -4742,7 +4762,7 @@ var talentData = map[string]talentText{
 	},
 	"MedivhArcaneRiftArcaneCharge": {
 		Name: "Arcane Charge",
-		Text: "When Arcane Rift damages an enemy Hero, the next Arcane Rift deals 30% more damage.",
+		Text: "When Arcane Rift damages an enemy Hero, the next Arcane Rift deals 15% more damage.",
 	},
 	"MedivhArcaneRiftGuardianOfTirisfal": {
 		Name: "Guardian of Tirisfal",
@@ -4754,31 +4774,35 @@ var talentData = map[string]talentText{
 	},
 	"MedivhArcaneRiftTheMastersTouch": {
 		Name: "The Master's Touch",
-		Text: "Quest: Hit 30 enemy Heroes with Arcane Rift without dying.\nReward: Permanently increases the damage dealt by 75 and cooldown reduction for hitting a Hero by 1 second.",
+		Text: "Quest: Hit 40 enemy Heroes with Arcane Rift without dying.\nReward: Permanently increases the damage dealt by 0 and cooldown reduction for hitting a Hero by 1 second.",
 	},
 	"MedivhDustOfAppearance": {
 		Name: "Dust of Appearance",
-		Text: "Activate to reveal enemy Heroes in the area surrounding Medivh for 10 seconds. Does not cancel Raven Form.",
+		Text: "Activate to greatly increase sight range for 5 seconds and reveal enemy Heroes in the area for 8 seconds. Does not cancel Raven Form.\nPassive: Increase Medivh's sight range while in Raven Form by 25%.",
+	},
+	"MedivhDustofDisappearance": {
+		Name: "Dust of Disappearance",
+		Text: "Stealth an allied Hero for 20 seconds. Remaining stationary for at least 1.5 seconds while Stealthed grants Invisible.\nStores up to 2 charges.",
 	},
 	"MedivhForceOfWillArcaneExplosion": {
 		Name: "Arcane Explosion",
-		Text: "The first time Force of Will absorbs damage, it deals 183 damage to nearby enemies.",
+		Text: "When Force of Will expires, it deals 90 damage to nearby enemies, plus 100% of the damage it prevented, up to 365 additional damage.",
 	},
 	"MedivhForceOfWillCircleOfProtection": {
 		Name: "Circle of Protection",
-		Text: "An untalented Force of Will is also applied to allies near the target.",
+		Text: "Force of Will also applies to allies near the target.",
 	},
 	"MedivhForceOfWillEnduringWill": {
 		Name: "Enduring Will",
-		Text: "Increases Force of Will duration by 33%.",
+		Text: "Preventing at least 268 damage with Force of Will reduces its cooldown to 3 seconds.",
 	},
 	"MedivhForceOfWillReabsorption": {
 		Name: "Reabsorption",
-		Text: "Upon expiration, Force of Will heals the target for 50% of the damage it absorbed.",
+		Text: "Increase the amount of healing from Force Of Will to 50% of the damage it absorbed.",
 	},
-	"MedivhInvisibility": {
-		Name: "Invisibility",
-		Text: "Stealth an allied Hero for 20 seconds. Remaining stationary for at least 1.5 seconds while Stealthed grants Invisible.\nStores up to 2 charges.",
+	"MedivhForceofMagic": {
+		Name: "Force of Magic",
+		Text: "Preventing at least 268 damage with a single cast of Force of Will grants 20%  Spell Power for 12 seconds. Stacks up to 2 times.",
 	},
 	"MedivhLeyLineSeal": {
 		Name: "Ley Line Seal",
@@ -4787,6 +4811,10 @@ var talentData = map[string]talentText{
 	"MedivhLeyLineSealMedivhCheats": {
 		Name: "Medivh Cheats!",
 		Text: "Increase the duration of the Time Stop by 33% and gain the ability to redirect the wave once while it's active.",
+	},
+	"MedivhMysticAssault": {
+		Name: "Mystic Assault",
+		Text: "If Arcane Rift hits an enemy Hero, Medivh's next Basic Attack within 6 seconds deals 40% more damage and heals for 40% of the damage dealt.",
 	},
 	"MedivhPolyBomb": {
 		Name: "Poly Bomb",
@@ -4802,23 +4830,27 @@ var talentData = map[string]talentText{
 	},
 	"MedivhPortalMageArmor": {
 		Name: "Mage Armor",
-		Text: "The first time an Ally uses a Portal, they gain 50 Physical Armor against the next 3 enemy Heroic Basic Attacks for 5 seconds, reducing the damage taken by 50%.",
+		Text: "The first time an ally uses a Portal, they gain 25 Armor for 4 seconds, reducing their damage taken by 25%.",
 	},
 	"MedivhPortalPortalMastery": {
 		Name: "Portal Mastery",
-		Text: "Medivh can manually place both Portal locations. \nActivate Medivh's Trait to cancel an unlinked Portal.",
+		Text: "Medivh can manually place both Portal locations and it no longer breaks Raven Form. \nActivate Medivh's Trait to cancel an unlinked Portal.",
 	},
 	"MedivhPortalQuickening": {
 		Name: "Quickening",
-		Text: "Reduces Portal cooldown by 50%.",
+		Text: "Reduces Portal cooldown by 62%.",
 	},
 	"MedivhPortalRavenFamiliar": {
 		Name: "Raven Familiar",
-		Text: "A Raven Familiar joins allies that use a Portal. The Raven will dive at the ally's next Basic Attack against a Hero within 5 seconds for 114 damage.",
+		Text: "A Raven Familiar joins allies each time they use a Portal. The Raven will dive at the ally's next Basic Attack against a Hero within 5 seconds, dealing 114 damage and Slowing them by 30% for 2.5 seconds.",
 	},
 	"MedivhPortalStablePortal": {
 		Name: "Stable Portal",
-		Text: "Increases Portal duration by 50%.",
+		Text: "Decrease Portal cooldown by 25% and increase Portal duration by 50%.",
+	},
+	"MedivhTemporalFlux": {
+		Name: "Temporal Flux",
+		Text: "Basic Attacks reduce Medivh's Heroic Ability cooldown by 1 second. Each enemy Hero hit by Arcane Rift reduces Medivh's Heroic Ability cooldown by 3 seconds.",
 	},
 	"MedivhTransformRavenBirdsEyeView": {
 		Name: "Bird's Eye View",
@@ -4826,7 +4858,7 @@ var talentData = map[string]talentText{
 	},
 	"MedivhTransformRavenRavensIntellect": {
 		Name: "Raven’s Intellect",
-		Text: "Raven Form increases Medivh's Mana Regeneration by 100%.",
+		Text: "Raven Form increases Medivh's Mana and Health Regeneration by 75%.",
 	},
 	"MedivhTransformRavenWindsOfCelerity": {
 		Name: "Winds of Celerity",
@@ -5422,7 +5454,7 @@ var talentData = map[string]talentText{
 	},
 	"RaynorACardToPlay": {
 		Name: "A Card to Play",
-		Text: "Whenever a Hero (ally or enemy) is killed, the cooldown of Raynor's Heroic Ability is reduced by 15 seconds.",
+		Text: "Whenever an allied or enemy Hero dies, Raynor's Heroic Ability cooldown is reduced by 15 seconds.",
 	},
 	"RaynorHeroicAbilityHyperion": {
 		Name: "Hyperion",
@@ -5836,14 +5868,6 @@ var talentData = map[string]talentText{
 		Name: "Tactical Mine Deployment",
 		Text: "Moving while Thrusters is active leaves a trail of up to 5 Spider Mines. Additionally, increase the Slow of Spider Mines by 15%.",
 	},
-	"SonyaTalentIgnorePain": {
-		Name: "Ignore Pain",
-		Text: "Activate to gain 75 Armor for 4 seconds, taking 75% less damage.\nUsable while Whirlwinding.",
-	},
-	"SonyaTalentNervesOfSteel": {
-		Name: "Nerves of Steel",
-		Text: "Activate to gain 25% of your maximum Health as a Shield for 3 seconds. Usable while Whirlwinding.",
-	},
 	"StitchesCannibalize": {
 		Name: "Cannibalize",
 		Text: "Basic Attacks against Heroes heal Stitches for 5% of his maximum Health.",
@@ -6178,7 +6202,7 @@ var talentData = map[string]talentText{
 	},
 	"TassadarPrismaticLink": {
 		Name: "Prismatic Link",
-		Text: "Basic Attacks bounce to hit 2 additional targets for 40% damage.",
+		Text: "Distortion Beam bounces to hit 2 additional targets for 40% damage.",
 	},
 	"TassadarPsionicEcho": {
 		Name: "Psionic Echo",
@@ -6386,7 +6410,7 @@ var talentData = map[string]talentText{
 	},
 	"TracerBulletSprayMelee": {
 		Name: "Bullet Spray",
-		Text: "Increases Melee's radius by 30%, and causes it to damage all enemies in range.",
+		Text: "Increases Melee's radius by 40%, and causes it to damage all enemies in range.",
 	},
 	"TracerBulletTime": {
 		Name: "Bullet Time",
@@ -6662,7 +6686,7 @@ var talentData = map[string]talentText{
 	},
 	"TyraelStalwartAngel": {
 		Name: "Stalwart Angel",
-		Text: "Gain 20 Armor while El'druin's Might is active, and for 3 seconds after teleporting.",
+		Text: "Gain 0 Armor while El'druin's Might is active, and for 0 seconds after teleporting.",
 	},
 	"TyrandeCelestialAttunement": {
 		Name: "Celestial Attunement",
@@ -7169,7 +7193,7 @@ var talentData = map[string]talentText{
 		Text: "Channel a powerful beam, dealing 440 damage over 2.5 seconds to enemies while they are in it. The direction of the beam changes with your mouse cursor position.",
 	},
 	"WizardHeroicAbilityWaveOfForce": {
-		Name: "Wave Of Force",
+		Name: "Wave of Force",
 		Text: "Knock away all enemies from an area and deal 160 damage.",
 	},
 	"WizardMagicMissilesChargedBlast": {
