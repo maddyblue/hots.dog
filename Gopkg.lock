@@ -15,6 +15,16 @@
   version = "v0.18.0"
 
 [[projects]]
+  name = "github.com/ChrisHines/GoSkills"
+  packages = [
+    "skills",
+    "skills/numerics",
+    "skills/trueskill"
+  ]
+  revision = "4984c9a990a32ee2999c9815e2748f1e2fe81d30"
+  version = "v0.2"
+
+[[projects]]
   name = "github.com/VividCortex/gohistogram"
   packages = ["."]
   revision = "51564d9861991fb0ad0f531c99ef602d0f9866e6"
@@ -128,12 +138,6 @@
     "reflectx"
   ]
   revision = "05cef0741ade10ca668982355b3f3f0bcf0ff0a8"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/kortemy/elo-go"
-  packages = ["."]
-  revision = "9a4b59568d675a6b3f952d804220389d9f23751c"
 
 [[projects]]
   branch = "master"
@@ -307,6 +311,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "febac0e46629065026f55eb5642e4f7680e17f1cce8f6ede79f0027d91933cfa"
+  inputs-digest = "500e3c00f2f1af2ddfc3be4edb52c3cea053f727b927361b9707519e1119aec8"
   solver-name = "gps-cdcl"
   solver-version = 1

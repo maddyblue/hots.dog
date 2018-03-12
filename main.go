@@ -42,7 +42,7 @@ var (
 	flagAutocert  = flag.String("autocert", "", "domain name to autocert")
 	flagAcmedir   = flag.String("acmedir", "", "optional acme directory; can be used to configure dev letsencrypt")
 	flagCockroach = flag.String("cockroach", "postgresql://root@localhost:26257/hots?sslmode=disable", "cockroach connection URL")
-	flagElo       = flag.Bool("elo", false, "run elo update")
+	flagElo       = flag.String("elo", "", "run elo update, updating the DB at patch >= this flag")
 	flagMigrate   = flag.Bool("migrate", false, "run migration")
 	flagCron      = flag.Bool("cron", false, "run cronjob")
 	flagUpdateNew = flag.String("updatenew", "", "run new update to specified gs bucket")
@@ -85,13 +85,6 @@ func main() {
 	}
 	dbURL.Path = dbName
 
-	if *flagElo {
-		if err := elo(dbURL.String()); err != nil {
-			log.Fatalf("%+v", err)
-		}
-		return
-	}
-
 	db := mustInitDB(dbURL.String())
 	defer db.Close()
 
@@ -103,6 +96,13 @@ func main() {
 	if *flagImportNum != -1 {
 		mustMigrate(db)
 		if err := h.Import(*flagImport, *flagImportNum); err != nil {
+			log.Fatalf("%+v", err)
+		}
+		return
+	}
+
+	if *flagElo != "" {
+		if err := h.elo(dbURL.String(), *flagElo); err != nil {
 			log.Fatalf("%+v", err)
 		}
 		return
@@ -538,42 +538,17 @@ func (h *hotsContext) updateInit(ctx context.Context) error {
 		return err
 	}
 	c.readonly = true
-	bs := make(map[string]map[Mode]Stats)
-	/*
-		{
-			rows, err := h.db.QueryContext(ctx, "SELECT * FROM skillstats")
-			if err != nil {
-				return err
-			}
-			defer rows.Close()
-			for rows.Next() {
-				var build string
-				var mode Mode
-				var data []byte
-				if err := rows.Scan(&build, &mode, &data); err != nil {
-					return err
-				}
-				var s Stats
-				if err := json.Unmarshal(data, &s); err != nil {
-					return err
-				}
-				if _, ok := bs[build]; !ok {
-					bs[build] = make(map[Mode]Stats)
-				}
-				bs[build][mode] = s
-			}
-			if err := rows.Err(); err != nil {
-				return err
-			}
-		}
-	*/
+	bsRows, err := h.db.QueryContext(ctx, "SELECT build, mode, data FROM skillstats")
+	if err != nil {
+		return err
+	}
+	defer bsRows.Close()
 	h.mu.Lock()
 	h.mu.init = initData{
-		Modes:      modeNames,
-		Heroes:     heroData,
-		BuildStats: bs,
-		config:     &c,
-		lookups:    make(map[string]func(string) string),
+		Modes:   modeNames,
+		Heroes:  heroData,
+		config:  &c,
+		lookups: make(map[string]func(string) string),
 	}
 	for m := range c.Map["map"] {
 		h.mu.init.Maps = append(h.mu.init.Maps, m)
@@ -598,6 +573,33 @@ func (h *hotsContext) updateInit(ctx context.Context) error {
 			return lookup[name]
 		}
 	}
+	bs := make(map[string]map[Mode]Stats)
+	{
+		for bsRows.Next() {
+			var build string
+			var mode Mode
+			var data []byte
+			if err := bsRows.Scan(&build, &mode, &data); err != nil {
+				return err
+			}
+			var s Stats
+			if err := json.Unmarshal(data, &s); err != nil {
+				return err
+			}
+			bid := h.mu.init.lookups["build"](build)
+			if bid == "" {
+				return errors.Errorf("build not found: %s", build)
+			}
+			if _, ok := bs[bid]; !ok {
+				bs[bid] = make(map[Mode]Stats)
+			}
+			bs[bid][mode] = s
+		}
+		if err := bsRows.Err(); err != nil {
+			return err
+		}
+	}
+	h.mu.init.BuildStats = bs
 	h.mu.Unlock()
 	return nil
 }
@@ -667,11 +669,13 @@ func retryable(err error) bool {
 
 func (h *hotsContext) GetBuildWinrates(ctx context.Context, r *http.Request) (interface{}, error) {
 	args := map[string]string{
-		"build":     r.FormValue("build"),
-		"hero":      r.FormValue("hero"),
-		"herolevel": r.FormValue("herolevel"),
-		"map":       r.FormValue("map"),
-		"mode":      r.FormValue("mode"),
+		"build":      r.FormValue("build"),
+		"hero":       r.FormValue("hero"),
+		"herolevel":  r.FormValue("herolevel"),
+		"map":        r.FormValue("map"),
+		"mode":       r.FormValue("mode"),
+		"skill_low":  r.FormValue("skill_low"),
+		"skill_high": r.FormValue("skill_high"),
 	}
 	init := h.getInit()
 	var res struct {
@@ -749,6 +753,9 @@ func (h *hotsContext) getBuildWinrates(ctx context.Context, init initData, args 
 	}
 	wheres = append(wheres, fmt.Sprintf("hero_level >= $%d", len(params)+1))
 	params = append(params, hl)
+	if err := setSkillParams(init, &wheres, &params, args); err != nil {
+		return nil, nil, nil, err
+	}
 
 	buf := bytes.NewBufferString(`SELECT COUNT(*) count, winner, talents`)
 	buf.WriteString(" FROM players")
@@ -909,10 +916,12 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 		wheres = append(wheres, fmt.Sprintf("%s = $%d", key, len(params)+1))
 		params = append(params, v)
 	}
+	skillBuild := build
 	if days, _ := strconv.Atoi(build); days > 0 && days < 100 {
 		v := time.Now().UTC().Add(-time.Hour * 24 * time.Duration(days)).Format("2006-01-02")
 		wheres = append(wheres, fmt.Sprintf("time >= $%d", len(params)+1))
 		params = append(params, v)
+		skillBuild = init.Builds[0].ID
 	} else {
 		key := "build"
 		v := init.config.Map[key][build]
@@ -931,11 +940,33 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 			Modes  map[string]Total
 			Roles  map[string]Total
 		}
+		Skills []struct {
+			Skill int
+			Mode  Mode
+		}
+		SkillMult  int
+		BuildStats map[Mode]Stats
 	}
 	res.Profile.Heroes = make(map[string]Total)
 	res.Profile.Maps = make(map[string]Total)
 	res.Profile.Modes = make(map[string]Total)
 	res.Profile.Roles = make(map[string]Total)
+
+	{
+		v := init.config.Map["build"][skillBuild]
+		if v == "" {
+			return nil, errors.Errorf("unrecognized %s", skillBuild)
+		}
+		if err := h.x.SelectContext(ctx, &res.Skills, `
+				SELECT skill, mode
+				FROM playerskills
+				WHERE build = $1 AND region = $2 AND blizzid = $3
+				`, v, region, blizzid); err != nil {
+			return nil, err
+		}
+		res.SkillMult = meanMult
+		res.BuildStats = init.BuildStats[v]
+	}
 
 	var err error
 	res.Battletag, err = h.getBattletag(ctx, blizzid, region)
@@ -1428,32 +1459,8 @@ func (h *hotsContext) getWinrates(ctx context.Context, init initData, args map[s
 	}
 	wheres = append(wheres, fmt.Sprintf("hero_level >= $%d", len(params)+1))
 	params = append(params, hl)
-	if m, sl, sh := args["mode"], args["skill_low"], args["skill_high"]; m != "" && (sl != "" || sh != "") {
-		i, err := strconv.Atoi(m)
-		if err != nil {
-			return nil, err
-		}
-		modes, ok := init.BuildStats[args["build"]]
-		if !ok {
-			return nil, errors.Errorf("unknown build: %s", args["build"])
-		}
-		quantiles := modes[Mode(i)].Quantile
-		if sl != "" {
-			wheres = append(wheres, fmt.Sprintf("skill >= $%d", len(params)+1))
-			i, err = strconv.Atoi(sl)
-			if err != nil {
-				return nil, err
-			}
-			params = append(params, quantiles[i])
-		}
-		if sh != "" {
-			wheres = append(wheres, fmt.Sprintf("skill <= $%d", len(params)+1))
-			i, err = strconv.Atoi(sh)
-			if err != nil {
-				return nil, err
-			}
-			params = append(params, quantiles[i])
-		}
+	if err := setSkillParams(init, &wheres, &params, args); err != nil {
+		return nil, err
 	}
 
 	buf := bytes.NewBufferString("SELECT COUNT(*) count, hero counter, winner FROM players")
@@ -1464,6 +1471,38 @@ func (h *hotsContext) getWinrates(ctx context.Context, init initData, args map[s
 	buf.WriteString(strings.Join(groups, ", "))
 
 	return h.countWins(ctx, init.lookups["hero"], buf.String(), params)
+}
+
+func setSkillParams(init initData, wheres *[]string, params *[]interface{}, args map[string]string) error {
+	if m, sl, sh := args["mode"], args["skill_low"], args["skill_high"]; m != "" && (sl != "" || sh != "") {
+		i, err := strconv.Atoi(m)
+		if err != nil {
+			return err
+		}
+		modes, ok := init.BuildStats[args["build"]]
+		if !ok {
+			return errors.Errorf("unknown build: %s", args["build"])
+		}
+		quantiles := modes[Mode(i)].Quantile
+		if sl != "" {
+			*wheres = append(*wheres, fmt.Sprintf("skill >= $%d", len(*params)+1))
+			i, err = strconv.Atoi(sl)
+			if err != nil {
+				return err
+			}
+
+			*params = append(*params, meanToInt(quantiles[skillQuantiles[i]]))
+		}
+		if sh != "" {
+			*wheres = append(*wheres, fmt.Sprintf("skill <= $%d", len(*params)+1))
+			i, err = strconv.Atoi(sh)
+			if err != nil {
+				return err
+			}
+			*params = append(*params, meanToInt(quantiles[skillQuantiles[i+1]]))
+		}
+	}
+	return nil
 }
 
 type Total struct {
@@ -1502,6 +1541,14 @@ func (h *hotsContext) GetCompareHero(ctx context.Context, r *http.Request) (inte
 	}
 	wheres = append(wheres, fmt.Sprintf("hero_level >= $%d", len(params)+1))
 	params = append(params, hl)
+	if err := setSkillParams(init, &wheres, &params, map[string]string{
+		"mode":       r.FormValue("mode"),
+		"build":      r.FormValue("build"),
+		"skill_low":  r.FormValue("skill_low"),
+		"skill_high": r.FormValue("skill_high"),
+	}); err != nil {
+		return nil, err
+	}
 	var games []struct {
 		Game   int64
 		Team   int

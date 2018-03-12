@@ -9,6 +9,7 @@ spec:
     spec:
       containers:
       - name: elo
-        image: gcr.io/hots-cockroach/website:latest
-        command: ["/website", "-elo", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
+        image: gcr.io/hots-cockroach/website:next
+        command: ["/website", "-elo", "2.30.3", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
+        imagePullPolicy: Always
       restartPolicy: Never

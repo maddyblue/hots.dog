@@ -51,10 +51,6 @@
 
 [[constraint]]
   branch = "master"
-  name = "github.com/kortemy/elo-go"
-
-[[constraint]]
-  branch = "master"
   name = "github.com/lib/pq"
 
 [[constraint]]

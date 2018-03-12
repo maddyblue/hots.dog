@@ -4,7 +4,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
-const skillPercentiles = [0, 30, 50, 70, 90, 95, 100];
+const skillPercentiles = [0, 7, 42, 77, 92, 99, 100];
+
+const skillBands = [
+	'Bronze',
+	'Silver',
+	'Gold',
+	'Platinum',
+	'Diamond',
+	'Master',
+];
 
 const BuildsOpts = (props: { builds: any, dates?: number[] }) => {
 	let builds = props.builds.map(b => (
@@ -41,6 +50,9 @@ const Filter = (props: {
 	Builds: any,
 	Maps: string[],
 	Modes: {},
+	BuildStats: any,
+	skill_low: any,
+	skill_high: any,
 }) => {
 	let maps = props.Maps.map(m => <option key={m}>{m}</option>);
 	maps.unshift(
@@ -61,10 +73,9 @@ const Filter = (props: {
 		</option>
 	);
 	let heroLevels = [1, 5, 10, 20].map(v => <option key={v}>{v}</option>);
-	/*
-	const skills = skillPercentiles.map(v => (
-		<option key={v} value={v}>
-			{v + 'th'}
+	const skills = skillBands.map((v, i) => (
+		<option key={v} value={i}>
+			{v}
 		</option>
 	));
 	const build = props.build === 'latest' ? props.Builds[0].ID : props.build;
@@ -75,7 +86,6 @@ const Filter = (props: {
 	if (!buildStats || (!modeStats && props.mode)) {
 		skillTitle = 'Skill ratings not yet calculated.';
 	}
-	*/
 	return (
 		<div>
 			<div className="row">
@@ -114,17 +124,16 @@ const Filter = (props: {
 					</select>
 				</div>
 			</div>
-			{/*
 			<div className="row">
 				<div className="column">
-					<label title={skillTitle}>Skill Percentile from</label>
+					<label title={skillTitle}>Skill band from</label>
 					<select
 						name="skill_low"
 						value={props.skill_low}
 						onChange={props.handleChange}
 						disabled={disableSkill}
 					>
-						{skills.slice(0, -1)}
+						{skills}
 					</select>
 				</div>
 				<div className="column">
@@ -135,11 +144,10 @@ const Filter = (props: {
 						onChange={props.handleChange}
 						disabled={disableSkill}
 					>
-						{skills.slice(1)}
+						{skills}
 					</select>
 				</div>
 			</div>
-			*/}
 		</div>
 	);
 };
@@ -289,7 +297,11 @@ const Title = (props: any) => {
 		(props.build ? ' at ' + props.build : '') +
 		(props.mode ? ' in ' + props.Modes[props.mode] : '') +
 		(props.map ? ' on ' + props.map : '') +
-		(props.herolevel !== '5' ? ' above level ' + props.herolevel : '');
+		(props.herolevel !== '5' ? ' above level ' + props.herolevel : '') +
+		(props.skill_low > 0 ? ' from ' + skillBands[props.skill_low] : '') +
+		(props.skill_high < skillBands.length - 1
+			? ' to ' + skillBands[props.skill_high]
+			: '');
 	return [
 		<h2 key="h2">
 			{props.h}
@@ -310,6 +322,7 @@ export {
 	pct,
 	readCookie,
 	skillPercentiles,
+	skillBands,
 	toLength,
 	toDate,
 	TalentImg,

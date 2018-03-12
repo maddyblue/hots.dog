@@ -7,7 +7,7 @@ import * as usp from 'url-search-params';
 
 import About from './About';
 import CompareHero from './Compare';
-import { createCookie, Fetch, skillPercentiles } from './common';
+import { createCookie, Fetch, skillBands } from './common';
 import Hero from './Hero';
 import HeroWinrates from './HeroWinrates';
 import { Players, Player, Game, PlayerGames, PlayerMatchups } from './Players';
@@ -46,7 +46,7 @@ class HotsApp extends Component<{ location: Location, history: any }, State> {
 		];
 		this.defaultHeroLevel = '5';
 		this.defaultSkillLow = '0';
-		this.defaultSkillHigh = '100';
+		this.defaultSkillHigh = (skillBands.length - 1).toString();
 		this.state = this.searchState();
 	}
 	componentDidMount() {
@@ -127,16 +127,12 @@ class HotsApp extends Component<{ location: Location, history: any }, State> {
 		switch (event.target.name) {
 			case 'skill_low':
 				if (ev >= +this.state.skill_high) {
-					st['skill_high'] = skillPercentiles[
-						skillPercentiles.indexOf(ev) + 1
-					].toString();
+					st['skill_high'] = ev.toString();
 				}
 				break;
 			case 'skill_high':
 				if (ev <= +this.state.skill_low) {
-					st['skill_low'] = skillPercentiles[
-						skillPercentiles.indexOf(ev) - 1
-					].toString();
+					st['skill_low'] = ev.toString();
 				}
 				break;
 			default:

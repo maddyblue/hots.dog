@@ -11,6 +11,7 @@ import {
 	BuildsOpts,
 	createCookie,
 	readCookie,
+	skillBands,
 } from './common';
 import { Helmet } from 'react-helmet';
 import SortedTable from './SortedTable';
@@ -136,12 +137,22 @@ class Player extends Component<
 		handleChange: any,
 		history: any,
 	},
-	{ Profile: any, Battletag: string, search: string }
+	{
+		Profile: any,
+		Battletag: string,
+		search: string,
+		Skills?: any,
+		SkillMult: number,
+		BuildStats?: any,
+	}
 > {
 	state = {
 		Profile: null,
 		Battletag: '',
 		search: '',
+		Skills: null,
+		SkillMult: 0,
+		BuildStats: null,
 	};
 	componentDidMount() {
 		this.update();
@@ -212,13 +223,62 @@ class Player extends Component<
 			/>
 		);
 	}
+	percentile(skill: number, mode: number) {
+		const stats = this.state.BuildStats && this.state.BuildStats[mode];
+		if (!stats) {
+			return 'unknown';
+		}
+		const qs = Object.keys(stats.Quantile);
+		qs.sort((a, b) => a - b);
+		if (skill < stats.Quantile[qs[0]]) {
+			return skillBands[0];
+			//return pct(0, 0);
+		}
+		for (let i = 1; i < qs.length; i++) {
+			const q1 = qs[i];
+			const p1 = stats.Quantile[q1];
+			if (p1 >= skill) {
+				return skillBands[i - 1];
+				/*
+				const q0 = qs[i - 1];
+				const p0 = stats.Quantile[q0];
+				// If p lies a fraction f of the way from p{i} to p{i+1}, define the pth
+				// quantile to be:
+				// Q(p) = (1-f)Q(p{i}) + fQ(p{i+1})
+				const f = (skill - p0) / (p1 - p0);
+				const qp = (1 - f) * q0 + f * q1;
+				return pct(qp, 0);
+				*/
+			}
+		}
+		return skillBands[skillBands.length - 1];
+		//return pct(100, 0);
+	}
 	render() {
 		let content;
 		if (!this.state.Profile) {
 			content = 'loading...';
 		} else {
+			let skills;
+			if (this.state.Skills && this.state.BuildStats) {
+				skills = (
+					<table>
+						<tbody>
+							{this.state.Skills.map(v => (
+								<tr key={v.Mode}>
+									<td>{this.props.Modes[v.Mode]}</td>
+									<td>
+										{this.percentile(v.Skill / this.state.SkillMult, v.Mode)}
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				);
+			}
 			content = (
 				<div>
+					{skills}
 					<table className="sorted">
 						{this.makeTable('Game Mode', 'Modes', m => this.props.Modes[m])}
 						{this.makeTable('Role', 'Roles')}
@@ -520,9 +580,9 @@ class Game extends Component<
 		const baseSearch = '?build=' + this.state.Game.Build;
 		const title = this.state.Game.Map + ' on ' + toDate(this.state.Game.Date);
 		const allColumns = {};
-		this.state.Players
-			.map(v => v.Data)
-			.forEach(v => Object.keys(v).forEach(k => (allColumns[k] = true)));
+		this.state.Players.map(v => v.Data).forEach(v =>
+			Object.keys(v).forEach(k => (allColumns[k] = true))
+		);
 		const columns = Object.keys(allColumns).sort();
 		const dataHeaders = columns.map(v => ({
 			name: v,

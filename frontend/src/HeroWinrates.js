@@ -12,10 +12,13 @@ type Props = {
 	herolevel: string,
 	history: any,
 	mode: string,
+	skill_low: string,
+	skill_high: string,
 	Builds: any,
 	Heroes: any[],
 	Maps: string[],
 	Modes: {},
+	BuildStats: any,
 };
 
 class HeroWinrates extends Component<

@@ -9,26 +9,37 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
+	"github.com/ChrisHines/GoSkills/skills"
+	"github.com/ChrisHines/GoSkills/skills/trueskill"
 	"github.com/VividCortex/gohistogram"
 	"github.com/jackc/pgx"
-	elogo "github.com/kortemy/elo-go"
 	"github.com/pkg/errors"
 )
 
 type Player struct {
-	pid     int64
 	blizzid int64
 	winner  bool
 }
 
 type Game struct {
-	id   int64
-	mode Mode
+	id     int64
+	mode   Mode
+	region int
 }
 
 type Update struct {
-	pid   int64
-	score int
+	game    int64
+	blizzid int64
+	score   skills.Rating
+}
+
+var skillQuantiles = []int{
+	0,
+	7,
+	42,
+	77,
+	92,
+	99,
 }
 
 /*
@@ -43,7 +54,12 @@ For each patch:
 
 Repeat for next patch. Group by patch to keep memory limited.
 */
-func elo(dburl string) error {
+func (h *hotsContext) elo(dburl, updateAfterPatch string) error {
+	if err := h.updateInit(context.Background()); err != nil {
+		return err
+	}
+	init := h.getInit()
+
 	config, err := pgx.ParseURI(dburl)
 	if err != nil {
 		return err
@@ -58,38 +74,34 @@ func elo(dburl string) error {
 	}
 	defer pool.Close()
 
-	var patch string
-
 	const stmtUpdatePlayers = "updatePlayers"
-	if _, err := pool.Prepare(stmtUpdatePlayers, "update players set skill = $1 where id = $2"); err != nil {
+	if _, err := pool.Prepare(stmtUpdatePlayers, "update players set skill = $1 where game = $2 and blizzid = $3"); err != nil {
 		return errors.Wrap(err, "make update players")
 	}
 	const stmtUpdateSkills = "updateSkills"
-	if _, err := pool.Prepare(stmtUpdateSkills, "upsert into playerskills (blizzid, build, mode, skill) VALUES ($1, $2, $3, $4)"); err != nil {
+	if _, err := pool.Prepare(stmtUpdateSkills, "upsert into playerskills (region, blizzid, build, mode, skill) VALUES ($1, $2, $3, $4, $5)"); err != nil {
 		return errors.Wrap(err, "make update playerskills")
 	}
 	scores := NewScores()
-	for {
+	for i := len(init.Builds) - 1; i >= 0; i-- {
+		build := init.Builds[i]
+		updatePatch := build.ID >= updateAfterPatch
 		start := time.Now()
-		if err := pool.QueryRow("select id from builds where id > $1 order by id limit 1", patch).Scan(&patch); err == pgx.ErrNoRows {
-			return nil
-		} else if err != nil {
-			return err
-		}
-		fmt.Println("\nstart", patch, "at", start)
+		patch := init.config.build(build.ID)
+		fmt.Println("\nstart", build.ID, "at", start, "patch", patch)
 
 		// fetch players into memory
 		players := make(map[int64][]Player, 100000)
 
 		{
-			rows, err := pool.Query("SELECT id, game, blizzid, winner FROM players WHERE build = $1", patch)
+			rows, err := pool.Query("SELECT game, blizzid, winner FROM players WHERE build = $1", patch)
 			if err != nil {
 				return errors.Wrap(err, "fetch players")
 			}
 			var game int64
 			var p Player
 			for rows.Next() {
-				if err := rows.Scan(&p.pid, &game, &p.blizzid, &p.winner); err != nil {
+				if err := rows.Scan(&game, &p.blizzid, &p.winner); err != nil {
 					return errors.Wrap(err, "scan")
 				}
 				players[game] = append(players[game], p)
@@ -110,13 +122,13 @@ func elo(dburl string) error {
 				defer close(gameCh)
 
 				// fetch games in order
-				games, err := pool.QueryEx(gCtx, "select id, mode from games where build = $1 order by time", nil, patch)
+				games, err := pool.QueryEx(gCtx, "select id, mode, region from games where build = $1 order by time", nil, patch)
 				if err != nil {
 					return err
 				}
 				var g Game
 				for games.Next() {
-					if err := games.Scan(&g.id, &g.mode); err != nil {
+					if err := games.Scan(&g.id, &g.mode, &g.region); err != nil {
 						return errors.Wrap(err, "scan")
 					}
 
@@ -130,47 +142,57 @@ func elo(dburl string) error {
 				return games.Err()
 			})
 			g.Go(func() error {
-				elo := elogo.NewElo()
 				defer close(updateCh)
 				count := 0
+				var calc trueskill.TwoTeamCalc
+				teams := make([]skills.Team, 2)
 				for game := range gameCh {
-					var winSum, loseSum int
+					count++
+					teams[0] = skills.NewTeam()
+					teams[1] = skills.NewTeam()
 					ps := players[game.id]
 					for _, p := range ps {
-						score := scores.Get(game.mode, p.blizzid)
+						rating := scores.Get(game.mode, regionPlayer{game.region, p.blizzid})
 						if p.winner {
-							winSum += score
+							teams[0].AddPlayer(p.blizzid, rating)
 						} else {
-							loseSum += score
+							teams[1].AddPlayer(p.blizzid, rating)
 						}
 					}
-					winSum /= 5
-					loseSum /= 5
-					delta := elo.RatingDelta(winSum, loseSum, 1)
+					if teams[0].PlayerCount() != 5 || teams[1].PlayerCount() != 5 {
+						continue
+					}
+					ratings := calc.CalcNewRatings(skills.DefaultGameInfo, teams, 1, 2)
 					for _, p := range ps {
-						sc := scores.Get(game.mode, p.blizzid)
-						if p.winner {
-							sc += delta
-						} else {
-							sc -= delta
+						rating, ok := ratings[p.blizzid]
+						if !ok {
+							return errors.Errorf("unfound id: %d", p.blizzid)
 						}
-						scores[game.mode][p.blizzid] = patchscore{
+						scores[game.mode][regionPlayer{game.region, p.blizzid}] = patchscore{
 							patch: patch,
-							score: sc,
+							score: rating,
 						}
-						u := Update{
-							pid:   p.pid,
-							score: scores[game.mode][p.blizzid].score,
-						}
-						select {
-						case <-done:
-							return gCtx.Err()
-						case updateCh <- u:
+						if updatePatch {
+							u := Update{
+								game:    game.id,
+								blizzid: p.blizzid,
+								score:   scores[game.mode][regionPlayer{game.region, p.blizzid}].score,
+							}
+							select {
+							case <-done:
+								return gCtx.Err()
+							case updateCh <- u:
+							}
 						}
 					}
-					count++
 					if count%1000 == 0 {
 						fmt.Println("progress:", count, time.Since(start))
+					}
+					// See if we are done.
+					select {
+					case <-done:
+						return gCtx.Err()
+					default:
 					}
 				}
 				fmt.Println("elo done", count, time.Since(start))
@@ -179,7 +201,7 @@ func elo(dburl string) error {
 			for i := 0; i < poolConfig.MaxConnections; i++ {
 				g.Go(func() error {
 					for u := range updateCh {
-						if _, err := pool.ExecEx(gCtx, stmtUpdatePlayers, nil, u.score, u.pid); err != nil {
+						if _, err := pool.ExecEx(gCtx, stmtUpdatePlayers, nil, ratingToInt(u.score), u.game, u.blizzid); err != nil {
 							return err
 						}
 					}
@@ -190,15 +212,16 @@ func elo(dburl string) error {
 				return errors.Wrap(err, "wait")
 			}
 		}
-		{
+		if updatePatch {
 			// Update playerskills.
 			fmt.Println("starting update playerskills", time.Since(start))
 			g, gCtx := errgroup.WithContext(ctx)
 			done := gCtx.Done()
 			type playerskill struct {
+				region  int
 				mode    Mode
 				blizzid int64
-				score   int
+				score   skills.Rating
 			}
 			skillCh := make(chan playerskill, 100)
 			g.Go(func() error {
@@ -212,7 +235,8 @@ func elo(dburl string) error {
 						if ps.patch != patch {
 							continue
 						}
-						skill.blizzid = blizzid
+						skill.region = blizzid.region
+						skill.blizzid = blizzid.blizzid
 						skill.score = ps.score
 						select {
 						case <-done:
@@ -228,7 +252,7 @@ func elo(dburl string) error {
 			for i := 0; i < poolConfig.MaxConnections; i++ {
 				g.Go(func() error {
 					for s := range skillCh {
-						if _, err := pool.ExecEx(gCtx, stmtUpdateSkills, nil, s.blizzid, patch, s.mode, s.score); err != nil {
+						if _, err := pool.ExecEx(gCtx, stmtUpdateSkills, nil, s.region, s.blizzid, patch, s.mode, ratingToInt(s.score)); err != nil {
 							return errors.Wrap(err, "update skills")
 						}
 					}
@@ -242,11 +266,11 @@ func elo(dburl string) error {
 		fmt.Println("getting stats", time.Since(start))
 		for m, blizzids := range scores {
 			// For each mode, get all the scores and sort them.
-			const buckets = 20
+			const buckets = 50
 			hist := gohistogram.NewHistogram(buckets)
 			for _, sc := range blizzids {
 				if sc.patch == patch {
-					hist.Add(float64(sc.score))
+					hist.Add(sc.score.Mean())
 				}
 			}
 			if hist.Count() == 0 {
@@ -254,13 +278,13 @@ func elo(dburl string) error {
 			}
 			s := Stats{
 				Count:    int(hist.Count()),
-				Mean:     int(hist.Mean()),
-				StdDev:   int(math.Sqrt(hist.Variance())),
-				Quantile: make(map[int]int),
+				Mean:     hist.Mean(),
+				StdDev:   math.Sqrt(hist.Variance()),
+				Quantile: make(map[int]float64),
 			}
-			for i := 0; i <= 100; i += 100 / buckets {
-				q := float64(i) / 100
-				s.Quantile[i] = int(hist.Quantile(q))
+			// https://www.reddit.com/r/heroesofthestorm/comments/82p1h5/ranked_player_distribution/dvbzypz/
+			for _, q := range skillQuantiles {
+				s.Quantile[q] = hist.Quantile(float64(q) / 100)
 			}
 			b, err := json.Marshal(s)
 			if err != nil {
@@ -272,40 +296,55 @@ func elo(dburl string) error {
 				return err
 			}
 		}
-		fmt.Println(patch, "took", time.Since(start))
+		fmt.Println(build.ID, "took", time.Since(start))
 	}
+	return nil
 }
 
+func ratingToInt(r skills.Rating) int64 {
+	return meanToInt(r.Mean())
+}
+
+func meanToInt(f float64) int64 {
+	return int64(f * meanMult)
+}
+
+const meanMult = 1e6
+
 type patchscore struct {
-	score int
+	score skills.Rating
 	patch string
 }
 
+type regionPlayer struct {
+	region  int
+	blizzid int64
+}
+
 // game mode -> blizzid -> score
-type Scores map[Mode]map[int64]patchscore
+type Scores map[Mode]map[regionPlayer]patchscore
 
 func NewScores() Scores {
 	s := make(Scores)
 	for m := range modeNames {
-		s[m] = make(map[int64]patchscore)
+		s[m] = make(map[regionPlayer]patchscore)
 	}
 	return s
 }
 
-func (s Scores) Get(m Mode, player int64) int {
-	const defaultScore = 1500
+func (s Scores) Get(m Mode, player regionPlayer) skills.Rating {
 	for ; m > 0; m-- {
 		ps, ok := s[m][player]
 		if ok {
 			return ps.score
 		}
 	}
-	return defaultScore
+	return skills.DefaultGameInfo.DefaultRating()
 }
 
 type Stats struct {
 	Count    int
-	Mean     int
-	StdDev   int
-	Quantile map[int]int
+	Mean     float64
+	StdDev   float64
+	Quantile map[int]float64
 }

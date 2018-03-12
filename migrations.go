@@ -31,6 +31,26 @@ func mustMigrate(db *sql.DB) {
 				);
 			`,
 		},
+		{
+			ID: "2",
+			Up: `
+				CREATE TABLE playerskills (
+					region INT,
+					blizzid INT,
+					build INT,
+					mode INT,
+					skill INT,
+					PRIMARY KEY (region, blizzid, build, mode)
+				);
+
+				CREATE TABLE skillstats (
+					build INT,
+					mode INT,
+					data BYTES,
+					PRIMARY KEY (build, mode)
+				);
+			`,
+		},
 	}
 
 	const migrateTable = "migrations"
