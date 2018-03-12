@@ -166,7 +166,7 @@ class Hero extends Component {
 							basewr,
 							undefined,
 							(a, b) => a - b,
-							'hero level at start of game, rounded to closest 5'
+							'hero level at start of game, from listed value to 5 higher'
 						)}
 					</table>
 				</div>

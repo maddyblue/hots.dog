@@ -1298,11 +1298,11 @@ func (h *hotsContext) getHero(ctx context.Context, init initData, build, hero st
 	})
 	g.Go(func() error {
 		var err error
-		// Group hero levels  minute blocks.
+		// Group hero levels by 5s.
 		res.Levels, err = h.countWins(ctx, nil, `
-			SELECT count(*) count, winner, counter * 5 as counter
+			SELECT count(*) count, winner, greatest(1, counter * 5) as counter
 			FROM (
-				SELECT winner, round(hero_level / 5) counter
+				SELECT winner, hero_level // 5 as counter
 				FROM players
 				WHERE build = $1 AND hero = $2
 			)
