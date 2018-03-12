@@ -1514,7 +1514,7 @@ var talentData = map[string]talentText{
 	},
 	"BarbarianToughAsNails": {
 		Name: "Tough As Nails",
-		Text: "Every 12 seconds, gain 75 Physical Armor against the next enemy Hero Basic Attack, reducing the damage taken by 75%.\nStores up to 3 charges. Charges refresh 200% faster while Fury's Movement Speed bonus is active.",
+		Text: "Every 16 seconds, gain 60 Physical Armor against the next enemy Hero Basic Attack, reducing the damage taken by 60%.\nStores up to 3 charges. Charges refresh 200% faster while Fury's Movement Speed bonus is active.",
 	},
 	"BarbarianWarPaint": {
 		Name: "War Paint",
