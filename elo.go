@@ -33,6 +33,7 @@ type Update struct {
 	score   skills.Rating
 }
 
+// https://www.reddit.com/r/heroesofthestorm/comments/82p1h5/ranked_player_distribution/dvbzypz/
 var skillQuantiles = []int{
 	0,
 	7,
@@ -185,7 +186,7 @@ func (h *hotsContext) elo(dburl, updateAfterPatch string) error {
 							}
 						}
 					}
-					if count%1000 == 0 {
+					if updatePatch && count%1000 == 0 {
 						fmt.Println("progress:", count, time.Since(start))
 					}
 					// See if we are done.
@@ -262,38 +263,37 @@ func (h *hotsContext) elo(dburl, updateAfterPatch string) error {
 			if err := g.Wait(); err != nil {
 				return errors.Wrap(err, "wait")
 			}
-		}
-		fmt.Println("getting stats", time.Since(start))
-		for m, blizzids := range scores {
-			// For each mode, get all the scores and sort them.
-			const buckets = 50
-			hist := gohistogram.NewHistogram(buckets)
-			for _, sc := range blizzids {
-				if sc.patch == patch {
-					hist.Add(sc.score.Mean())
+			fmt.Println("getting stats", time.Since(start))
+			for m, blizzids := range scores {
+				// For each mode, get all the scores and sort them.
+				const buckets = 50
+				hist := gohistogram.NewHistogram(buckets)
+				for _, sc := range blizzids {
+					if sc.patch == patch {
+						hist.Add(sc.score.Mean())
+					}
 				}
-			}
-			if hist.Count() == 0 {
-				continue
-			}
-			s := Stats{
-				Count:    int(hist.Count()),
-				Mean:     hist.Mean(),
-				StdDev:   math.Sqrt(hist.Variance()),
-				Quantile: make(map[int]float64),
-			}
-			// https://www.reddit.com/r/heroesofthestorm/comments/82p1h5/ranked_player_distribution/dvbzypz/
-			for _, q := range skillQuantiles {
-				s.Quantile[q] = hist.Quantile(float64(q) / 100)
-			}
-			b, err := json.Marshal(s)
-			if err != nil {
-				return err
-			}
-			if _, err := pool.Exec("upsert into skillstats (build, mode, data) values ($1, $2, $3)",
-				patch, m, b,
-			); err != nil {
-				return err
+				if hist.Count() == 0 {
+					continue
+				}
+				s := Stats{
+					Count:    int(hist.Count()),
+					Mean:     hist.Mean(),
+					StdDev:   math.Sqrt(hist.Variance()),
+					Quantile: make(map[int]float64),
+				}
+				for _, q := range skillQuantiles {
+					s.Quantile[q] = hist.Quantile(float64(q) / 100)
+				}
+				b, err := json.Marshal(s)
+				if err != nil {
+					return err
+				}
+				if _, err := pool.Exec("upsert into skillstats (build, mode, data) values ($1, $2, $3)",
+					patch, m, b,
+				); err != nil {
+					return err
+				}
 			}
 		}
 		fmt.Println(build.ID, "took", time.Since(start))
