@@ -941,10 +941,9 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 			Roles  map[string]Total
 		}
 		Skills []struct {
-			Skill int
+			Skill float64
 			Mode  Mode
 		}
-		SkillMult  int
 		BuildStats map[Mode]Stats
 	}
 	res.Profile.Heroes = make(map[string]Total)
@@ -964,8 +963,7 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 				`, v, region, blizzid); err != nil {
 			return nil, err
 		}
-		res.SkillMult = meanMult
-		res.BuildStats = init.BuildStats[v]
+		res.BuildStats = init.BuildStats[skillBuild]
 	}
 
 	var err error
@@ -1491,7 +1489,7 @@ func setSkillParams(init initData, wheres *[]string, params *[]interface{}, args
 				return err
 			}
 
-			*params = append(*params, meanToInt(quantiles[skillQuantiles[i]]))
+			*params = append(*params, quantiles[skillQuantiles[i]])
 		}
 		if sh != "" {
 			*wheres = append(*wheres, fmt.Sprintf("skill <= $%d", len(*params)+1))
@@ -1499,7 +1497,7 @@ func setSkillParams(init initData, wheres *[]string, params *[]interface{}, args
 			if err != nil {
 				return err
 			}
-			*params = append(*params, meanToInt(quantiles[skillQuantiles[i+1]]))
+			*params = append(*params, quantiles[skillQuantiles[i+1]])
 		}
 	}
 	return nil

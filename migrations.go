@@ -34,16 +34,16 @@ func mustMigrate(db *sql.DB) {
 		{
 			ID: "2",
 			Up: `
-				CREATE TABLE playerskills (
+				CREATE TABLE IF NOT EXISTS playerskills (
 					region INT,
 					blizzid INT,
 					build INT,
 					mode INT,
-					skill INT,
+					skill FLOAT,
 					PRIMARY KEY (region, blizzid, build, mode)
 				);
 
-				CREATE TABLE skillstats (
+				CREATE TABLE IF NOT EXISTS skillstats (
 					build INT,
 					mode INT,
 					data BYTES,

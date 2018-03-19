@@ -125,7 +125,7 @@ func (h *hotsContext) elo(dburl, updateAfterPatch string) error {
 				// fetch games in order
 				games, err := pool.QueryEx(gCtx, "select id, mode, region from games where build = $1 order by time", nil, patch)
 				if err != nil {
-					return err
+					return errors.Wrap(err, "fetch games in order")
 				}
 				var g Game
 				for games.Next() {
@@ -140,7 +140,7 @@ func (h *hotsContext) elo(dburl, updateAfterPatch string) error {
 					}
 				}
 				fmt.Println("fetch games done", time.Since(start))
-				return games.Err()
+				return errors.Wrap(games.Err(), "games.Err")
 			})
 			g.Go(func() error {
 				defer close(updateCh)
@@ -202,8 +202,9 @@ func (h *hotsContext) elo(dburl, updateAfterPatch string) error {
 			for i := 0; i < poolConfig.MaxConnections; i++ {
 				g.Go(func() error {
 					for u := range updateCh {
-						if _, err := pool.ExecEx(gCtx, stmtUpdatePlayers, nil, ratingToInt(u.score), u.game, u.blizzid); err != nil {
-							return err
+						args := []interface{}{ratingToSkill(u.score), u.game, u.blizzid}
+						if _, err := pool.ExecEx(gCtx, stmtUpdatePlayers, nil, args...); err != nil {
+							return errors.Wrapf(err, "stmtUpdatePlayers: %v", args)
 						}
 					}
 					return nil
@@ -253,7 +254,7 @@ func (h *hotsContext) elo(dburl, updateAfterPatch string) error {
 			for i := 0; i < poolConfig.MaxConnections; i++ {
 				g.Go(func() error {
 					for s := range skillCh {
-						if _, err := pool.ExecEx(gCtx, stmtUpdateSkills, nil, s.region, s.blizzid, patch, s.mode, ratingToInt(s.score)); err != nil {
+						if _, err := pool.ExecEx(gCtx, stmtUpdateSkills, nil, s.region, s.blizzid, patch, s.mode, ratingToSkill(s.score)); err != nil {
 							return errors.Wrap(err, "update skills")
 						}
 					}
@@ -301,15 +302,9 @@ func (h *hotsContext) elo(dburl, updateAfterPatch string) error {
 	return nil
 }
 
-func ratingToInt(r skills.Rating) int64 {
-	return meanToInt(r.Mean())
+func ratingToSkill(r skills.Rating) float64 {
+	return r.Mean()
 }
-
-func meanToInt(f float64) int64 {
-	return int64(f * meanMult)
-}
-
-const meanMult = 1e6
 
 type patchscore struct {
 	score skills.Rating

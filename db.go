@@ -136,7 +136,7 @@ func (c *conn) Explain(query string, args []driver.Value) {
 		return
 	}
 	fmt.Println("EXPLAIN", query, args)
-	rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN  "+query, args)
+	rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN "+query, args)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -185,7 +185,9 @@ func (h *hotsContext) Import(bucket string, max int) error {
 				build INT,
 				region INT,
 
-				bans INT[]
+				bans INT[],
+
+				INDEX (build, time) STORING (mode, region)
 			) CSV DATA %s
 		`, makeValues(count, 1)),
 		args...); err != nil {
@@ -209,7 +211,7 @@ func (h *hotsContext) Import(bucket string, max int) error {
 				team INT,
 				winner BOOL,
 				blizzid INT,
-				skill INT,
+				skill FLOAT,
 				battletag STRING COLLATE en_u_ks_level1,
 				talents INT[],
 				data JSONB,
@@ -219,14 +221,14 @@ func (h *hotsContext) Import(bucket string, max int) error {
 				INDEX (region, blizzid, time DESC),
 				INDEX (region, battletag),
 
-				INDEX (build, map, mode, hero_level) STORING (hero, winner),
+				INDEX (build, map, mode, hero_level) STORING (hero, winner, skill),
 				INDEX (build, map, hero_level) STORING (hero, winner),
-				INDEX (build, mode, hero_level) STORING (hero, winner),
+				INDEX (build, mode, hero_level) STORING (hero, winner, skill),
 				INDEX (build, hero_level) STORING (hero, winner),
 				INDEX (build, hero) STORING (winner, hero_level, length, map, mode),
-				INDEX (build, hero, map, mode, hero_level) STORING (winner, talents),
+				INDEX (build, hero, map, mode, hero_level) STORING (winner, talents, skill),
 				INDEX (build, hero, map, hero_level) STORING (winner, talents),
-				INDEX (build, hero, mode, hero_level) STORING (winner, talents),
+				INDEX (build, hero, mode, hero_level) STORING (winner, talents, skill),
 				INDEX (build, hero, hero_level) STORING (winner, talents)
 			) CSV DATA %s
 		`, makeValues(count, 1)),

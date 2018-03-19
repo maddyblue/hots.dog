@@ -34,7 +34,7 @@ spec:
     targetPort: 8080
     name: adminui
   type: LoadBalancer
-  loadBalancerIP: "35.188.60.147"
+  loadBalancerIP: "35.226.2.104"
 ---
 apiVersion: v1
 kind: Service
@@ -108,11 +108,12 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
       - name: cockroachdb
-        image: gcr.io/hots-cockroach/cockroach:latest
+        image: gcr.io/hots-cockroach/cockroach:release-2.0
+        #image: cockroachdb/cockroach-unstable:v2.0-beta.20180312
         imagePullPolicy: Always
         resources:
           limits:
-            memory: "2G"
+            memory: "5G"
         ports:
         - containerPort: 26257
           name: grpc
@@ -145,4 +146,4 @@ spec:
       storageClassName: ssd
       resources:
         requests:
-          storage: 30Gi
+          storage: 50Gi

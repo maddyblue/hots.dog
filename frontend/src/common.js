@@ -78,7 +78,9 @@ const Filter = (props: {
 			{v}
 		</option>
 	));
-	const build = props.build === 'latest' ? props.Builds[0].ID : props.build;
+	// I'm not sure why the !props.build is needed here, but it seems to be.
+	const build =
+		!props.build || props.build === 'latest' ? props.Builds[0].ID : props.build;
 	const buildStats = props.BuildStats[build];
 	const modeStats = buildStats && buildStats[props.mode];
 	const disableSkill = !modeStats || !props.mode;

@@ -11,12 +11,12 @@ spec:
     spec:
       initContainers:
       - name: migrate
-        image: gcr.io/hots-cockroach/website:next
+        image: gcr.io/hots-cockroach/website:latest
         command: ["/website", "-migrate", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
         imagePullPolicy: Always
       containers:
       - name: website
-        image: gcr.io/hots-cockroach/website:next
+        image: gcr.io/hots-cockroach/website:latest
         imagePullPolicy: Always
         env:
           - name: ADDR
@@ -52,4 +52,4 @@ spec:
     targetPort: 80
     name: http
   type: LoadBalancer
-  loadBalancerIP: "35.188.60.147"
+  loadBalancerIP: "35.226.2.104"

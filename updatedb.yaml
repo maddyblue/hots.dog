@@ -9,7 +9,7 @@ spec:
     spec:
       containers:
       - name: updatedb
-        image: gcr.io/hots-cockroach/website:next
+        image: gcr.io/hots-cockroach/website:latest
         command: ["/website", "-updatedb", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
         imagePullPolicy: Always
       restartPolicy: OnFailure

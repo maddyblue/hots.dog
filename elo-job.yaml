@@ -1,15 +1,15 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: import
+  name: elo
 spec:
   template:
     metadata:
-      name: import
+      name: elo
     spec:
       containers:
-      - name: import
+      - name: elo
         image: gcr.io/hots-cockroach/website:latest
-        command: ["/website", "-importnum", "7730000", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
+        command: ["/website", "-elo", "2.30.3", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
         imagePullPolicy: Always
       restartPolicy: Never

@@ -142,7 +142,6 @@ class Player extends Component<
 		Battletag: string,
 		search: string,
 		Skills?: any,
-		SkillMult: number,
 		BuildStats?: any,
 	}
 > {
@@ -151,7 +150,6 @@ class Player extends Component<
 		Battletag: '',
 		search: '',
 		Skills: null,
-		SkillMult: 0,
 		BuildStats: null,
 	};
 	componentDidMount() {
@@ -267,9 +265,7 @@ class Player extends Component<
 							{this.state.Skills.map(v => (
 								<tr key={v.Mode}>
 									<td>{this.props.Modes[v.Mode]}</td>
-									<td>
-										{this.percentile(v.Skill / this.state.SkillMult, v.Mode)}
-									</td>
+									<td>{this.percentile(v.Skill, v.Mode)}</td>
 								</tr>
 							))}
 						</tbody>
