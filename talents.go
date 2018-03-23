@@ -1086,7 +1086,7 @@ var talentData = map[string]talentText{
 	},
 	"ArtanisBladeDashTemplarsZeal": {
 		Name: "Templar's Zeal",
-		Text: "Blade Dash cooldown recharges 200% faster while below 50% Health.",
+		Text: "Blade Dash cooldown recharges 300% faster while below 50% Health.",
 	},
 	"ArtanisHeroicAbilitySpearofAdunPurifierBeam": {
 		Name: "Purifier Beam",
@@ -1250,7 +1250,7 @@ var talentData = map[string]talentText{
 	},
 	"AurielBlindingFlashSacredSweepTalent": {
 		Name: "Blinding Flash",
-		Text: "Enemies hit by the center area of Sacred Sweep are blinded for 2.25 seconds.",
+		Text: "Enemies hit by the center area of Sacred Sweep are blinded for 2 seconds.",
 	},
 	"AurielBurstingLightRayOfHeavenTalent": {
 		Name: "Bursting Light",
@@ -1262,7 +1262,7 @@ var talentData = map[string]talentText{
 	},
 	"AurielDiamondResolveCrystalAegisTalent": {
 		Name: "Diamond Resolve",
-		Text: "When Crystal Aegis expires, it grants the target 50 Armor for 5 seconds, reducing damage taken by 50%.",
+		Text: "When Crystal Aegis expires, it grants the target 60 Armor for 5 seconds, reducing damage taken by 60%.",
 	},
 	"AurielEmpathicLinkBestowHopeTalent": {
 		Name: "Empathic Link",
@@ -1270,7 +1270,7 @@ var talentData = map[string]talentText{
 	},
 	"AurielEnergizedCordRayOfHeavenTalent": {
 		Name: "Energized Cord",
-		Text: "Increases the energy stored from Auriel's Basic Attacks to 100% of the damage against Heroes and 50% of the damage against non-Heroes.\nDoes not affect Auriel's Bestow Hope ally.",
+		Text: "Increases the energy stored from Auriel's Basic Attacks to 100% of the damage against Heroes and 40% of the damage against non-Heroes.\nDoes not affect Auriel's Bestow Hope ally.",
 	},
 	"AurielGlimmerofHopeRayOfHeavenTalent": {
 		Name: "Glimmer of Hope",
@@ -1442,7 +1442,7 @@ var talentData = map[string]talentText{
 	},
 	"BarbarianBattleRage": {
 		Name: "Battle Rage",
-		Text: "Activate to instantly restore 10% of Sonya's maximum Health. Stores up to 3 charges. \nPassive: Sonya deals 25% more damage to Mercenaries.",
+		Text: "Activate to instantly restore 10% of Sonya's maximum Health. Stores up to 2 charges. \nPassive: Sonya deals 25% more damage to Mercenaries.",
 	},
 	"BarbarianCompositeSpear": {
 		Name: "Composite Spear",
@@ -1450,7 +1450,7 @@ var talentData = map[string]talentText{
 	},
 	"BarbarianFuriousBlow": {
 		Name: "Furious Blow",
-		Text: "Every 4th cast of Seismic Slam deals 40% more damage to the primary target and costs no Fury.",
+		Text: "Every 4th cast of Seismic Slam deals 50% more damage to the primary target and costs no Fury.",
 	},
 	"BarbarianGiantSlammer": {
 		Name: "Giant Slammer",
@@ -1478,7 +1478,7 @@ var talentData = map[string]talentText{
 	},
 	"BarbarianMysticalSpear": {
 		Name: "Mystical Spear",
-		Text: "Reduces the cooldown of Ancient Spear by 3 seconds. Ancient Spear always pulls Sonya to the target location even if it doesn't hit an enemy.",
+		Text: "Reduces the cooldown of Ancient Spear by 2 seconds. Ancient Spear always pulls Sonya to the target location even if it doesn't hit an enemy.",
 	},
 	"BarbarianNervesOfSteel": {
 		Name: "Nerves of Steel",
@@ -1494,7 +1494,7 @@ var talentData = map[string]talentText{
 	},
 	"BarbarianRampage": {
 		Name: "Rampage",
-		Text: "Increase Basic Attack damage by 25%. Basic Attacks reduce the cooldown of Ancient Spear by 0.75 seconds.",
+		Text: "Increase Basic Attack damage by 25%. Basic Attacks reduce the cooldown of Ancient Spear by 0.5 seconds.",
 	},
 	"BarbarianRuthless": {
 		Name: "Ruthless",
@@ -3294,7 +3294,7 @@ var talentData = map[string]talentText{
 	},
 	"GreymaneRazorSwipeVisceralAttacks": {
 		Name: "Visceral Attacks",
-		Text: "Worgen Basic Attacks reduce Razor Swipe's cooldown by 1 second.",
+		Text: "Worgen Basic Attacks reduce Razor Swipe's cooldown by 1.5 seconds.",
 	},
 	"GreymaneToothAndClaw": {
 		Name: "Tooth and Claw",
@@ -4422,7 +4422,7 @@ var talentData = map[string]talentText{
 	},
 	"MaievFanOfKnivesBladeDance": {
 		Name: "Blade Dance",
-		Text: "Using Fan of Knives deals 54 Physical Damage to enemies around Maiev.",
+		Text: "Using Fan of Knives deals 50 Physical Damage to enemies around Maiev.",
 	},
 	"MaievFanOfKnivesBladedArmor": {
 		Name: "Bladed Armor",
@@ -4454,7 +4454,7 @@ var talentData = map[string]talentText{
 	},
 	"MaievSpiritOfVengeanceShadowArmor": {
 		Name: "Shadow Armor",
-		Text: "Blink grants 25 Armor for 2.5 seconds. Maiev's Basic Attacks against enemy Heroes refresh this duration.",
+		Text: "Blink grants 20 Armor for 2.5 seconds. Maiev's Basic Attacks against enemy Heroes refresh this duration.",
 	},
 	"MaievSpiritOfVengeanceShadowOrbVengeance": {
 		Name: "Shadow Orb: Vengeance",
@@ -4566,11 +4566,11 @@ var talentData = map[string]talentText{
 	},
 	"MalfurionRegrowthNaturesBalance": {
 		Name: "Nature's Balance",
-		Text: "Increase Moonfire's area by 25% and Regrowth's duration by 5 seconds.",
+		Text: "Increase Moonfire's area by 25% and Regrowth's duration by 3 seconds.",
 	},
 	"MalfurionRegrowthNaturesSwiftness": {
 		Name: "Nature's Swiftness",
-		Text: "Malfurion gains 5% Movement Speed per ally Hero affected by Regrowth.",
+		Text: "Malfurion gains 4% Movement Speed per ally Hero affected by Regrowth.",
 	},
 	"MalfurionRevitalizeInnervateTalent": {
 		Name: "Revitalize",
@@ -4662,7 +4662,7 @@ var talentData = map[string]talentText{
 	},
 	"MalthaelThrowingShade": {
 		Name: "Throwing Shade",
-		Text: "Quest: Hit 15 Heroes with Death Shroud.\nReward: Permanently increase Death Shroud's range by 33%, reduce its cooldown by 4 seconds, and reduce its Mana cost from 50 to 25.",
+		Text: "Quest: Hit 15 Heroes with Death Shroud.\nReward: Permanently increase Death Shroud's range by 33%, reduce its cooldown by 3.75 seconds, and reduce its Mana cost from 50 to 25.",
 	},
 	"MalthaelTormentedSouls": {
 		Name: "Tormented Souls",
@@ -4786,7 +4786,7 @@ var talentData = map[string]talentText{
 	},
 	"MedivhForceOfWillArcaneExplosion": {
 		Name: "Arcane Explosion",
-		Text: "When Force of Will expires, it deals 90 damage to nearby enemies, plus 100% of the damage it prevented, up to 365 additional damage.",
+		Text: "When Force of Will expires, it deals 90 damage to nearby enemies, plus 100% of the damage it prevented, up to 350 additional damage.",
 	},
 	"MedivhForceOfWillCircleOfProtection": {
 		Name: "Circle of Protection",
@@ -4798,11 +4798,11 @@ var talentData = map[string]talentText{
 	},
 	"MedivhForceOfWillReabsorption": {
 		Name: "Reabsorption",
-		Text: "Increase the amount of healing from Force Of Will to 50% of the damage it absorbed.",
+		Text: "Increase the amount of healing from Force Of Will to 60% of the damage it absorbed.",
 	},
 	"MedivhForceofMagic": {
 		Name: "Force of Magic",
-		Text: "Preventing at least 268 damage with a single cast of Force of Will grants 20%  Spell Power for 12 seconds. Stacks up to 2 times.",
+		Text: "Preventing at least 268 damage with a single cast of Force of Will grants 20%  Spell Power for 15 seconds. Stacks up to 2 times.",
 	},
 	"MedivhLeyLineSeal": {
 		Name: "Ley Line Seal",
@@ -5766,7 +5766,7 @@ var talentData = map[string]talentText{
 	},
 	"SamuroThreeBladeStyle": {
 		Name: "Three Blade Style",
-		Text: "Samuro's Mirror Images gain an additional 50% of his Health and last up to 36 seconds.",
+		Text: "Samuro's Mirror Images no longer take additional damage, effecively increasing their health by 50% and their duration is increased to 36 seconds.",
 	},
 	"SamuroWayOfIllusion": {
 		Name: "Way of Illusion",
@@ -6238,7 +6238,7 @@ var talentData = map[string]talentText{
 	},
 	"ThrallCrashLightning": {
 		Name: "Crash Lightning",
-		Text: "Repeatable Quest: Hitting at least 2 Heroes with a single use of Chain Lightning increases the damage of its bounces by 12, up to 480.\nReward: After hitting multiple Heroes 20 times, Chain Lightning prioritizes bouncing to Heroes.",
+		Text: "Repeatable Quest: Hitting at least 2 Heroes with a single use of Chain Lightning increases the damage of its bounces by 12, up to 360.\nReward: After hitting multiple Heroes 30 times, Chain Lightning prioritizes bouncing to Heroes.",
 	},
 	"ThrallEchooftheElements": {
 		Name: "Echo of the Elements",
@@ -6618,7 +6618,7 @@ var talentData = map[string]talentText{
 	},
 	"TyraelJusticeForAll": {
 		Name: "Justice for All",
-		Text: "Increase the Shield applied to allies by Righteousness to 100% of the Shield gained by Tyrael.",
+		Text: "Increase the Shield applied to allies by Righteousness to 75% of the Shield gained by Tyrael.",
 	},
 	"TyraelMasteryAngelicAbsorption": {
 		Name: "Angelic Absorption",
@@ -6686,7 +6686,7 @@ var talentData = map[string]talentText{
 	},
 	"TyraelStalwartAngel": {
 		Name: "Stalwart Angel",
-		Text: "Gain 0 Armor while El'druin's Might is active, and for 0 seconds after teleporting.",
+		Text: "Gain 20 Armor while El'druin's Might is active, and for 3 seconds after teleporting.",
 	},
 	"TyrandeCelestialAttunement": {
 		Name: "Celestial Attunement",
