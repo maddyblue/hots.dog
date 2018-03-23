@@ -49,6 +49,7 @@
     "aws/request",
     "aws/session",
     "aws/signer/v4",
+    "internal/sdkio",
     "internal/sdkrand",
     "internal/shareddefaults",
     "private/protocol",
@@ -62,8 +63,8 @@
     "service/lambda",
     "service/sts"
   ]
-  revision = "bff41fb23b7550368282029f6478819d6a99ae0f"
-  version = "v1.12.79"
+  revision = "c0ea8ae46aeed5902eeebe10d0d5cdf54b258526"
+  version = "v1.13.19"
 
 [[projects]]
   name = "github.com/felixge/httpsnoop"
@@ -74,8 +75,8 @@
 [[projects]]
   name = "github.com/go-ini/ini"
   packages = ["."]
-  revision = "32e4c1e6bc4e7d0d8451aa6b75200d19e37a536a"
-  version = "v1.32.0"
+  revision = "6333e38ac20b8949a8dd68baa3650f4dee8f39f0"
+  version = "v1.33.0"
 
 [[projects]]
   branch = "master"
@@ -91,7 +92,7 @@
   branch = "master"
   name = "github.com/golang/gddo"
   packages = ["httputil/header"]
-  revision = "34dd0bc6192656e2c0bca3c8a41f57196aa22cde"
+  revision = "052378f5476869804f44ab61df2243a80ff3518f"
 
 [[projects]]
   name = "github.com/golang/protobuf"
@@ -137,7 +138,7 @@
     ".",
     "reflectx"
   ]
-  revision = "05cef0741ade10ca668982355b3f3f0bcf0ff0a8"
+  revision = "cf35089a197953c69420c8d0cecda90809764b1d"
 
 [[projects]]
   branch = "master"
@@ -146,13 +147,13 @@
     ".",
     "oid"
   ]
-  revision = "88edab0803230a3898347e77b474f8c1820a1f20"
+  revision = "b2004221932bd6b13167ef654c81cffac36f7537"
 
 [[projects]]
   branch = "master"
   name = "github.com/mitchellh/go-server-timing"
   packages = ["."]
-  revision = "22f84e2f2a997b19c4fa5a83528a6c6178c12ce3"
+  revision = "d145200e1f903b0ea9e6fd99eea2fb9621e0feaa"
 
 [[projects]]
   name = "github.com/pkg/errors"
@@ -161,13 +162,31 @@
   version = "v0.8.0"
 
 [[projects]]
+  name = "go.opencensus.io"
+  packages = [
+    "exporter/stackdriver/propagation",
+    "internal",
+    "internal/tagencoding",
+    "plugin/ochttp",
+    "plugin/ochttp/propagation/b3",
+    "stats",
+    "stats/internal",
+    "stats/view",
+    "tag",
+    "trace",
+    "trace/propagation"
+  ]
+  revision = "6e3f034057826b530038d93267906ec3c012183f"
+  version = "v0.6.0"
+
+[[projects]]
   branch = "master"
   name = "golang.org/x/crypto"
   packages = [
     "acme",
     "acme/autocert"
   ]
-  revision = "650f4a345ab4e5b245a3034b110ebc7299e68186"
+  revision = "88942b9c40a4c9d203b82b3731787b672d6e809b"
 
 [[projects]]
   branch = "master"
@@ -177,7 +196,7 @@
     "font/gofont/goregular",
     "math/fixed"
   ]
-  revision = "12117c17ca67ffa1ce22e9409f3b0b0a93ac08c7"
+  revision = "f3a9b89b59def9194717c1d0bd4c0d08fa1afa7b"
 
 [[projects]]
   branch = "master"
@@ -194,7 +213,7 @@
     "lex/httplex",
     "trace"
   ]
-  revision = "136a25c244d3019482a795d728110278d6ba09a4"
+  revision = "6078986fec03a1dcc236c34816c71b0e05018fda"
 
 [[projects]]
   branch = "master"
@@ -206,13 +225,13 @@
     "jws",
     "jwt"
   ]
-  revision = "543e37812f10c46c622c9575afd7ad22f22a12ba"
+  revision = "fdc9e635145ae97e6c2cb777c48305600cf515cb"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sync"
   packages = ["errgroup"]
-  revision = "fd80eb99c8f653c847d294a001bdf2a3a6f768f5"
+  revision = "1d60e4601c6fd243af51cc01ddf169918a5407ca"
 
 [[projects]]
   branch = "master"
@@ -222,6 +241,8 @@
     "collate/build",
     "internal/colltab",
     "internal/gen",
+    "internal/language",
+    "internal/language/compact",
     "internal/tag",
     "internal/triegen",
     "internal/ucd",
@@ -233,7 +254,7 @@
     "unicode/norm",
     "unicode/rangetable"
   ]
-  revision = "4e4a3210bb54bb31f6ab2cdca2edcc0b50c420c1"
+  revision = "8c34f848e18c4bd34d02db7f19a0ed1a0a8f5852"
 
 [[projects]]
   branch = "master"
@@ -249,7 +270,7 @@
     "storage/v1",
     "transport/http"
   ]
-  revision = "c7a403bb5fe12fe4644bb956edd5cd677626120a"
+  revision = "24928b980e6919be4c72647aacd53ebcbb8c4bab"
 
 [[projects]]
   name = "google.golang.org/appengine"
@@ -276,7 +297,7 @@
     "googleapis/iam/v1",
     "googleapis/rpc/status"
   ]
-  revision = "2b5a72b8730b0b16380010cfe5286c42108d88e7"
+  revision = "f8c8703595236ae70fdf8789ecb656ea0bcdcf46"
 
 [[projects]]
   name = "google.golang.org/grpc"
