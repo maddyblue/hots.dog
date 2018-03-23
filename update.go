@@ -47,17 +47,27 @@ func (h *hotsContext) updateDB() error {
 	// Possibly we are on a new image, so update cache if the underlying
 	// implementation changed.
 	updated := true
+	newData := false
 	bucket := cl.Bucket(*flagImport)
 	for {
 		err := h.updateDBNext(bucket)
+		// Unlike the updated flag which may need to cause an update because talents.go
+		// changed, the ELO only needs recalculating when new data was added.
+		newData = newData || err == nil
 		if err == storage.ErrObjectNotExist {
-			fmt.Println("no new data; sleeping")
 			if updated {
 				updated = false
+				if newData {
+					newData = false
+					if err := h.elo(); err != nil {
+						return errors.Wrap(err, "elo")
+					}
+				}
 				if err := h.cronLoop(); err != nil {
 					return errors.Wrap(err, "cronLoop")
 				}
 			}
+			fmt.Println("no new data; sleeping")
 			time.Sleep(time.Minute * 10)
 		} else if err != nil {
 			return errors.Wrap(err, "updateDBNext")

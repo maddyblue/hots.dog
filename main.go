@@ -42,7 +42,7 @@ var (
 	flagAutocert  = flag.String("autocert", "", "domain name to autocert")
 	flagAcmedir   = flag.String("acmedir", "", "optional acme directory; can be used to configure dev letsencrypt")
 	flagCockroach = flag.String("cockroach", "postgresql://root@localhost:26257/hots?sslmode=disable", "cockroach connection URL")
-	flagElo       = flag.String("elo", "", "run elo update, updating the DB at patch >= this flag")
+	flagElo       = flag.Bool("elo", false, "run elo update")
 	flagMigrate   = flag.Bool("migrate", false, "run migration")
 	flagCron      = flag.Bool("cron", false, "run cronjob")
 	flagUpdateNew = flag.String("updatenew", "", "run new update to specified gs bucket")
@@ -89,8 +89,9 @@ func main() {
 	defer db.Close()
 
 	h := &hotsContext{
-		db: db,
-		x:  sqlx.NewDb(db, "postgres"),
+		dburl: dbURL.String(),
+		db:    db,
+		x:     sqlx.NewDb(db, "postgres"),
 	}
 
 	if *flagImportNum != -1 {
@@ -101,8 +102,8 @@ func main() {
 		return
 	}
 
-	if *flagElo != "" {
-		if err := h.elo(dbURL.String(), *flagElo); err != nil {
+	if *flagElo {
+		if err := h.elo(); err != nil {
 			log.Fatalf("%+v", err)
 		}
 		return
@@ -488,6 +489,7 @@ func (db dbCache) Delete(ctx context.Context, key string) error {
 }
 
 type hotsContext struct {
+	dburl     string
 	db        *sql.DB
 	x         *sqlx.DB
 	cacheTime time.Duration

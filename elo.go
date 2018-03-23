@@ -55,13 +55,15 @@ For each patch:
 
 Repeat for next patch. Group by patch to keep memory limited.
 */
-func (h *hotsContext) elo(dburl, updateAfterPatch string) error {
+func (h *hotsContext) elo() error {
 	if err := h.updateInit(context.Background()); err != nil {
 		return err
 	}
 	init := h.getInit()
+	// Hard code to use the last 3 versions. This is bad but fine for now.
+	updateAfterPatch := init.Builds[2].ID
 
-	config, err := pgx.ParseURI(dburl)
+	config, err := pgx.ParseURI(h.dburl)
 	if err != nil {
 		return err
 	}
