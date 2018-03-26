@@ -11,8 +11,10 @@ import {
 	BuildsOpts,
 	createCookie,
 	readCookie,
+	regionCookie,
 	skillBands,
 	skillPercentiles,
+	regionNames,
 } from './common';
 import { Helmet } from 'react-helmet';
 import SortedTable from './SortedTable';
@@ -20,15 +22,6 @@ import SortedTable from './SortedTable';
 type Props = {
 	match: any,
 };
-
-const regionNames = {
-	'1': 'Americas',
-	'2': 'Europe',
-	'3': 'Asia',
-	'5': 'China',
-};
-
-const regionCookie = 'region';
 
 class Players extends Component<
 	Props,

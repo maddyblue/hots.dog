@@ -51,6 +51,8 @@ func (h *hotsContext) cron() error {
 				res, err = h.GetBuildWinrates(ctx, req)
 			case "/api/get-compare-hero":
 				res, err = h.GetCompareHero(ctx, req)
+			case "/api/get-leaderboard":
+				res, err = h.GetLeaderboard(ctx, req)
 			default:
 				log.Printf("cron: unknown path: %s", u)
 				return nil

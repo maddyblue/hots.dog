@@ -227,6 +227,7 @@ func main() {
 	http.Handle("/api/get-compare-hero", wrap(h.GetCompareHero))
 	http.Handle("/api/get-game-data", wrap(h.GetGameData))
 	http.Handle("/api/get-hero-data", wrap(h.GetHero))
+	http.Handle("/api/get-leaderboard", wrap(h.GetLeaderboard))
 	http.Handle("/api/get-player-by-name", wrap(h.GetPlayerName))
 	http.Handle("/api/get-player-games", wrap(h.GetPlayerGames))
 	http.Handle("/api/get-player-matchups", wrap(h.GetPlayerMatchups))
@@ -360,6 +361,7 @@ var (
 		"/api/get-compare-hero":   true,
 		"/api/get-hero-data":      true,
 		"/api/get-winrates":       true,
+		"/api/get-leaderboard":    true,
 	}
 	enableMemCache = map[string]bool{
 		"/api/init": true,
@@ -1637,6 +1639,66 @@ func (h *hotsContext) GetCompareHero(ctx context.Context, r *http.Request) (inte
 		OtherTeam: otherTeam,
 		Total:     total,
 	}, nil
+}
+
+func (h *hotsContext) GetLeaderboard(ctx context.Context, r *http.Request) (interface{}, error) {
+	init := h.getInit()
+	args := map[string]string{
+		"build":  init.config.build(r.FormValue("build")),
+		"mode":   r.FormValue("mode"),
+		"region": r.FormValue("region"),
+	}
+	if args["build"] == "" {
+		return nil, errors.New("build required")
+	}
+	if args["mode"] == "" {
+		return nil, errors.New("mode required")
+	}
+	if args["region"] == "" {
+		return nil, errors.New("region required")
+	}
+
+	var wheres []string
+	var params []interface{}
+	for _, key := range []string{"build", "mode", "region"} {
+		v := args[key]
+		if v == "" {
+			continue
+		}
+		wheres = append(wheres, fmt.Sprintf("%s = $%d", key, len(params)+1))
+		params = append(params, v)
+	}
+	var res struct {
+		Players []*struct {
+			Rank      int
+			Battletag string
+			Blizzid   string
+			Skill     float64
+		}
+	}
+	if err := h.x.SelectContext(ctx, &res.Players, fmt.Sprintf(`
+		SELECT blizzid, skill
+		FROM playerskills
+		WHERE %s
+		ORDER BY skill DESC
+		LIMIT 100
+		`, strings.Join(wheres, " AND "),
+	), params...); err != nil {
+		return nil, err
+	}
+	g, gCtx := errgroup.WithContext(ctx)
+	region := args["region"]
+	for i, p := range res.Players {
+		p.Rank = i + 1
+		p := p
+		g.Go(func() error {
+			var err error
+			p.Battletag, err = h.getBattletag(gCtx, p.Blizzid, region)
+			return err
+		})
+	}
+	err := g.Wait()
+	return res, err
 }
 
 func (h *hotsContext) getBuildBefore(init initData, id string) (build string, ok bool) {

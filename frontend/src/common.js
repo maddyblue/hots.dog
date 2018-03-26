@@ -41,6 +41,24 @@ const BuildsOpts = (props: { builds: any, dates?: number[] }) => {
 	return builds;
 };
 
+const GameModes = (props: { Modes: {}, noAll?: boolean }) => {
+	let modeKeys = Object.keys(props.Modes);
+	modeKeys.sort().reverse();
+	let modes = modeKeys.map(k => (
+		<option key={k} value={k}>
+			{props.Modes[k]}
+		</option>
+	));
+	if (!props.noAll) {
+		modes.unshift(
+			<option key="" value="">
+				All Game Modes
+			</option>
+		);
+	}
+	return modes;
+};
+
 const Filter = (props: {
 	handleChange: Event => void,
 	map: string,
@@ -58,18 +76,6 @@ const Filter = (props: {
 	maps.unshift(
 		<option key="" value="">
 			All Maps
-		</option>
-	);
-	let modeKeys = Object.keys(props.Modes);
-	modeKeys.sort().reverse();
-	let modes = modeKeys.map(k => (
-		<option key={k} value={k}>
-			{props.Modes[k]}
-		</option>
-	));
-	modes.unshift(
-		<option key="" value="">
-			All Game Modes
 		</option>
 	);
 	let heroLevels = [1, 5, 10, 20].map(v => <option key={v}>{v}</option>);
@@ -112,7 +118,7 @@ const Filter = (props: {
 				<div className="column">
 					<label>Game Mode</label>
 					<select name="mode" value={props.mode} onChange={props.handleChange}>
-						{modes}
+						<GameModes Modes={props.Modes} />
 					</select>
 				</div>
 				<div className="column">
@@ -296,6 +302,7 @@ const TalentImg = (props: { name: string, text?: boolean, data: any }) => {
 const Title = (props: any) => {
 	const title =
 		props.prefix +
+		(props.region ? ' from ' + regionNames[props.region] : '') +
 		(props.build ? ' at ' + props.build : '') +
 		(props.mode ? ' in ' + props.Modes[props.mode] : '') +
 		(props.map ? ' on ' + props.map : '') +
@@ -315,14 +322,26 @@ const Title = (props: any) => {
 	];
 };
 
+const regionNames = {
+	'1': 'Americas',
+	'2': 'Europe',
+	'3': 'Asia',
+	'5': 'China',
+};
+
+const regionCookie = 'region';
+
 export {
 	BuildsOpts,
 	createCookie,
 	Fetch,
 	Filter,
+	GameModes,
 	HeroHeader,
 	pct,
 	readCookie,
+	regionCookie,
+	regionNames,
 	skillPercentiles,
 	skillBands,
 	toLength,

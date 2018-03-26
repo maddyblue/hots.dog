@@ -7,11 +7,12 @@ import * as usp from 'url-search-params';
 
 import About from './About';
 import CompareHero from './Compare';
-import { createCookie, Fetch, skillBands } from './common';
+import { createCookie, Fetch, skillBands, regionCookie } from './common';
 import Hero from './Hero';
 import HeroWinrates from './HeroWinrates';
 import { Players, Player, Game, PlayerGames, PlayerMatchups } from './Players';
 import TalentWinrates from './Talents';
+import { Leaderboard } from './Leaderboard';
 
 import './normalize.css';
 import './App.css';
@@ -43,6 +44,7 @@ class HotsApp extends Component<{ location: Location, history: any }, State> {
 			'herolevel',
 			'skill_low',
 			'skill_high',
+			'region',
 		];
 		this.defaultHeroLevel = '5';
 		this.defaultSkillLow = '0';
@@ -120,7 +122,7 @@ class HotsApp extends Component<{ location: Location, history: any }, State> {
 		});
 		return '?' + params.join('&');
 	}
-	handleChange = event => {
+	handleChange = (event: any, override: boolean = false) => {
 		const st = {};
 		st[event.target.name] = event.target.value;
 		const ev = +event.target.value;
@@ -135,13 +137,19 @@ class HotsApp extends Component<{ location: Location, history: any }, State> {
 					st['skill_low'] = ev.toString();
 				}
 				break;
+			case 'region':
+				createCookie(regionCookie, event.target.value);
+				break;
 			default:
 				break;
 		}
 		this.setState(st, () => {
 			const params = this.getSearch();
 			createCookie('params', params);
-			this.props.history.push({ search: params });
+			const fn = override
+				? this.props.history.replace
+				: this.props.history.push;
+			fn({ search: params });
 		});
 	};
 	render() {
@@ -167,6 +175,11 @@ class HotsApp extends Component<{ location: Location, history: any }, State> {
 							<li className="navigation-item">
 								<Link className="navigation-title" to="/players">
 									players
+								</Link>
+							</li>
+							<li className="navigation-item">
+								<Link className="navigation-title" to="/leaderboard">
+									leaderboard
 								</Link>
 							</li>
 							<li className="navigation-item">
@@ -264,6 +277,17 @@ class HotsApp extends Component<{ location: Location, history: any }, State> {
 						path="/compare/:hero"
 						render={props => (
 							<CompareHero
+								handleChange={this.handleChange}
+								{...this.state}
+								{...props}
+							/>
+						)}
+					/>
+					<Route
+						exact
+						path="/leaderboard"
+						render={props => (
+							<Leaderboard
 								handleChange={this.handleChange}
 								{...this.state}
 								{...props}
