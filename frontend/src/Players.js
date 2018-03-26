@@ -12,6 +12,7 @@ import {
 	createCookie,
 	readCookie,
 	skillBands,
+	skillPercentiles,
 } from './common';
 import { Helmet } from 'react-helmet';
 import SortedTable from './SortedTable';
@@ -141,7 +142,7 @@ class Player extends Component<
 		Profile: any,
 		Battletag: string,
 		search: string,
-		Skills?: any,
+		Skills: any,
 		BuildStats?: any,
 	}
 > {
@@ -149,7 +150,7 @@ class Player extends Component<
 		Profile: null,
 		Battletag: '',
 		search: '',
-		Skills: null,
+		Skills: [],
 		BuildStats: null,
 	};
 	componentDidMount() {
@@ -221,23 +222,20 @@ class Player extends Component<
 			/>
 		);
 	}
-	percentile(skill: number, mode: number) {
+	percentile(skill: number, mode: number): { rank: string, quantile: number } {
 		const stats = this.state.BuildStats && this.state.BuildStats[mode];
 		if (!stats) {
-			return 'unknown';
+			return { rank: 'unknown', quantile: 0 };
 		}
 		const qs = Object.keys(stats.Quantile);
 		qs.sort((a, b) => a - b);
 		if (skill < stats.Quantile[qs[0]]) {
-			return skillBands[0];
-			//return pct(0, 0);
+			return { rank: skillBands[0], quantile: 0 };
 		}
 		for (let i = 1; i < qs.length; i++) {
 			const q1 = qs[i];
 			const p1 = stats.Quantile[q1];
 			if (p1 >= skill) {
-				return skillBands[i - 1];
-				/*
 				const q0 = qs[i - 1];
 				const p0 = stats.Quantile[q0];
 				// If p lies a fraction f of the way from p{i} to p{i+1}, define the pth
@@ -245,12 +243,10 @@ class Player extends Component<
 				// Q(p) = (1-f)Q(p{i}) + fQ(p{i+1})
 				const f = (skill - p0) / (p1 - p0);
 				const qp = (1 - f) * q0 + f * q1;
-				return pct(qp, 0);
-				*/
+				return { rank: skillBands[i - 1], quantile: qp };
 			}
 		}
-		return skillBands[skillBands.length - 1];
-		//return pct(100, 0);
+		return { rank: skillBands[skillBands.length - 1], quantile: 100 };
 	}
 	render() {
 		let content;
@@ -260,16 +256,42 @@ class Player extends Component<
 			let skills;
 			if (this.state.Skills && this.state.BuildStats) {
 				skills = (
-					<table>
-						<tbody>
-							{this.state.Skills.map(v => (
-								<tr key={v.Mode}>
-									<td>{this.props.Modes[v.Mode]}</td>
-									<td>{this.percentile(v.Skill, v.Mode)}</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
+					<SortedTable
+						name="rank"
+						sort="Mode"
+						headers={[
+							{
+								header: 'game mode',
+								name: 'Mode',
+								cell: v => this.props.Modes[v],
+							},
+							{
+								name: 'rank',
+								title: skillBands
+									.map(
+										(v, i) =>
+											skillPercentiles[i] +
+											'-' +
+											skillPercentiles[i + 1] +
+											': ' +
+											v
+									)
+									.join(', '),
+							},
+							{
+								name: 'quantile',
+								cell: pct,
+							},
+							{
+								header: 'skill',
+								name: 'Skill',
+								title: 'based on trueskill (initial mean: 25.0)',
+							},
+						]}
+						data={this.state.Skills.map(v =>
+							Object.assign({}, v, this.percentile(v.Skill, v.Mode))
+						)}
+					/>
 				);
 			}
 			content = (
