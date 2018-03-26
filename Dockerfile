@@ -27,9 +27,9 @@ RUN go install website
 
 # Build final image
 
-FROM alpine:3.6
+FROM alpine:3.7
 # Add ssl certs for Go
-RUN apk add --no-cache ca-certificates curl
+RUN apk add --no-cache ca-certificates
 COPY hots.json /
 ENV GOOGLE_APPLICATION_CREDENTIALS /hots.json
 COPY aws.creds /root/.aws/credentials
