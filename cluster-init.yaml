@@ -9,7 +9,7 @@ spec:
     spec:
       containers:
       - name: cluster-init
-        image: gcr.io/hots-cockroach/cockroach:release-2.0
+        image: gcr.io/hots-cockroach/cockroach:latest
         imagePullPolicy: IfNotPresent
         command:
           - "/cockroach/cockroach"
