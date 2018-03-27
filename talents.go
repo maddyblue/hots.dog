@@ -150,6 +150,13 @@ var heroData = []Hero{
 		MultiRole: []string{"Damage"},
 	},
 	{
+		Name:      "Fenix",
+		ID:        "Fenix",
+		Slug:      "fenix",
+		Role:      "Damage",
+		MultiRole: []string{"Damage"},
+	},
+	{
 		Name:      "Gall",
 		ID:        "Gall",
 		Slug:      "gall",
@@ -790,7 +797,7 @@ var talentData = map[string]talentText{
 	},
 	"AlexstraszaLifebinder": {
 		Name: "Life-Binder",
-		Text: "Bind Alexstrasa's life force with an allied Hero. After 2 seconds, the Hero with a lower percentage of Health is set to the same Health percentage as the other Hero.",
+		Text: "Bind Alexstrasza's life force with an allied Hero. After 2 seconds, the Hero with a lower percentage of Health is set to the same Health percentage as the other Hero.",
 	},
 	"AlexstraszaLifeblossomGiftOfLife": {
 		Name: "Lifeblossom",
@@ -2692,6 +2699,94 @@ var talentData = map[string]talentText{
 		Name: "Wingman",
 		Text: "Enemy Minions killed near Falstad grant a stack of Bribe. Falstad can use 20 stacks to bribe a Mercenary, instantly defeating them and permanently increasing the damage of Lightning Rod by 5%. Does not work on Bosses. Maximum of 80 stacks.",
 	},
+	"FenixAdaniumShell": {
+		Name: "Adanium Shell",
+		Text: "After arriving with Warp, gain 40 Armor for 4 seconds.",
+	},
+	"FenixAdvancedTargeting": {
+		Name: "Advanced Targeting",
+		Text: "Quest: Hitting enemy Heroes with Plasma Cutter permanently increases Fenix's Basic Attack damage by 0.75, up to 75.\nReward: After hitting 30 Heroes, Plasma Cutter circles an additional time.",
+	},
+	"FenixArsenalOvercharge": {
+		Name: "Arsenal Overcharge",
+		Text: "Fenix's Basic Attacks reduce his Ability cooldowns by 0.5 seconds.",
+	},
+	"FenixArsenalSynergy": {
+		Name: "Arsenal Synergy",
+		Text: "After hitting enemy Heroes with Basic Attacks 3 times while Repeater Cannon is active, the next Basic Attack with Phase Bomb deals 100% more damage and splashes in a 50% larger area.",
+	},
+	"FenixAuxiliaryShields": {
+		Name: "Auxiliary Shields",
+		Text: "Permanently reduce Fenix's maximum Health by 10% but increase Shield Capacitor's Shield by 20%. Basic Attacks regenerate Shields equal to 20% of the damage dealt.",
+	},
+	"FenixCombatAdvantage": {
+		Name: "Combat Advantage",
+		Text: "Plasma Cutter deals 50% more damage to Slowed targets.",
+	},
+	"FenixDampeningField": {
+		Name: "Dampening Field",
+		Text: "Fenix gains 15 Spell Armor while he has a Shield from Shield Capacitor.",
+	},
+	"FenixDivertPowerWeaponsTalent": {
+		Name: "Divert Power: Weapons",
+		Text: "Activate to instantly drain Shield Capacitor's Shield, but increase Basic Attack damage for 5 seconds proportionate to the amount of Shields drained, up to an 80% increase.",
+	},
+	"FenixEmergencyProtocol": {
+		Name: "Emergency Protocol",
+		Text: "When Shield Capacitor's Shield becomes depleted, gain 30% Movement Speed for 5 seconds.",
+	},
+	"FenixHeroicAbilityPlanetCracker": {
+		Name: "Planet Cracker",
+		Text: "After 0.5 seconds, Channel a powerful beam that spans across the battleground for 4 seconds, dealing 105 damage every 0.25 seconds to non-Structure enemies hit.",
+	},
+	"FenixHeroicAbilityPurificationSalvo": {
+		Name: "Purification Salvo",
+		Text: "Channel for 1.5 seconds, sweeping a laser in front of Fenix that locks onto enemy Heroes. Once Channeling finishes, fire 5 missiles at each locked Hero, dealing 86 damage each. Deals 50% increased damage to Slowed targets.",
+	},
+	"FenixInhibitingEnergy": {
+		Name: "Inhibiting Energy",
+		Text: "While Phase Bomb is active, Basic Attacks against Heroes Slowed by Plasma Cutter Slow all enemies in the area by 35% for 4 seconds.",
+	},
+	"FenixMobileOffense": {
+		Name: "Mobile Offense",
+		Text: "After moving unmounted, Fenix's next Basic Attack deals 30% more damage to Heroes.",
+	},
+	"FenixOffensiveCadence": {
+		Name: "Offensive Cadence",
+		Text: "Every 3rd Basic Attack against Heroes while Repeater Cannon is active deals an additional 6% of the target's maximum Health as damage.",
+	},
+	"FenixPhotonicWeaponry": {
+		Name: "Photonic Weaponry",
+		Text: "Fenix deals 15% more damage while he has a Shield from Shield Capacitor.",
+	},
+	"FenixRapidRecharge": {
+		Name: "Rapid Recharge",
+		Text: "Whenever Fenix is healed, Shield Capacitor's Shield recharges for 20% of the healing received.",
+	},
+	"FenixSecondaryFire": {
+		Name: "Secondary Fire",
+		Text: "Hitting an enemy Hero with Plasma Cutter fires a Purification Salvo missile at them after 0.5 seconds, dealing 86 damage. Deals 50% increased damage to Slowed targets.",
+	},
+	"FenixSingularityCharge": {
+		Name: "Singularity Charge",
+		Text: "Repeater Cannon grants 50% more Attack Speed, and Phase Bomb grants 1 more range.",
+	},
+	"FenixTargetAcquired": {
+		Name: "Target Acquired",
+		Text: "Basic Attacks against Slowed Heroes with Repeater Cannon active grants 10% Movement Speed for 4 seconds, up to 40%.",
+	},
+	"FenixUnconqueredSpirit": {
+		Name: "Unconquered Spirit",
+		Text: "Upon taking fatal damage, Shield Capacitor regains 600 Shields. This effect has a 120 second cooldown.",
+	},
+	"FenixWarpConduit": {
+		Name: "Warp Conduit",
+		Text: "Hero Takedowns reset Warp's cooldown.",
+	},
+	"FenixWarpWarfare": {
+		Name: "Warp Warfare",
+		Text: "After arriving with Warp, gain 125% Attack Speed for 4 seconds while in Repeater Cannon mode.",
+	},
 	"FirebatActiveJuggernautPlating": {
 		Name: "Juggernaut Plating",
 		Text: "Activate to gain 50 Spell Armor for 3 seconds. Upon expiration, gain a Shield equal to 125% of the Spell Damage reduced by Juggernaut Plating.",
@@ -2706,7 +2801,7 @@ var talentData = map[string]talentText{
 	},
 	"FirebatCombustionFlashFire": {
 		Name: "Flash Fire",
-		Text: "While Channeling Combution, Blaze's Movement Speed is no longer reduced, and nearby enemies are Slowed by 60%.",
+		Text: "While Channeling Combustion, Blaze's Movement Speed is no longer reduced, and nearby enemies are Slowed by 60%.",
 	},
 	"FirebatEnduranceStimpack": {
 		Name: "Endurance Stimpack",
@@ -2730,7 +2825,7 @@ var talentData = map[string]talentText{
 	},
 	"FirebatHeroicAbilityCombustion": {
 		Name: "Combustion",
-		Text: "Channel for up to 2.6 seconds. Upon ending, Slow nearby enemies by 60% and deal 48 damage to them every 0.5 seconds. Combustion's Slow and damage over time duration is extend the longer Blaze Channels, from 1 second up to 5 seconds.\nBlaze's Movement Speed is reduced by 50% while Channeling.",
+		Text: "Channel for up to 2.6 seconds. Upon ending, Slow nearby enemies by 60% and deal 48 damage to them every 0.5 seconds. Combustion's Slow and damage over time duration is extended the longer Blaze Channels, from 1 second up to 5 seconds.\nBlaze's Movement Speed is reduced by 50% while Channeling.",
 	},
 	"FirebatIgniteHeatTreatment": {
 		Name: "Heat Treatment",
@@ -3720,6 +3815,10 @@ var talentData = map[string]talentText{
 		Name: "Put Some English On It",
 		Text: "Increase Frag Launcher's travel distance by 50%, but does not increase its speed.",
 	},
+	"JunkratFragLauncherSpreadVolley": {
+		Name: "Spread Volley",
+		Text: "Activate to make Frag Launcher fire 2 additional grenades in a spread. Works for up to 4 total charges, or until Frag Launcher runs out of charges.",
+	},
 	"JunkratFragLauncherTasteForExplosions": {
 		Name: "Taste For Explosions",
 		Text: "Quest: Hitting a Hero with Frag Launcher increases its damage by 0.5, up to 100.",
@@ -3728,25 +3827,21 @@ var talentData = map[string]talentText{
 		Name: "Tricky Shuffles",
 		Text: "While Frag Launcher has no charges left, gain 15% Movement Speed.",
 	},
-	"JunkratHeroicAbilityRIPTire": {
+	"JunkratRIPTire": {
 		Name: "RIP-Tire",
 		Text: "Create a motorized bomb with 530 Health that lasts 15 seconds. While active, Junkrat is immobile but gains control of RIP-Tire's movement.\nRIP-Tire can be reactivated to detonate immediately, knocking nearby enemies back and dealing 475, 625, or 775 damage to enemies depending on how close they are to the center of the blast (with the highest amount near the center).",
-	},
-	"JunkratHeroicRocketRide": {
-		Name: "Rocket Ride",
-		Text: "After 1.25 seconds, Junkrat launches into the air. While in the air, he can steer the landing location by moving.\nAfter 3.62 seconds, Junkrat lands, dealing 750 damage to nearby enemies and activating Total Mayhem. 5 seconds after landing, Junkrat reappears at the Altar and gains 150% additional Movement Speed until dismounted.",
 	},
 	"JunkratRIPTireExtraOomph": {
 		Name: "Extra Oomph",
 		Text: "Increase RIP-Tire's knockback distance by 50%, and its cooldown is reduced by 20 seconds for each enemy Hero hit.",
 	},
+	"JunkratRocketRide": {
+		Name: "Rocket Ride",
+		Text: "After 1.25 seconds, Junkrat launches into the air. While in the air, he can steer the landing location by moving.\nAfter 3.75 seconds, Junkrat lands, dealing 750 damage to nearby enemies and activating Total Mayhem. 5 seconds after landing, Junkrat reappears at the Altar and gains 150% additional Movement Speed until dismounted.",
+	},
 	"JunkratRocketRidePuckishScamp": {
 		Name: "Puckish Scamp",
 		Text: "Reduce Rocket Ride's cooldown by 70 seconds.",
-	},
-	"JunkratSpreadVolley": {
-		Name: "Spread Volley",
-		Text: "Activate to make Frag Launcher fire 2 additional grenades in a spread. Works for up to 4 total charges, or until Frag Launcher runs out of charges.",
 	},
 	"JunkratSteelTrapBigAs": {
 		Name: "Big As",
@@ -3938,7 +4033,7 @@ var talentData = map[string]talentText{
 	},
 	"KelThuzadStripShields": {
 		Name: "Strip Shields",
-		Text: "Pulling a Hero with Chains of Kel'Thuzad grants Kel'Thuzad a permanent 120 Shield, stacking up to 2 times.\nAdditionally, Chains of Kel'Thuzad deals up to 270 bonus damage to Shields.",
+		Text: "Pulling a Hero with Chains of Kel'Thuzad grants Kel'Thuzad a permanent 120 Shield, stacking up to 2 times.\nAdditionally, Chains of Kel'Thuzad deals up to 270 bonus damage to Heroes' Shields.",
 	},
 	"KelThuzadTheDamnedReturn": {
 		Name: "The Damned Return",
@@ -4166,7 +4261,7 @@ var talentData = map[string]talentText{
 	},
 	"LiLiHinderingWinds": {
 		Name: "Hindering Winds",
-		Text: "Blinding Wind Slows enemy Hero Movement Speed by 30% for 2 seconds.",
+		Text: "Blinding Wind Slows enemy Hero Movement Speed by 25% for 2 seconds.",
 	},
 	"LiLiLetsGo": {
 		Name: "Let's Go!",
@@ -4226,7 +4321,7 @@ var talentData = map[string]talentText{
 	},
 	"LiLiWindSerpent": {
 		Name: "Wind Serpent",
-		Text: "Each Hero hit by Blinding Wind reduces the cooldown of Cloud Serpent by 4 seconds.",
+		Text: "The cooldown of Cloud Serpent is reduced by 2 seconds. Casting Cloud Serpent also launches a Blinding Wind at the nearest enemy to the target.",
 	},
 	"LostVikingsGoGoGo64KBMarathon": {
 		Name: "64 KB Marathon",
@@ -5194,7 +5289,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaApolloSuit": {
 		Name: "Apollo Suit",
-		Text: "Reduce the cooldown of Permanent Cloak by 2 seconds..",
+		Text: "Reduce the cooldown of Permanent Cloak by 2 seconds.",
 	},
 	"NovaCombatStyleAntiArmorShells": {
 		Name: "Anti-Armor Shells",
@@ -5418,7 +5513,7 @@ var talentData = map[string]talentText{
 	},
 	"RagnarosLivingMeteorFireWard": {
 		Name: "Fire Ward",
-		Text: "When Living Meteor hits an enemy Hero, gain a charge of Spell Block, reducing damage from the next enemy ability by 50%.\nStores up to 2 charges.",
+		Text: "When Living Meteor hits an enemy Hero, gain a charge of Spell Armor, reducing damage from the next enemy ability by 50%.\nStores up to 2 charges.",
 	},
 	"RagnarosLivingMeteorMeteorBomb": {
 		Name: "Meteor Bomb",
@@ -5846,7 +5941,7 @@ var talentData = map[string]talentText{
 	},
 	"SgtHammerSiegeModeMaelstromRounds": {
 		Name: "Maelstrom Rounds",
-		Text: "Activate to increase Basic Attack damage dealt by 35% for 5 seconds. Hitting Structures with Basic Attacks reduces the cooldown of Maelstrom Rounds by 5 seconds.\nStores up to 3 charges.",
+		Text: "Activate to increase Basic Attack damage dealt by 35% for 5 seconds. Hitting Structures with Basic Attacks while in Siege Mode reduces the cooldown of Maelstrom Rounds by 5 seconds.\nStores up to 3 charges.",
 	},
 	"SgtHammerSiegeModeRegenerativeBioSteel": {
 		Name: "Regenerative Bio-Steel",
@@ -6414,7 +6509,7 @@ var talentData = map[string]talentText{
 	},
 	"TracerBulletTime": {
 		Name: "Bullet Time",
-		Text: "Basic Attacks lower the cooldown of Blink by 0.1 seconds.",
+		Text: "Basic Attacks lower the cooldown of Blink by 0.15 seconds.",
 	},
 	"TracerCompositionBPulseBomb": {
 		Name: "Composition B",
@@ -6422,7 +6517,7 @@ var talentData = map[string]talentText{
 	},
 	"TracerFocusFire": {
 		Name: "Focus Fire",
-		Text: "If an entire ammo magazine is unloaded on an enemy, the last bullet will deal 94 bonus damage.  This is equal to 35% of the total magazine.",
+		Text: "If an entire ammo magazine is unloaded on an enemy, the last bullet will deal 102 bonus damage.  This is equal to 35% of the total magazine.",
 	},
 	"TracerGetStuffedMelee": {
 		Name: "Get Stuffed!",
@@ -6434,7 +6529,7 @@ var talentData = map[string]talentText{
 	},
 	"TracerJumper": {
 		Name: "Jumper",
-		Text: "Increases Blink's charges by 1.",
+		Text: "Increases Blink's charges by 1, but also increases Blink's cooldown by 2 seconds.",
 	},
 	"TracerLeechingRounds": {
 		Name: "Leeching Rounds",
@@ -6458,7 +6553,7 @@ var talentData = map[string]talentText{
 	},
 	"TracerQuantumSpike": {
 		Name: "Quantum Spike",
-		Text: "Pulse Bomb deals an additional 10% of the primary target's maximum Health.",
+		Text: "Pulse Bomb deals an additional 8% of the primary target's maximum Health.",
 	},
 	"TracerRicochetHeroWeapon": {
 		Name: "Ricochet",
@@ -6990,11 +7085,11 @@ var talentData = map[string]talentText{
 	},
 	"VarianChargeWarbringer": {
 		Name: "Warbringer",
-		Text: "Reduces Charge cooldown by 8 seconds and Mana cost by 50%.",
+		Text: "Reduce Charge's cooldown by 8 seconds and Mana cost from 45 to 22. Additionally, Charge can be cast on allied Heroes.",
 	},
 	"VarianColossusSmash": {
 		Name: "Colossus Smash",
-		Text: "Smash a target enemy, dealing 160 damage and lowering their Armor by 25 for 3 seconds, causing them to take 25% increased damage.\nPassive: Base Attack Damage increased by 100%.\nPassive: Maximum Health reduced by 10%.",
+		Text: "Smash a target enemy, dealing 160 damage and lowering their Armor by 20 for 3 seconds, causing them to take 20% increased damage.\nPassive: Base Attack Damage increased by 100%.\nPassive: Maximum Health reduced by 10%.",
 	},
 	"VarianColossusSmashMasterAtArms": {
 		Name: "Master at Arms",
@@ -7002,31 +7097,31 @@ var talentData = map[string]talentText{
 	},
 	"VarianDemoralizingShout": {
 		Name: "Demoralizing Shout",
-		Text: "Activate to demoralize nearby enemy Heroes, reducing damage they deal by 25% for 5 seconds.",
+		Text: "Activate to demoralize nearby enemy Heroes, reducing damage they deal by 40% for 5 seconds.",
 	},
 	"VarianHighKingsQuestQuest": {
 		Name: "High King's Quest",
 		Text: "Quest: Hit 50 Heroes with Basic Attacks.\nQuest: Participate in 5 Hero Takedowns.\nQuest: Gather 20 Regeneration Globes.\nReward: Completing a Quest grants 10 Base Attack Damage. Completing all 3 Quests grants an additional 45 Base Attack Damage.",
 	},
+	"VarianLionsFangLionheart": {
+		Name: "Lionheart",
+		Text: "Increase Lion's Fang's healing from Heroes by 50%.",
+	},
 	"VarianLionsFangLionsMawQuest": {
 		Name: "Lion's Maw",
-		Text: "Quest: Every time Lion's Fang hits a Hero, increase its damage by 4, up to 120.\nReward: After hitting 30 Heroes, the slow is increased to 50% and its duration is increased to 2 seconds.",
+		Text: "Quest: Every time Lion's Fang hits a Hero, increase its damage by 4, up to 120.\nReward: After hitting 30 Heroes, the Slow is increased to 50% and its duration is increased to 2 seconds.",
 	},
 	"VarianMortalStrike": {
 		Name: "Mortal Strike",
 		Text: "Heroes hit by Heroic Strike receive 40% reduced healing for 4 seconds.",
 	},
-	"VarianParryLivebytheSword": {
-		Name: "Live by the Sword",
-		Text: "Increase the duration of Parry by 40%. If at least 4 Hero Basic Attacks are blocked with a single Parry, its cooldown is reduced by 2 seconds.",
-	},
 	"VarianParryOverpower": {
 		Name: "Overpower",
-		Text: "When Parry blocks a Hero's Basic Attack, Heroic Strike's cooldown is refreshed and the next one does 20% more damage.",
+		Text: "When Parry blocks a Hero's Basic Attack, Heroic Strike's cooldown is refreshed and the next one does 30% more damage.",
 	},
 	"VarianParryShieldWall": {
 		Name: "Shield Wall",
-		Text: "Parry now grants Protected, preventing all incoming damage for the duration.",
+		Text: "Parry grants Protected, preventing all incoming damage while active. Additionally, Parry's cooldown is reduced by 5 seconds, but it loses 1 charge.",
 	},
 	"VarianSecondWind": {
 		Name: "Second Wind",
@@ -7034,11 +7129,11 @@ var talentData = map[string]talentText{
 	},
 	"VarianShatteringThrow": {
 		Name: "Shattering Throw",
-		Text: "Activate to throw a sword at a target Hero that deals 50 damage, and up to 1400 bonus damage to their Shields.\nPassive: Basic Attacks against Heroes deal up to 200% bonus damage to Shields.",
+		Text: "Activate to throw a sword at a target Hero that deals 50 damage, and up to 1400 bonus damage to their Shields.\nPassive: Basic Attacks against Heroes deal up to 200% bonus Physical Damage to Shields.",
 	},
 	"VarianTaunt": {
 		Name: "Taunt",
-		Text: "Silence a target Hero and force them to attack Varian for 1.25 seconds.\nPassive: Maximum Health increased by 30%.\nPassive: Gain 15 Armor.",
+		Text: "Silence a target Hero and force them to attack Varian for 1.25 seconds.\nPassive: Maximum Health and Health Regeneration increased by 30%.\nPassive: Gain 15 Armor.",
 	},
 	"VarianTauntVigilance": {
 		Name: "Vigilance",
@@ -7054,7 +7149,7 @@ var talentData = map[string]talentText{
 	},
 	"VarianVictoryRush": {
 		Name: "Victory Rush",
-		Text: "Every 60 seconds, Varian's next Basic Attack will heal him for 400 Health. When a nearby enemy Minion or Monster dies, the cooldown is reduced by 15 seconds.",
+		Text: "Every 30 seconds, Varian's next Basic Attack will heal him for 350 Health. When a nearby enemy Minion or Monster dies, the cooldown is reduced by 10 seconds.",
 	},
 	"WitchDoctorAnnihilatingSpirits": {
 		Name: "Annihilating Spirit",
