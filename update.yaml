@@ -1,14 +1,16 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: batch/v1beta1
+kind: CronJob
 metadata:
   name: update
 spec:
-  template:
-    metadata:
-      name: update
+  schedule: "*/30 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
     spec:
-      containers:
-      - name: update
-        image: gcr.io/hots-cockroach/website:latest
-        command: ["/website", "-updatenew", "csv2.hots.dog"]
-      restartPolicy: OnFailure
+      template:
+        spec:
+          containers:
+          - name: update
+            image: gcr.io/hots-cockroach/website:latest
+            command: ["/website", "-updatenew", "csv2.hots.dog"]
+          restartPolicy: OnFailure

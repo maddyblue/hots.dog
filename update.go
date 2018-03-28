@@ -207,16 +207,12 @@ func updateNew(bucketName string) error {
 	if err != nil {
 		return errors.Wrap(err, "get config")
 	}
-	for {
-		_, err := updateNextGroup(ctx, bucket, config)
-		if err == ErrNotEnough {
-			fmt.Println("next block not done, sleeping")
-			time.Sleep(time.Hour)
-		} else if err != nil {
-			log.Printf("update next group error: %+v", err)
-			time.Sleep(time.Hour)
-		}
+	_, err = updateNextGroup(ctx, bucket, config)
+	if err == ErrNotEnough {
+		fmt.Println("next block not done")
+		return nil
 	}
+	return errors.Wrap(err, "update next group")
 }
 
 var ErrNotEnough = errors.New("not enough results")
