@@ -25,12 +25,12 @@ type Props = {
 class Leaderboard extends Component<
 	Props,
 	{
-		Players: any[],
+		Players?: any[],
 		search: string,
 	}
 > {
 	state = {
-		Players: [],
+		Players: null,
 		search: '',
 	};
 	constructor(props: Props) {
@@ -80,17 +80,22 @@ class Leaderboard extends Component<
 		if (this.state.search === search) {
 			return;
 		}
-		this.setState({ Players: [], search: search });
+		this.setState({ Players: null, search: search });
 		Fetch(search, data => {
 			if (search === this.makeSearch()) {
+				if (!data.Players) {
+					data.Players = [];
+				}
 				this.setState(data);
 			}
 		});
 	};
 	render() {
 		let content;
-		if (!this.state.Players.length) {
+		if (this.state.Players === null) {
 			content = 'loading...';
+		} else if (!this.state.Players.length) {
+			content = 'No leaderboard data for this patch.';
 		} else {
 			content = (
 				<SortedTable
