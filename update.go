@@ -56,6 +56,15 @@ func (h *hotsContext) updateDB() error {
 		newData = newData || err == nil
 		if err == storage.ErrObjectNotExist {
 			if updated {
+				if err := h.syncConfig(*flagImport); err != nil {
+					return errors.Wrap(err, "sync config")
+				}
+				// Update cron loop twice. First here because ELO takes so long and we want
+				// the updates to be on the website now. Second after ELO update to recache
+				// any ELO changes.
+				if err := h.cronLoop(); err != nil {
+					return errors.Wrap(err, "cronLoop")
+				}
 				updated = false
 				if newData {
 					newData = false
