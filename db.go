@@ -136,22 +136,45 @@ func (c *conn) Explain(query string, args []driver.Value) {
 		return
 	}
 	fmt.Println("EXPLAIN", query, args)
-	rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN "+query, args)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer rows.Close()
-	var level int64
-	var typ, field, description string
-	values := []driver.Value{level, typ, field, description}
-	for {
-		if err := rows.Next(values); err == io.EOF {
-			return
-		} else if err != nil {
-			fmt.Println(err)
+	if err := func() error {
+		rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN "+query, args)
+		if err != nil {
+			return err
 		}
-		fmt.Println("EXPLAIN", values)
+		defer rows.Close()
+		var level int64
+		var typ, field, description string
+		values := []driver.Value{level, typ, field, description}
+		for {
+			if err := rows.Next(values); err == io.EOF {
+				return nil
+			} else if err != nil {
+				return err
+			}
+			fmt.Println("EXPLAIN", values)
+		}
+	}(); err != nil {
+		panic(err)
+	}
+	if err := func() error {
+		rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN (distsql) "+query, args)
+		if err != nil {
+			return err
+		}
+		defer rows.Close()
+		var level int64
+		var typ, field, description string
+		values := []driver.Value{level, typ, field, description}
+		for {
+			if err := rows.Next(values); err == io.EOF {
+				return nil
+			} else if err != nil {
+				return err
+			}
+			fmt.Println("EXPLAIN (distsql)", values)
+		}
+	}(); err != nil {
+		panic(err)
 	}
 }
 
