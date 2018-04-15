@@ -92,8 +92,11 @@ const Filter = (props: {
 	const disableSkill = !modeStats || !props.mode;
 	let skillTitle = 'Enabled when a game mode is selected.';
 	if (!buildStats || (!modeStats && props.mode)) {
-		skillTitle = 'Skill ratings not yet calculated.';
+		skillTitle = 'Skill ratings not yet calculated for this patch.';
 	}
+	const skillTooltip = disableSkill ? (
+		<span className="tip">{skillTitle}</span>
+	) : null;
 	return (
 		<div>
 			<div className="row">
@@ -132,9 +135,10 @@ const Filter = (props: {
 					</select>
 				</div>
 			</div>
-			<div className="row">
+			<div className={'row' + (disableSkill ? ' tooltip disabled' : '')}>
+				{skillTooltip}
 				<div className="column">
-					<label title={skillTitle}>Skill band from</label>
+					<label>Skill band from</label>
 					<select
 						name="skill_low"
 						value={props.skill_low}

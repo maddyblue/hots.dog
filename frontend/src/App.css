@@ -74,6 +74,10 @@ body {
 	text-decoration: none;
 }
 
+.disabled {
+	opacity: 0.4;
+}
+
 // CSS tooltip from http://www.menucool.com/tooltip/css-tooltip
 .tooltip {
 	outline: none;
