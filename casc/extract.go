@@ -202,7 +202,9 @@ func extract() error {
 			return r, nil
 		}
 		if err := dec.Decode(&v); err != nil {
-			return errors.Wrapf(err, "decode: %s", path)
+			log.Printf("decode: %s: %v", path, err)
+			return nil
+			//return errors.Wrapf(err, "decode: %s", path)
 		}
 		for _, b := range v.CButton {
 			icons[b.Id] = iconClean(b.Icon.Value)
