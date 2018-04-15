@@ -1697,7 +1697,7 @@ var talentData = map[string]talentText{
 	},
 	"ChenAccumulatingFlame": {
 		Name: "Accumulating Flame",
-		Text: "Quest: Every time a Hero is Ignited with Breath of Fire, increase its damage over time by 2%, up to 60%.\nReward: After Igniting 30 Heroes, gain 25 Armor for 1 second per Hero Ignited, reducing damage taken by 25%.",
+		Text: "Quest: Every time a Hero is Ignited with Breath of Fire, increase its damage over time by 2%, up to 60%.\nReward: After Igniting 30 Heroes, each enemy Hero Ignited grants you 15 Armor for 3 seconds.",
 	},
 	"ChenAnotherRound": {
 		Name: "Another Round",
@@ -1729,7 +1729,7 @@ var talentData = map[string]talentText{
 	},
 	"ChenFreshestIngredients": {
 		Name: "Freshest Ingredients",
-		Text: "Quest: Gathering a Regeneration Globe increases Chen's Health Regeneration by 1 per second, up to 30.\nReward: After gathering 30 Regeneration Globes, 50% of the Shield from Fortifying Brew persists indefinitely after drinking.",
+		Text: "Quest: Gathering a Regeneration Globe increases Chen's Health Regeneration by 1 per second.\nReward: After gathering 30 Regeneration Globes, 50% of the Shield from Fortifying Brew persists indefinitely after drinking.",
 	},
 	"ChenGroundingBrew": {
 		Name: "Grounding Brew",
@@ -1745,7 +1745,7 @@ var talentData = map[string]talentText{
 	},
 	"ChenKegToss": {
 		Name: "Keg Toss",
-		Text: "Quest: Every time Keg Smash hits a Hero, increase its damage by 3, up to 60. \nReward: After hitting 20 Heroes, increase its range by 125% and gain an additional charge.",
+		Text: "Quest: Every time Keg Smash hits a Hero, increase its damage by 4, up to 80. \nReward: After hitting 20 Heroes, increase its range by 125% and gain an additional charge.",
 	},
 	"ChenMasteryFortifyingBrewEnoughToShare": {
 		Name: "Enough to Share",
@@ -1765,7 +1765,7 @@ var talentData = map[string]talentText{
 	},
 	"ChenPurifyingBrew": {
 		Name: "Purifying Brew",
-		Text: "The next Stun or Silence used against Chen has its duration reduced by 75% and resets the cooldown of Fortifying Brew. Can only trigger once every 15 seconds. While channeling Fortifying Brew gain 30 Spell Armor, reducing Ability Damage taken by 30%.",
+		Text: "The next Stun or Silence used against Chen has its duration reduced by 75% and resets the cooldown of Fortifying Brew. Can only trigger once every 15 seconds. While Chen has Fortifying Brew Shields, he gains 30 Spell Armor, reducing Ability Damage taken by 30%.",
 	},
 	"ChenRefreshingElixir": {
 		Name: "Refreshing Elixir",
@@ -2161,15 +2161,15 @@ var talentData = map[string]talentText{
 	},
 	"DehakaBrushstalkerFerociousStalker": {
 		Name: "Ferocious Stalker",
-		Text: "Dark Swarm deals 40% more damage while Brushstalker's Movement Speed bonus is active.",
+		Text: "Dark Swarm deals 50% more damage while Brushstalker's Movement Speed bonus is active.",
 	},
 	"DehakaBurrowTalentLurkerStrain": {
 		Name: "Lurker Strain",
-		Text: "Emerging from Burrow grants Dehaka Stealth for 3 seconds and also knocks nearby enemies back, Slowing them by 30% for 2 seconds.",
+		Text: "Emerging from Burrow grants Dehaka Stealth for 3 seconds and also knocks nearby enemies back, Slowing them by 30% for 3 seconds.",
 	},
 	"DehakaDarkSwarmTalentEnduringSwarm": {
 		Name: "Enduring Swarm",
-		Text: "Dark Swarm grants 40 Spell Armor while active.",
+		Text: "Dark Swarm grants 50 Spell Armor while active.",
 	},
 	"DehakaDarkSwarmTalentPrimalAggression": {
 		Name: "Primal Aggression",
@@ -2213,7 +2213,7 @@ var talentData = map[string]talentText{
 	},
 	"DehakaEssenceCollectionTalentHeroStalker": {
 		Name: "Hero Stalker",
-		Text: "Increases Essence gained from Takedowns by 100%.",
+		Text: "Increases Essence gained from Takedowns by 100%. Hitting enemy Heroes with Dark Swarm grants 1 Essence.",
 	},
 	"DehakaEssenceCollectionTalentTissueRegeneration": {
 		Name: "Tissue Regeneration",
@@ -2621,7 +2621,7 @@ var talentData = map[string]talentText{
 	},
 	"FalstadHammerangGatheringStorm": {
 		Name: "Gathering Storm",
-		Text: "Quest: Every time Hammerang hits a Hero increase its damage by 1.5.",
+		Text: "Quest: Every time Hammerang hits a Hero increase its damage by 1.5 and refund 10 Mana.",
 	},
 	"FalstadHeroicAbilityHinterlandBlast": {
 		Name: "Hinterland Blast",
@@ -2689,7 +2689,7 @@ var talentData = map[string]talentText{
 	},
 	"FalstadMasteryUpdraftBarrelRoll": {
 		Name: "Updraft",
-		Text: "Increases Barrel Roll's range, Shield amount, and Shield duration by 40%.",
+		Text: "Increases Barrel Roll's range and Shield amount by 40%. It no longer has a duration.",
 	},
 	"FalstadTalentHammerGains": {
 		Name: "Hammer Gains",
@@ -2697,7 +2697,7 @@ var talentData = map[string]talentText{
 	},
 	"FalstadWingman": {
 		Name: "Wingman",
-		Text: "Enemy Minions killed near Falstad grant a stack of Bribe. Falstad can use 20 stacks to bribe a Mercenary, instantly defeating them and permanently increasing the damage of Lightning Rod by 5%. Does not work on Bosses. Maximum of 80 stacks.",
+		Text: "Lower the cooldown of Lightning Rod by 3 seconds. Enemy Minions killed near Falstad grant a stack of Bribe. Falstad can use 20 stacks to bribe a Mercenary, instantly defeating them and permanently increasing the damage of Lightning Rod by 5%. Does not work on Bosses. Maximum of 80 stacks.",
 	},
 	"FenixAdaniumShell": {
 		Name: "Adanium Shell",
@@ -2705,7 +2705,7 @@ var talentData = map[string]talentText{
 	},
 	"FenixAdvancedTargeting": {
 		Name: "Advanced Targeting",
-		Text: "Quest: Hitting enemy Heroes with Plasma Cutter permanently increases Fenix's Basic Attack damage by 0.75, up to 75.\nReward: After hitting 30 Heroes, Plasma Cutter circles an additional time.",
+		Text: "Quest: Hitting enemy Heroes with Plasma Cutter permanently increases Fenix's Basic Attack damage by 0.5, up to 60.\nReward: After hitting 30 Heroes, Plasma Cutter circles an additional time.",
 	},
 	"FenixArsenalOvercharge": {
 		Name: "Arsenal Overcharge",
@@ -2713,19 +2713,19 @@ var talentData = map[string]talentText{
 	},
 	"FenixArsenalSynergy": {
 		Name: "Arsenal Synergy",
-		Text: "After hitting enemy Heroes with Basic Attacks 3 times while Repeater Cannon is active, the next Basic Attack with Phase Bomb deals 100% more damage and splashes in a 50% larger area.",
+		Text: "After hitting enemy Heroes with Basic Attacks 3 times while Repeater Cannon is active, the next Basic Attack with Phase Bomb deals 175% more damage and splashes in a 50% larger area.",
 	},
 	"FenixAuxiliaryShields": {
 		Name: "Auxiliary Shields",
-		Text: "Permanently reduce Fenix's maximum Health by 10% but increase Shield Capacitor's Shield by 20%. Basic Attacks regenerate Shields equal to 20% of the damage dealt.",
+		Text: "Permanently reduce Fenix's maximum Health by 10% but increase Shield Capacitor's Shield by 20%. Basic Attacks regenerate Shields equal to 15% of the damage dealt.",
 	},
 	"FenixCombatAdvantage": {
 		Name: "Combat Advantage",
-		Text: "Plasma Cutter deals 50% more damage to Slowed targets.",
+		Text: "Plasma Cutter deals 40% more damage to Slowed targets.",
 	},
 	"FenixDampeningField": {
 		Name: "Dampening Field",
-		Text: "Fenix gains 15 Spell Armor while he has a Shield from Shield Capacitor.",
+		Text: "Fenix gains 20 Spell Armor while he has a Shield from Shield Capacitor.",
 	},
 	"FenixDivertPowerWeaponsTalent": {
 		Name: "Divert Power: Weapons",
@@ -2733,11 +2733,11 @@ var talentData = map[string]talentText{
 	},
 	"FenixEmergencyProtocol": {
 		Name: "Emergency Protocol",
-		Text: "When Shield Capacitor's Shield becomes depleted, gain 30% Movement Speed for 5 seconds.",
+		Text: "When Shield Capacitor's Shield becomes depleted, gain 25% Movement Speed for 5 seconds.",
 	},
 	"FenixHeroicAbilityPlanetCracker": {
 		Name: "Planet Cracker",
-		Text: "After 0.5 seconds, Channel a powerful beam that spans across the battleground for 4 seconds, dealing 105 damage every 0.25 seconds to non-Structure enemies hit.",
+		Text: "After 0.5 seconds, Channel a powerful beam that spans across the battleground for 4 seconds, dealing 108 damage every 0.25 seconds to non-Structure enemies hit.",
 	},
 	"FenixHeroicAbilityPurificationSalvo": {
 		Name: "Purification Salvo",
@@ -2761,7 +2761,7 @@ var talentData = map[string]talentText{
 	},
 	"FenixRapidRecharge": {
 		Name: "Rapid Recharge",
-		Text: "Whenever Fenix is healed, Shield Capacitor's Shield recharges for 20% of the healing received.",
+		Text: "Whenever Fenix is healed, Shield Capacitor's Shield recharges for 40% of the healing received.",
 	},
 	"FenixSecondaryFire": {
 		Name: "Secondary Fire",
@@ -2769,7 +2769,7 @@ var talentData = map[string]talentText{
 	},
 	"FenixSingularityCharge": {
 		Name: "Singularity Charge",
-		Text: "Repeater Cannon grants 50% more Attack Speed, and Phase Bomb grants 1 more range.",
+		Text: "Repeater Cannon grants 100% more Attack Speed, and Phase Bomb grants 1 more range.",
 	},
 	"FenixTargetAcquired": {
 		Name: "Target Acquired",
@@ -2777,7 +2777,7 @@ var talentData = map[string]talentText{
 	},
 	"FenixUnconqueredSpirit": {
 		Name: "Unconquered Spirit",
-		Text: "Upon taking fatal damage, Shield Capacitor regains 600 Shields. This effect has a 120 second cooldown.",
+		Text: "Upon taking fatal damage, Shield Capacitor regains 800 Shields. This effect has a 120 second cooldown.",
 	},
 	"FenixWarpConduit": {
 		Name: "Warp Conduit",
@@ -3513,7 +3513,7 @@ var talentData = map[string]talentText{
 	},
 	"HanzoDragonstrike": {
 		Name: "Dragonstrike",
-		Text: "After 1.5 seconds, summon a pair of Spirit Dragons which travel forward, dealing 64 damage every 0.25 seconds to enemy Heroes in its area.  Enemies in the center take 150% damage.",
+		Text: "After 1.5 seconds, summon a pair of Spirit Dragons which travel forward, dealing 70 damage every 0.25 seconds to enemy Heroes in its area.  Enemies in the center take 150% damage.",
 	},
 	"HanzoExplosiveArrows": {
 		Name: "Explosive Arrows",
@@ -3565,7 +3565,7 @@ var talentData = map[string]talentText{
 	},
 	"HanzoSerratedArrows": {
 		Name: "Serrated Arrows",
-		Text: "Scatter Arrow deals 150% more damage to Minions, Mercenaries, and Monsters.",
+		Text: "Scatter Arrow deals 100% more damage to Minions, Mercenaries, and Monsters.",
 	},
 	"HanzoSharpenedArrowheads": {
 		Name: "Sharpened Arrowheads",
@@ -4641,7 +4641,7 @@ var talentData = map[string]talentText{
 	},
 	"MalfurionMasteryStranglingVinesEntanglingRoots": {
 		Name: "Strangling Vines",
-		Text: "Enemy Heroes Rooted by Entangling Roots receive 30% less healing from all sources for 2 seconds.",
+		Text: "Enemy Heroes Rooted by Entangling Roots receive 30% less healing from all sources for 3 seconds.",
 	},
 	"MalfurionMasteryTenaciousRootsEntanglingRoots": {
 		Name: "Tenacious Roots",
@@ -4881,11 +4881,11 @@ var talentData = map[string]talentText{
 	},
 	"MedivhForceOfWillArcaneExplosion": {
 		Name: "Arcane Explosion",
-		Text: "When Force of Will expires, it deals 90 damage to nearby enemies, plus 100% of the damage it prevented, up to 350 additional damage.",
+		Text: "When Force of Will expires, it deals 80 damage to nearby enemies, plus 100% of the damage it prevented, up to 315 additional damage.",
 	},
 	"MedivhForceOfWillCircleOfProtection": {
 		Name: "Circle of Protection",
-		Text: "Force of Will also applies to allies near the target.",
+		Text: "Force of Will also applies to allies near the target, but its cooldown is increased by 2 seconds.",
 	},
 	"MedivhForceOfWillEnduringWill": {
 		Name: "Enduring Will",
@@ -4893,11 +4893,11 @@ var talentData = map[string]talentText{
 	},
 	"MedivhForceOfWillReabsorption": {
 		Name: "Reabsorption",
-		Text: "Increase the amount of healing from Force Of Will to 60% of the damage it absorbed.",
+		Text: "Increase the amount of healing from Force Of Will to 70% of the damage it absorbed.",
 	},
 	"MedivhForceofMagic": {
 		Name: "Force of Magic",
-		Text: "Preventing at least 268 damage with a single cast of Force of Will grants 20%  Spell Power for 15 seconds. Stacks up to 2 times.",
+		Text: "Preventing at least 268 damage with a single cast of Force of Will grants 25%  Spell Power for 15 seconds. Stacks up to 2 times.",
 	},
 	"MedivhLeyLineSeal": {
 		Name: "Ley Line Seal",
@@ -5037,7 +5037,7 @@ var talentData = map[string]talentText{
 	},
 	"MonkTranscendence": {
 		Name: "Transcendence",
-		Text: "Every 3rd Basic Attack heals the lowest nearby allied Hero for 98 and gives 25% increased Move Speed for 2 seconds.",
+		Text: "Every 3rd Basic Attack heals the lowest nearby allied Hero for 104 and gives 25% increased Move Speed for 2 seconds.",
 	},
 	"MonkWayoftheHundredFistsRadiantDash": {
 		Name: "Way of the Hundred Fists",
@@ -5321,19 +5321,19 @@ var talentData = map[string]talentText{
 	},
 	"NovaIonicForceField": {
 		Name: "Ionic Force Field",
-		Text: "Gain 25 Armor for 2 seconds after losing Stealth.",
+		Text: "Gain 25 Armor for 3 seconds after losing Stealth.",
 	},
 	"NovaMasteryCripplingShot": {
 		Name: "Crippling Shot",
-		Text: "Pinning Shot lowers a Hero's Armor by 25 for the duration of the Slow, causing them to take 25% increased damage.",
+		Text: "Pinning Shot lowers a Hero's Armor by 20 for the duration of the Slow, causing them to take 20% increased damage.",
 	},
 	"NovaMasteryDoubleTap": {
 		Name: "Double Tap",
-		Text: "Pinning Shot now has 2 charges.",
+		Text: "Pinning Shot now has 2 charges but it's cooldown is increased by 2 seconds.",
 	},
 	"NovaMasteryExplosiveShot": {
 		Name: "Explosive Round",
-		Text: "Snipe also deals 50% damage to enemies near the impact.",
+		Text: "Snipe also deals 70% damage to enemies near the impact.",
 	},
 	"NovaMasteryFastReload": {
 		Name: "Fast Reload",
@@ -5341,7 +5341,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaMasteryLethalDecoy": {
 		Name: "Lethal Decoy",
-		Text: "Increases the damage Holo Decoy deals to 35% of Nova's damage.",
+		Text: "Increases the damage Holo Decoy deals to 30% of Nova's damage.",
 	},
 	"NovaMasteryLongshot": {
 		Name: "Longshot",
@@ -5349,7 +5349,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaMasteryPerfectShotSnipe": {
 		Name: "Perfect Shot",
-		Text: "Hitting an enemy Hero with Snipe reduces the cooldown by 3 seconds. ",
+		Text: "Hitting an enemy Hero with Snipe reduces the cooldown by 3 seconds and grants an additional damage stack of Snipe.",
 	},
 	"NovaMasteryPrecisionBarrage": {
 		Name: "Precision Barrage",
@@ -6517,7 +6517,7 @@ var talentData = map[string]talentText{
 	},
 	"TracerFocusFire": {
 		Name: "Focus Fire",
-		Text: "If an entire ammo magazine is unloaded on an enemy, the last bullet will deal 102 bonus damage.  This is equal to 35% of the total magazine.",
+		Text: "If an entire ammo magazine is unloaded on an enemy, the last bullet will deal 98 bonus damage.  This is equal to 35% of the total magazine.",
 	},
 	"TracerGetStuffedMelee": {
 		Name: "Get Stuffed!",
@@ -6681,11 +6681,11 @@ var talentData = map[string]talentText{
 	},
 	"TyraelArdentRestoration": {
 		Name: "Ardent Restoration",
-		Text: "Dealing damage to a Hero heals Tyrael for 14 Health over 5 seconds. Dealing damage resets this timer, and the heal amount stacks up to 10 times.",
+		Text: "Dealing damage to a Hero heals Tyrael for 15 Health over 5 seconds. Dealing damage resets this timer, and the heal amount stacks up to 10 times.",
 	},
 	"TyraelBurningHalo": {
 		Name: "Burning Halo",
-		Text: "Both Tyrael and El'druin deal 15 damage per second to nearby enemies. Teleporting increases this damage from Tyrael by 100% for 3 seconds.",
+		Text: "Both Tyrael and El'druin deal 18 damage per second to nearby enemies. Teleporting increases this damage from Tyrael by 150% for 2 seconds.",
 	},
 	"TyraelDefenseOfTheAngels": {
 		Name: "Defense of the Angels",
@@ -6753,7 +6753,7 @@ var talentData = map[string]talentText{
 	},
 	"TyraelMasteryPurgeEvil": {
 		Name: "Purge Evil",
-		Text: "Each enemy Hero hit by Smite increases Tyrael's Basic Attack damage by 35% for 4 seconds.",
+		Text: "Each enemy Hero hit by Smite increases Tyrael's Basic Attack damage by 45% for 4 seconds.",
 	},
 	"TyraelMasteryRighteousnessReciprocate": {
 		Name: "Reciprocate",
@@ -6777,11 +6777,11 @@ var talentData = map[string]talentText{
 	},
 	"TyraelSmiteTheWicked": {
 		Name: "Smite the Wicked",
-		Text: "While El'druin's Might is active, and for 3 seconds after teleporting, Smite's cooldown recharges 100% faster.",
+		Text: "While El'druin's Might is active, and for 2 seconds after teleporting, Smite's cooldown recharges 125% faster.",
 	},
 	"TyraelStalwartAngel": {
 		Name: "Stalwart Angel",
-		Text: "Gain 20 Armor while El'druin's Might is active, and for 3 seconds after teleporting.",
+		Text: "Gain 25 Armor while El'druin's Might is active, and for 2 seconds after teleporting.",
 	},
 	"TyrandeCelestialAttunement": {
 		Name: "Celestial Attunement",
@@ -7133,7 +7133,7 @@ var talentData = map[string]talentText{
 	},
 	"VarianTaunt": {
 		Name: "Taunt",
-		Text: "Silence a target Hero and force them to attack Varian for 1.25 seconds.\nPassive: Maximum Health and Health Regeneration increased by 30%.\nPassive: Gain 15 Armor.",
+		Text: "Silence a target Hero and force them to attack Varian for 1.25 seconds.\nPassive: Maximum Health and Health Regeneration increased by 25%.\nPassive: Gain 15 Armor.",
 	},
 	"VarianTauntVigilance": {
 		Name: "Vigilance",
@@ -7237,7 +7237,7 @@ var talentData = map[string]talentText{
 	},
 	"WizardAetherWalker": {
 		Name: "Aether Walker",
-		Text: "If Li-Ming hasn't taken damage in the last 5 seconds, Teleport costs no mana and its cooldown is decreased by 2 seconds.",
+		Text: "If Li-Ming hasn't taken damage in the last 4 seconds, Teleport costs no mana and its cooldown is decreased by 2 seconds.",
 	},
 	"WizardArcaneOrbArcaneOrbit": {
 		Name: "Arcane Orbit",
@@ -7269,7 +7269,7 @@ var talentData = map[string]talentText{
 	},
 	"WizardDominance": {
 		Name: "Dominance",
-		Text: "Takedowns restore 20% of Li-Ming's maximum Health.",
+		Text: "Takedowns restore 30% of Li-Ming's missing Health.",
 	},
 	"WizardFireflies": {
 		Name: "Fireflies",
@@ -7469,7 +7469,7 @@ var talentData = map[string]talentText{
 	},
 	"ZaryaParticleGrenadePinpointAccuracy": {
 		Name: "Pinpoint Accuracy",
-		Text: "Particle Grenade deals 28 more damage to enemies hit by the center of the blast.",
+		Text: "Particle Grenade deals 30 more damage to enemies hit by the center of the blast.",
 	},
 	"ZaryaParticleGrenadePlasmaShock": {
 		Name: "Plasma Shock",
