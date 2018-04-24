@@ -108,8 +108,8 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
       - name: cockroachdb
-        image: gcr.io/hots-cockroach/cockroach:latest
-        #image: cockroachdb/cockroach-unstable:v2.0-beta.20180312
+        #image: gcr.io/hots-cockroach/cockroach:latest
+        image: cockroachdb/cockroach:v2.0.1
         imagePullPolicy: Always
         resources:
           limits:
