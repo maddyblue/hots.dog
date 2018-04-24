@@ -122,6 +122,13 @@ var heroData = []Hero{
 		MultiRole: []string{"Warrior"},
 	},
 	{
+		Name:      "Deckard",
+		ID:        "Deckard",
+		Slug:      "deckard",
+		Role:      "Support",
+		MultiRole: []string{"Support"},
+	},
+	{
 		Name:      "Dehaka",
 		ID:        "Dehaka",
 		Slug:      "dehaka",
@@ -2151,6 +2158,90 @@ var talentData = map[string]talentText{
 		Name: "Nuclear Option",
 		Text: "Increase Self Destruct's detonation timer by 3 seconds. Detonation damage increased by 70%.\nA new Mech can still be called after 4 seconds.",
 	},
+	"DeckardAncientBlessings": {
+		Name: "Ancient Blessings",
+		Text: "Activate Fortitude of the Faithful to empower nearby allied Hero Basic Attacks for 8 seconds, causing them to deal an additional 76 damage in an area and heal for 114 for each Hero hit.",
+	},
+	"DeckardBottomlessFlask": {
+		Name: "Bottomless Flask",
+		Text: "After use, Healing Potions recharge after 5 seconds.",
+	},
+	"DeckardCubeMastery": {
+		Name: "Cube Mastery",
+		Text: "Each enemy Hero hit by Horadric Cube reduces the cooldown of Scroll of Sealing by 3 seconds.",
+	},
+	"DeckardFieldStudy": {
+		Name: "Field Study",
+		Text: "Each enemy Hero hit by Scroll of Sealing grants 15% Spell Power for 14 seconds, up to 30%.",
+	},
+	"DeckardGemEmerald": {
+		Name: "Emerald",
+		Text: "Activate to make the next Horadric Cube reduce healing received by 75% for 4 seconds.\nOnly 1 Gem may be active at a time.",
+	},
+	"DeckardGemRuby": {
+		Name: "Ruby",
+		Text: "Activate to make the next Horadric Cube spawn 3 Lesser Healing Potions from each enemy Hero hit, healing allied Heroes for 190 when picked up. Lesser Healing Potions last for 10 seconds.\nOnly 1 Gem may be active at a time.",
+	},
+	"DeckardGemSapphire": {
+		Name: "Sapphire",
+		Text: "Activate to increase the Slow of the next Horadric Cube by 25%.\nOnly 1 Gem may be active at a time.",
+	},
+	"DeckardHoradricStaff": {
+		Name: "Horadric Staff",
+		Text: "Every 5 seconds, Deckard's next Basic Attack Stuns Heroes for 0.75 seconds.",
+	},
+	"DeckardKanaisCube": {
+		Name: "Kanai's Cube",
+		Text: "Horadric Cube reduces Hero damage dealt by 30% for 4 seconds.",
+	},
+	"DeckardLorenado": {
+		Name: "Lorenado",
+		Text: "Vector Targeting\nAfter 1 second, create a twirling tome tornado that travels towards the targeted direction, continually knocking away enemies that come into contact with it.",
+	},
+	"DeckardMorenados": {
+		Name: "Morenados!",
+		Text: "Lorenado's cooldown is reduced by 5 seconds every time an enemy Hero is knocked back. This effect can only occur once per 0.5 seconds.",
+	},
+	"DeckardPerfectGems": {
+		Name: "Perfect Gems",
+		Text: "Reduce the cooldown of all Gems by 25 seconds and the cooldown of Horadric Cube by 5 seconds.",
+	},
+	"DeckardPotionOfRevival": {
+		Name: "Potion of Revival",
+		Text: "When a Healing Potion is picked up, it also heals all nearby allied Heroes for 30% of the healing amount.",
+	},
+	"DeckardPotionOfShielding": {
+		Name: "Potion of Shielding",
+		Text: "Whenever an ally is healed by a Healing Potion, they gain a 135 Shield for 6 seconds.",
+	},
+	"DeckardRejuvenationPotion": {
+		Name: "Rejuvenation Potion",
+		Text: "Healing Potions restore 10 Mana and heal for an additional 108 over 4 seconds.",
+	},
+	"DeckardRespectTheElderly": {
+		Name: "Respect the Elderly",
+		Text: "Stay Awhile and Listen Silences and Blinds enemies for 2 seconds upon waking up from Sleep.",
+	},
+	"DeckardSafetyInNumbers": {
+		Name: "Safety in Numbers",
+		Text: "If at least 3 allied Heroes are nearby, Fortitude of the Faithful grants an additional 10 Armor and causes Deckard's Basic Abilities to recharge an additional 50% faster.",
+	},
+	"DeckardScrollOfIdentify": {
+		Name: "Scroll of Identify",
+		Text: "Quest: Hitting an enemy Hero with Scroll of Sealing reveals them for 8 seconds.\nReward: After hitting 20 Heroes, Scroll of Sealing also reduces Armor by 15 for 4 seconds and the reveal duration is doubled.",
+	},
+	"DeckardScrollOfStoneCurse": {
+		Name: "Scroll of Stone Curse",
+		Text: "Scroll of Sealing deals 200% more damage when hitting at least 2 Heroes.",
+	},
+	"DeckardStayAWhileAndListen": {
+		Name: "Stay Awhile and Listen",
+		Text: "After 1 second, Channel for 3 seconds, putting enemy Heroes in front of Deckard to Sleep while Channeling, and for 2 seconds after.\nEnemies can only be put to Sleep once per cast, and Sleep's effects end instantly if they take damage.",
+	},
+	"DeckardSuperHealingPotion": {
+		Name: "Super Healing Potion",
+		Text: "If a Healing Potion isn't picked up for at least 2 seconds, it heals for 75% more.",
+	},
 	"DehakaAdaptationChangeIsSurvivalTalent": {
 		Name: "Change Is Survival",
 		Text: "Increases Adaptation healing to 200% of the damage received and reduces the cooldown by 30 seconds.",
@@ -2170,10 +2261,6 @@ var talentData = map[string]talentText{
 	"DehakaDarkSwarmTalentEnduringSwarm": {
 		Name: "Enduring Swarm",
 		Text: "Dark Swarm grants 50 Spell Armor while active.",
-	},
-	"DehakaDarkSwarmTalentPrimalAggression": {
-		Name: "Primal Aggression",
-		Text: "Dark Swarm duration increased by .5 seconds and it deals 100% bonus damage to Minions and Mercenaries. ",
 	},
 	"DehakaDarkSwarmTalentSymbiosis": {
 		Name: "Symbiosis",
@@ -2213,7 +2300,7 @@ var talentData = map[string]talentText{
 	},
 	"DehakaEssenceCollectionTalentHeroStalker": {
 		Name: "Hero Stalker",
-		Text: "Increases Essence gained from Takedowns by 100%. Hitting enemy Heroes with Dark Swarm grants 1 Essence.",
+		Text: "Increases Essence gained from Takedowns by 100%, and gain 1 Essence each time an enemy Hero is hit by Dark Swarm.",
 	},
 	"DehakaEssenceCollectionTalentTissueRegeneration": {
 		Name: "Tissue Regeneration",
@@ -2621,7 +2708,7 @@ var talentData = map[string]talentText{
 	},
 	"FalstadHammerangGatheringStorm": {
 		Name: "Gathering Storm",
-		Text: "Quest: Every time Hammerang hits a Hero increase its damage by 1.5 and refund 10 Mana.",
+		Text: "Quest: Each time a Hero is hit by Hammerang, its damage is permanently increased by 1.5 and it refunds 10 Mana.",
 	},
 	"FalstadHeroicAbilityHinterlandBlast": {
 		Name: "Hinterland Blast",
@@ -2689,7 +2776,7 @@ var talentData = map[string]talentText{
 	},
 	"FalstadMasteryUpdraftBarrelRoll": {
 		Name: "Updraft",
-		Text: "Increases Barrel Roll's range and Shield amount by 40%. It no longer has a duration.",
+		Text: "Increases Barrel Roll's range and Shield amount by 40%, and its Shield now lasts indefinitely.",
 	},
 	"FalstadTalentHammerGains": {
 		Name: "Hammer Gains",
@@ -2697,7 +2784,7 @@ var talentData = map[string]talentText{
 	},
 	"FalstadWingman": {
 		Name: "Wingman",
-		Text: "Lower the cooldown of Lightning Rod by 3 seconds. Enemy Minions killed near Falstad grant a stack of Bribe. Falstad can use 20 stacks to bribe a Mercenary, instantly defeating them and permanently increasing the damage of Lightning Rod by 5%. Does not work on Bosses. Maximum of 80 stacks.",
+		Text: "Enemy Minions killed near Falstad grant a stack of Bribe. Falstad can use 20 stacks to bribe a Mercenary, instantly defeating them and permanently increasing the damage of Lightning Rod by 5%.\nDoes not work on Bosses. Maximum of 80 stacks.\nPassive: Reduce Lightning Rod's cooldown by 3 seconds.",
 	},
 	"FenixAdaniumShell": {
 		Name: "Adanium Shell",
@@ -2749,7 +2836,7 @@ var talentData = map[string]talentText{
 	},
 	"FenixMobileOffense": {
 		Name: "Mobile Offense",
-		Text: "After moving unmounted, Fenix's next Basic Attack deals 30% more damage to Heroes.",
+		Text: "After moving, Fenix's next Basic Attack deals 30% more damage to Heroes.",
 	},
 	"FenixOffensiveCadence": {
 		Name: "Offensive Cadence",
@@ -2789,7 +2876,7 @@ var talentData = map[string]talentText{
 	},
 	"FirebatActiveJuggernautPlating": {
 		Name: "Juggernaut Plating",
-		Text: "Activate to gain 50 Spell Armor for 3 seconds. Upon expiration, gain a Shield equal to 125% of the Spell Damage reduced by Juggernaut Plating.",
+		Text: "Activate to gain 50 Spell Armor for 3 seconds. Upon expiration, gain a Shield equal to 125% of the Spell Damage taken while Juggernaut Plating was active.",
 	},
 	"FirebatAdrenalineStimpack": {
 		Name: "Adrenaline Stimpack",
@@ -3229,7 +3316,7 @@ var talentData = map[string]talentText{
 	},
 	"GenjiCyberAgilityAgileDismount": {
 		Name: "Agile Dismount",
-		Text: "While mounted, the range of Cyber Agility is increased by 70% and its cooldown is reduced by 5 seconds.",
+		Text: "While mounted, the range of Cyber Agility is increased by 70% and its cooldown is reduced by 7 seconds.",
 	},
 	"GenjiCyberAgilityCyberShield": {
 		Name: "Cyber Shield",
@@ -3237,7 +3324,7 @@ var talentData = map[string]talentText{
 	},
 	"GenjiCyberAgilityDoubleJump": {
 		Name: "Double Jump",
-		Text: "Cyber Agility stores 2 charges but its cooldown is increased by 5 seconds.",
+		Text: "Cyber Agility stores 2 charges.",
 	},
 	"GenjiCyberAgilityPathfinder": {
 		Name: "Pathfinder",
@@ -3269,11 +3356,11 @@ var talentData = map[string]talentText{
 	},
 	"GenjiDragonbladeTheDragonBecomesMe": {
 		Name: "The Dragon Becomes Me",
-		Text: "Each time Dragonblade hits an enemy Hero, the duration of Dragonblade is increased by 0.5 seconds.",
+		Text: "Each time Dragonblade hits an enemy Hero, the duration of Dragonblade is increased by 0.5 seconds. If an Hero is killed within 2 seconds of being hit by Dragonblade, Swift Strike's cooldown is reset.",
 	},
 	"GenjiHeroicDragonblade": {
 		Name: "Dragonblade",
-		Text: "Unleash the Dragonblade for 8 seconds. While active, Dragonblade can be reactivated to lunge forward and slash in a huge arc, dealing 220 damage. If enemy Heroes are killed within 2 seconds of being hit by Dragonblade, Swift Strike's cooldown is reset.",
+		Text: "Unleash the Dragonblade for 8 seconds. While active, Dragonblade can be reactivated to lunge forward and slash in a huge arc, dealing 240 damage.",
 	},
 	"GenjiHeroicXStrike": {
 		Name: "X-Strike",
@@ -4867,10 +4954,6 @@ var talentData = map[string]talentText{
 		Name: "Mana Adept",
 		Text: "Increases Arcane Rift's Mana refund for hitting enemy Heroes by 60%.",
 	},
-	"MedivhArcaneRiftTheMastersTouch": {
-		Name: "The Master's Touch",
-		Text: "Quest: Hit 40 enemy Heroes with Arcane Rift without dying.\nReward: Permanently increases the damage dealt by 0 and cooldown reduction for hitting a Hero by 1 second.",
-	},
 	"MedivhDustOfAppearance": {
 		Name: "Dust of Appearance",
 		Text: "Activate to greatly increase sight range for 5 seconds and reveal enemy Heroes in the area for 8 seconds. Does not cancel Raven Form.\nPassive: Increase Medivh's sight range while in Raven Form by 25%.",
@@ -5329,7 +5412,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaMasteryDoubleTap": {
 		Name: "Double Tap",
-		Text: "Pinning Shot now has 2 charges but it's cooldown is increased by 2 seconds.",
+		Text: "Pinning Shot now has 2 charges, but its cooldown is increased by 2 seconds.",
 	},
 	"NovaMasteryExplosiveShot": {
 		Name: "Explosive Round",
@@ -5349,7 +5432,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaMasteryPerfectShotSnipe": {
 		Name: "Perfect Shot",
-		Text: "Hitting an enemy Hero with Snipe reduces the cooldown by 3 seconds and grants an additional damage stack of Snipe.",
+		Text: "Hitting an enemy Hero with Snipe reduces the cooldown by 3 seconds and grants an additional stack of Snipe.",
 	},
 	"NovaMasteryPrecisionBarrage": {
 		Name: "Precision Barrage",
@@ -6059,10 +6142,6 @@ var talentData = map[string]talentText{
 		Name: "Controlled Chaos",
 		Text: "Flailing Swipe gains 2 additional charges, but each use only swings 1 time, at maximum range.  Additionally, its cooldown is decreased to 30 seconds, and its Mana cost is reduced from 100 to 50.",
 	},
-	"StukovEyeInfection": {
-		Name: "Eye Infection",
-		Text: "Increase the final damage of Weighted Pustule by 50%. Additionally, detonating a Weighted Pustule with Bio-Kill Switch Blinds the target for 3 seconds.",
-	},
 	"StukovFetidTouch": {
 		Name: "Fetid Touch",
 		Text: "Quest: Hit Heroes with Weighted Pustule.\nReward: After hitting 15 Heroes, reduce the cooldown of Weighted Pustule by 2.5 seconds.\nReward: After hitting 30 Heroes, reduce the cooldown of Weighted Pustule by an additional 2.5 seconds and remove its Mana cost.",
@@ -6505,7 +6584,7 @@ var talentData = map[string]talentText{
 	},
 	"TracerBulletSprayMelee": {
 		Name: "Bullet Spray",
-		Text: "Increases Melee's radius by 40%, and causes it to damage all enemies in range.",
+		Text: "Increases Melee's radius by 32%, and causes it to damage all enemies in range.",
 	},
 	"TracerBulletTime": {
 		Name: "Bullet Time",
@@ -6772,7 +6851,7 @@ var talentData = map[string]talentText{
 		Text: "Increase the Shield amount Tyrael gains from Righteousness by 25% and heal Tyrael for 140 Health if his Shield is destroyed. Does not increase the Shield amount gained by allies.",
 	},
 	"TyraelSealOfElDruin": {
-		Name: "Seal of El'Druin",
+		Name: "Seal of El'druin",
 		Text: "Using a Basic Ability grants 50% Attack Speed for 3 seconds.",
 	},
 	"TyraelSmiteTheWicked": {
@@ -6994,10 +7073,6 @@ var talentData = map[string]talentText{
 	"ValeeraCripplingPoison": {
 		Name: "Crippling Poison",
 		Text: "Activate to make Valeera's next damaging Ability and subsequent Abilities within 4 seconds Slow targets by 20% for 4 seconds.\nActivating Crippling Poison does not break Stealth.",
-	},
-	"ValeeraEviscerateExposeArmor": {
-		Name: "Expose Armor",
-		Text: "Eviscerating an enemy with 3 Combo Points causes them to lose -0 Armor for 0 seconds, increasing all damage taken by -0%.",
 	},
 	"ValeeraEviscerateSliceAndDice": {
 		Name: "Slice and Dice",
