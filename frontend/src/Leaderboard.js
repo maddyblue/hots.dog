@@ -25,7 +25,7 @@ type Props = {
 class Leaderboard extends Component<
 	Props,
 	{
-		Players?: any[],
+		Players: ?(any[]),
 		search: string,
 	}
 > {
@@ -94,7 +94,7 @@ class Leaderboard extends Component<
 		let content;
 		if (this.state.Players === null) {
 			content = 'loading...';
-		} else if (!this.state.Players.length) {
+		} else if (this.state.Players && !this.state.Players.length) {
 			content = 'No leaderboard data for this patch.';
 		} else {
 			content = (
@@ -127,7 +127,7 @@ class Leaderboard extends Component<
 							cell: v => v.toFixed(6),
 						},
 					]}
-					data={this.state.Players}
+					data={this.state.Players || []}
 				/>
 			);
 		}
