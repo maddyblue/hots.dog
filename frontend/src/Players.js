@@ -278,6 +278,7 @@ class Player extends Component<
 							{
 								header: 'skill',
 								name: 'Skill',
+								cell: v => v.toFixed(6),
 								title: 'based on trueskill (initial mean: 25.0)',
 							},
 						]}
