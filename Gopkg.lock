@@ -63,8 +63,8 @@
     "service/lambda",
     "service/sts"
   ]
-  revision = "c0ea8ae46aeed5902eeebe10d0d5cdf54b258526"
-  version = "v1.13.19"
+  revision = "94cafaad88022c44cb85d4998350b127845245ed"
+  version = "v1.13.41"
 
 [[projects]]
   name = "github.com/felixge/httpsnoop"
@@ -75,8 +75,8 @@
 [[projects]]
   name = "github.com/go-ini/ini"
   packages = ["."]
-  revision = "6333e38ac20b8949a8dd68baa3650f4dee8f39f0"
-  version = "v1.33.0"
+  revision = "6529cf7c58879c08d927016dde4477f18a0634cb"
+  version = "v1.36.0"
 
 [[projects]]
   branch = "master"
@@ -92,7 +92,7 @@
   branch = "master"
   name = "github.com/golang/gddo"
   packages = ["httputil/header"]
-  revision = "052378f5476869804f44ab61df2243a80ff3518f"
+  revision = "416d5fc8c9c85e9ec9252a70d01e069f4b287ff0"
 
 [[projects]]
   name = "github.com/golang/protobuf"
@@ -104,8 +104,8 @@
     "ptypes/duration",
     "ptypes/timestamp"
   ]
-  revision = "925541529c1fa6821df4e44ce2723319eb2be768"
-  version = "v1.0.0"
+  revision = "b4deda0973fb4c70b50d226b1af49f3da59f5265"
+  version = "v1.1.0"
 
 [[projects]]
   name = "github.com/googleapis/gax-go"
@@ -138,7 +138,7 @@
     ".",
     "reflectx"
   ]
-  revision = "cf35089a197953c69420c8d0cecda90809764b1d"
+  revision = "2aeb6a910c2b94f2d5eb53d9895d80e27264ec41"
 
 [[projects]]
   branch = "master"
@@ -147,7 +147,7 @@
     ".",
     "oid"
   ]
-  revision = "b2004221932bd6b13167ef654c81cffac36f7537"
+  revision = "d34b9ff171c21ad295489235aec8b6626023cd04"
 
 [[projects]]
   branch = "master"
@@ -174,10 +174,11 @@
     "stats/view",
     "tag",
     "trace",
+    "trace/internal",
     "trace/propagation"
   ]
-  revision = "6e3f034057826b530038d93267906ec3c012183f"
-  version = "v0.6.0"
+  revision = "10cec2c05ea2cfb8b0d856711daedc49d8a45c56"
+  version = "v0.9.0"
 
 [[projects]]
   branch = "master"
@@ -186,7 +187,7 @@
     "acme",
     "acme/autocert"
   ]
-  revision = "88942b9c40a4c9d203b82b3731787b672d6e809b"
+  revision = "1f94bef427e370e425e55b172f3b5e300ef38304"
 
 [[projects]]
   branch = "master"
@@ -196,7 +197,7 @@
     "font/gofont/goregular",
     "math/fixed"
   ]
-  revision = "f3a9b89b59def9194717c1d0bd4c0d08fa1afa7b"
+  revision = "f315e440302883054d0c2bd85486878cb4f8572c"
 
 [[projects]]
   branch = "master"
@@ -206,6 +207,7 @@
     "context/ctxhttp",
     "html",
     "html/atom",
+    "http/httpguts",
     "http2",
     "http2/hpack",
     "idna",
@@ -213,7 +215,7 @@
     "lex/httplex",
     "trace"
   ]
-  revision = "6078986fec03a1dcc236c34816c71b0e05018fda"
+  revision = "640f4622ab692b87c2f3a94265e6f579fe38263d"
 
 [[projects]]
   branch = "master"
@@ -225,7 +227,7 @@
     "jws",
     "jwt"
   ]
-  revision = "fdc9e635145ae97e6c2cb777c48305600cf515cb"
+  revision = "cdc340f7c179dbbfa4afd43b7614e8fcadde4269"
 
 [[projects]]
   branch = "master"
@@ -254,7 +256,7 @@
     "unicode/norm",
     "unicode/rangetable"
   ]
-  revision = "8c34f848e18c4bd34d02db7f19a0ed1a0a8f5852"
+  revision = "7922cc490dd5a7dbaa7fd5d6196b49db59ac042f"
 
 [[projects]]
   branch = "master"
@@ -270,7 +272,7 @@
     "storage/v1",
     "transport/http"
   ]
-  revision = "24928b980e6919be4c72647aacd53ebcbb8c4bab"
+  revision = "db8ef494b6bdaf472489f97ad9c556e18c963444"
 
 [[projects]]
   name = "google.golang.org/appengine"
@@ -297,7 +299,7 @@
     "googleapis/iam/v1",
     "googleapis/rpc/status"
   ]
-  revision = "f8c8703595236ae70fdf8789ecb656ea0bcdcf46"
+  revision = "86e600f69ee4704c6efbf6a2a40a5c10700e76c2"
 
 [[projects]]
   name = "google.golang.org/grpc"
@@ -326,8 +328,8 @@
     "tap",
     "transport"
   ]
-  revision = "8e4536a86ab602859c20df5ebfd0bd4228d08655"
-  version = "v1.10.0"
+  revision = "d11072e7ca9811b1100b80ca0269ac831f06d024"
+  version = "v1.11.3"
 
 [solve-meta]
   analyzer-name = "dep"
