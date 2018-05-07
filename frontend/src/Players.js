@@ -19,6 +19,65 @@ import {
 import { Helmet } from 'react-helmet';
 import SortedTable from './SortedTable';
 
+import '../node_modules/react-vis/dist/style.css';
+import {
+	XYPlot,
+	XAxis,
+	YAxis,
+	LineMarkSeries,
+	DiscreteColorLegend,
+} from 'react-vis';
+
+class MMRChart extends Component<
+	{
+		xitems: any,
+		series: any,
+	},
+	{}
+> {
+	textStyle = { text: { fill: '#fff' } };
+	colors = {
+		'Quick Match': '#5C6BC0',
+		'Unranked Draft': '#66BB6A',
+		'Hero League': '#EF5350',
+		'Team League': '#FFCA28',
+	};
+	render() {
+		return (
+			<span style={{ display: 'inline-flex' }}>
+				<XYPlot width={500} height={250}>
+					<XAxis
+						hideLine
+						tickFormat={v => this.props.xitems[v]}
+						tickLabelAngle={-90}
+						tickSize={0}
+						style={this.textStyle}
+					/>
+					<YAxis hideLine tickSize={2} style={this.textStyle} />
+					{this.props.series.map((v, i) => (
+						<LineMarkSeries
+							key={v.name}
+							data={v.data}
+							lineStyle={{ stroke: this.colors[v.name] }}
+							markStyle={{
+								stroke: this.colors[v.name],
+								fill: this.colors[v.name],
+							}}
+							size={3}
+						/>
+					))}
+				</XYPlot>
+				<DiscreteColorLegend
+					items={this.props.series.map(v => {
+						return { title: v.name, color: this.colors[v.name] };
+					})}
+					style={this.textStyle.text}
+				/>
+			</span>
+		);
+	}
+}
+
 type Props = {
 	match: any,
 };
@@ -136,6 +195,7 @@ class Player extends Component<
 		Battletag: string,
 		search: string,
 		Skills: any,
+		AllSkills: any,
 		BuildStats?: any,
 	}
 > {
@@ -144,6 +204,7 @@ class Player extends Component<
 		Battletag: '',
 		search: '',
 		Skills: [],
+		AllSkills: [],
 		BuildStats: null,
 	};
 	componentDidMount() {
@@ -246,7 +307,28 @@ class Player extends Component<
 		if (!this.state.Profile) {
 			content = 'loading...';
 		} else {
-			let skills;
+			let skills, skillChart;
+			if (this.state.AllSkills && this.state.BuildStats) {
+				const buildSet = {};
+				this.state.AllSkills.forEach(v => {
+					buildSet[v.Build] = true;
+				});
+				const builds = Object.keys(buildSet).sort();
+				const series = [];
+				Object.keys(this.props.Modes).forEach(modeID => {
+					modeID = +modeID;
+					const data = [];
+					this.state.AllSkills.forEach(v => {
+						if (v.Mode === modeID) {
+							data.push({ x: builds.indexOf(v.Build), y: v.Skill.toFixed(6) });
+						}
+					});
+					if (data.length) {
+						series.push({ data: data, name: this.props.Modes[modeID] });
+					}
+				});
+				skillChart = <MMRChart xitems={builds} series={series} />;
+			}
 			if (this.state.Skills && this.state.BuildStats) {
 				skills = (
 					<SortedTable
@@ -290,6 +372,7 @@ class Player extends Component<
 			}
 			content = (
 				<div>
+					{skillChart}
 					{skills}
 					<table className="sorted">
 						{this.makeTable('Game Mode', 'Modes', m => this.props.Modes[m])}

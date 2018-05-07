@@ -948,6 +948,11 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 			Skill float64
 			Mode  Mode
 		}
+		AllSkills []struct {
+			Build string
+			Skill float64
+			Mode  Mode
+		}
 		BuildStats map[Mode]Stats
 	}
 	res.Profile.Heroes = make(map[string]Total)
@@ -967,6 +972,19 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 				`, v, region, blizzid); err != nil {
 			return nil, err
 		}
+		if err := h.x.SelectContext(ctx, &res.AllSkills, `
+				SELECT build, skill, mode
+				FROM playerskills
+				WHERE region = $1 AND blizzid = $2
+				`, region, blizzid); err != nil {
+			return nil, err
+		}
+		for i, s := range res.AllSkills {
+			res.AllSkills[i].Build = init.lookups["build"](s.Build)
+		}
+		sort.Slice(res.AllSkills, func(i, j int) bool {
+			return res.AllSkills[i].Build < res.AllSkills[j].Build
+		})
 		res.BuildStats = init.BuildStats[skillBuild]
 	}
 

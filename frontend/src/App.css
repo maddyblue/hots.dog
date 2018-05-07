@@ -95,3 +95,8 @@ body {
 	position: absolute;
 	pointer-events: none;
 }
+
+/* react-vis rules that can't be specified in JSX */
+.rv-discrete-color-legend-item__title {
+	color: #fff;
+}
