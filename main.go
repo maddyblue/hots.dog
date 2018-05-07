@@ -965,9 +965,10 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 		if v == "" {
 			return nil, errors.Errorf("unrecognized %s", skillBuild)
 		}
+		// TODO: remove @primary notation here when cockroach gets smarter
 		if err := h.x.SelectContext(ctx, &res.Skills, `
 				SELECT skill, mode
-				FROM playerskills
+				FROM playerskills@primary
 				WHERE build = $1 AND region = $2 AND blizzid = $3
 				`, v, region, blizzid); err != nil {
 			return nil, err
