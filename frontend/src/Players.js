@@ -37,10 +37,10 @@ class MMRChart extends Component<
 > {
 	textStyle = { text: { fill: '#fff' } };
 	colors = {
-		'Quick Match': '#5C6BC0',
-		'Unranked Draft': '#66BB6A',
-		'Hero League': '#EF5350',
-		'Team League': '#FFCA28',
+		'Quick Match': '#4285f4',
+		'Unranked Draft': '#1b9e77',
+		'Hero League': '#db4437',
+		'Team League': '#f4b400',
 	};
 	render() {
 		return (
