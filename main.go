@@ -863,13 +863,16 @@ func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (inter
 		ID     int64
 		Region int
 		Name   string
+		Games  int
 	}
-	var res []entry
+	 res := make([]entry, 0)
 	var last string
-	for i := 0; i < 10; i++ {
+	seen := make(map[int64]bool)
+	for len(res) < 10 {
 		var e entry
 		err := h.x.GetContext(ctx, &e, `
-			SELECT blizzid id, battletag "name", region FROM players
+			SELECT blizzid id, battletag "name", region
+			FROM players
 			WHERE battletag >= $1 COLLATE en_u_ks_level1
 			AND battletag > $2 COLLATE en_u_ks_level1
 			AND region = $3
@@ -885,7 +888,20 @@ func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (inter
 			break
 		}
 		last = e.Name
+		if seen[e.ID] {
+			continue
+		}
+		seen[e.ID] = true
 		res = append(res, e)
+	}
+	for i, e := range res {
+		if err := h.x.GetContext(ctx, &res[i], `
+			SELECT count(*) games
+			FROM players
+			WHERE region = $1 AND blizzid = $2
+		`, e.Region, e.ID); err != nil {
+			return nil, err
+		}
 	}
 	return res, nil
 }

@@ -86,7 +86,7 @@ class Players extends Component<
 	Props,
 	{
 		name: string,
-		ids: any[],
+		ids: ?(any[]),
 		loading: boolean,
 		region: string,
 	}
@@ -96,7 +96,7 @@ class Players extends Component<
 		this.state = {
 			name: '',
 			region: readCookie(regionCookie) || '1',
-			ids: [],
+			ids: null,
 			loading: false,
 		};
 	}
@@ -132,13 +132,29 @@ class Players extends Component<
 		if (this.state.loading) {
 			names = 'loading...';
 		} else if (!this.state.ids) {
+		} else if (this.state.ids.length === 0) {
 			names = 'No matches.';
 		} else {
-			names = this.state.ids.map(e => (
-				<li key={e.Name}>
-					<Link to={'/players/' + e.Region + '/' + e.ID}>{e.Name}</Link>
-				</li>
-			));
+			names = (
+				<SortedTable
+					name="players"
+					sort="Name"
+					headers={[
+						{
+							name: 'Name',
+							header: 'battletag',
+							cell: (v, row) => (
+								<Link to={'/players/' + row.Region + '/' + row.ID}>{v}</Link>
+							),
+						},
+						{
+							name: 'Games',
+							header: 'games',
+						},
+					]}
+					data={this.state.ids}
+				/>
+			);
 		}
 		return (
 			<div>
@@ -175,7 +191,7 @@ class Players extends Component<
 					</div>
 					<input className="button-primary" type="submit" value="search" />
 				</form>
-				<ul>{names}</ul>
+				{names}
 			</div>
 		);
 	}
