@@ -6,9 +6,11 @@ import (
 	"encoding/csv"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"path"
 	"strconv"
 	"strings"
@@ -788,12 +790,18 @@ func (g *groupConfig) toMap(group string) map[string]string {
 
 func getConfig(ctx context.Context, bucket *storage.BucketHandle) (*groupConfig, error) {
 	var config groupConfig
-	r, err := bucket.Object(configJSON).NewReader(ctx)
-	if err == storage.ErrObjectNotExist {
-		// ignore
+	var r io.Reader
+	if f, err := os.Open(configJSON); err == nil {
+		defer f.Close()
+		r = f
+	} else if f, err := bucket.Object(configJSON).NewReader(ctx); err == storage.ErrObjectNotExist {
+		return &config, nil
 	} else if err != nil {
 		return nil, errors.Wrap(err, "read config")
-	} else if err := json.NewDecoder(r).Decode(&config); err != nil {
+	} else {
+		r = f
+	}
+	if err := json.NewDecoder(r).Decode(&config); err != nil {
 		return nil, errors.Wrap(err, "decode config")
 	}
 	return &config, nil
