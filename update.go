@@ -214,7 +214,7 @@ func updateNew(bucketName string) error {
 		return errors.Wrap(err, "new client")
 	}
 	bucket := cl.Bucket(bucketName)
-	config, err := getConfig(ctx, bucket)
+	config, err := getConfig(ctx, bucketName)
 	if err != nil {
 		return errors.Wrap(err, "get config")
 	}
@@ -788,18 +788,26 @@ func (g *groupConfig) toMap(group string) map[string]string {
 	return g.Map[group]
 }
 
-func getConfig(ctx context.Context, bucket *storage.BucketHandle) (*groupConfig, error) {
+func getConfig(ctx context.Context, bucket string) (*groupConfig, error) {
 	var config groupConfig
 	var r io.Reader
 	if f, err := os.Open(configJSON); err == nil {
 		defer f.Close()
 		r = f
-	} else if f, err := bucket.Object(configJSON).NewReader(ctx); err == storage.ErrObjectNotExist {
-		return &config, nil
-	} else if err != nil {
-		return nil, errors.Wrap(err, "read config")
 	} else {
-		r = f
+		cl, err := storage.NewClient(ctx)
+		if err != nil {
+			return nil, errors.Wrap(err, "new client")
+		}
+		handle := cl.Bucket(bucket)
+
+		if f, err := handle.Object(configJSON).NewReader(ctx); err == storage.ErrObjectNotExist {
+			return &config, nil
+		} else if err != nil {
+			return nil, errors.Wrap(err, "read config")
+		} else {
+			r = f
+		}
 	}
 	if err := json.NewDecoder(r).Decode(&config); err != nil {
 		return nil, errors.Wrap(err, "decode config")

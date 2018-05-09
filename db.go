@@ -12,8 +12,6 @@ import (
 	"strconv"
 	"strings"
 
-	"cloud.google.com/go/storage"
-
 	"github.com/lib/pq"
 	servertiming "github.com/mitchellh/go-server-timing"
 	"github.com/pkg/errors"
@@ -263,12 +261,7 @@ func (h *hotsContext) Import(bucket string, max int) error {
 
 func (h *hotsContext) syncConfig(bucket string) error {
 	ctx := context.Background()
-	cl, err := storage.NewClient(ctx)
-	if err != nil {
-		return errors.Wrap(err, "new client")
-	}
-	handle := cl.Bucket(bucket)
-	config, err := getConfig(ctx, handle)
+	config, err := getConfig(ctx, bucket)
 	if err != nil {
 		return errors.Wrap(err, "get config")
 	}
