@@ -53,7 +53,12 @@ class MMRChart extends Component<
 						tickSize={0}
 						style={this.textStyle}
 					/>
-					<YAxis hideLine tickSize={2} style={this.textStyle} />
+					<YAxis
+						hideLine
+						tickSize={2}
+						style={this.textStyle}
+						title="quantile"
+					/>
 					{this.props.series.map((v, i) => (
 						<LineMarkSeries
 							key={v.name}
@@ -292,8 +297,14 @@ class Player extends Component<
 			/>
 		);
 	}
-	percentile(skill: number, mode: number): { rank: string, quantile: number } {
-		const stats = this.state.BuildStats && this.state.BuildStats[mode];
+	percentile(
+		skill: number,
+		mode: number,
+		stats: any
+	): { rank: string, quantile: number } {
+		if (!stats) {
+			stats = this.state.BuildStats && this.state.BuildStats[mode];
+		}
 		if (!stats) {
 			return { rank: 'unknown', quantile: 0 };
 		}
@@ -319,12 +330,12 @@ class Player extends Component<
 		return { rank: skillBands[skillBands.length - 1], quantile: 100 };
 	}
 	render() {
-		let content;
+		let content, skillChart;
 		if (!this.state.Profile) {
 			content = 'loading...';
 		} else {
-			let skills, skillChart;
-			if (this.state.AllSkills && this.state.BuildStats) {
+			let skills;
+			if (this.state.AllSkills) {
 				const buildSet = {};
 				this.state.AllSkills.forEach(v => {
 					buildSet[v.Build] = true;
@@ -335,8 +346,9 @@ class Player extends Component<
 					modeID = +modeID;
 					const data = [];
 					this.state.AllSkills.forEach(v => {
-						if (v.Mode === modeID) {
-							data.push({ x: builds.indexOf(v.Build), y: v.Skill.toFixed(6) });
+						if (v.Mode === modeID && v.Stats.Quantile) {
+							const percentile = this.percentile(v.Skill, null, v.Stats);
+							data.push({ x: builds.indexOf(v.Build), y: percentile.quantile });
 						}
 					});
 					if (data.length) {
@@ -388,7 +400,6 @@ class Player extends Component<
 			}
 			content = (
 				<div>
-					{skillChart}
 					{skills}
 					<table className="sorted">
 						{this.makeTable('Game Mode', 'Modes', m => this.props.Modes[m])}
@@ -414,6 +425,7 @@ class Player extends Component<
 					<a href="#modes">[game modes]</a> <a href="#roles">[roles]</a>{' '}
 					<a href="#heroes">[heroes]</a> <a href="#maps">[maps]</a>
 				</p>
+				{skillChart}
 				<PlayerOpts {...this.props} />
 				{content}
 			</div>

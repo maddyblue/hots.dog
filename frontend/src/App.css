@@ -100,3 +100,7 @@ body {
 .rv-discrete-color-legend-item__title {
 	color: #fff;
 }
+
+.rv-xy-plot__axis__title text {
+	fill: #fff;
+}

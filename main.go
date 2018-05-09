@@ -968,6 +968,7 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 			Build string
 			Skill float64
 			Mode  Mode
+			Stats Stats
 		}
 		BuildStats map[Mode]Stats
 	}
@@ -997,7 +998,9 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 			return nil, err
 		}
 		for i, s := range res.AllSkills {
-			res.AllSkills[i].Build = init.lookups["build"](s.Build)
+			build := init.lookups["build"](s.Build)
+			res.AllSkills[i].Build = build
+			res.AllSkills[i].Stats = init.BuildStats[build][s.Mode]
 		}
 		sort.Slice(res.AllSkills, func(i, j int) bool {
 			return res.AllSkills[i].Build < res.AllSkills[j].Build
