@@ -865,7 +865,7 @@ func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (inter
 		Name   string
 		Games  int
 	}
-	 res := make([]entry, 0)
+	res := make([]entry, 0)
 	var last string
 	seen := make(map[int64]bool)
 	for len(res) < 10 {
