@@ -7,11 +7,11 @@ RUN apt-get update -y && apt-get install --no-install-recommends -y -q curl pyth
     apt-get clean && rm /var/lib/apt/lists/*_*
 
 # Install the latest LTS release of nodejs
-RUN mkdir /nodejs && curl https://nodejs.org/dist/v8.10.0/node-v8.10.0-linux-x64.tar.gz | tar xvzf - -C /nodejs --strip-components=1
+RUN mkdir /nodejs && curl https://nodejs.org/dist/v8.11.1/node-v8.11.1-linux-x64.tar.xz | tar xvJf - -C /nodejs --strip-components=1
 ENV PATH $PATH:/nodejs/bin
 
 # Install the latest stable release of Yarn
-RUN mkdir /yarn && curl -L https://github.com/yarnpkg/yarn/releases/download/v1.5.1/yarn-v1.5.1.tar.gz | tar xvzf - -C /yarn --strip-components=1
+RUN mkdir /yarn && curl -L https://github.com/yarnpkg/yarn/releases/download/v1.6.0/yarn-v1.6.0.tar.gz | tar xvzf - -C /yarn --strip-components=1
 ENV PATH $PATH:/yarn/bin
 
 COPY /frontend /frontend
