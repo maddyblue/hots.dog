@@ -1,5 +1,6 @@
 {
     "name": "hots.dog",
+    "short_name": "hots.dog",
     "icons": [
         {
             "src": "/icon.svg",
