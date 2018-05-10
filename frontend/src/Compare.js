@@ -209,7 +209,7 @@ const Winrates = props => (
 			},
 			{
 				name: 'relative',
-				title: props.hero + 'winrate relative to base winrate',
+				title: props.hero + ' winrate relative to base winrate',
 				cell: pct,
 				desc: true,
 			},
