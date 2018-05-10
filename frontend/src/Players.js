@@ -56,6 +56,7 @@ class MMRChart extends Component<
 					/>
 					<YAxis
 						hideLine
+						tickFormat={v => v + '%'}
 						tickSize={2}
 						style={this.textStyle}
 						title="quantile"
