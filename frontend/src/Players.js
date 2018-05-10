@@ -347,7 +347,7 @@ class Player extends Component<
 					const data = [];
 					this.state.AllSkills.forEach(v => {
 						if (v.Mode === modeID && v.Stats.Quantile) {
-							const percentile = this.percentile(v.Skill, null, v.Stats);
+							const percentile = this.percentile(v.Skill, 0, v.Stats);
 							data.push({ x: builds.indexOf(v.Build), y: percentile.quantile });
 						}
 					});
