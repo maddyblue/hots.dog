@@ -671,7 +671,7 @@ class PlayerMatchups extends Component<
 					history={this.props.history}
 					name={this.state.Battletag}
 					build={this.props.build}
-					prefix="matchups"
+					prefix="matchups/duos"
 				/>
 				<p>
 					<a href="#opposing">[opposing team]</a>{' '}
@@ -861,7 +861,7 @@ const PlayerHeader = (props: {
 				className={getClass('matchups')}
 				to={link + '/matchups' + build}
 			>
-				matchups
+				matchups/duos
 			</Link>
 		</div>
 	);
