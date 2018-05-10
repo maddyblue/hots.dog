@@ -1,8 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Fetch, pct, Filter, Title } from './common';
+import { Fetch, pct, Filter, Title, HeroImg } from './common';
 import SortedTable from './SortedTable';
 
 type Props = {
@@ -125,22 +124,7 @@ const Winrates = props => {
 				{
 					name: 'hero',
 					cmp: (a, b) => a.Name.localeCompare(b.Name),
-					cell: v => (
-						<Link to={'/talents/' + encodeURI(v.Name) + build} key="link">
-							<img
-								key="img"
-								src={'/img/hero/' + v.Slug + '.png'}
-								alt={v.Name}
-								style={{
-									width: '40px',
-									height: '40px',
-									verticalAlign: 'middle',
-									marginRight: '1em',
-								}}
-							/>
-							{v.Name}
-						</Link>
-					),
+					cell: v => <HeroImg name={v.Name} slug={v.Slug} link={build} />,
 				},
 				{
 					name: 'games',

@@ -27,6 +27,7 @@ type State = {
 	skill_high?: string,
 	Modes?: any,
 	BuildStats?: any,
+	HeroMap: { [string]: any },
 };
 
 class HotsApp extends Component<{ location: Location, history: any }, State> {
@@ -54,6 +55,11 @@ class HotsApp extends Component<{ location: Location, history: any }, State> {
 	componentDidMount() {
 		Fetch('/api/init', data => {
 			data.init = true;
+			const heroes = {};
+			data.Heroes.forEach(v => {
+				heroes[v.Name] = v;
+			});
+			data.HeroMap = heroes;
 			this.setState(data);
 		});
 	}
@@ -77,7 +83,9 @@ class HotsApp extends Component<{ location: Location, history: any }, State> {
 		this.setState(updates);
 	}
 	searchState(): State {
-		const st: State = {};
+		const st: State = {
+			HeroMap: {},
+		};
 		const search = new usp(window.location.search);
 		this.params.forEach(key => {
 			if (!search.has(key)) {
@@ -248,7 +256,13 @@ class HotsApp extends Component<{ location: Location, history: any }, State> {
 					<Route
 						exact
 						path="/games/:id"
-						render={props => <Game {...props} Modes={this.state.Modes} />}
+						render={props => (
+							<Game
+								{...props}
+								Modes={this.state.Modes}
+								HeroMap={this.state.HeroMap}
+							/>
+						)}
 					/>
 					<Route
 						exact

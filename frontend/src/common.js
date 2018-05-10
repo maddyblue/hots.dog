@@ -224,6 +224,22 @@ const HeroHeader = (props: {
 	);
 };
 
+const HeroImg = (props: { name: string, slug: string, link?: string }) => (
+	<Link to={'/talents/' + encodeURI(props.name) + (props.link || '')}>
+		<img
+			src={'/img/hero/' + props.slug + '.png'}
+			alt={props.name}
+			style={{
+				width: '40px',
+				height: '40px',
+				verticalAlign: 'middle',
+				marginRight: '1em',
+			}}
+		/>
+		{props.name}
+	</Link>
+);
+
 function Fetch(url: string, success: any => void, error?: any => void) {
 	if (!error) {
 		error = console.log;
@@ -342,6 +358,7 @@ export {
 	Filter,
 	GameModes,
 	HeroHeader,
+	HeroImg,
 	pct,
 	readCookie,
 	regionCookie,

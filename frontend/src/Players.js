@@ -15,6 +15,7 @@ import {
 	skillBands,
 	skillPercentiles,
 	regionNames,
+	HeroImg,
 } from './common';
 import { Helmet } from 'react-helmet';
 import SortedTable from './SortedTable';
@@ -210,6 +211,7 @@ class Player extends Component<
 		build?: string,
 		handleChange: any,
 		history: any,
+		HeroMap: any,
 	},
 	{
 		Profile: any,
@@ -405,7 +407,7 @@ class Player extends Component<
 						{this.makeTable('Game Mode', 'Modes', m => this.props.Modes[m])}
 						{this.makeTable('Role', 'Roles')}
 						{this.makeTable('Hero', 'Heroes', v => (
-							<Link to={'/talents/' + encodeURI(v)}>{v}</Link>
+							<HeroImg name={v} slug={this.props.HeroMap[v].Slug} />
 						))}
 						{this.makeTable('Map', 'Maps')}
 					</table>
@@ -571,6 +573,7 @@ class PlayerMatchups extends Component<
 		build?: string,
 		handleChange: any,
 		Builds: any,
+		HeroMap: any,
 	},
 	{ Same: any, Opposing: any, Battletag: string, search: string }
 > {
@@ -628,7 +631,7 @@ class PlayerMatchups extends Component<
 				headers={[
 					{
 						name: 'header',
-						cell: v => <Link to={'/talents/' + encodeURI(v)}>{v}</Link>,
+						cell: v => <HeroImg name={v} slug={this.props.HeroMap[v].Slug} />,
 						header: [
 							<div key="anchor" className="anchor" id={prop.toLowerCase()} />,
 							<span key="name">{name.toLowerCase()}</span>,
@@ -685,7 +688,7 @@ class PlayerMatchups extends Component<
 }
 
 class Game extends Component<
-	{ match: any, Modes: any },
+	{ match: any, Modes: any, HeroMap: any },
 	{ Game: any, Talents: any, Players: any }
 > {
 	componentDidMount() {
@@ -774,7 +777,13 @@ class Game extends Component<
 					headers={[
 						{
 							name: 'Hero',
-							cell: v => <Link to={'/talents/' + v + baseSearch}>{v}</Link>,
+							cell: v => (
+								<HeroImg
+									name={v}
+									slug={this.props.HeroMap[v].Slug}
+									link={baseSearch}
+								/>
+							),
 						},
 						{
 							name: 'HeroLevel',
