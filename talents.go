@@ -948,11 +948,11 @@ var talentData = map[string]talentText{
 	},
 	"AnaDebilitatingDart": {
 		Name: "Debilitating Dart",
-		Text: "Activate to fire a dart which reduces the damage dealt by the first enemy Hero it hits by 50% for 4 seconds.",
+		Text: "Activate to fire a dart which slows the movement speed and reduces the damage dealt by the first enemy Hero it hits by 50% for 3 seconds.",
 	},
 	"AnaDetachableBoxMagazine": {
 		Name: "Detachable Box Magazine",
-		Text: "Quest: Stack 5 Doses on an enemy Hero.\nReward: After reaching maximum Dosage 5 times, Shrike also heals for the damage it deals to all enemies.\nReward: After reaching maximum Dosage 15 times, unlock the Active Reload Ability, which can be activated to instantly gain 3 charges of Healing Dart.",
+		Text: "Quest: Stack 5 Doses on an enemy Hero.\nReward: After reaching maximum Dosage 12 times, unlock the Active Reload Ability, which can be activated to instantly gain 3 charges of Healing Dart.",
 	},
 	"AnaDynamicShooting": {
 		Name: "Dynamic Shooting",
@@ -1276,7 +1276,7 @@ var talentData = map[string]talentText{
 	},
 	"AurielDiamondResolveCrystalAegisTalent": {
 		Name: "Diamond Resolve",
-		Text: "When Crystal Aegis expires, it grants the target 60 Armor for 5 seconds, reducing damage taken by 60%.",
+		Text: "When Crystal Aegis expires, it grants the target 75 Armor for 5 seconds, reducing damage taken by 75%.",
 	},
 	"AurielEmpathicLinkBestowHopeTalent": {
 		Name: "Empathic Link",
@@ -1284,7 +1284,7 @@ var talentData = map[string]talentText{
 	},
 	"AurielEnergizedCordRayOfHeavenTalent": {
 		Name: "Energized Cord",
-		Text: "Increases the energy stored from Auriel's Basic Attacks to 100% of the damage against Heroes and 40% of the damage against non-Heroes.\nDoes not affect Auriel's Bestow Hope ally.",
+		Text: "Increases the energy stored from Auriel's Basic Attacks to 100% of the damage against Heroes and 45% of the damage against non-Heroes.\nDoes not affect Auriel's Bestow Hope ally.",
 	},
 	"AurielGlimmerofHopeRayOfHeavenTalent": {
 		Name: "Glimmer of Hope",
@@ -1320,11 +1320,7 @@ var talentData = map[string]talentText{
 	},
 	"AurielRepeatedOffenseDetainmentStrikeTalent": {
 		Name: "Repeated Offense",
-		Text: "Quest: Every time Detainment Strike stuns a Hero, increase the stun damage by 10, up to 60.\nReward: After stunning 6 Heroes, increase this damage bonus to 250.",
-	},
-	"AurielRepellingStrikeDetainmentStrikeTalent": {
-		Name: "Repelling Strike",
-		Text: "Enemies hit by Detainment Strike are knocked back 35% farther.",
+		Text: "Enemies hit by Detainment Strike are knocked back 25% farther.\nQuest: Every time Detainment Strike stuns a Hero, increase the stun damage by 10, up to 60.\nReward: After stunning 6 Heroes, increase this damage bonus to 250.",
 	},
 	"AurielReservoirofHopeRayOfHeavenTalent": {
 		Name: "Reservoir of Hope",
@@ -1480,7 +1476,7 @@ var talentData = map[string]talentText{
 	},
 	"BarbarianHurricane": {
 		Name: "Hurricane",
-		Text: "Reduce the cooldown of Whirlwind by 1 second. Casting Whirlwind removes all Slows and Roots from Sonya.",
+		Text: "Reduce the cooldown of Whirlwind by 2 seconds. Casting Whirlwind removes all Slows and Roots from Sonya.",
 	},
 	"BarbarianIgnorePain": {
 		Name: "Ignore Pain",
@@ -1492,7 +1488,7 @@ var talentData = map[string]talentText{
 	},
 	"BarbarianMysticalSpear": {
 		Name: "Mystical Spear",
-		Text: "Reduces the cooldown of Ancient Spear by 2 seconds. Ancient Spear always pulls Sonya to the target location even if it doesn't hit an enemy.",
+		Text: "Ancient Spear always pulls Sonya to the target location even if it doesn't hit an enemy. When used this way, Ancient Spear's cooldown is reduced by 5 seconds. ",
 	},
 	"BarbarianNervesOfSteel": {
 		Name: "Nerves of Steel",
@@ -2160,11 +2156,11 @@ var talentData = map[string]talentText{
 	},
 	"DeckardAncientBlessings": {
 		Name: "Ancient Blessings",
-		Text: "Activate Fortitude of the Faithful to empower nearby allied Hero Basic Attacks for 8 seconds, causing them to deal an additional 76 damage in an area and heal for 114 for each Hero hit.",
+		Text: "Activate Fortitude of the Faithful to empower nearby allied Hero Basic Attacks for 8 seconds, causing them to deal an additional 72 damage in an area and heal for 106 for each Hero hit.",
 	},
 	"DeckardBottomlessFlask": {
 		Name: "Bottomless Flask",
-		Text: "After use, Healing Potions recharge after 5 seconds.",
+		Text: "After use, Healing Potions recharge after 6 seconds.",
 	},
 	"DeckardCubeMastery": {
 		Name: "Cube Mastery",
@@ -2180,11 +2176,11 @@ var talentData = map[string]talentText{
 	},
 	"DeckardGemRuby": {
 		Name: "Ruby",
-		Text: "Activate to make the next Horadric Cube spawn 3 Lesser Healing Potions from each enemy Hero hit, healing allied Heroes for 190 when picked up. Lesser Healing Potions last for 10 seconds.\nOnly 1 Gem may be active at a time.",
+		Text: "Activate to make the next Horadric Cube spawn 3 Lesser Healing Potions from each enemy Hero hit, healing allied Heroes for 205 when picked up. Lesser Healing Potions last for 10 seconds.\nOnly 1 Gem may be active at a time.",
 	},
 	"DeckardGemSapphire": {
 		Name: "Sapphire",
-		Text: "Activate to increase the Slow of the next Horadric Cube by 25%.\nOnly 1 Gem may be active at a time.",
+		Text: "Activate to increase the Slow of the next Horadric Cube by 30%.\nOnly 1 Gem may be active at a time.",
 	},
 	"DeckardHoradricStaff": {
 		Name: "Horadric Staff",
@@ -2856,7 +2852,7 @@ var talentData = map[string]talentText{
 	},
 	"FenixSingularityCharge": {
 		Name: "Singularity Charge",
-		Text: "Repeater Cannon grants 100% more Attack Speed, and Phase Bomb grants 1 more range.",
+		Text: "Repeater Cannon grants 100% more Attack Speed, and Phase Bomb grants 1.25 more range.",
 	},
 	"FenixTargetAcquired": {
 		Name: "Target Acquired",
@@ -3100,7 +3096,7 @@ var talentData = map[string]talentText{
 	},
 	"GarroshGroundbreakerRoughLanding": {
 		Name: "Rough Landing",
-		Text: "Increase Groundbreaker's Slow amount by 15% and duration by 1 second.",
+		Text: "Increase Groundbreaker's Slow amount by 10% and duration by 1 second.",
 	},
 	"GarroshGroundbreakerWarbreaker": {
 		Name: "Warbreaker",
@@ -3496,7 +3492,7 @@ var talentData = map[string]talentText{
 	},
 	"GuldanChaoticEnergy": {
 		Name: "Chaotic Energy",
-		Text: "Quest: Gathering a Regen Globe causes Gul'dan's next Basic Ability with a Mana cost to refund 40 Mana\nReward: After Gathering 20 Regen Globes Gul'dan's Basic Ability Mana costs are permanently reduced by 20.",
+		Text: "Increases the cast range of Drain Life by 25%.\nQuest: The healing provided by Regen Globes is increased by 50%.\nReward: After Gathering 20 Regen Globes Gul'dan's Basic Ability Mana costs are permanently reduced by 20.",
 	},
 	"GuldanConsumeSoul": {
 		Name: "Consume Soul",
@@ -3504,7 +3500,7 @@ var talentData = map[string]talentText{
 	},
 	"GuldanCorruptionCurseOfExhaustion": {
 		Name: "Curse of Exhaustion",
-		Text: "Upon expiration, Corruption slows enemy Movement Speed by 50% for 2.5 seconds.",
+		Text: "Drain Life deals 50% more damage and slows the target's movement speed by 25% if they are afflicted by Corruption.",
 	},
 	"GuldanCorruptionDemonicSight": {
 		Name: "Demonic Sight",
@@ -3540,7 +3536,7 @@ var talentData = map[string]talentText{
 	},
 	"GuldanDrainLifeHealthFunnel": {
 		Name: "Health Funnel",
-		Text: "If an enemy dies while under the effect of Drain Life, the cooldown is instantly refreshed.",
+		Text: "Drain Life's cooldown recharges 100% faster while it is channeling. If an enemy dies while under the effect of Drain Life, the cooldown is instantly refreshed.",
 	},
 	"GuldanFelFlameBoundByShadow": {
 		Name: "Bound by Shadow",
@@ -3568,7 +3564,7 @@ var talentData = map[string]talentText{
 	},
 	"GuldanHorrifyHaunt": {
 		Name: "Haunt",
-		Text: "Increases the duration of Horrify by 1 second, and while Feared, enemies lose 25 Armor, causing them to take 25% increased damage.",
+		Text: "Increases the duration of Horrify by 1 second, and while Feared, enemies lose 20 Armor, causing them to take 20% increased damage.",
 	},
 	"GuldanLifeTapDarknessWithin": {
 		Name: "Darkness Within",
@@ -3604,7 +3600,7 @@ var talentData = map[string]talentText{
 	},
 	"HanzoExplosiveArrows": {
 		Name: "Explosive Arrows",
-		Text: "Upon hitting a Minion or Monster, Storm Bow deals 100% of its damage to enemies around its target.",
+		Text: "Upon hitting a Minion or Monster, Storm Bow deals 75% of its damage to enemies around its target.",
 	},
 	"HanzoFlawlessTechnique": {
 		Name: "Flawless Technique",
@@ -3946,9 +3942,9 @@ var talentData = map[string]talentText{
 		Name: "Sticky Wicket",
 		Text: "Steel Trap no longer Roots enemies, and instead Slows them by 90% for 3.5 seconds.",
 	},
-	"KaelthasArcaneDynamo": {
-		Name: "Arcane Dynamo",
-		Text: "Using a Basic Ability increases Kael'thas's Spell Power by 3% for 5 seconds, stacking up to 15%.",
+	"Kael'thasLivingBombIgnite": {
+		Name: "Ignite",
+		Text: "Flamestrikes apply Living Bomb to the enemy Hero closest to its center who is not currently affected by Living Bomb.",
 	},
 	"KaelthasFlamestrikeBurnedFlesh": {
 		Name: "Burned Flesh",
@@ -3968,7 +3964,7 @@ var talentData = map[string]talentText{
 	},
 	"KaelthasGravityLapseEnergyRoil": {
 		Name: "Energy Roil",
-		Text: "When Gravity Lapse hits a Hero, reduce its cooldown by 9 seconds.",
+		Text: "Reduce the Mana cost of Gravity Lapse by 70.  If Gravity Lapse hits a Hero, reduce its cooldown by 9 seconds.",
 	},
 	"KaelthasGravityLapseGravityThrow": {
 		Name: "Gravity Throw",
@@ -4004,7 +4000,7 @@ var talentData = map[string]talentText{
 	},
 	"KaelthasLivingBombPyromaniac": {
 		Name: "Pyromaniac",
-		Text: "Each time Living Bomb deals periodic damage, Kael'thas's Basic Ability cooldowns are reduced by 1 second.",
+		Text: "Each time Living Bomb deals periodic damage, Kael'thas's Basic Ability cooldowns are reduced by 0.5 seconds.",
 	},
 	"KaelthasLivingBombSunKingsFury": {
 		Name: "Sun King's Fury",
@@ -4024,7 +4020,7 @@ var talentData = map[string]talentText{
 	},
 	"KaelthasMasterySunfireEnchantment": {
 		Name: "Sunfire Enchantment",
-		Text: "Activating Verdant Spheres causes Kael'thas's next Basic Attack to instead deal 165 Spell Damage.",
+		Text: "Activating Verdant Spheres causes Kael'thas's next 2 Basic Attacks to instead deal 115 Spell Damage.  If both of these Attacks hit enemy Heroes, gain 15% Spell Power for 10 seconds.",
 	},
 	"KaelthasPhoenixRebirth": {
 		Name: "Rebirth",
@@ -4032,7 +4028,7 @@ var talentData = map[string]talentText{
 	},
 	"KaelthasPyroblastPresenceOfMind": {
 		Name: "Presence Of Mind",
-		Text: "Increases Pyroblast's explosion radius by 50% and reduces its cooldown by 25 seconds per enemy Hero hit.",
+		Text: "Increases Pyroblast's explosion radius by 50%. Heroes that are hit by Flamestrike or have Living Bomb spread to them reduce the cooldown of Pyroblast by 10 seconds.",
 	},
 	"KaelthasTwinSpheres": {
 		Name: "Twin Spheres",
@@ -4328,11 +4324,11 @@ var talentData = map[string]talentText{
 	},
 	"LiLiBlessingsOfYulon": {
 		Name: "Blessings Of Yu’lon",
-		Text: "Cloud Serpent heals its bearer for 1.5% of their maximum Health each time it attacks.",
+		Text: "Cloud Serpent heals its bearer for 1.25% of their maximum Health each time it attacks.",
 	},
 	"LiLiEagerAdventurer": {
 		Name: "Eager Adventurer",
-		Text: "Increase Fast Feet's duration by 50% and increase Mana regeneration by 150% while Fast Feet is active.",
+		Text: "Increase Fast Feet's duration by 100% and increase Mana regeneration by 100% while Fast Feet is active.",
 	},
 	"LiLiFreeDrinks": {
 		Name: "Free Drinks",
@@ -4376,7 +4372,7 @@ var talentData = map[string]talentText{
 	},
 	"LiLiMasteryFastFeetSafetySprint": {
 		Name: "Safety Sprint",
-		Text: "Activate to gain Fast Feet for 3 seconds and increase its Movement Speed bonus to 30% while active.",
+		Text: "Activate to gain Fast Feet for 3 seconds and increase its Movement Speed bonus to 30% while active.\nPassive: Increase the movement speed bonus of Fast Feet to 15%.",
 	},
 	"LiLiMasteryHealingBrewTheGoodStuff": {
 		Name: "The Good Stuff",
@@ -4408,7 +4404,7 @@ var talentData = map[string]talentText{
 	},
 	"LiLiWindSerpent": {
 		Name: "Wind Serpent",
-		Text: "The cooldown of Cloud Serpent is reduced by 2 seconds. Casting Cloud Serpent also launches a Blinding Wind at the nearest enemy to the target.",
+		Text: "Casting Cloud Serpent also launches a Blinding Wind at the nearest enemy to the target (prioritizing Heroes).",
 	},
 	"LostVikingsGoGoGo64KBMarathon": {
 		Name: "64 KB Marathon",
@@ -4696,7 +4692,7 @@ var talentData = map[string]talentText{
 	},
 	"MalfurionHeroicAbilityTwilightDream": {
 		Name: "Twilight Dream",
-		Text: "After 0.5 seconds, deal 355 damage in a large area around Malfurion, Silencing enemies making them unable to use Abilities for 3 seconds.",
+		Text: "After 0.5 seconds, deal 310 damage in a large area around Malfurion, Silencing enemies making them unable to use Abilities for 3 seconds.",
 	},
 	"MalfurionLifebloomRegrowth": {
 		Name: "Lifebloom",
@@ -4880,7 +4876,7 @@ var talentData = map[string]talentText{
 	},
 	"MedicExtendedCare": {
 		Name: "Extended Care",
-		Text: "Increase the range of Healing Beam by 40%.",
+		Text: "Increase the range of Healing Beam by 30%.",
 	},
 	"MedicFirstResponder": {
 		Name: "First Responder",
@@ -4932,7 +4928,7 @@ var talentData = map[string]talentText{
 	},
 	"MedicTraumaTrigger": {
 		Name: "Trauma Trigger",
-		Text: "Taking damage while below 40% Health grants 30 Armor for 3 seconds.\nThis effect has a 60 second cooldown.",
+		Text: "Taking damage while below 40% Health grants 30 Armor for 3 seconds.\nThis effect has a 30 second cooldown.",
 	},
 	"MedicVanadiumPlating": {
 		Name: "Vanadium Plating",
@@ -4964,7 +4960,7 @@ var talentData = map[string]talentText{
 	},
 	"MedivhForceOfWillArcaneExplosion": {
 		Name: "Arcane Explosion",
-		Text: "When Force of Will expires, it deals 80 damage to nearby enemies, plus 100% of the damage it prevented, up to 315 additional damage.",
+		Text: "When Force of Will expires, it deals 80 damage to nearby enemies, plus 50% of the damage it prevented, up to 315 additional damage.",
 	},
 	"MedivhForceOfWillCircleOfProtection": {
 		Name: "Circle of Protection",
@@ -6148,7 +6144,7 @@ var talentData = map[string]talentText{
 	},
 	"StukovGrowingInfestation": {
 		Name: "Growing Infestation",
-		Text: "Lurking Arm's area expands by 50% over 2.5 seconds but its cooldown is increased by 4 seconds.",
+		Text: "Lurking Arm's area expands by 50% over 2.5 seconds but its cooldown is increased by 5 seconds.",
 	},
 	"StukovHeroicAbilityFlailingSwipe": {
 		Name: "Flailing Swipe",
@@ -6160,7 +6156,7 @@ var talentData = map[string]talentText{
 	},
 	"StukovItHungers": {
 		Name: "It Hungers",
-		Text: "Each time an enemy Hero is hit by Lurking Arm, reduce its cooldown by 0.5 seconds, up to 6.5 seconds, and restore 5 Mana.",
+		Text: "Each time an enemy Hero is hit by Lurking Arm, reduce its cooldown by 0.5 seconds, up to 6.5 seconds, and restore 10 Mana.",
 	},
 	"StukovLingeringSpines": {
 		Name: "Lingering Spines",
@@ -6176,7 +6172,7 @@ var talentData = map[string]talentText{
 	},
 	"StukovOneGoodSpread": {
 		Name: "One Good Spread...",
-		Text: "After a Healing Pathogen infests 3 targets, restore 30 Mana and reduce the cooldown of Healing Pathogen by 2 seconds.",
+		Text: "After a Healing Pathogen infests 3 targets, restore 10 Mana and reduce the cooldown of Healing Pathogen by 2 seconds.",
 	},
 	"StukovPoppinPustules": {
 		Name: "Poppin' Pustules",
@@ -6424,7 +6420,7 @@ var talentData = map[string]talentText{
 	},
 	"ThrallFrostwolfPack": {
 		Name: "Frostwolf Pack",
-		Text: "Quest: Hit 7 Heroes with Feral Spirit. Progress is lost on death and when Thrall fails to hit a Hero.\nReward: Reduce the cooldown and Mana cost of Feral Spirit by 50%.",
+		Text: "Quest: Hit 6 Heroes with Feral Spirit. Progress is lost on death and when Thrall fails to hit a Hero.\nReward: Reduce the cooldown and Mana cost of Feral Spirit by 50%.",
 	},
 	"ThrallHeroicAbilityEarthquake": {
 		Name: "Earthquake",
@@ -6456,7 +6452,7 @@ var talentData = map[string]talentText{
 	},
 	"ThrallMasteryRollingThunder": {
 		Name: "Rolling Thunder",
-		Text: "For 10 seconds after hitting an enemy with Chain Lightning, Thrall's next Basic Attack against them restores 15 Mana.\nPassive: Increase the range of Chain Lightning by 30% and the number of bounces by 1.",
+		Text: "For 10 seconds after hitting an enemy with Chain Lightning, Thrall's next Basic Attack against them restores 15 Mana and 2.5% of his maximum Health.\nPassive: Increase the number of Chain Lightning bounces by 1.",
 	},
 	"ThrallMasteryStoneWolves": {
 		Name: "Stone Wolves",
@@ -6670,10 +6666,6 @@ var talentData = map[string]talentText{
 		Name: "Combat Tactician",
 		Text: "Basic Attacks reduce the cooldown of Run and Gun by 0.8 seconds.",
 	},
-	"TychusFullyLoaded": {
-		Name: "Fully Loaded",
-		Text: "Reduce Minigun's cooldown by 5 seconds.",
-	},
 	"TychusHeroicAbilityCommandeerOdin": {
 		Name: "Commandeer Odin",
 		Text: "Call down an Odin to pilot. The Odin deals increased Damage, has 100% increased Basic Attack range, and uses different Abilities. The Odin has 25 Armor and lasts 23 seconds.",
@@ -6756,7 +6748,7 @@ var talentData = map[string]talentText{
 	},
 	"TychusTheBiggerTheyAre": {
 		Name: "The Bigger They Are...",
-		Text: "Increases Minigun damage bonus to 4% while enemy Heroes are above 35% Health, but Minigun no longer has any effect on targets below 35%.",
+		Text: "Lower the cooldown of Minigun by 2 seconds and increase the damage bonus to 4% while enemy Heroes are above 35% Health, but Minigun no longer has any effect on targets below 35%.",
 	},
 	"TyraelArdentRestoration": {
 		Name: "Ardent Restoration",
@@ -6816,7 +6808,7 @@ var talentData = map[string]talentText{
 	},
 	"TyraelMasteryHolyGround": {
 		Name: "Holy Ground",
-		Text: "Create a ring for 4 seconds that blocks enemies from entering the area teleported to using El'druin's Might.",
+		Text: "Create a ring for 3 seconds that blocks enemies from entering the area teleported to using El'druin's Might.",
 	},
 	"TyraelMasteryJudgmentAngelofJustice": {
 		Name: "Angel of Justice",
