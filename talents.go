@@ -1452,7 +1452,7 @@ var talentData = map[string]talentText{
 	},
 	"BarbarianBattleRage": {
 		Name: "Battle Rage",
-		Text: "Activate to instantly restore 10% of Sonya's maximum Health. Stores up to 2 charges. \nPassive: Sonya deals 25% more damage to Mercenaries.",
+		Text: "Activate to instantly restore 10% of Sonya's maximum Health. Stores up to 2 charges. Usable while Whirlwinding.\nPassive: Sonya deals 25% more damage to Mercenaries.",
 	},
 	"BarbarianCompositeSpear": {
 		Name: "Composite Spear",
@@ -1480,7 +1480,7 @@ var talentData = map[string]talentText{
 	},
 	"BarbarianIgnorePain": {
 		Name: "Ignore Pain",
-		Text: "Activate to gain 60 Armor for 4 seconds, taking 60% less damage.\nUsable while Whirlwinding.",
+		Text: "Activate to gain 60 Armor for 4 seconds, taking 60% less damage. Usable while Whirlwinding.",
 	},
 	"BarbarianLifeFunnel": {
 		Name: "Life Funnel",
@@ -2172,7 +2172,7 @@ var talentData = map[string]talentText{
 	},
 	"DeckardGemEmerald": {
 		Name: "Emerald",
-		Text: "Activate to make the next Horadric Cube reduce healing received by 75% for 4 seconds.\nOnly 1 Gem may be active at a time.",
+		Text: "Activate to make the next Horadric Cube reduce the healing received of enemy Heroes by 75% for 4 seconds.\nOnly 1 Gem may be active at a time.",
 	},
 	"DeckardGemRuby": {
 		Name: "Ruby",
@@ -2424,27 +2424,27 @@ var talentData = map[string]talentText{
 	},
 	"DiabloBulwark": {
 		Name: "Bulwark",
-		Text: "Increases the duration of Armor granted by Shadow Charge from 2 seconds to 4 seconds.",
+		Text: "Increases the duration of Armor granted by Shadow Charge from 0 seconds to 2 seconds.",
 	},
 	"DiabloDebilitatingFlames": {
 		Name: "Debilitating Flames",
-		Text: "Enemy Heroes hit by Fire Stomp are slowed by 15% for 2 seconds, up to 30%.",
+		Text: "Enemy Heroes hit by Fire Stomp are Slowed by 5% for 4 seconds, up to 50%. Heroes Slowed by 25% or more by Debilitating Flames deal 50% less damage.",
 	},
 	"DiabloDevastatingCharge": {
 		Name: "Devastating Charge",
-		Text: "Shadow Charge's terrain collision against Heroes deals an additional 5% of the target's maximum life.\nQuest: Each time an enemy Hero takes terrain collision damage, increase the maximum life damage by 2%, to a maximum of 10% bonus.",
+		Text: "Increase Shadow Charge's terrain collision damage by 100%.\nQuest: Each time an enemy Hero takes terrain collision damage, increase this bonus by 15%, to a maximum of 75%.",
 	},
 	"DiabloDiabolicalMomentum": {
 		Name: "Diabolical Momentum",
-		Text: "Basic Attacks reduce the cooldown of Overpower and Shadow Charge by 1.5 seconds.",
+		Text: "When Diablo's Basic Attacks damage enemies, reduce the cooldown of his Basic Abilities by 0.75 second.",
 	},
-	"DiabloFearfulPresence": {
-		Name: "Fearful Presence",
-		Text: "Activate to reduce enemy damage",
+	"DiabloFireStompSoulsToTheFlame": {
+		Name: "Souls to the Flame",
+		Text: "Fire Stomp grants 1 Soul every 3 times it damages an enemy Hero, and heals for an additional 1.25% of its damage dealt per Soul.",
 	},
 	"DiabloHellfire": {
 		Name: "Hellfire",
-		Text: "Each enemy Hero hit by Fire Stomp increases the damage of the next Fire Stomp by 12%, up to 120%.",
+		Text: "Each enemy Hero hit by Fire Stomp grants 2% Spell Power for 10 seconds, up to 30%.",
 	},
 	"DiabloHellgate": {
 		Name: "Hellgate",
@@ -2452,19 +2452,19 @@ var talentData = map[string]talentText{
 	},
 	"DiabloHeroicAbilityApocalypse": {
 		Name: "Apocalypse",
-		Text: "Create a demonic rune under each enemy Hero on the battleground. After 1.75 seconds the rune explodes dealing 137 damage and stunning them for 1.75 seconds.",
+		Text: "Create a demonic rune under each enemy Hero on the battleground. After 1.75 seconds the rune explodes dealing 137 damage and Stunning them for 1.75 seconds.",
 	},
 	"DiabloHeroicAbilityLightningBreath": {
 		Name: "Lightning Breath",
-		Text: "Become Unstoppable while channeling lightning that deals 800 damage over 4 seconds.  The direction of the Lightning changes with your mouse cursor position.",
+		Text: "After 0.5 seconds, become Unstoppable and Channel for up to 4 seconds, dealing 50 damage every 0.25 seconds to enemies in front of Diablo. Enemies affected are Slowed by 5% for 2 seconds, up to 50%. \nLightning Breath's direction changes with your mouse cursor position.",
 	},
 	"DiabloLifeLeech": {
 		Name: "Life Leech",
-		Text: "Basic Attacks against enemy Heroes deal bonus damage equal to 1% of the Hero's maximum Health and heal Diablo for the same amount.",
+		Text: "Diablo gains 1 Soul and heals for 1.5% of his maximum Health when Basic Attacking an enemy Hero. While at 100 Souls, increase this healing to 3% of his maximum Health.",
 	},
-	"DiabloMasteryDemonicStrength": {
-		Name: "Demonic Strength",
-		Text: "Once Overpower's stun expires, the target is slowed by 30% for 3 seconds.",
+	"DiabloMalevolence": {
+		Name: "Malevolence",
+		Text: "Basic Abilities cause Diablo's next Basic Attack within 6 seconds to deal an additional 100 Spell Damage. Stores up to 2 charges.",
 	},
 	"DiabloMasteryDevilsDueBlackSoulstone": {
 		Name: "Devil's Due",
@@ -2472,31 +2472,35 @@ var talentData = map[string]talentText{
 	},
 	"DiabloMasteryDyingBreathApocalypse": {
 		Name: "Dying Breath",
-		Text: "Apocalypse's cooldown is reduced by 20 seconds and is cast for free when Diablo dies.",
+		Text: "Apocalypse's cooldown is reduced by 20 seconds for every enemy Hero hit (to a minimum of 5 seconds) and is cast for free when Diablo dies.",
 	},
-	"DiabloMasteryFireDevilFireStomp": {
-		Name: "Fire Devil",
-		Text: "Fire Stomp increases Diablo's Basic Attack damage by 20% and surrounds Diablo in flames that deal 20 damage every second. Lasts 6 seconds.",
-	},
-	"DiabloMasteryFromTheShadowsShadowCharge": {
-		Name: "From the Shadows",
-		Text: "Increases the cast range of Shadow Charge by 40%.",
+	"DiabloMasteryFeastOnFearBlackSoulstone": {
+		Name: "Feast on Fear",
+		Text: "Stunning an enemy Hero with Shadow Charge or Overpower heals Diablo for 15% of his maximum Health over 4 seconds.",
 	},
 	"DiabloMasteryHellstormLightningBreath": {
 		Name: "Hellstorm",
-		Text: "Lightning Breath lasts and reaches 50% longer.",
+		Text: "Lightning Breath lasts 200% longer.",
 	},
-	"DiabloMasterySoulFeastBlackSoulstone": {
-		Name: "Soul Feast",
-		Text: "Black Soulstone increases Diablo's Health Regeneration by 0.4 per second per Soul.",
+	"DiabloOverpowerOverpoweringNightmare": {
+		Name: "Overpowering Nightmare",
+		Text: "Gain 2 additional charges of Overpower, with a 2 second cooldown between uses.",
+	},
+	"DiabloShadowChargeOverpowerCruelty": {
+		Name: "Cruelty",
+		Text: "Stunning an enemy with Shadow Charge or Overpower increases Diablo's Attack Speed by 50% for 5 seconds, up to 100%.",
+	},
+	"DiabloShadowChargeOverpowerEternalFlames": {
+		Name: "Eternal Flames",
+		Text: "When Diablo Stuns an enemy Hero with Shadow Charge or Overpower, reset the cooldown of Fire Stomp.",
+	},
+	"DiabloShadowChargeSacrificialSoul": {
+		Name: "Sacrificial Soul",
+		Text: "Stunning a Hero with Shadow Charge grants 5 Souls and 15 Armor for 4 seconds. While at 100 Souls, increase this Armor to 30.",
 	},
 	"DiabloSoulShield": {
 		Name: "Soul Shield",
-		Text: "Black Soulstone grants Diablo 0.25 Spell Armor per soul, reducing Ability Damage taken by 0.25% per Soul.",
-	},
-	"DiabloSpeedDemon": {
-		Name: "Speed Demon",
-		Text: "Being Stunned or Rooted increases Diablo's Movement Speed by 30% for 5 seconds.",
+		Text: "Activate to gain 25 plus 50% of Diablo's current Souls as Spell Armor for 4 seconds.  Every time Diablo damages an enemy Hero, reduce this cooldown by 1 second.",
 	},
 	"DiabloTalentDominationOverpower": {
 		Name: "Domination",
@@ -2504,23 +2508,27 @@ var talentData = map[string]talentText{
 	},
 	"DiabloTalentLordOfTerror": {
 		Name: "Lord of Terror",
-		Text: "Activate to steal 10% of the maximum Health of nearby enemy Heroes.",
+		Text: "Activate to steal 10% of the maximum Health of nearby enemy Heroes and gain 5 Souls per Hero hit.",
 	},
 	"DryadAbolishMagic": {
 		Name: "Abolish Magic",
-		Text: "Target an Ally to remove all damage over time and disabling effects from them and Lunara. For 2 seconds after, the duration of disabling effects is reduced by 50%.",
+		Text: "Target an ally to remove all damage over time and disabling effects from them and Lunara. For 2 seconds after, the duration of disabling effects is reduced by 50%.",
+	},
+	"DryadAcceleratedContamination": {
+		Name: "Accelerated Contamination",
+		Text: "While at least 2 enemy Heroes are afflicted with Nature's Toxin, Noxious Blossom's cooldown recharges 100% faster.",
 	},
 	"DryadBlossomSwell": {
 		Name: "Blossom Swell",
-		Text: "Increases Noxious Blossom's radius by 20%.",
+		Text: "Increases Noxious Blossom's range by 25% and its radius by 20%.",
 	},
 	"DryadBoundlessStrideTalent": {
 		Name: "Boundless Stride",
-		Text: "All Leaping Strike charges are returned every 20 seconds. Leaping Strike can be used on allies.",
+		Text: "All Leaping Strike charges are returned every 15 seconds. Leaping Strike can be used on allies.",
 	},
 	"DryadChokingPollen": {
 		Name: "Choking Pollen",
-		Text: "Increases Noxious Blossom damage by 125% against enemies afflicted with Nature's Toxin.",
+		Text: "Noxious Blossom deals 50% more damage to Heroes afflicted by Nature's Toxin, increased to 100% against enemies with 3 stacks.  ",
 	},
 	"DryadCruelSpores": {
 		Name: "Cruel Spores",
@@ -2530,9 +2538,13 @@ var talentData = map[string]talentText{
 		Name: "Dividing Wisp",
 		Text: "The first time a Wisp is relocated, it leaves a copy of itself in the previous location.",
 	},
+	"DryadEndlessSpores": {
+		Name: "Endless Spores",
+		Text: "Casting Crippling Spores while at least 2 Heroes are afflicted by Nature's Toxin reduces the cooldown by 3 seconds.",
+	},
 	"DryadForestsWrath": {
 		Name: "Forest's Wrath",
-		Text: "Increases Thornwood Vine's range by 30%, its speed by 20%, and Lunara's vision radius by 35%.",
+		Text: "Thornwood Vine now applies 2 stacks of Nature's Toxin.  Increase Thornwood Vine's range by 30% and Lunara's vision radius by 35%.  ",
 	},
 	"DryadGallopingGait": {
 		Name: "Galloping Gait",
@@ -2544,19 +2556,27 @@ var talentData = map[string]talentText{
 	},
 	"DryadHeroicAbilityLeapingStrike": {
 		Name: "Leaping Strike",
-		Text: "Leap over an enemy, slowing them by 80% for 0.35 seconds and dealing 271 damage.\nStores up to 2 charges.",
+		Text: "Leap over an enemy, Slowing them by 80% for 0.35 seconds and dealing 271 damage.\nStores up to 2 charges.",
 	},
 	"DryadHeroicAbilityThornwoodVine": {
 		Name: "Thornwood Vine",
 		Text: "Send forth vines that deal 164 damage to all enemies in a line.\nStores up to 3 charges.",
 	},
+	"DryadHippityHop": {
+		Name: "Hippity Hop",
+		Text: "After not Basic Attacking or taking damage for 5 seconds, increase the Move Speed bonus of Dryad's Swiftness by 10%. ",
+	},
+	"DryadIntensifyingToxin": {
+		Name: "Intensifying Toxin",
+		Text: "At 3 stacks, Nature's Toxin deals 40% more damage.",
+	},
 	"DryadInvigoratingSpores": {
 		Name: "Invigorating Spores",
-		Text: "Using Crippling Spores increases Lunara's Attack Speed by 50% for 6 seconds.",
+		Text: "Crippling Spores grants 30% Attack Speed for 6 seconds.  Basic Attacks against enemy Heroes with 3 stacks of Nature's Toxin deal damage equal to 1.5% of their maximum Health.",
 	},
 	"DryadLetThemWither": {
 		Name: "Let Them Wither",
-		Text: "Increases Crippling Spores' slow to 50% and causes it to no longer decay.",
+		Text: "Increases Crippling Spores' Slow duration by 1 second and causes it to no longer decay.",
 	},
 	"DryadNaturalPerspective": {
 		Name: "Natural Perspective",
@@ -2566,10 +2586,6 @@ var talentData = map[string]talentText{
 		Name: "Nature's Culling",
 		Text: "Increases Nature's Toxin's damage by 150% to non-Heroes.",
 	},
-	"DryadNimbleWisp": {
-		Name: "Nimble Wisp",
-		Text: "Increases Wisp Movement Speed by 100% and vision radius by 50%.",
-	},
 	"DryadPesteringBlossom": {
 		Name: "Pestering Blossom",
 		Text: "Increases Noxious Blossom's range by 50%.",
@@ -2578,9 +2594,13 @@ var talentData = map[string]talentText{
 		Name: "Photosynthesis",
 		Text: "Crippling Spores returns 10 Mana per enemy hit, up to 40 Mana.",
 	},
+	"DryadSentinelWisp": {
+		Name: "Sentinel Wisp",
+		Text: "After remaining in a bush for 5 seconds, Wisp's vision radius is increased by 200% and reveals the surrounding area.",
+	},
 	"DryadSiphoningToxin": {
 		Name: "Siphoning Toxin",
-		Text: "As long as Nature's Toxin is active on an enemy, heal 18 Health a second.",
+		Text: "While at least one enemy is afflicted by Nature's Toxin, heal for 9 per second.  When an enemy Hero has 3 stacks of Nature's Toxin, increase this healing by 19 per second.",
 	},
 	"DryadSkyboundWisp": {
 		Name: "Skybound Wisp",
@@ -2600,11 +2620,15 @@ var talentData = map[string]talentText{
 	},
 	"DryadUnfairAdvantage": {
 		Name: "Unfair Advantage",
-		Text: "Nature's Toxin deals 50% more damage to Heroes that are slowed.",
+		Text: "Nature's Toxin deals 60% more damage to Heroes that are Slowed, Rooted, or Stunned.",
 	},
 	"DryadWildVigor": {
 		Name: "Wild Vigor",
 		Text: "Using Crippling Spores increases the damage of Lunara's next 4 Basic Attacks by 50%.",
+	},
+	"DryadsQuickness": {
+		Name: "Galloping Gait",
+		Text: "Activate to increase the Movement Speed bonus of Dryad's Swiftness to 80% for 6 seconds.",
 	},
 	"ETCBlockParty": {
 		Name: "Block Party",
@@ -2856,7 +2880,7 @@ var talentData = map[string]talentText{
 	},
 	"FenixTargetAcquired": {
 		Name: "Target Acquired",
-		Text: "Basic Attacks against Slowed Heroes with Repeater Cannon active grants 10% Movement Speed for 4 seconds, up to 40%.",
+		Text: "Basic Attacks against Slowed Heroes with Repeater Cannon active grant 10% Movement Speed for 4 seconds, up to 40%.",
 	},
 	"FenixUnconqueredSpirit": {
 		Name: "Unconquered Spirit",
@@ -3492,7 +3516,7 @@ var talentData = map[string]talentText{
 	},
 	"GuldanChaoticEnergy": {
 		Name: "Chaotic Energy",
-		Text: "Increases the cast range of Drain Life by 25%.\nQuest: The healing provided by Regen Globes is increased by 50%.\nReward: After Gathering 20 Regen Globes Gul'dan's Basic Ability Mana costs are permanently reduced by 20.",
+		Text: "Increases the cast range of Drain Life by 25%.\nQuest: The healing provided by Regen Globes is increased by 50%.\nReward: After gathering 20 Regen Globes Gul'dan's Basic Ability Mana costs are permanently reduced by 20.",
 	},
 	"GuldanConsumeSoul": {
 		Name: "Consume Soul",
@@ -3942,10 +3966,6 @@ var talentData = map[string]talentText{
 		Name: "Sticky Wicket",
 		Text: "Steel Trap no longer Roots enemies, and instead Slows them by 90% for 3.5 seconds.",
 	},
-	"Kael'thasLivingBombIgnite": {
-		Name: "Ignite",
-		Text: "Flamestrikes apply Living Bomb to the enemy Hero closest to its center who is not currently affected by Living Bomb.",
-	},
 	"KaelthasFlamestrikeBurnedFlesh": {
 		Name: "Burned Flesh",
 		Text: "When Flamestrike damages 2 or more Heroes, they take additional damage equal to 8% of their maximum Health.",
@@ -3997,6 +4017,10 @@ var talentData = map[string]talentText{
 	"KaelthasLivingBombFissionBomb": {
 		Name: "Fission Bomb",
 		Text: "Increases Living Bomb's explosion radius by 20%.",
+	},
+	"KaelthasLivingBombIgnite": {
+		Name: "Ignite",
+		Text: "Flamestrikes apply Living Bomb to the enemy Hero closest to its center who is not currently affected by Living Bomb.",
 	},
 	"KaelthasLivingBombPyromaniac": {
 		Name: "Pyromaniac",
@@ -5344,7 +5368,7 @@ var talentData = map[string]talentText{
 	},
 	"NecromancerTalentMortalWound": {
 		Name: "Mortal Wound",
-		Text: "Enemies hit by Spectral Scythe receive 75% less healing for 4 seconds.",
+		Text: "Enemy Heroes hit by Spectral Scythe receive 75% less healing for 4 seconds.",
 	},
 	"NecromancerTalentRapidHarvest": {
 		Name: "Rapid Harvest",
@@ -6344,7 +6368,7 @@ var talentData = map[string]talentText{
 	},
 	"TassadarKhalasLight": {
 		Name: "Khala's Light",
-		Text: "Upon expiration or breaking, the target of Plasma Shield gains 15 Armor for 3 seconds, causing them to take 15% less damage.",
+		Text: "Plasma Shield grants Heroes 15 Armor for 3 seconds upon breaking or expiring, causing them to take 15% less damage.",
 	},
 	"TassadarKhaydarinResonance": {
 		Name: "Khaydarin Resonance",
@@ -6748,7 +6772,7 @@ var talentData = map[string]talentText{
 	},
 	"TychusTheBiggerTheyAre": {
 		Name: "The Bigger They Are...",
-		Text: "Lower the cooldown of Minigun by 2 seconds and increase the damage bonus to 4% while enemy Heroes are above 35% Health, but Minigun no longer has any effect on targets below 35%.",
+		Text: "Lower the cooldown of Minigun by 2 seconds. Increase the damage bonus to 4% while enemy Heroes are above 35% Health, but Minigun no longer has any effect on targets below 35%.",
 	},
 	"TyraelArdentRestoration": {
 		Name: "Ardent Restoration",
@@ -6808,7 +6832,7 @@ var talentData = map[string]talentText{
 	},
 	"TyraelMasteryHolyGround": {
 		Name: "Holy Ground",
-		Text: "Create a ring for 3 seconds that blocks enemies from entering the area teleported to using El'druin's Might.",
+		Text: "Create a ring for 4 seconds that blocks enemies from entering the area teleported to using El'druin's Might.",
 	},
 	"TyraelMasteryJudgmentAngelofJustice": {
 		Name: "Angel of Justice",
