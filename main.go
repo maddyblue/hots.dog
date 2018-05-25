@@ -1082,7 +1082,7 @@ func (h *hotsContext) GetPlayerFriends(ctx context.Context, r *http.Request) (in
 				least(o.battletag) battletag,
 				o.blizzid,
 				count(*) games,
-				count(CASE WHEN o.winner THEN 1 ELSE NULL END) won
+				count(nullif(o.winner, false)) won
 			FROM players p
 			JOIN players o ON
 				o.game = p.game AND
