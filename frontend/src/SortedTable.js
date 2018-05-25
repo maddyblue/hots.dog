@@ -79,7 +79,7 @@ class SortedTable extends Component<Props, State> {
 		registerTableSort(this);
 		if (cookie) {
 			const sp = cookie.split(',', 2);
-			if (sp.length === 2) {
+			if (sp.length === 2 && lookup[sp[0]]) {
 				sort = sp[0];
 				dir = sp[1] === 'true';
 			}

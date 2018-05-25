@@ -1069,15 +1069,15 @@ func (h *hotsContext) GetPlayerFriends(ctx context.Context, r *http.Request) (in
 		Friends   []struct {
 			Battletag string
 			Games     int
-			Won       int
 			Blizzid   string
+			Winrate   float64
 		}
 	}{
 		Region: region,
 	}
 
 	if err := h.x.SelectContext(ctx, &res.Friends, `
-		SELECT * FROM (
+		SELECT battletag, games, blizzid, won / games * 100 as winrate FROM (
 			SELECT
 				least(o.battletag) battletag,
 				o.blizzid,

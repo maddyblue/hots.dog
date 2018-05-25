@@ -736,9 +736,9 @@ class PlayerFriends extends Component<
 							desc: true,
 						},
 						{
-							name: 'Won',
+							name: 'Winrate',
 							header: 'winrate',
-							cell: (v, row) => pct(v / row.Games * 100),
+							cell: pct,
 						},
 					]}
 					data={this.state.Friends}
