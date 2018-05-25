@@ -1,8 +1,8 @@
 container-builder-local --config cloudbuild.yaml '--dryrun=false' -push .
 docker build -t gcr.io/hots-cockroach/website:latest .
 gcloud container clusters get-credentials website
-gcloud docker -- push gcr.io/hots-cockroach/cockroach:latest
-gcloud docker -- push gcr.io/hots-cockroach/website:latest
+docker push gcr.io/hots-cockroach/cockroach:latest
+docker push gcr.io/hots-cockroach/website:latest
 kubectl set image deployment/website 'website=gcr.io/hots-cockroach/website:v2017-12-21'
 kubectl exec cockroachdb-0 -it -- /cockroach/cockroach.sh sql --insecure --url 'postgres://root@cockroachdb-public:26257/hots?sslmode=disable'
 
