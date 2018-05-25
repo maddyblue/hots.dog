@@ -688,6 +688,78 @@ class PlayerMatchups extends Component<
 	}
 }
 
+class PlayerFriends extends Component<
+	{
+		match: any,
+		history: any,
+		build?: string,
+	},
+	{ Battletag: string, Friends: any, Region: string }
+> {
+	state = {
+		Battletag: '',
+		Friends: null,
+		Region: '',
+	};
+	componentDidMount() {
+		const url =
+			'/api/get-player-friends?blizzid=' +
+			encodeURIComponent(this.props.match.params.id) +
+			'&region=' +
+			this.props.match.params.region;
+		Fetch(url, data => {
+			this.setState(data);
+		});
+	}
+	render() {
+		let content;
+		if (!this.state.Friends) {
+			content = 'loading...';
+		} else {
+			content = (
+				<SortedTable
+					name="friends"
+					sort="Games"
+					headers={[
+						{
+							name: 'Battletag',
+							header: 'name',
+							cell: (v, row) => (
+								<Link to={'/players/' + this.state.Region + '/' + row.Blizzid}>
+									{v}
+								</Link>
+							),
+						},
+						{
+							name: 'Games',
+							header: 'games',
+							desc: true,
+						},
+						{
+							name: 'Won',
+							header: 'winrate',
+							cell: (v, row) => pct(v / row.Games * 100),
+						},
+					]}
+					data={this.state.Friends}
+				/>
+			);
+		}
+		return (
+			<div>
+				<PlayerHeader
+					{...this.props.match.params}
+					history={this.props.history}
+					name={this.state.Battletag}
+					build={this.props.build}
+					prefix="friends"
+				/>
+				{content}
+			</div>
+		);
+	}
+}
+
 class Game extends Component<
 	{ match: any, Modes: any, HeroMap: any },
 	{ Game: any, Talents: any, Players: any }
@@ -872,9 +944,12 @@ const PlayerHeader = (props: {
 				to={link + '/matchups' + build}
 			>
 				matchups/duos
+			</Link>{' '}
+			<Link className={getClass('friends')} to={link + '/friends'}>
+				friends
 			</Link>
 		</div>
 	);
 };
 
-export { Players, Player, Game, PlayerGames, PlayerMatchups };
+export { Players, Player, Game, PlayerGames, PlayerMatchups, PlayerFriends };

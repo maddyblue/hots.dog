@@ -10,7 +10,14 @@ import CompareHero from './Compare';
 import { createCookie, Fetch, skillBands, regionCookie } from './common';
 import Hero from './Hero';
 import HeroWinrates from './HeroWinrates';
-import { Players, Player, Game, PlayerGames, PlayerMatchups } from './Players';
+import {
+	Players,
+	Player,
+	Game,
+	PlayerGames,
+	PlayerMatchups,
+	PlayerFriends,
+} from './Players';
 import TalentWinrates from './Talents';
 import { Leaderboard } from './Leaderboard';
 
@@ -247,6 +254,17 @@ class HotsApp extends Component<{ location: Location, history: any }, State> {
 						path="/players/:region/:id/matchups"
 						render={props => (
 							<PlayerMatchups
+								handleChange={this.handleChange}
+								{...this.state}
+								{...props}
+							/>
+						)}
+					/>
+					<Route
+						exact
+						path="/players/:region/:id/friends"
+						render={props => (
+							<PlayerFriends
 								handleChange={this.handleChange}
 								{...this.state}
 								{...props}

@@ -232,6 +232,7 @@ func main() {
 	http.Handle("/api/get-player-games", wrap(h.GetPlayerGames))
 	http.Handle("/api/get-player-matchups", wrap(h.GetPlayerMatchups))
 	http.Handle("/api/get-player-profile", wrap(h.GetPlayerProfile))
+	http.Handle("/api/get-player-friends", wrap(h.GetPlayerFriends))
 	http.Handle("/api/get-winrates", wrap(h.GetWinrates))
 	if *flagInit {
 		http.HandleFunc("/api/clear-cache", h.ClearCache)
@@ -1047,6 +1048,62 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 		count(g.Winner, res.Profile.Maps, g.Map)
 		count(g.Winner, res.Profile.Modes, g.Mode)
 		count(g.Winner, res.Profile.Roles, roles[g.Hero])
+	}
+
+	return res, nil
+}
+
+func (h *hotsContext) GetPlayerFriends(ctx context.Context, r *http.Request) (interface{}, error) {
+	blizzid := r.FormValue("blizzid")
+	region := r.FormValue("region")
+	if blizzid == "" {
+		return nil, errors.New("no blizzid parameter")
+	}
+	if region == "" {
+		return nil, errors.New("no region parameter")
+	}
+
+	res := struct {
+		Battletag string
+		Region    string
+		Friends   []struct {
+			Battletag string
+			Games     int
+			Won       int
+			Blizzid   string
+		}
+	}{
+		Region: region,
+	}
+
+	if err := h.x.SelectContext(ctx, &res.Friends, `
+		SELECT * FROM (
+			SELECT
+				least(o.battletag) battletag,
+				o.blizzid,
+				count(*) games,
+				count(CASE WHEN o.winner THEN 1 ELSE NULL END) won
+			FROM players p
+			JOIN players o ON
+				o.game = p.game AND
+				o.blizzid != p.blizzid AND
+				NOT (o.team != p.team)
+			WHERE
+				p.region = $1 AND
+				p.blizzid = $2
+			GROUP BY o.blizzid, o.battletag
+		)
+		WHERE games > 5
+		ORDER BY games DESC
+		LIMIT 40
+	`, region, blizzid); err != nil {
+		return nil, err
+	}
+
+	var err error
+	res.Battletag, err = h.getBattletag(ctx, blizzid, region)
+	if err != nil {
+		return nil, err
 	}
 
 	return res, nil
