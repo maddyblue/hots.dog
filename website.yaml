@@ -20,18 +20,19 @@ spec:
         imagePullPolicy: Always
         env:
           - name: ADDR
-            value: ":80" # for https redirection
+            value: ":http" # for https redirection
           - name: AUTOCERT
             value: "hots.dog"
-          - name: ACMEDIR
-            value: "cloudflare-origin"
+          #- name: ACMEDIR
+            #value: "cloudflare-origin"
+            #value: "https://acme-staging.api.letsencrypt.org/directory"
           - name: COCKROACH
             value: "postgres://root@cockroachdb-public:26257/?sslmode=disable"
         ports:
         - containerPort: 443
         - containerPort: 80
         livenessProbe:
-          initialDelaySeconds: 3
+          initialDelaySeconds: 300
           httpGet:
             path: /healthz
             port: 443

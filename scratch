@@ -1,10 +1,10 @@
-container-builder-local --config cloudbuild.yaml '--dryrun=false' -push .
 docker build -t gcr.io/hots-cockroach/website:latest .
-gcloud container clusters get-credentials website
 docker push gcr.io/hots-cockroach/cockroach:latest
 docker push gcr.io/hots-cockroach/website:latest
+gcloud container clusters get-credentials website
 kubectl set image deployment/website 'website=gcr.io/hots-cockroach/website:v2017-12-21'
 kubectl exec cockroachdb-0 -it -- /cockroach/cockroach.sh sql --insecure --url 'postgres://root@cockroachdb-public:26257/hots?sslmode=disable'
+gcloud config set compute/zone us-central1-a
 
 IMPORT TABLE games (
 	id INT PRIMARY KEY,
@@ -17,5 +17,3 @@ IMPORT TABLE games (
 
 	bans INT[]
 ) CSV DATA ('gs://csv2.hots.dog/game/000000000.csv');
-
-gcloud config set compute/zone us-central1-a

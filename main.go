@@ -222,20 +222,22 @@ func main() {
 		}
 	}
 
-	http.Handle("/api/init", wrap(h.Init))
-	http.Handle("/api/get-build-winrates", wrap(h.GetBuildWinrates))
-	http.Handle("/api/get-compare-hero", wrap(h.GetCompareHero))
-	http.Handle("/api/get-game-data", wrap(h.GetGameData))
-	http.Handle("/api/get-hero-data", wrap(h.GetHero))
-	http.Handle("/api/get-leaderboard", wrap(h.GetLeaderboard))
-	http.Handle("/api/get-player-by-name", wrap(h.GetPlayerName))
-	http.Handle("/api/get-player-games", wrap(h.GetPlayerGames))
-	http.Handle("/api/get-player-matchups", wrap(h.GetPlayerMatchups))
-	http.Handle("/api/get-player-profile", wrap(h.GetPlayerProfile))
-	http.Handle("/api/get-player-friends", wrap(h.GetPlayerFriends))
-	http.Handle("/api/get-winrates", wrap(h.GetWinrates))
+	mux := http.NewServeMux()
+
+	mux.Handle("/api/init", wrap(h.Init))
+	mux.Handle("/api/get-build-winrates", wrap(h.GetBuildWinrates))
+	mux.Handle("/api/get-compare-hero", wrap(h.GetCompareHero))
+	mux.Handle("/api/get-game-data", wrap(h.GetGameData))
+	mux.Handle("/api/get-hero-data", wrap(h.GetHero))
+	mux.Handle("/api/get-leaderboard", wrap(h.GetLeaderboard))
+	mux.Handle("/api/get-player-by-name", wrap(h.GetPlayerName))
+	mux.Handle("/api/get-player-games", wrap(h.GetPlayerGames))
+	mux.Handle("/api/get-player-matchups", wrap(h.GetPlayerMatchups))
+	mux.Handle("/api/get-player-profile", wrap(h.GetPlayerProfile))
+	mux.Handle("/api/get-player-friends", wrap(h.GetPlayerFriends))
+	mux.Handle("/api/get-winrates", wrap(h.GetWinrates))
 	if *flagInit {
-		http.HandleFunc("/api/clear-cache", h.ClearCache)
+		mux.HandleFunc("/api/clear-cache", h.ClearCache)
 	}
 
 	fileServer := http.FileServer(http.Dir("static"))
@@ -265,7 +267,7 @@ func main() {
 	}); err != nil {
 		log.Fatal(err)
 	}
-	http.HandleFunc("/img/talent/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/img/talent/", func(w http.ResponseWriter, r *http.Request) {
 		base := filepath.Base(r.URL.Path)
 		if !talents[base] {
 			makeTalentImg(w, r)
@@ -274,15 +276,16 @@ func main() {
 		serveFiles(w, r)
 	})
 
-	http.HandleFunc("/about/", serveIndex)
-	http.HandleFunc("/compare/", serveIndex)
-	http.HandleFunc("/games/", serveIndex)
-	http.HandleFunc("/heroes/", serveIndex)
-	http.HandleFunc("/players/", serveIndex)
-	http.HandleFunc("/talents/", serveIndex)
-	http.HandleFunc("/", serveFiles)
+	mux.HandleFunc("/about/", serveIndex)
+	mux.HandleFunc("/compare/", serveIndex)
+	mux.HandleFunc("/games/", serveIndex)
+	mux.HandleFunc("/heroes/", serveIndex)
+	mux.HandleFunc("/leaderboard", serveIndex)
+	mux.HandleFunc("/players/", serveIndex)
+	mux.HandleFunc("/talents/", serveIndex)
+	mux.HandleFunc("/", serveFiles)
 
-	http.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {})
+	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {})
 
 	go func() {
 		for range time.Tick(time.Minute * 10) {
@@ -302,23 +305,17 @@ func main() {
 	}()
 
 	if *flagAutocert != "" {
-		go func() {
-			mux := http.NewServeMux()
-			mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-				u := r.URL
-				u.Scheme = "https"
-				u.Host = *flagAutocert
-				// 301
-				http.Redirect(w, r, u.String(), http.StatusMovedPermanently)
-			})
-			log.Fatal(http.ListenAndServe(*flagAddr, mux))
-		}()
 		fmt.Println("AUTOCERT on:", *flagAutocert)
 		if *flagAcmedir != "" {
 			fmt.Println("ACMEDIR:", *flagAcmedir)
 		}
 		const cloudflareOrigin = "cloudflare-origin"
-		var tlsConfig *tls.Config
+		m := autocert.Manager{
+			Prompt:     autocert.AcceptTOS,
+			HostPolicy: autocert.HostWhitelist(*flagAutocert),
+			Cache:      dbCache{db},
+		}
+		tlsConfig := &tls.Config{GetCertificate: m.GetCertificate}
 		if *flagAcmedir == cloudflareOrigin {
 			var certfile, keyfile []byte
 			if err := h.x.Get(&certfile, `SELECT s FROM config WHERE key = $1`, cloudflareOrigin+"-cert"); err != nil {
@@ -334,25 +331,23 @@ func main() {
 			tlsConfig = &tls.Config{
 				Certificates: []tls.Certificate{cert},
 			}
-		} else {
-			m := autocert.Manager{
-				Prompt:     autocert.AcceptTOS,
-				HostPolicy: autocert.HostWhitelist(*flagAutocert),
-				Cache:      dbCache{db},
-				Client: &acme.Client{
-					DirectoryURL: *flagAcmedir,
-				},
+		} else if *flagAcmedir != "" {
+			m.Client = &acme.Client{
+				DirectoryURL: *flagAcmedir,
 			}
-			tlsConfig = &tls.Config{GetCertificate: m.GetCertificate}
 		}
+		go func() {
+			log.Fatal(http.ListenAndServe(":http", m.HTTPHandler(nil)))
+		}()
 		s := &http.Server{
 			Addr:      ":https",
 			TLSConfig: tlsConfig,
+			Handler:   mux,
 		}
 		log.Fatal(s.ListenAndServeTLS("", ""))
 	} else {
 		fmt.Println("HTTP listen on addr:", *flagAddr)
-		log.Fatal(http.ListenAndServe(*flagAddr, nil))
+		log.Fatal(http.ListenAndServe(*flagAddr, mux))
 	}
 }
 
