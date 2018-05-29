@@ -948,6 +948,13 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 		params = append(params, v)
 	}
 
+	type buildSkill struct {
+		Mode  Mode
+		Build string
+		Skill float64
+		Stats Stats
+	}
+
 	var res struct {
 		Battletag string
 		Profile   struct {
@@ -956,18 +963,11 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 			Modes  map[string]Total
 			Roles  map[string]Total
 		}
-		Skills []struct {
-			Skill float64
-			Mode  Mode
-		}
-		AllSkills []struct {
-			Build string
-			Skill float64
-			Mode  Mode
-			Stats Stats
-		}
+		Skills     map[Mode]buildSkill
+		AllSkills  []buildSkill
 		BuildStats map[Mode]Stats
 	}
+	res.Skills = make(map[Mode]buildSkill)
 	res.Profile.Heroes = make(map[string]Total)
 	res.Profile.Maps = make(map[string]Total)
 	res.Profile.Modes = make(map[string]Total)
@@ -977,14 +977,6 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 		v := init.config.Map["build"][skillBuild]
 		if v == "" {
 			return nil, errors.Errorf("unrecognized %s", skillBuild)
-		}
-		// TODO: remove @primary notation here when cockroach gets smarter
-		if err := h.x.SelectContext(ctx, &res.Skills, `
-				SELECT skill, mode
-				FROM playerskills@primary
-				WHERE build = $1 AND region = $2 AND blizzid = $3
-				`, v, region, blizzid); err != nil {
-			return nil, err
 		}
 		if err := h.x.SelectContext(ctx, &res.AllSkills, `
 				SELECT build, skill, mode
@@ -997,6 +989,9 @@ func (h *hotsContext) GetPlayerProfile(ctx context.Context, r *http.Request) (in
 			build := init.lookups["build"](s.Build)
 			res.AllSkills[i].Build = build
 			res.AllSkills[i].Stats = init.BuildStats[build][s.Mode]
+			if build <= skillBuild && build > res.Skills[s.Mode].Build {
+				res.Skills[s.Mode] = res.AllSkills[i]
+			}
 		}
 		sort.Slice(res.AllSkills, func(i, j int) bool {
 			return res.AllSkills[i].Build < res.AllSkills[j].Build

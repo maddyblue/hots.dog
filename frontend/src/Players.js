@@ -218,8 +218,8 @@ class Player extends Component<
 		Profile: any,
 		Battletag: string,
 		search: string,
-		Skills: any,
-		AllSkills: any,
+		AllSkills: any[],
+		Skills: {},
 		BuildStats?: any,
 	}
 > {
@@ -227,7 +227,7 @@ class Player extends Component<
 		Profile: null,
 		Battletag: '',
 		search: '',
-		Skills: [],
+		Skills: {},
 		AllSkills: [],
 		BuildStats: null,
 	};
@@ -305,10 +305,10 @@ class Player extends Component<
 		mode: number,
 		stats: any
 	): { rank: string, quantile: number } {
-		if (!stats) {
+		if (stats === undefined) {
 			stats = this.state.BuildStats && this.state.BuildStats[mode];
 		}
-		if (!stats) {
+		if (!stats || !stats.Quantile) {
 			return { rank: 'unknown', quantile: 0 };
 		}
 		const qs = Object.keys(stats.Quantile);
@@ -360,7 +360,7 @@ class Player extends Component<
 				});
 				skillChart = <MMRChart xitems={builds} series={series} />;
 			}
-			if (this.state.Skills && this.state.BuildStats) {
+			if (this.state.Skills) {
 				skills = (
 					<SortedTable
 						name="rank"
@@ -387,17 +387,29 @@ class Player extends Component<
 							{
 								name: 'quantile',
 								cell: pct,
+								desc: true,
+							},
+							{
+								name: 'Build',
+								header: 'as of build',
+								desc: true,
 							},
 							{
 								header: 'skill',
 								name: 'Skill',
 								cell: v => v.toFixed(6),
 								title: 'based on trueskill (initial mean: 25.0)',
+								desc: true,
 							},
 						]}
-						data={this.state.Skills.map(v =>
-							Object.assign({}, v, this.percentile(v.Skill, v.Mode))
-						)}
+						data={Object.keys(this.state.Skills).map(key => {
+							const v = this.state.Skills[key];
+							return Object.assign(
+								{},
+								v,
+								this.percentile(v.Skill, v.Mode, v.Stats)
+							);
+						})}
 					/>
 				);
 			}
