@@ -6,6 +6,9 @@ cockroach
 cockroach-data
 cockroach-data-full
 csv
+d
 data.sql
+heroprotocol
+hots.dog
 *.json
 static
