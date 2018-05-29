@@ -713,8 +713,10 @@ class PlayerFriends extends Component<
 	}
 	render() {
 		let content;
-		if (!this.state.Friends) {
+		if (!this.state.Battletag) {
 			content = 'loading...';
+		} else if (!this.state.Friends) {
+			content = 'No friends :(';
 		} else {
 			content = (
 				<SortedTable
