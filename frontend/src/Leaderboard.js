@@ -26,11 +26,15 @@ class Leaderboard extends Component<
 	{
 		Players: ?(any[]),
 		search: string,
+		Days: number,
+		MinGames: number,
 	}
 > {
 	state = {
 		Players: null,
 		search: '',
+		MinGames: 0,
+		Days: 0,
 	};
 	constructor(props: Props) {
 		super(props);
@@ -94,31 +98,39 @@ class Leaderboard extends Component<
 			content = 'No leaderboard data.';
 		} else {
 			content = (
-				<SortedTable
-					name="leaderboard"
-					sort="Rank"
-					headers={[
-						{
-							name: 'Rank',
-						},
-						{
-							name: 'Battletag',
-							cell: (v, row) => (
-								<Link to={'/players/' + this.props.region + '/' + row.Blizzid}>
-									{v}
-								</Link>
-							),
-						},
-						{
-							name: 'Skill',
-							cell: v => v.toFixed(6),
-						},
-						{
-							name: 'Games',
-						},
-					]}
-					data={this.state.Players || []}
-				/>
+				<div>
+					<p>
+						Top players who have played at least {this.state.MinGames} games in
+						the last {this.state.Days} days.
+					</p>
+					<SortedTable
+						name="leaderboard"
+						sort="Rank"
+						headers={[
+							{
+								name: 'Rank',
+							},
+							{
+								name: 'Battletag',
+								cell: (v, row) => (
+									<Link
+										to={'/players/' + this.props.region + '/' + row.Blizzid}
+									>
+										{v}
+									</Link>
+								),
+							},
+							{
+								name: 'Skill',
+								cell: v => v.toFixed(6),
+							},
+							{
+								name: 'Games',
+							},
+						]}
+						data={this.state.Players || []}
+					/>
+				</div>
 			);
 		}
 		return (

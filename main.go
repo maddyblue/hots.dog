@@ -1798,8 +1798,12 @@ func (h *hotsContext) GetLeaderboard(ctx context.Context, r *http.Request) (inte
 	res := struct {
 		Players  []*rankPlayer
 		Attempts int
+		Days     int
+		MinGames int
 	}{
-		Players: make([]*rankPlayer, 0, maxPlayers),
+		Players:  make([]*rankPlayer, 0, maxPlayers),
+		Days:     daysOld,
+		MinGames: leaderboardMinGames,
 	}
 
 	g, gCtx := errgroup.WithContext(ctx)
