@@ -265,7 +265,7 @@ class Player extends Component<
 		const elems = Object.keys(obj).map(k => {
 			const v = obj[k];
 			const total = v.Wins + v.Losses;
-			const wr = v.Wins / total * 100;
+			const wr = (v.Wins / total) * 100;
 			return {
 				header: k,
 				games: total,
@@ -630,7 +630,7 @@ class PlayerMatchups extends Component<
 		const elems = Object.keys(obj).map(k => {
 			const v = obj[k];
 			const total = v.Wins + v.Losses;
-			const wr = v.Wins / total * 100;
+			const wr = (v.Wins / total) * 100;
 			return {
 				header: k,
 				games: total,
