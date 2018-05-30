@@ -61,12 +61,6 @@ func addTiming(ctx context.Context, name string, query string, args []driver.Nam
 	}
 	m := servertiming.FromContext(ctx).NewMetric(name).Start()
 	m.Desc = esc(query)
-	for i, arg := range args {
-		if i == 0 {
-			m.Extra = make(map[string]string, len(args))
-		}
-		m.Extra[strconv.Itoa(arg.Ordinal)] = esc(fmt.Sprint(arg.Value))
-	}
 	return func() { m.Stop() }
 }
 

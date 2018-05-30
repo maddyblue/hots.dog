@@ -202,6 +202,9 @@ func main() {
 			res, err := f(ctx, r)
 			tm.Stop()
 			if len(sh.Metrics) > 0 {
+				if len(sh.Metrics) > 10 {
+					sh.Metrics = sh.Metrics[:10]
+				}
 				w.Header().Add(servertiming.HeaderKey, sh.String())
 			}
 			if err != nil {
