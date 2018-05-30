@@ -782,13 +782,21 @@ class Game extends Component<
 		Fetch(
 			'/api/get-game-data?id=' + encodeURIComponent(this.props.match.params.id),
 			data => {
-				this.setState(data);
+				this.setState(data || {});
 			}
 		);
 	}
 	render() {
 		if (!this.state) {
 			return 'loading...';
+		}
+		if (!this.state.Game) {
+			return (
+				<div>
+					No game by that ID. It may not yet have been imported from{' '}
+					<a href="http://hotsapi.net/">HotsApi</a>.
+				</div>
+			);
 		}
 		const baseSearch = '?build=' + this.state.Game.Build;
 		const title = this.state.Game.Map + ' on ' + toDate(this.state.Game.Date);

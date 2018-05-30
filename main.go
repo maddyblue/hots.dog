@@ -1324,7 +1324,9 @@ func (h *hotsContext) GetGameData(ctx context.Context, r *http.Request) (interfa
 		SELECT mode, time, map, length, build, bans
 		FROM games
 		WHERE id = $1
-		`, id); err != nil {
+		`, id); err == sql.ErrNoRows {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 
