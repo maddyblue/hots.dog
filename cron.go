@@ -103,6 +103,19 @@ func (h *hotsContext) cron() error {
 				}
 			}
 		}
+		v = make(url.Values)
+		u.Path = "/api/get-leaderboard"
+		for m := range init.Modes {
+			v.Set("mode", fmt.Sprint(m))
+			for r := range init.Regions {
+				v.Set("region", fmt.Sprint(r))
+				u.RawQuery = v.Encode()
+				log.Printf("force update: %s", u.String())
+				if err := update(u.String(), true); err != nil {
+					return err
+				}
+			}
+		}
 	}
 	if err := retry(func() error {
 		_, err := h.db.Exec(`DELETE FROM cache WHERE last_hit < (now() - '48h'::interval)`)

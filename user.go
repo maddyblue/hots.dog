@@ -23,9 +23,17 @@ var gameModes = map[string]Mode{
 	"TeamLeague":    ModeTeamLeague,
 }
 
-var modeNames = map[Mode]string{
-	ModeQuickMatch:    "Quick Match",
-	ModeUnrankedDraft: "Unranked Draft",
-	ModeHeroLeague:    "Hero League",
-	ModeTeamLeague:    "Team League",
-}
+var (
+	modeNames = map[Mode]string{
+		ModeQuickMatch:    "Quick Match",
+		ModeUnrankedDraft: "Unranked Draft",
+		ModeHeroLeague:    "Hero League",
+		ModeTeamLeague:    "Team League",
+	}
+	regionNames = map[int]string{
+		1: "Americas",
+		2: "Europe",
+		3: "Asia",
+		5: "China",
+	}
+)

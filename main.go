@@ -514,6 +514,7 @@ type cache struct {
 
 type initData struct {
 	Modes      map[Mode]string
+	Regions    map[int]string
 	Builds     []Build
 	Maps       []string
 	Heroes     []Hero
@@ -553,6 +554,7 @@ func (h *hotsContext) updateInit(ctx context.Context) error {
 	h.mu.Lock()
 	h.mu.init = initData{
 		Modes:   modeNames,
+		Regions: regionNames,
 		Heroes:  heroData,
 		config:  &c,
 		lookups: make(map[string]func(string) string),
