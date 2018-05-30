@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	Fetch,
-	BuildsOpts,
 	regionNames,
 	readCookie,
 	regionCookie,
@@ -62,11 +61,8 @@ class Leaderboard extends Component<
 		if (!this.props.mode || !this.props.region) {
 			return;
 		}
-		const build = this.props.build || this.props.Builds[0].ID;
 		return (
-			'/api/get-leaderboard?build=' +
-			build +
-			'&mode=' +
+			'/api/get-leaderboard?mode=' +
 			this.props.mode +
 			'&region=' +
 			this.props.region
@@ -95,7 +91,7 @@ class Leaderboard extends Component<
 		if (this.state.Players === null) {
 			content = 'loading...';
 		} else if (this.state.Players && !this.state.Players.length) {
-			content = 'No leaderboard data for this patch.';
+			content = 'No leaderboard data.';
 		} else {
 			content = (
 				<SortedTable
@@ -108,16 +104,7 @@ class Leaderboard extends Component<
 						{
 							name: 'Battletag',
 							cell: (v, row) => (
-								<Link
-									to={
-										'/players/' +
-										this.props.region +
-										'/' +
-										row.Blizzid +
-										'?build=' +
-										(this.props.build || this.props.Builds[0].ID)
-									}
-								>
+								<Link to={'/players/' + this.props.region + '/' + row.Blizzid}>
 									{v}
 								</Link>
 							),
@@ -125,6 +112,9 @@ class Leaderboard extends Component<
 						{
 							name: 'Skill',
 							cell: v => v.toFixed(6),
+						},
+						{
+							name: 'Games',
 						},
 					]}
 					data={this.state.Players || []}
@@ -159,16 +149,6 @@ class Leaderboard extends Component<
 							onChange={this.props.handleChange}
 						>
 							<GameModes Modes={this.props.Modes} noAll={true} />
-						</select>
-					</div>
-					<div className="column">
-						<label>Patch</label>
-						<select
-							name="build"
-							value={this.props.build}
-							onChange={this.props.handleChange}
-						>
-							<BuildsOpts builds={this.props.Builds} />
 						</select>
 					</div>
 				</div>

@@ -51,7 +51,9 @@ var (
 	flagUpdateDB  = flag.Bool("updatedb", false, "update db from import bucket")
 	initDB        = false
 
-	popularGameLimit = 10
+	popularGameLimit    = 10
+	leaderboardMinGames = 50
+	daysOld             = 90
 )
 
 const dbName = "hots"
@@ -129,6 +131,8 @@ func main() {
 	if *flagInit {
 		h.cacheTime = time.Second * 5
 		popularGameLimit = 2
+		leaderboardMinGames = 3
+		daysOld = int(time.Since(time.Date(2017, time.April, 1, 0, 0, 0, 0, time.UTC)) / (time.Hour * 24))
 	}
 
 	if *flagCron {
@@ -1731,54 +1735,101 @@ func (h *hotsContext) GetCompareHero(ctx context.Context, r *http.Request) (inte
 
 func (h *hotsContext) GetLeaderboard(ctx context.Context, r *http.Request) (interface{}, error) {
 	init := h.getInit()
-	args := map[string]string{
-		"build":  init.config.build(r.FormValue("build")),
-		"mode":   r.FormValue("mode"),
-		"region": r.FormValue("region"),
-	}
-	if args["build"] == "" {
-		return nil, errors.New("build required")
-	}
-	if args["mode"] == "" {
+	mode := r.FormValue("mode")
+	region := r.FormValue("region")
+	if mode == "" {
 		return nil, errors.New("mode required")
 	}
-	if args["region"] == "" {
+	if region == "" {
 		return nil, errors.New("region required")
 	}
-
-	var wheres []string
-	var params []interface{}
-	for _, key := range []string{"build", "mode", "region"} {
-		v := args[key]
-		if v == "" {
+	const (
+		maxPlayers           = 100
+		fetchPlayersPerPatch = 1000
+	)
+	var daysTime = time.Hour * 24 * time.Duration(daysOld)
+	since := time.Now().Add(-daysTime)
+	type playerSkill struct {
+		Blizzid string
+		Skill   float64
+	}
+	// blizzid -> playerSkill
+	players := make(map[string]playerSkill)
+	for _, b := range init.Builds {
+		if b.Finish.Before(since) {
 			continue
 		}
-		wheres = append(wheres, fmt.Sprintf("%s = $%d", key, len(params)+1))
-		params = append(params, v)
-	}
-	var res struct {
-		Players []*struct {
-			Rank      int
-			Battletag string
-			Blizzid   string
-			Skill     float64
-		}
-	}
-	if err := h.x.SelectContext(ctx, &res.Players, fmt.Sprintf(`
+
+		var ps []playerSkill
+		if err := h.x.SelectContext(ctx, &ps, `
 		SELECT blizzid, skill
 		FROM playerskills
-		WHERE %s
+		WHERE
+			region = $1 AND
+			build = $2 AND
+			mode = $3
 		ORDER BY skill DESC
-		LIMIT 100
-		`, strings.Join(wheres, " AND "),
-	), params...); err != nil {
-		return nil, err
+		LIMIT $4
+	`, region, init.config.build(b.ID), mode, fetchPlayersPerPatch); err != nil {
+			return nil, err
+		}
+		for _, p := range ps {
+			if _, ok := players[p.Blizzid]; !ok {
+				players[p.Blizzid] = p
+			}
+		}
 	}
+	skills := make([]playerSkill, 0, len(players))
+	for _, p := range players {
+		skills = append(skills, p)
+	}
+	sort.Slice(skills, func(i, j int) bool {
+		return skills[i].Skill > skills[j].Skill
+	})
+
+	type rankPlayer struct {
+		Rank      int
+		Battletag string
+		Blizzid   string
+		Skill     float64
+		Games     int
+	}
+
+	res := struct {
+		Players  []*rankPlayer
+		Attempts int
+	}{
+		Players: make([]*rankPlayer, 0, maxPlayers),
+	}
+
 	g, gCtx := errgroup.WithContext(ctx)
-	region := args["region"]
-	for i, p := range res.Players {
-		p.Rank = i + 1
-		p := p
+	for _, s := range skills {
+		if len(res.Players) >= maxPlayers {
+			break
+		}
+		var games int
+		res.Attempts++
+		if err := h.x.GetContext(ctx, &games, `
+			SELECT count(*)
+			FROM players
+			WHERE
+				region = $1 AND
+				blizzid = $2 AND
+				"time" > $3 AND
+				mode = $4
+		`, region, s.Blizzid, since, mode); err != nil {
+			return nil, err
+		}
+		if games < leaderboardMinGames {
+			continue
+		}
+		p := &rankPlayer{
+			Rank:    len(res.Players) + 1,
+			Blizzid: s.Blizzid,
+			Skill:   s.Skill,
+			Games:   games,
+		}
+		res.Players = append(res.Players, p)
 		g.Go(func() error {
 			var err error
 			p.Battletag, err = h.getBattletag(gCtx, p.Blizzid, region)
