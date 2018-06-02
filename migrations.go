@@ -47,7 +47,7 @@ func mustMigrate(db *sql.DB) {
 				CREATE TABLE IF NOT EXISTS skillstats (
 					build INT,
 					mode INT,
-					data BYTES,
+					data JSONB,
 					PRIMARY KEY (build, mode)
 				);
 			`,

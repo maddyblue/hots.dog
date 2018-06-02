@@ -100,8 +100,8 @@ class Leaderboard extends Component<
 			content = (
 				<div>
 					<p>
-						Top players who have played at least {this.state.MinGames} games in
-						the last {this.state.Days} days.
+						Top players in Master League who have played at least{' '}
+						{this.state.MinGames} games in the last {this.state.Days} days.
 					</p>
 					<SortedTable
 						name="leaderboard"

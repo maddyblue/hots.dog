@@ -1748,8 +1748,7 @@ func (h *hotsContext) GetLeaderboard(ctx context.Context, r *http.Request) (inte
 		return nil, errors.New("region required")
 	}
 	const (
-		maxPlayers           = 100
-		fetchPlayersPerPatch = 1000
+		maxPlayers = 100
 	)
 	var daysTime = time.Hour * 24 * time.Duration(daysOld)
 	since := time.Now().Add(-daysTime)
@@ -1766,15 +1765,17 @@ func (h *hotsContext) GetLeaderboard(ctx context.Context, r *http.Request) (inte
 
 		var ps []playerSkill
 		if err := h.x.SelectContext(ctx, &ps, `
-		SELECT blizzid, skill
-		FROM playerskills
-		WHERE
-			region = $1 AND
-			build = $2 AND
-			mode = $3
-		ORDER BY skill DESC
-		LIMIT $4
-	`, region, init.config.build(b.ID), mode, fetchPlayersPerPatch); err != nil {
+			SELECT p.blizzid, p.skill
+			FROM playerskills p
+			JOIN skillstats s ON
+				p.build = s.build AND
+				p.mode = s.mode
+			WHERE
+				p.region = $1 AND
+				p.build = $2 AND
+				p.mode = $3 AND
+				p.skill > (s.data->'Quantile'->>'99')::float
+		`, region, init.config.build(b.ID), mode); err != nil {
 			return nil, err
 		}
 		for _, p := range ps {
