@@ -104,13 +104,6 @@ func main() {
 		return
 	}
 
-	if *flagElo {
-		if err := h.elo(); err != nil {
-			log.Fatalf("%+v", err)
-		}
-		return
-	}
-
 	/*
 	   The database cache has two timestamps: until and last_hit. last_hit is
 	   the last time a user request hit the URL. until is the time after which
@@ -133,6 +126,13 @@ func main() {
 		popularGameLimit = 2
 		leaderboardMinGames = 3
 		daysOld = int(time.Since(time.Date(2017, time.April, 1, 0, 0, 0, 0, time.UTC)) / (time.Hour * 24))
+	}
+
+	if *flagElo {
+		if err := h.elo(); err != nil {
+			log.Fatalf("%+v", err)
+		}
+		return
 	}
 
 	if *flagCron {
@@ -1738,7 +1738,6 @@ func (h *hotsContext) GetCompareHero(ctx context.Context, r *http.Request) (inte
 }
 
 func (h *hotsContext) GetLeaderboard(ctx context.Context, r *http.Request) (interface{}, error) {
-	init := h.getInit()
 	mode := r.FormValue("mode")
 	region := r.FormValue("region")
 	if mode == "" {
@@ -1747,98 +1746,37 @@ func (h *hotsContext) GetLeaderboard(ctx context.Context, r *http.Request) (inte
 	if region == "" {
 		return nil, errors.New("region required")
 	}
-	const (
-		maxPlayers = 100
-	)
-	var daysTime = time.Hour * 24 * time.Duration(daysOld)
-	since := time.Now().Add(-daysTime)
-	type playerSkill struct {
-		Blizzid string
-		Skill   float64
-	}
-	// blizzid -> playerSkill
-	players := make(map[string]playerSkill)
-	for _, b := range init.Builds {
-		if b.Finish.Before(since) {
-			continue
-		}
-
-		var ps []playerSkill
-		if err := h.x.SelectContext(ctx, &ps, `
-			SELECT p.blizzid, p.skill
-			FROM playerskills p
-			JOIN skillstats s ON
-				p.build = s.build AND
-				p.mode = s.mode
-			WHERE
-				p.region = $1 AND
-				p.build = $2 AND
-				p.mode = $3 AND
-				p.skill > (s.data->'Quantile'->>'99')::float
-		`, region, init.config.build(b.ID), mode); err != nil {
-			return nil, err
-		}
-		for _, p := range ps {
-			if _, ok := players[p.Blizzid]; !ok {
-				players[p.Blizzid] = p
-			}
-		}
-	}
-	skills := make([]playerSkill, 0, len(players))
-	for _, p := range players {
-		skills = append(skills, p)
-	}
-	sort.Slice(skills, func(i, j int) bool {
-		return skills[i].Skill > skills[j].Skill
-	})
 
 	type rankPlayer struct {
 		Rank      int
 		Battletag string
 		Blizzid   string
 		Skill     float64
-		Games     int
+		Total     int
+		Recent    int
 	}
 
 	res := struct {
 		Players  []*rankPlayer
-		Attempts int
 		Days     int
 		MinGames int
 	}{
-		Players:  make([]*rankPlayer, 0, maxPlayers),
 		Days:     daysOld,
 		MinGames: leaderboardMinGames,
 	}
 
+	if err := h.x.SelectContext(ctx, &res.Players, `
+		SELECT rank, blizzid, skill, total, recent
+		FROM leaderboard
+		WHERE region = $1 AND mode = $2
+		ORDER BY rank DESC
+	`, region, mode); err != nil {
+		return nil, err
+	}
+
 	g, gCtx := errgroup.WithContext(ctx)
-	for _, s := range skills {
-		if len(res.Players) >= maxPlayers {
-			break
-		}
-		var games int
-		res.Attempts++
-		if err := h.x.GetContext(ctx, &games, `
-			SELECT count(*)
-			FROM players
-			WHERE
-				region = $1 AND
-				blizzid = $2 AND
-				"time" > $3 AND
-				mode = $4
-		`, region, s.Blizzid, since, mode); err != nil {
-			return nil, err
-		}
-		if games < leaderboardMinGames {
-			continue
-		}
-		p := &rankPlayer{
-			Rank:    len(res.Players) + 1,
-			Blizzid: s.Blizzid,
-			Skill:   s.Skill,
-			Games:   games,
-		}
-		res.Players = append(res.Players, p)
+	for _, p := range res.Players {
+		p := p
 		g.Go(func() error {
 			var err error
 			p.Battletag, err = h.getBattletag(gCtx, p.Blizzid, region)

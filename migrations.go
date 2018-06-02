@@ -52,6 +52,21 @@ func mustMigrate(db *sql.DB) {
 				);
 			`,
 		},
+		{
+			ID: "3",
+			Up: `
+				CREATE TABLE IF NOT EXISTS leaderboard (
+					region INT NOT NULL,
+					mode INT NOT NULL,
+					rank INT NOT NULL,
+					blizzid INT NULL,
+					skill FLOAT NULL,
+					total INT NULL,
+					recent INT NULL,
+					CONSTRAINT "primary" PRIMARY KEY (region ASC, mode ASC, rank ASC)
+				);
+			`,
+		},
 	}
 
 	const migrateTable = "migrations"

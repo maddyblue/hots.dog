@@ -125,7 +125,13 @@ class Leaderboard extends Component<
 								cell: v => v.toFixed(6),
 							},
 							{
-								name: 'Games',
+								name: 'Total',
+								header: 'Total Games',
+							},
+							{
+								name: 'Recent',
+								header: 'Recent Games',
+								title: 'Games in the last ' + this.state.Days + ' days.',
 							},
 						]}
 						data={this.state.Players || []}

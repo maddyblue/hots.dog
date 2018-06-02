@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"math"
+	"sort"
 	"time"
 
 	"golang.org/x/sync/errgroup"
@@ -86,11 +87,21 @@ func (h *hotsContext) elo() error {
 		return errors.Wrap(err, "make update playerskills")
 	}
 	scores := NewScores()
+	totalGames := make(map[regionPlayer]struct {
+		total  int
+		recent int
+	})
+
+	var daysTime = time.Hour * 24 * time.Duration(daysOld)
+	since := time.Now().Add(-daysTime)
+	fmt.Println("recent is since", since)
+
 	for i := len(init.Builds) - 1; i >= 0; i-- {
 		build := init.Builds[i]
-		updatePatch := build.ID >= updateAfterPatch
+		updatePatch := build.ID >= updateAfterPatch || *flagInit
 		start := time.Now()
 		patch := init.config.build(build.ID)
+		isRecent := build.Start.After(since)
 		fmt.Println("\nstart", build.ID, "at", start, "patch", patch)
 
 		// fetch players into memory
@@ -155,12 +166,19 @@ func (h *hotsContext) elo() error {
 					teams[1] = skills.NewTeam()
 					ps := players[game.id]
 					for _, p := range ps {
-						rating := scores.Get(game.mode, regionPlayer{game.region, p.blizzid})
+						rp := regionPlayer{game.region, p.blizzid}
+						rating := scores.Get(game.mode, rp)
 						if p.winner {
 							teams[0].AddPlayer(p.blizzid, rating)
 						} else {
 							teams[1].AddPlayer(p.blizzid, rating)
 						}
+						tg := totalGames[rp]
+						tg.total++
+						if isRecent {
+							tg.recent++
+						}
+						totalGames[rp] = tg
 					}
 					if teams[0].PlayerCount() != 5 || teams[1].PlayerCount() != 5 {
 						continue
@@ -300,6 +318,68 @@ func (h *hotsContext) elo() error {
 			}
 		}
 		fmt.Println(build.ID, "took", time.Since(start))
+	}
+	fmt.Println("begin leaderboard")
+	// Calculate leaderboard
+	type leaderboardSkill struct {
+		blizzid int64
+		skill   float64
+		total   int
+		recent  int
+	}
+	var skills []leaderboardSkill
+	const maxPlayers = 100
+	for m := range init.Modes {
+		for r := range init.Regions {
+			skills = skills[:0]
+			for rp, ps := range scores[m] {
+				tg := totalGames[rp]
+				if rp.region != r || tg.recent < leaderboardMinGames {
+					continue
+				}
+				skills = append(skills, leaderboardSkill{
+					blizzid: rp.blizzid,
+					skill:   ratingToSkill(ps.score),
+					total:   tg.total,
+					recent:  tg.recent,
+				})
+			}
+			sort.Slice(skills, func(i, j int) bool {
+				return skills[i].skill > skills[j].skill
+			})
+			fmt.Println("found", len(skills), "for mode", m, "region", r)
+			tx, err := pool.Begin()
+			if err != nil {
+				return err
+			}
+			if _, err := tx.Exec("delete from leaderboard where region = $1 and mode = $2", r, m); err != nil {
+				return err
+			}
+			for i, s := range skills {
+				if i >= 100 {
+					break
+				}
+				if _, err := tx.Exec(`
+					INSERT INTO leaderboard
+					(region, mode, rank, blizzid, skill, total, recent)
+					VALUES
+					($1, $2, $3, $4, $5, $6, $7)
+					RETURNING NOTHING`,
+					r,
+					m,
+					i+1,
+					s.blizzid,
+					s.skill,
+					s.total,
+					s.recent,
+				); err != nil {
+					return err
+				}
+			}
+			if err := tx.Commit(); err != nil {
+				return err
+			}
+		}
 	}
 	return nil
 }
