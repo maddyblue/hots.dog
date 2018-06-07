@@ -1248,7 +1248,7 @@ var talentData = map[string]talentText{
 	},
 	"ArthasRime": {
 		Name: "Rime",
-		Text: "Every 5 seconds, gain 60 Physical Armor against the next enemy Hero Basic Attack, reducing the damage taken by 60%. Stores up to 3 charges.",
+		Text: "Every 5 seconds, gain 75 Physical Armor against the next enemy Hero Basic Attack, reducing the damage taken by 75%. Stores up to 3 charges.",
 	},
 	"ArthasRuneTap": {
 		Name: "Rune Tap",
@@ -2016,7 +2016,7 @@ var talentData = map[string]talentText{
 	},
 	"CrusaderMasteryIronSkinReinforce": {
 		Name: "Reinforce",
-		Text: "Using a Basic Ability grants 50 Physical Armor against the next enemy Hero Basic Attack, reducing damage taken by 50%.\nStores up to 2 charges.",
+		Text: "Using a Basic Ability grants 75 Physical Armor against the next enemy Hero Basic Attack, reducing damage taken by 75%.\nStores up to 2 charges.",
 	},
 	"CrusaderMasteryIronSkinTheCrusadeMarchesOn": {
 		Name: "The Crusade Marches On",
@@ -2432,7 +2432,7 @@ var talentData = map[string]talentText{
 	},
 	"DiabloDevastatingCharge": {
 		Name: "Devastating Charge",
-		Text: "Increase Shadow Charge's terrain collision damage by 100%.\nQuest: Each time an enemy Hero takes terrain collision damage, increase this bonus by 15%, to a maximum of 75%.",
+		Text: "Increase Shadow Charge's terrain collision damage by 80%.\nQuest: Each time an enemy Hero takes terrain collision damage, increase this bonus by 20%, to a maximum of 120%.",
 	},
 	"DiabloDiabolicalMomentum": {
 		Name: "Diabolical Momentum",
@@ -2440,7 +2440,7 @@ var talentData = map[string]talentText{
 	},
 	"DiabloFireStompSoulsToTheFlame": {
 		Name: "Souls to the Flame",
-		Text: "Fire Stomp grants 1 Soul every 3 times it damages an enemy Hero, and heals for an additional 1.25% of its damage dealt per Soul.",
+		Text: "Fire Stomp grants 1 Soul every 3 times it damages an enemy Hero, and heals for an additional 1.3% of its damage dealt per Soul.",
 	},
 	"DiabloHellfire": {
 		Name: "Hellfire",
@@ -2468,7 +2468,7 @@ var talentData = map[string]talentText{
 	},
 	"DiabloMasteryDevilsDueBlackSoulstone": {
 		Name: "Devil's Due",
-		Text: "Black Soulstone increases the effects of Regen Globes and Healing Fountains by 2% per Soul.",
+		Text: "Black Soulstone increases the effects of Regen Globes and Healing Fountains by 2.25% per Soul.",
 	},
 	"DiabloMasteryDyingBreathApocalypse": {
 		Name: "Dying Breath",
@@ -2476,7 +2476,7 @@ var talentData = map[string]talentText{
 	},
 	"DiabloMasteryFeastOnFearBlackSoulstone": {
 		Name: "Feast on Fear",
-		Text: "Stunning an enemy Hero with Shadow Charge or Overpower heals Diablo for 15% of his maximum Health over 4 seconds.",
+		Text: "Stunning an enemy Hero with Shadow Charge or Overpower heals Diablo for 12% of his maximum Health over 3 seconds.",
 	},
 	"DiabloMasteryHellstormLightningBreath": {
 		Name: "Hellstorm",
@@ -2496,7 +2496,7 @@ var talentData = map[string]talentText{
 	},
 	"DiabloShadowChargeSacrificialSoul": {
 		Name: "Sacrificial Soul",
-		Text: "Stunning a Hero with Shadow Charge grants 5 Souls and 15 Armor for 4 seconds. While at 100 Souls, increase this Armor to 30.",
+		Text: "Stunning a Hero with Shadow Charge grants 5 Souls and 20 Armor for 4 seconds. While at 100 Souls, increase this Armor to 40.",
 	},
 	"DiabloSoulShield": {
 		Name: "Soul Shield",
@@ -2528,7 +2528,7 @@ var talentData = map[string]talentText{
 	},
 	"DryadChokingPollen": {
 		Name: "Choking Pollen",
-		Text: "Noxious Blossom deals 50% more damage to Heroes afflicted by Nature's Toxin, increased to 100% against enemies with 3 stacks.  ",
+		Text: "Noxious Blossom deals 75% more damage to Heroes afflicted by Nature's Toxin, increased to 125% against enemies with 3 stacks.  ",
 	},
 	"DryadCruelSpores": {
 		Name: "Cruel Spores",
@@ -2584,7 +2584,7 @@ var talentData = map[string]talentText{
 	},
 	"DryadNaturesCulling": {
 		Name: "Nature's Culling",
-		Text: "Increases Nature's Toxin's damage by 150% to non-Heroes.",
+		Text: "Increases Nature's Toxin's damage by 125% to non-Heroes.",
 	},
 	"DryadPesteringBlossom": {
 		Name: "Pestering Blossom",
@@ -2700,7 +2700,7 @@ var talentData = map[string]talentText{
 	},
 	"FaerieDragonHeroicAbilityBlinkHeal": {
 		Name: "Blink Heal",
-		Text: "Teleport to a nearby ally, healing them for 194.\nStores up to 2 charges.",
+		Text: "Teleport to a nearby ally, healing them for 200.\nStores up to 2 charges.",
 	},
 	"FaerieDragonHeroicAbilityEmeraldWind": {
 		Name: "Emerald Wind",
@@ -3116,7 +3116,7 @@ var talentData = map[string]talentText{
 	},
 	"GarroshGroundbreakerMortalCombo": {
 		Name: "Mortal Combo",
-		Text: "If Wrecking Ball is used on a Hero within 3 seconds of Stunning them with Groundbreaker, Wrecking Ball's cooldown is reduced by 7 seconds.",
+		Text: "If Wrecking Ball is used on a Hero within 3 seconds of Stunning them with Groundbreaker, Wrecking Ball's cooldown is reduced by 9 seconds.",
 	},
 	"GarroshGroundbreakerRoughLanding": {
 		Name: "Rough Landing",
@@ -3336,7 +3336,7 @@ var talentData = map[string]talentText{
 	},
 	"GenjiCyberAgilityAgileDismount": {
 		Name: "Agile Dismount",
-		Text: "While mounted, the range of Cyber Agility is increased by 70% and its cooldown is reduced by 7 seconds.",
+		Text: "While mounted, the range of Cyber Agility is increased by 70% and its cooldown is reduced by 10 seconds.",
 	},
 	"GenjiCyberAgilityCyberShield": {
 		Name: "Cyber Shield",
@@ -6440,7 +6440,7 @@ var talentData = map[string]talentText{
 	},
 	"ThrallFeralResilience": {
 		Name: "Feral Resilience",
-		Text: "Heroes damaged by Feral Spirit grant 3 stacks of Frostwolf Resilience and 2 stacks of Feral Resilience, granting 50 Physical Armor against the next incoming Hero Basic Attack.\nStacks are consumed on the next cast of Feral Spirit.",
+		Text: "Heroes damaged by Feral Spirit grant 3 stacks of Frostwolf Resilience and 2 stacks of Feral Resilience, granting 75 Physical Armor against the next incoming Hero Basic Attack.\nStacks are consumed on the next cast of Feral Spirit.",
 	},
 	"ThrallFrostwolfPack": {
 		Name: "Frostwolf Pack",
@@ -7224,7 +7224,7 @@ var talentData = map[string]talentText{
 	},
 	"VarianTaunt": {
 		Name: "Taunt",
-		Text: "Silence a target Hero and force them to attack Varian for 1.25 seconds.\nPassive: Maximum Health and Health Regeneration increased by 25%.\nPassive: Gain 15 Armor.",
+		Text: "Silence a target Hero and force them to attack Varian for 1.25 seconds.\nPassive: Maximum Health and Health Regeneration increased by 30%.",
 	},
 	"VarianTauntVigilance": {
 		Name: "Vigilance",
@@ -7424,7 +7424,7 @@ var talentData = map[string]talentText{
 	},
 	"ZagaraHeroicAbilityDevouringMaw": {
 		Name: "Devouring Maw",
-		Text: "Summon a Devouring Maw that devours enemies for 4 seconds. Devoured enemies cannot fight and take 80 damage per second.\nUsable on Unstoppable enemies.",
+		Text: "Summon a Devouring Maw that devours enemies for 4 seconds. Devoured enemies cannot fight and take 88 damage per second.\nUsable on Unstoppable enemies.",
 	},
 	"ZagaraHeroicAbilityNydusAssault": {
 		Name: "Nydus Network",
@@ -7440,7 +7440,7 @@ var talentData = map[string]talentText{
 	},
 	"ZagaraMasteryBroodExpansion": {
 		Name: "Brood Expansion",
-		Text: "Reduces the cooldown of Hunter Killer by 6 seconds.",
+		Text: "Reduces the cooldown of Hunter Killer by 7 seconds and its Mana cost by 30.",
 	},
 	"ZagaraMasteryCentrifugalHooks": {
 		Name: "Centrifugal Hooks",
@@ -7448,11 +7448,11 @@ var talentData = map[string]talentText{
 	},
 	"ZagaraMasteryCorpseFeeders": {
 		Name: "Corpse Feeders",
-		Text: "Reduces the cooldown of Infested Drop by 3 seconds and Roachlings take 40% less damage from non-Heroic sources.",
+		Text: "Reduces the cooldown of Infested Drop by 3 seconds and Roachlings take 50% less damage from non-Heroic sources.",
 	},
 	"ZagaraMasteryCorrosiveSaliva": {
 		Name: "Corrosive Saliva",
-		Text: "When used against Heroes, Hunter Killers deal additional damage equal to 2% of their maximum Health.",
+		Text: "When used against Heroes, Hunter Killers deal additional damage equal to 2.5% of their maximum Health.",
 	},
 	"ZagaraMasteryEndlessCreep": {
 		Name: "Endless Creep",
