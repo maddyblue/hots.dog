@@ -535,6 +535,13 @@ var heroData = []Hero{
 		MultiRole: []string{"Specialist"},
 	},
 	{
+		Name:      "Yrel",
+		ID:        "Yrel",
+		Slug:      "yrel",
+		Role:      "Warrior",
+		MultiRole: []string{"Warrior"},
+	},
+	{
 		Name:      "Zagara",
 		ID:        "Zagara",
 		Slug:      "zagara",
@@ -1700,7 +1707,7 @@ var talentData = map[string]talentText{
 	},
 	"ChenAccumulatingFlame": {
 		Name: "Accumulating Flame",
-		Text: "Quest: Every time a Hero is Ignited with Breath of Fire, increase its damage over time by 2%, up to 60%.\nReward: After Igniting 30 Heroes, each enemy Hero Ignited grants you 15 Armor for 3 seconds.",
+		Text: "Quest: Every time a Hero is Ignited with Breath of Fire, increase its damage over time by 2%, up to 60%.\nReward: After Igniting 30 Heroes, gain 25 Armor for 1 second per Hero Ignited, reducing damage taken by 25%.",
 	},
 	"ChenAnotherRound": {
 		Name: "Another Round",
@@ -1768,7 +1775,7 @@ var talentData = map[string]talentText{
 	},
 	"ChenPurifyingBrew": {
 		Name: "Purifying Brew",
-		Text: "The next Stun or Silence used against Chen has its duration reduced by 75% and resets the cooldown of Fortifying Brew. Can only trigger once every 15 seconds. While Chen has Fortifying Brew Shields, he gains 30 Spell Armor, reducing Ability Damage taken by 30%.",
+		Text: "The next Stun or Silence used against Chen has its duration reduced by 75% and resets the cooldown of Fortifying Brew. Can only trigger once every 15 seconds. While channeling Fortifying Brew gain 30 Spell Armor, reducing Ability Damage taken by 30%.",
 	},
 	"ChenRefreshingElixir": {
 		Name: "Refreshing Elixir",
@@ -2156,7 +2163,7 @@ var talentData = map[string]talentText{
 	},
 	"DeckardAncientBlessings": {
 		Name: "Ancient Blessings",
-		Text: "Activate Fortitude of the Faithful to empower nearby allied Hero Basic Attacks for 8 seconds, causing them to deal an additional 72 damage in an area and heal for 106 for each Hero hit.",
+		Text: "Activate Fortitude of the Faithful to empower nearby allied Hero Basic Attacks for 8 seconds, causing them to deal an additional 72 damage in an area and heal for 106 for each Hero hit. This effect can only occur once per second.",
 	},
 	"DeckardBottomlessFlask": {
 		Name: "Bottomless Flask",
@@ -2488,7 +2495,7 @@ var talentData = map[string]talentText{
 	},
 	"DiabloShadowChargeOverpowerCruelty": {
 		Name: "Cruelty",
-		Text: "Stunning an enemy with Shadow Charge or Overpower increases Diablo's Attack Speed by 50% for 5 seconds, up to 100%.",
+		Text: "Stunning an enemy Hero with Shadow Charge or Overpower increases Diablo's Attack Speed by 50% for 5 seconds, up to 100%.",
 	},
 	"DiabloShadowChargeOverpowerEternalFlames": {
 		Name: "Eternal Flames",
@@ -3124,7 +3131,7 @@ var talentData = map[string]talentText{
 	},
 	"GarroshGroundbreakerWarbreaker": {
 		Name: "Warbreaker",
-		Text: "Quest: Stun Heroes with Groundbreaker.\nReward: After Stunning 5 Heroes, Groundbreaker deals an additional 165 damage over 3 seconds to Heroes.\nReward: After Stunning 15 Heroes, permanently reduce Groundbreaker's cooldown by 2 seconds.",
+		Text: "Quest: Stun Heroes with Groundbreaker.\nReward: After Stunning 5 Heroes, Groundbreaker's Stun deals an additional 165 damage over 3 seconds to Heroes.\nReward: After Stunning 15 Heroes, permanently reduce Groundbreaker's cooldown by 2 seconds.",
 	},
 	"GarroshHeroicAbilityDecimate": {
 		Name: "Decimate",
@@ -3376,7 +3383,7 @@ var talentData = map[string]talentText{
 	},
 	"GenjiDragonbladeTheDragonBecomesMe": {
 		Name: "The Dragon Becomes Me",
-		Text: "Each time Dragonblade hits an enemy Hero, the duration of Dragonblade is increased by 0.5 seconds. If an Hero is killed within 2 seconds of being hit by Dragonblade, Swift Strike's cooldown is reset.",
+		Text: "Each time Dragonblade hits an enemy Hero, the duration of Dragonblade is increased by 0.5 seconds. If a Hero is killed within 2 seconds of being hit by Dragonblade, Swift Strike's cooldown is reset.",
 	},
 	"GenjiHeroicDragonblade": {
 		Name: "Dragonblade",
@@ -4696,7 +4703,7 @@ var talentData = map[string]talentText{
 	},
 	"MalfurionCelestialAlignment": {
 		Name: "Celestial Alignment",
-		Text: "Increase Moonfire's reveal duration by 1 second. Malfurion's Basic Attacks against Heroes revealed by Moonfire deal 75% more damage.",
+		Text: "Increase Moonfire's reveal duration by 3 seconds. Malfurion's Basic Attacks against Heroes revealed by Moonfire deal 75% more damage.",
 	},
 	"MalfurionCombatStyleElunesGrace": {
 		Name: "Elune's Grace",
@@ -6440,7 +6447,7 @@ var talentData = map[string]talentText{
 	},
 	"ThrallFeralResilience": {
 		Name: "Feral Resilience",
-		Text: "Heroes damaged by Feral Spirit grant 3 stacks of Frostwolf Resilience and 2 stacks of Feral Resilience, granting 75 Physical Armor against the next incoming Hero Basic Attack.\nStacks are consumed on the next cast of Feral Spirit.",
+		Text: "Heroes damaged by Feral Spirit grant 3 stacks of Frostwolf Resilience and 2 stacks of Feral Resilience, granting 50 Physical Armor against the next incoming Hero Basic Attack.\nStacks are consumed on the next cast of Feral Spirit.",
 	},
 	"ThrallFrostwolfPack": {
 		Name: "Frostwolf Pack",
@@ -7180,7 +7187,7 @@ var talentData = map[string]talentText{
 	},
 	"VarianColossusSmash": {
 		Name: "Colossus Smash",
-		Text: "Smash a target enemy, dealing 160 damage and lowering their Armor by 20 for 3 seconds, causing them to take 20% increased damage.\nPassive: Base Attack Damage increased by 100%.\nPassive: Maximum Health reduced by 10%.",
+		Text: "Smash a target enemy, dealing 160 damage and lowering their Armor by 20 for 3 seconds, causing them to take 20% increased damage.\nPassive: Base Attack Damage increased by 100%.\nPassive: Maximum Health and Health Regeneration reduced by 10%.",
 	},
 	"VarianColossusSmashMasterAtArms": {
 		Name: "Master at Arms",
@@ -7376,7 +7383,7 @@ var talentData = map[string]talentText{
 	},
 	"WizardHeroicAbilityDisintegrate": {
 		Name: "Disintegrate",
-		Text: "Channel a powerful beam, dealing 440 damage over 2.5 seconds to enemies while they are in it. The direction of the beam changes with your mouse cursor position.",
+		Text: "Channel a powerful beam, dealing 440 damage over 2.6 seconds to enemies while they are in it. The direction of the beam changes with your mouse cursor position.",
 	},
 	"WizardHeroicAbilityWaveOfForce": {
 		Name: "Wave of Force",
@@ -7417,6 +7424,94 @@ var talentData = map[string]talentText{
 	"WizardWaveOfForceRepulsion": {
 		Name: "Repulsion",
 		Text: "Increases Wave of Force knockback distance by 150% and increases its cast range by 100%.",
+	},
+	"YrelArdentDefender": {
+		Name: "Ardent Defender",
+		Text: "Surround Yrel in a barrier for 3 seconds, absorbing all damage taken and healing her for 50% of the damage received.",
+	},
+	"YrelArdentDefenderWordOfGlory": {
+		Name: "Word of Glory",
+		Text: "Ardent Defender heals nearby allied Heroes for 200% of the healing received by Yrel.",
+	},
+	"YrelAvengingWrathAegisOfLight": {
+		Name: "Aegis of Light",
+		Text: "Upon landing, Avenging Wrath grants other nearby allied Heroes 25 Armor for 5 seconds.",
+	},
+	"YrelAvengingWrathHolyAvenger": {
+		Name: "Holy Avenger",
+		Text: "Hitting an enemy Hero with Avenging Wrath at maximum charge reduces its cooldown to 1 second.",
+	},
+	"YrelAvengingWrathRepentance": {
+		Name: "Repentance",
+		Text: "Increase Avenging Wrath's Slow by 25% and duration by 0.5 seconds.",
+	},
+	"YrelBubbleHearth": {
+		Name: "Bubble Hearth",
+		Text: "After 1 second, Yrel becomes Invulnerable and casts Hearthstone. Cannot be canceled.",
+	},
+	"YrelDauntless": {
+		Name: "Dauntless",
+		Text: "Casting a Basic Ability grants Yrel 35 Physical Armor for 2 seconds.",
+	},
+	"YrelDivinePurposeDivineFavor": {
+		Name: "Divine Favor",
+		Text: "Casting a Basic Ability reduces the cooldown of Divine Purpose by 2 seconds.",
+	},
+	"YrelDivinePurposeGiftOfTheNaaru": {
+		Name: "Gift of the Naaru",
+		Text: "Divine Purpose heals the lowest Health nearby allied Hero other than Yrel for 400.",
+	},
+	"YrelDivineSteed": {
+		Name: "Divine Steed",
+		Text: "Mounting is instant and grants 80% Movement Speed that decays over 3 seconds.",
+	},
+	"YrelHandOfFreedom": {
+		Name: "Hand of Freedom",
+		Text: "Grant an allied Hero 35% Movement Speed for 3 seconds and remove all Slows and Roots from them.\nCannot be used on Yrel.",
+	},
+	"YrelHolyWrath": {
+		Name: "Holy Wrath",
+		Text: "After casting a Basic Ability, Yrel's next Basic Attack splashes for 30% increased damage around the target.",
+	},
+	"YrelMaraadsInsight": {
+		Name: "Maraad's Insight",
+		Text: "After casting a Basic Ability, Yrel's next Basic Attack heals her for 148.",
+	},
+	"YrelRighteousHammerRighteousMomentum": {
+		Name: "Righteous Momentum",
+		Text: "While Channeling Righteous Hammer at maximum charge, gain 45% Movement Speed.",
+	},
+	"YrelRighteousHammerTemplarsVerdict": {
+		Name: "Templar's Verdict",
+		Text: "Righteous Hammer reduces the Armor of enemy Heroes hit by 20 for 2 seconds.",
+	},
+	"YrelSacredGround": {
+		Name: "Sacred Ground",
+		Text: "Yrel sanctifies the ground around her, gaining 40 Armor until she leaves the area.",
+	},
+	"YrelSacredGroundHallowedGround": {
+		Name: "Hallowed Ground",
+		Text: "Casting Avenging Wrath while inside Sacred Ground moves Sacred Ground to Yrel's location upon landing.",
+	},
+	"YrelSamaarasLight": {
+		Name: "Samaara's Light",
+		Text: "While above 50% Health, gain 15% Movement Speed.",
+	},
+	"YrelSeraphim": {
+		Name: "Seraphim",
+		Text: "Activate to become Unstoppable for 2 seconds.",
+	},
+	"YrelVelensChosen": {
+		Name: "Velen's Chosen",
+		Text: "Hitting an enemy Hero with a Basic Ability at maximum charge grants 10% Spell Power for 10 seconds, up to 30%.",
+	},
+	"YrelVindicationAldorPeacekeeper": {
+		Name: "Aldor Peacekeeper",
+		Text: "Enemy Heroes hit by Vindication at maximum charge deal 30% less damage for 3 seconds.",
+	},
+	"YrelVindicationLightOfKarabor": {
+		Name: "Light of Karabor",
+		Text: "Increase Vindication's radius by 15%. Vindication's healing is increased by 20% per enemy Hero hit.",
 	},
 	"ZagaraCombatStyleMedusaBlades": {
 		Name: "Medusa Blades",
@@ -7676,7 +7771,7 @@ var talentData = map[string]talentText{
 	},
 	"ZeratulShadowHunter": {
 		Name: "Shadow Hunter",
-		Text: "Quest: Gather Regeneration Globes to lower the Mana cost of Blink by 3.\nReward: Upon gathering 15 Regeneration Globes, Basic Attacks reduce the cooldown of Blink by 1 second.",
+		Text: "Quest: Gather Regeneration Globes to lower the Mana cost of Blink by 3, up to 45.\nReward: Upon gathering 15 Regeneration Globes, Basic Attacks reduce the cooldown of Blink by 1 second.",
 	},
 	"ZeratulShadowMending": {
 		Name: "Shadow Mending",
