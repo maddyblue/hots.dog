@@ -17,3 +17,5 @@ IMPORT TABLE games (
 
 	bans INT[]
 ) CSV DATA ('gs://csv2.hots.dog/game/000000000.csv');
+
+sudo resize2fs /dev/sdb
