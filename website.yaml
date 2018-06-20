@@ -32,8 +32,9 @@ spec:
         - containerPort: 443
         - containerPort: 80
         livenessProbe:
-          initialDelaySeconds: 300
+          #initialDelaySeconds: 300
           httpGet:
+            host: hots.dog
             path: /healthz
             port: 443
             scheme: HTTPS
