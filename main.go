@@ -876,11 +876,12 @@ func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (inter
 	for len(res) < 10 {
 		var e entry
 		err := h.x.GetContext(ctx, &e, `
-			SELECT blizzid id, battletag "name", region
+			SELECT blizzid AS id, battletag AS name, region
 			FROM players
-			WHERE battletag >= $1 COLLATE en_u_ks_level1
-			AND battletag > $2 COLLATE en_u_ks_level1
-			AND region = $3
+			WHERE
+				battletag >= $1 COLLATE en_u_ks_level1
+				AND battletag > $2 COLLATE en_u_ks_level1
+				AND region = $3
 			ORDER BY region, battletag
 			LIMIT 1
 		`, name, last, region)
@@ -901,7 +902,7 @@ func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (inter
 	}
 	for i, e := range res {
 		if err := h.x.GetContext(ctx, &res[i], `
-			SELECT count(*) games
+			SELECT count(*) AS games
 			FROM players
 			WHERE region = $1 AND blizzid = $2
 		`, e.Region, e.ID); err != nil {
@@ -1076,22 +1077,25 @@ func (h *hotsContext) GetPlayerFriends(ctx context.Context, r *http.Request) (in
 	}
 
 	if err := h.x.SelectContext(ctx, &res.Friends, `
-		SELECT battletag, games, blizzid, won / games * 100 as winrate FROM (
-			SELECT
-				least(o.battletag) battletag,
-				o.blizzid,
-				count(*) games,
-				count(nullif(o.winner, false)) won
-			FROM players p
-			JOIN players o ON
-				o.game = p.game AND
-				o.blizzid != p.blizzid AND
-				NOT (o.team != p.team)
-			WHERE
-				p.region = $1 AND
-				p.blizzid = $2
-			GROUP BY o.blizzid, o.battletag
-		)
+		SELECT
+			battletag, games, blizzid, won / games * 100 AS winrate
+		FROM
+			(
+				SELECT
+					least(o.battletag) AS battletag,
+					o.blizzid,
+					count(*) AS games,
+					count(NULLIF(o.winner, false)) AS won
+				FROM
+					players AS p
+					JOIN players AS o
+					ON
+						o.game = p.game
+						AND o.blizzid != p.blizzid
+						AND NOT (o.team != p.team)
+				WHERE p.region = $1 AND p.blizzid = $2
+				GROUP BY o.blizzid, o.battletag
+			)
 		WHERE games > 5
 		ORDER BY games DESC
 		LIMIT 40
@@ -1429,12 +1433,16 @@ func (h *hotsContext) getHero(ctx context.Context, init initData, build, hero st
 		var err error
 		// Group hero levels by 5s.
 		res.Levels, err = h.countWins(ctx, nil, `
-			SELECT count(*) count, winner, greatest(1, counter * 5) as counter
-			FROM (
-				SELECT winner, hero_level // 5 as counter
-				FROM players
-				WHERE build = $1 AND hero = $2
-			)
+			SELECT
+				count(*) AS count,
+				winner,
+				greatest(1, counter * 5) AS counter
+			FROM
+				(
+					SELECT winner, hero_level // 5 AS counter
+					FROM players
+					WHERE build = $1 AND hero = $2
+				)
 			GROUP BY winner, counter
 		`, params)
 		return errors.Wrap(err, "hero level")
