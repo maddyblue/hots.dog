@@ -863,7 +863,7 @@ var talentData = map[string]talentText{
 	},
 	"AmazonImpale": {
 		Name: "Impale",
-		Text: "Enemies below 50% Health take 50% increased damage from Fend.",
+		Text: "Enemies below 60% Health take 50% increased damage from Fend.",
 	},
 	"AmazonImprisoningLight": {
 		Name: "Imprisoning Light",
@@ -903,7 +903,7 @@ var talentData = map[string]talentText{
 	},
 	"AmazonSeraphsHymn": {
 		Name: "Seraph's Hymn",
-		Text: "Reduce Blinding Light's Mana cost from 70 to 40. Basic Attacks against Blinded enemies reduce the cooldown of Blinding Light by 2 seconds.",
+		Text: "Reduce the cooldown and Mana cost of Blinding Light by 33%. Basic Attacks against Blinded enemies deal 100% more damage.",
 	},
 	"AmazonSurgeOfLight": {
 		Name: "Surge of Light",
@@ -923,7 +923,7 @@ var talentData = map[string]talentText{
 	},
 	"AmazonTrueSight": {
 		Name: "True Sight",
-		Text: "Quest: Damage Blinded enemy Heroes 60 times with Abilities or Basic Attacks.\nReward: Increase Blinding Light's Blind duration by 1 second.\nPassive: Increase Blinding Light's passive damage bonus by 20%.",
+		Text: "Quest: Damage Blinded enemy Heroes 60 times with Abilities or Basic Attacks.\nReward: Increase Blinding Light's Blind duration by 1 second.\nPassive: Increase Blinding Light's passive damage bonus by 100%.",
 	},
 	"AmazonValkyrie": {
 		Name: "Valkyrie",
@@ -1999,7 +1999,7 @@ var talentData = map[string]talentText{
 	},
 	"CrusaderMasteryCondemnEternalRetaliation": {
 		Name: "Eternal Retaliation",
-		Text: "Condemn's cooldown is lowered by 0.5 seconds for each enemy affected. Maximum of 10 targets.",
+		Text: "Lower the cooldown of Condemn by 0.5 seconds and refund 2.5 Mana for every enemy hit. Maximum of 10 targets.",
 	},
 	"CrusaderMasteryCondemnGravitationalPull": {
 		Name: "Gravitational Pull",
@@ -2203,7 +2203,7 @@ var talentData = map[string]talentText{
 	},
 	"DeckardMorenados": {
 		Name: "Morenados!",
-		Text: "Lorenado's cooldown is reduced by 5 seconds every time an enemy Hero is knocked back. This effect can only occur once per 0.5 seconds.",
+		Text: "Lorenado's cooldown is reduced by 6 seconds every time an enemy Hero is knocked back. This effect can only occur once per 0.5 seconds.",
 	},
 	"DeckardPerfectGems": {
 		Name: "Perfect Gems",
@@ -2479,7 +2479,7 @@ var talentData = map[string]talentText{
 	},
 	"DiabloMasteryDyingBreathApocalypse": {
 		Name: "Dying Breath",
-		Text: "Apocalypse's cooldown is reduced by 20 seconds for every enemy Hero hit (to a minimum of 5 seconds) and is cast for free when Diablo dies.",
+		Text: "Apocalypse's cooldown is reduced by 25 seconds for every enemy Hero hit (to a minimum of 5 seconds) and is cast for free when Diablo dies.",
 	},
 	"DiabloMasteryFeastOnFearBlackSoulstone": {
 		Name: "Feast on Fear",
@@ -2495,7 +2495,7 @@ var talentData = map[string]talentText{
 	},
 	"DiabloShadowChargeOverpowerCruelty": {
 		Name: "Cruelty",
-		Text: "Stunning an enemy Hero with Shadow Charge or Overpower increases Diablo's Attack Speed by 50% for 5 seconds, up to 100%.",
+		Text: "Stunning an enemy Hero with Shadow Charge or Overpower increases Diablo's Attack Speed by 50% for 7 seconds, up to 100%.",
 	},
 	"DiabloShadowChargeOverpowerEternalFlames": {
 		Name: "Eternal Flames",
@@ -2815,7 +2815,7 @@ var talentData = map[string]talentText{
 	},
 	"FenixAdaniumShell": {
 		Name: "Adanium Shell",
-		Text: "After arriving with Warp, gain 40 Armor for 4 seconds.",
+		Text: "After arriving with Warp, gain 50 Armor for 4 seconds.",
 	},
 	"FenixAdvancedTargeting": {
 		Name: "Advanced Targeting",
@@ -2831,11 +2831,11 @@ var talentData = map[string]talentText{
 	},
 	"FenixAuxiliaryShields": {
 		Name: "Auxiliary Shields",
-		Text: "Permanently reduce Fenix's maximum Health by 10% but increase Shield Capacitor's Shield by 20%. Basic Attacks regenerate Shields equal to 15% of the damage dealt.",
+		Text: "Permanently reduce Fenix's maximum Health by 10% but increase Shield Capacitor's Shield by 20%. Basic Attacks regenerate Shields equal to 10% of the damage dealt.",
 	},
 	"FenixCombatAdvantage": {
 		Name: "Combat Advantage",
-		Text: "Plasma Cutter deals 40% more damage to Slowed targets.",
+		Text: "Plasma Cutter deals 35% more damage to Slowed targets.",
 	},
 	"FenixDampeningField": {
 		Name: "Dampening Field",
@@ -2851,7 +2851,7 @@ var talentData = map[string]talentText{
 	},
 	"FenixHeroicAbilityPlanetCracker": {
 		Name: "Planet Cracker",
-		Text: "After 0.5 seconds, Channel a powerful beam that spans across the battleground for 4 seconds, dealing 108 damage every 0.25 seconds to non-Structure enemies hit.",
+		Text: "After 0.5 seconds, Channel a powerful beam that spans across the battleground for 4 seconds, dealing 112 damage every 0.25 seconds to non-Structure enemies hit.",
 	},
 	"FenixHeroicAbilityPurificationSalvo": {
 		Name: "Purification Salvo",
@@ -2875,7 +2875,7 @@ var talentData = map[string]talentText{
 	},
 	"FenixRapidRecharge": {
 		Name: "Rapid Recharge",
-		Text: "Whenever Fenix is healed, Shield Capacitor's Shield recharges for 40% of the healing received.",
+		Text: "Whenever Fenix is healed, Shield Capacitor's Shield recharges for 60% of the healing received.",
 	},
 	"FenixSecondaryFire": {
 		Name: "Secondary Fire",
@@ -2899,7 +2899,7 @@ var talentData = map[string]talentText{
 	},
 	"FenixWarpWarfare": {
 		Name: "Warp Warfare",
-		Text: "After arriving with Warp, gain 125% Attack Speed for 4 seconds while in Repeater Cannon mode.",
+		Text: "After arriving with Warp, gain 175% Attack Speed for 4 seconds while in Repeater Cannon mode.",
 	},
 	"FirebatActiveJuggernautPlating": {
 		Name: "Juggernaut Plating",
@@ -2927,7 +2927,7 @@ var talentData = map[string]talentText{
 	},
 	"FirebatFlameStreamFeedingtheFlame": {
 		Name: "Feeding the Flame",
-		Text: "Each enemy Hero hit by Flame Stream reduces the cooldown of Oil Spill by 2 seconds.",
+		Text: "Each enemy Hero hit by Flame Stream reduces the cooldown of Oil Spill by 2.5 seconds.",
 	},
 	"FirebatFlameStreamSuppressiveFire": {
 		Name: "Suppressive Fire",
@@ -2939,7 +2939,7 @@ var talentData = map[string]talentText{
 	},
 	"FirebatHeroicAbilityCombustion": {
 		Name: "Combustion",
-		Text: "Channel for up to 2.6 seconds. Upon ending, Slow nearby enemies by 60% and deal 48 damage to them every 0.5 seconds. Combustion's Slow and damage over time duration is extended the longer Blaze Channels, from 1 second up to 5 seconds.\nBlaze's Movement Speed is reduced by 50% while Channeling.",
+		Text: "Channel for up to 2.6 seconds. Upon ending, Slow nearby enemies by 60% and deal 52 damage to them every 0.5 seconds. Combustion's Slow and damage over time duration is extended the longer Blaze Channels, from 1 second up to 5 seconds.\nBlaze's Movement Speed is reduced by 50% while Channeling.",
 	},
 	"FirebatIgniteHeatTreatment": {
 		Name: "Heat Treatment",
@@ -3463,7 +3463,7 @@ var talentData = map[string]talentText{
 	},
 	"GreymaneGilneanCocktailPerfectAim": {
 		Name: "Perfect Aim",
-		Text: "Increases Gilnean Cocktail's range by 30% and refunds 35 Mana if it hits an enemy Hero.",
+		Text: "Increases Gilnean Cocktail's range by 30% and refunds 45 Mana if it hits an enemy Hero.",
 	},
 	"GreymaneGoForTheThroatUnleashed": {
 		Name: "Unleashed",
@@ -3499,11 +3499,7 @@ var talentData = map[string]talentText{
 	},
 	"GreymaneRazorSwipeUnfetteredAssault": {
 		Name: "Unfettered Assault",
-		Text: "Increases Razor Swipe's lunge distance by 60%.",
-	},
-	"GreymaneRazorSwipeVisceralAttacks": {
-		Name: "Visceral Attacks",
-		Text: "Worgen Basic Attacks reduce Razor Swipe's cooldown by 1.5 seconds.",
+		Text: "Increases Razor Swipe's lunge distance by 60%, and Worgen Basic Attacks reduce Razor Swipe's cooldown by 1.5 seconds.",
 	},
 	"GreymaneToothAndClaw": {
 		Name: "Tooth and Claw",
@@ -4663,7 +4659,7 @@ var talentData = map[string]talentText{
 	},
 	"MaievSpiritOfVengeanceShadowArmor": {
 		Name: "Shadow Armor",
-		Text: "Blink grants 20 Armor for 2.5 seconds. Maiev's Basic Attacks against enemy Heroes refresh this duration.",
+		Text: "Blink grants 20 Armor for 3 seconds. Maiev's Basic Attacks against enemy Heroes refresh this duration.",
 	},
 	"MaievSpiritOfVengeanceShadowOrbVengeance": {
 		Name: "Shadow Orb: Vengeance",
@@ -4675,7 +4671,7 @@ var talentData = map[string]talentText{
 	},
 	"MaievSpiritOfVengeanceVengefulKnives": {
 		Name: "Vengeful Knives",
-		Text: "For each enemy Hero Spirit of Vengeance hits, Maiev's next Fan of Knives deals 1.2% maximum Health as bonus damage to enemy Heroes.",
+		Text: "For each enemy Hero Spirit of Vengeance hits, Maiev's next Fan of Knives deals 1.5% maximum Health as bonus damage to enemy Heroes.",
 	},
 	"MaievUmbralBindBondsOfCorruption": {
 		Name: "Bonds of Corruption",
@@ -4691,15 +4687,15 @@ var talentData = map[string]talentText{
 	},
 	"MaievUmbralBindCruelChain": {
 		Name: "Cruel Chain",
-		Text: "Umbral Bind grants 25% Movement Speed for 2.5 seconds. In addition, each time Maiev deals damage to tethered targets, Umbral Bind's pull damage to all targets is increased by 40%, up to 200%.",
+		Text: "Umbral Bind grants 25% Movement Speed for 2.5 seconds. In addition, each time Maiev deals damage to tethered targets, Umbral Bind's pull damage to all targets is increased by 30%, up to 150%.",
 	},
 	"MaievUmbralBindPursuitOfVengeance": {
 		Name: "Pursuit of Vengeance",
-		Text: "Each Hero tethered by Umbral Bind reduces the cooldown of Spirit of Vengeance by 1.5 seconds.",
+		Text: "Each Hero tethered by Umbral Bind reduces the cooldown of Spirit of Vengeance by 2.5 seconds.",
 	},
 	"MaievWardensCage": {
 		Name: "Warden's Cage",
-		Text: "Summon 8 Warden Avatars as a cage around Maiev. After 1.5 seconds, enemy Heroes that come in contact with an Avatar consume it and are knocked to the center of the cage. Warden Avatars last 7 seconds.",
+		Text: "Summon 8 Warden Avatars as a cage around Maiev. After 1.5 seconds, enemy Heroes that come in contact with an Avatar consume it and are knocked to the center of the cage. Warden Avatars last 5 seconds.",
 	},
 	"MalfurionCelestialAlignment": {
 		Name: "Celestial Alignment",
@@ -5527,7 +5523,7 @@ var talentData = map[string]talentText{
 	},
 	"ProbiusProbiusLoopWarpRift": {
 		Name: "Probius Loop",
-		Text: "Whenever a Rift explosion hits 2 or more enemy Heroes, create a new Warp Rift in the same location.",
+		Text: "Whenever a Rift explosion hits 1 or more enemy Heroes, create a new Warp Rift in the same location.",
 	},
 	"ProbiusPylonOverchargeHeroic": {
 		Name: "Pylon Overcharge",
@@ -5727,11 +5723,11 @@ var talentData = map[string]talentText{
 	},
 	"RehgarAncestralHealing": {
 		Name: "Ancestral Healing",
-		Text: "After 1 second, heal an allied Hero for 1475 Health.\nCannot be used on Rehgar.",
+		Text: "After 1 second, heal an allied Hero for 1180 Health.\nCannot be used on Rehgar.",
 	},
 	"RehgarAncestralHealingFarseersBlessing": {
 		Name: "Farseer's Blessing",
-		Text: "Increases healing amount by 50%. Allies near the target are healed for 50% of the amount of health regained.",
+		Text: "Increases healing amount by 75%. Allies near the target are healed for 75% of the amount of Health regained.",
 	},
 	"RehgarBloodAndThunder": {
 		Name: "Blood and Thunder",
@@ -5751,11 +5747,11 @@ var talentData = map[string]talentText{
 	},
 	"RehgarEarthlivingEnchant": {
 		Name: "Earthliving Enchant",
-		Text: "When Chain Heal heals a Hero below 50% Health, they are healed an additional 200 Health over 5 seconds. ",
+		Text: "When Chain Heal heals a Hero below 50% Health, they are healed an additional 225 Health over 5 seconds. ",
 	},
 	"RehgarFarsight": {
 		Name: "Farsight",
-		Text: "Activate to reveal an area for 10 seconds. Enemies in the area are revealed for 4 seconds.",
+		Text: "Activate to reveal an area for 5 seconds. Enemies in the area are revealed for 3 seconds.",
 	},
 	"RehgarFeralHeart": {
 		Name: "Feral Heart",
@@ -5787,19 +5783,19 @@ var talentData = map[string]talentText{
 	},
 	"RehgarLightningShieldRisingStorm": {
 		Name: "Rising Storm",
-		Text: "Every time Lighting Shield damages an enemy Hero, increase that Lightning Shield's damage by 10%. Stacks up to 20 times.",
+		Text: "Every time Lighting Shield damages an enemy Hero, increase that Lightning Shield's damage by 15%. Stacks up to 15 times.",
 	},
 	"RehgarLightningShieldStormcaller": {
 		Name: "Stormcaller",
-		Text: "When Lightning Shield damages an enemy it restores 4 Mana, up to 40.",
+		Text: "When Lightning Shield damages an enemy it restores 4 Mana, up to 100.",
 	},
 	"RehgarMasterySpiritwalkersGrace": {
 		Name: "Spiritwalker's Grace",
-		Text: "Reduces Chain Heal's Mana cost from 65 to 45.",
+		Text: "Reduces Chain Heal's Mana cost from 55 to 40.",
 	},
 	"RehgarMasteryTidalWaves": {
 		Name: "Tidal Waves",
-		Text: "Reduces Chain Heal's cooldown by 1 second for each Hero healed.",
+		Text: "Reduces Chain Heal's cooldown by 0.75 seconds for each Hero healed.",
 	},
 	"RehgarTotemicProjection": {
 		Name: "Totemic Projection",
@@ -6623,7 +6619,7 @@ var talentData = map[string]talentText{
 	},
 	"TracerFocusFire": {
 		Name: "Focus Fire",
-		Text: "If an entire ammo magazine is unloaded on an enemy, the last bullet will deal 98 bonus damage.  This is equal to 35% of the total magazine.",
+		Text: "If an entire ammo magazine is unloaded on an enemy, the last bullet will deal 98 bonus damage.  This is equal to 36% of the total magazine.",
 	},
 	"TracerGetStuffedMelee": {
 		Name: "Get Stuffed!",
@@ -7275,7 +7271,7 @@ var talentData = map[string]talentText{
 	},
 	"WitchDoctorHeroicAbilityGargantuan": {
 		Name: "Gargantuan",
-		Text: "Summon a Gargantuan to guard an area for 20 seconds. Deals 100 damage when summoned, attacks for 150 damage, and can be ordered to stomp nearby enemies.",
+		Text: "Summon a Gargantuan to guard an area for 20 seconds. Deals 100 damage when summoned, attacks for 140 damage, and can be ordered to stomp nearby enemies.",
 	},
 	"WitchDoctorHeroicAbilityRavenousSpirits": {
 		Name: "Ravenous Spirit",
@@ -7435,7 +7431,7 @@ var talentData = map[string]talentText{
 	},
 	"YrelAvengingWrathAegisOfLight": {
 		Name: "Aegis of Light",
-		Text: "Upon landing, Avenging Wrath grants other nearby allied Heroes 25 Armor for 5 seconds.",
+		Text: "Upon landing, Avenging Wrath grants other nearby allied Heroes 35 Armor for 5 seconds.",
 	},
 	"YrelAvengingWrathHolyAvenger": {
 		Name: "Holy Avenger",
@@ -7455,11 +7451,11 @@ var talentData = map[string]talentText{
 	},
 	"YrelDivinePurposeDivineFavor": {
 		Name: "Divine Favor",
-		Text: "Casting a Basic Ability reduces the cooldown of Divine Purpose by 2 seconds.",
+		Text: "Casting a Basic Ability reduces the cooldown of Divine Purpose by 1.5 seconds.",
 	},
 	"YrelDivinePurposeGiftOfTheNaaru": {
 		Name: "Gift of the Naaru",
-		Text: "Divine Purpose heals the lowest Health nearby allied Hero other than Yrel for 400.",
+		Text: "Divine Purpose heals the lowest Health nearby allied Hero other than Yrel for 275.",
 	},
 	"YrelDivineSteed": {
 		Name: "Divine Steed",
@@ -7467,7 +7463,7 @@ var talentData = map[string]talentText{
 	},
 	"YrelHandOfFreedom": {
 		Name: "Hand of Freedom",
-		Text: "Grant an allied Hero 35% Movement Speed for 3 seconds and remove all Slows and Roots from them.\nCannot be used on Yrel.",
+		Text: "Grant an allied Hero 50% Movement Speed for 3 seconds and remove all Slows and Roots from them.\nCannot be used on Yrel.",
 	},
 	"YrelHolyWrath": {
 		Name: "Holy Wrath",
@@ -7479,11 +7475,11 @@ var talentData = map[string]talentText{
 	},
 	"YrelRighteousHammerRighteousMomentum": {
 		Name: "Righteous Momentum",
-		Text: "While Channeling Righteous Hammer at maximum charge, gain 45% Movement Speed.",
+		Text: "Yrel is no longer slowed while Channeling Righteous Hammer, and at maximum charge she gains 25% Movement Speed.",
 	},
 	"YrelRighteousHammerTemplarsVerdict": {
 		Name: "Templar's Verdict",
-		Text: "Righteous Hammer reduces the Armor of enemy Heroes hit by 20 for 2 seconds.",
+		Text: "Righteous Hammer reduces the Armor of enemy Heroes hit by 20 for 4 seconds.",
 	},
 	"YrelSacredGround": {
 		Name: "Sacred Ground",
@@ -7523,7 +7519,7 @@ var talentData = map[string]talentText{
 	},
 	"ZagaraHeroicAbilityNydusAssault": {
 		Name: "Nydus Network",
-		Text: "Summon a Nydus Worm on Creep anywhere that Zagara has vision. Zagara can enter a Nydus Worm and travel to any other Nydus Worm by right-clicking near it. While inside a Nydus Worm, Zagara regenerates 10% Health and Mana per second.\nStores up to 2 charges. Maximum of 10 Nydus Worms at a time.\nPassive: Creep spreads 15% farther. \nPassive: While on Creep, each Basic Attack reduces all of Zagara's cooldowns by .75 seconds.",
+		Text: "Summon a Nydus Worm on Creep anywhere that Zagara has vision. Zagara can enter a Nydus Worm and travel to any other Nydus Worm by right-clicking near it. While inside a Nydus Worm, Zagara regenerates 10% Health and Mana per second.\nStores up to 2 charges. Maximum of 10 Nydus Worms at a time.\nPassive: Creep spreads 15% farther. \nPassive: While on Creep, each Basic Attack reduces all of Zagara's cooldowns by 0.5 seconds.",
 	},
 	"ZagaraMasteryBanelingMassacre": {
 		Name: "Baneling Massacre",
@@ -7805,9 +7801,13 @@ var talentData = map[string]talentText{
 		Name: "Wormhole",
 		Text: "For 3 seconds, reactivate Blink to return to the point where it was cast from.",
 	},
+	"Zul'jinAmaniRageAmaniHide": {
+		Name: "Amani Hide",
+		Text: "Grant Armor and lower cooldown",
+	},
 	"ZuljinAmaniRageTalent": {
 		Name: "Amani Rage",
-		Text: "Activate to cause Zul'jin to instantly lose 50% of his current Health and heal for that amount over 10 seconds. Zul'jin gains 5 Armor while regenerating health from Amani Rage.",
+		Text: "Activate to cause Zul'jin to instantly lose 50% of his current Health and heal for that amount over 10 seconds.",
 	},
 	"ZuljinAmaniResilience": {
 		Name: "Amani Resilience",
