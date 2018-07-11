@@ -697,9 +697,13 @@ var talentData = map[string]talentText{
 		Name: "Counter-Strike",
 		Text: "Alarak targets an area and channels for 1 second, becoming Protected and Unstoppable. After, if he took damage from an enemy Hero, he sends a shockwave that deals 275 damage.\nThis ability will take over Alarak's Trait button.",
 	},
-	"AlarakDeadlyChargeItem": {
+	"AlarakDeadlyChargeFirstHeroic": {
 		Name: "Deadly Charge",
-		Text: "After channeling, Alarak charges forward dealing 200 damage to all enemies in his path. Distance is increased based on the amount of time channeled, up to 1.6 seconds.\nIssuing a Move order while this is channeling will cancel it at no cost. Taking damage will interrupt the channeling.\nThis ability will take over Alarak's Trait button.",
+		Text: "After channeling, Alarak charges forward dealing 200 damage to all enemies in his path. Distance is increased based on the amount of time channeled, up to 1.5 seconds.\nIssuing a Move order while this is channeling will cancel it at no cost. Taking damage will interrupt the channeling.",
+	},
+	"AlarakDeadlyChargeSecondHeroic": {
+		Name: "Deadly Charge",
+		Text: "After channeling, Alarak charges forward dealing 200 damage to all enemies in his path. Distance is increased based on the amount of time channeled, up to 1.5 seconds.\nIssuing a Move order while this is channeling will cancel it at no cost. Taking damage will interrupt the channeling.",
 	},
 	"AlarakDissonance": {
 		Name: "Dissonance",
@@ -716,10 +720,6 @@ var talentData = map[string]talentText{
 	"AlarakHeroicAbilityCounterStrike": {
 		Name: "Counter-Strike",
 		Text: "Alarak targets an area and channels for 1 second, becoming Protected and Unstoppable. After, if he took damage from an enemy Hero, he sends a shockwave that deals 275 damage.",
-	},
-	"AlarakHeroicAbilityDeadlyCharge": {
-		Name: "Deadly Charge",
-		Text: "After channeling, Alarak charges forward dealing 200 damage to all enemies in his path. Distance is increased based on the amount of time channeled, up to 1.6 seconds.\nIssuing a Move order while this is channeling will cancel it at no cost. Taking damage will interrupt the channeling.",
 	},
 	"AlarakHinderedMotion": {
 		Name: "Hindered Motion",
@@ -811,7 +811,7 @@ var talentData = map[string]talentText{
 	},
 	"AlexstraszaLifebinder": {
 		Name: "Life-Binder",
-		Text: "Bind Alexstrasza's life force with an allied Hero. After 2 seconds, the Hero with a lower percentage of Health is set to the same Health percentage as the other Hero.",
+		Text: "Bind Alexstrasza's life force with an allied Hero. Both her and her target are healed for 600 Health over 2 seconds. Afterwards, the Hero with a lower percentage of Health is set to the same Health percentage as the other Hero.",
 	},
 	"AlexstraszaLifeblossomGiftOfLife": {
 		Name: "Lifeblossom",
@@ -895,7 +895,7 @@ var talentData = map[string]talentText{
 	},
 	"AmazonPlateoftheWhale": {
 		Name: "Plate of the Whale",
-		Text: "Regenerate 5 Health per second while Avoidance is active.\nQuest: For every 8 Basic Attacks absorbed with Avoidance, it regenerates an additional 1 Health per second.\nReward: After absorbing 75 Basic Attacks, increase Cassia's maximum Health by 10%.",
+		Text: "Regenerate 5 Health per second while Avoidance is active.\nQuest: For every 5 Basic Attacks absorbed with Avoidance, it regenerates an additional 1 Health per second.\nReward: After absorbing 75 Basic Attacks, increase Cassia's maximum Health by 10%.",
 	},
 	"AmazonRingoftheLeech": {
 		Name: "Ring of the Leech",
@@ -1041,13 +1041,17 @@ var talentData = map[string]talentText{
 		Name: "Debilitation",
 		Text: "Enemy Heroes hit by Burrow Charge have their Spell Power reduced by 50% for 4 seconds.",
 	},
-	"AnubarakHeroicAbilityCarrionSwarm": {
-		Name: "Locust Swarm",
-		Text: "Deal 62 damage per second to nearby enemies. Each enemy damaged restores 21 Health. Lasts 6 seconds.",
-	},
 	"AnubarakHeroicAbilityCocoon": {
 		Name: "Cocoon",
 		Text: "Wraps target enemy Hero in a cocoon, rendering them unable to act or be targeted for 8 seconds. Allies of the Hero can attack the cocoon to break it and free them early.",
+	},
+	"AnubarakLocustSwarm": {
+		Name: "Locust Swarm",
+		Text: "Deal 62 damage per second to nearby enemies. Each enemy damaged restores 21 Health. Lasts 6 seconds.",
+	},
+	"AnubarakLocustSwarmHiveMaster": {
+		Name: "Hive Master",
+		Text: "Gain a permanent Vampire Locust that attacks a nearby enemy every 3 seconds. The Vampire Locust deals 153 damage and returns to heal Anub'arak for 37 health.",
 	},
 	"AnubarakMasteryBedOfBarbs": {
 		Name: "Bed of Barbs",
@@ -1056,10 +1060,6 @@ var talentData = map[string]talentText{
 	"AnubarakMasteryEpicenterBurrowCharge": {
 		Name: "Epicenter",
 		Text: "Increases Burrow Charge impact area by 60% and lowers the cooldown by 1.25 seconds for each Hero hit.",
-	},
-	"AnubarakMasteryHiveMasterCarrionSwarm": {
-		Name: "Hive Master",
-		Text: "Gain a permanent Vampire Locust that attacks a nearby enemy every 3 seconds. The Vampire Locust deals 153 damage and returns to heal Anub'arak for 37 health.",
 	},
 	"AnubarakMasteryLeechingScarabs": {
 		Name: "Leeching Scarabs",
@@ -1071,7 +1071,7 @@ var talentData = map[string]talentText{
 	},
 	"AnubarakMasteryShedExoskeletonHardenCarapace": {
 		Name: "Shed Exoskeleton",
-		Text: "Shed Exoskeleton\nGain 30% increased Move Speed for 3 seconds.",
+		Text: "Shed Exoskeleton\nGain 0% increased Move Speed for 0 seconds.",
 	},
 	"AnubarakMasteryUnderkingBurrowCharge": {
 		Name: "Underking",
@@ -1357,101 +1357,89 @@ var talentData = map[string]talentText{
 		Name: "Wrath of Heaven",
 		Text: "Allies with Bestow Hope gain 10% Spell Power.",
 	},
-	"AzmodanBoltoftheStorms": {
-		Name: "Bolt of the Storm",
-		Text: "Activate to teleport to a nearby location.",
+	"AzmodanArmyOfHell": {
+		Name: "Army of Hell",
+		Text: "Summon Demon Warrior spawns an additional Demon, but its cooldown is increased by 10 seconds.",
 	},
-	"AzmodanGluttonousWard": {
-		Name: "Gluttonous Ward",
-		Text: "Activate to place a ward on the ground that restores 3% of Azmodan's maximum Health and Mana every second for 10 seconds. Can be cast while channeling All Shall Burn.",
+	"AzmodanArtOfChaos": {
+		Name: "Art of Chaos",
+		Text: "If Globe of Annihilation hits 2 or more Heroes, restore 30 Mana. If it hits 3 or more Heroes, gain an extra 5 Annihilation.",
 	},
-	"AzmodanHellishHirelings": {
-		Name: "Hellish Hirelings",
-		Text: "The damage bonus from General of Hell is doubled on Mercenaries.",
+	"AzmodanBattleborn": {
+		Name: "Battleborn",
+		Text: "Azmodan's Basic Attacks reduce the cooldown of Summon Demon Warrior by 0.5 seconds and Demon Lieutenant by 1 second.",
 	},
-	"AzmodanHeroicAbilityBlackPool": {
+	"AzmodanBlackPool": {
 		Name: "Black Pool",
-		Text: "Create a pool that empowers Azmodan, his Demons, and allied Minions, increasing their Basic Attack and Ability damage by 75%. Pools last 5 seconds.\nStores up to 2 charges.",
+		Text: "Globes of Annihilation empowered by Tide of Sin also leave a Black Pool at their impact location for 5 seconds. Enemies within the pool lose 8 Armor per second, up to 15, and take 56 damage per second.",
+	},
+	"AzmodanBombardment": {
+		Name: "Bombardment",
+		Text: "After casting Globe of Annihilation, Azmodan's Basic Attacks within the next 3 seconds have an additional 2 range and can hit 2 additional targets. Hitting Heroes with Basic Attacks empowered by Bombardment grant 1 Annihilation.",
+	},
+	"AzmodanBrutishVanguard": {
+		Name: "Brutish Vanguard",
+		Text: "Demon Warriors gain 25% increased Health and Slow nearby enemies by 20%.",
+	},
+	"AzmodanChainOfCommand": {
+		Name: "Chain of Command",
+		Text: "Demon Lieutenants also grant 25% increased damage to nearby friendly Minions, Mercenaries, and Azmodan's summoned Demons.",
+	},
+	"AzmodanCydaeasKiss": {
+		Name: "Cydaea's Kiss",
+		Text: "Reduces the Channel time of All Shall Burn by 0.5 seconds. If All Shall Burn's Channel lasts its full duration against a Hero, Azmodan is healed for 8% of his maximum Health.",
+	},
+	"AzmodanGluttony": {
+		Name: "Gluttony",
+		Text: "Increase the number of stacks of Annihilation gained by hitting Heroes with Globe of Annihilation from 2 to 3.\nQuest: After gaining 200 Annihilation, each enemy hit by Globe of Annihilation reduces its cooldown by 0.25 seconds, doubled against Heroes.",
+	},
+	"AzmodanGreed": {
+		Name: "Greed",
+		Text: "Increase the time Minions will grant Annihilation from 1.5 to 3 seconds.\nQuest: After gaining 200 Annihilation, Globe of Annihilation's range is increased by 33% and it deals 20% more damage to Minions and Mercenaries.",
+	},
+	"AzmodanHellRift": {
+		Name: "Hell Rift",
+		Text: "If All Shall Burn Channels for its full duration, a Demon Warrior is summoned at the target's location and all Demon Warriors deal 100% increased damage for 4 seconds.",
+	},
+	"AzmodanHellforgedArmor": {
+		Name: "Hellforged Armor",
+		Text: "Demon Warriors and Lieutenants gain 35 Armor and last 4 seconds longer.",
 	},
 	"AzmodanHeroicAbilityDemonicInvasion": {
 		Name: "Demonic Invasion",
-		Text: "Rain a small army of Demonic Grunts down on enemies, dealing 104 damage per impact. Demon Grunts deal 51 damage and have 365 health.",
+		Text: "Rain a small army of Demonic Grunts down on enemies, dealing 65 damage per impact. Grunts deal 42 damage, have 750 health and last up to 8 seconds. When Grunts die they explode, dealing 65 damage to nearby enemies.",
 	},
-	"AzmodanMasteryArmyOfHell": {
-		Name: "Army of Hell",
-		Text: "Increases Demon Warrior's damage by 20% and reduces their Mana cost by 20.",
-	},
-	"AzmodanMasteryBattleborn": {
-		Name: "Battleborn",
-		Text: "If Globe of Annihilation hits an enemy, a Demon Warrior is summoned at the impact point.",
-	},
-	"AzmodanMasteryBlackPoolFifthCircle": {
-		Name: "Fifth Circle",
-		Text: "Black Pool makes Basic Attacks and Abilities slow enemies Attack and Movement Speeds by 40% for 3 seconds.",
-	},
-	"AzmodanMasteryBoundMinion": {
-		Name: "Bound Minion",
-		Text: "Using General of Hell on a Minion grants them 75 Armor from non-Heroic sources, decreasing the damage they take by 75%, while also  increasing the damage they deal to non-Heroic targets by 100%. Lasts 30 seconds.",
-	},
-	"AzmodanMasteryDemonicSmite": {
-		Name: "Demonic Smite",
-		Text: "Every 7.5 seconds, the Demon Lieutenant will blast a non-Heroic unit dealing 411 damage.",
-	},
-	"AzmodanMasteryEnduringWarriors": {
-		Name: "Enduring Warriors",
-		Text: "Demons last 5 seconds longer and do an additional 20% attack damage.",
-	},
-	"AzmodanMasteryForcedRecruitment": {
-		Name: "Forced Recruitment",
-		Text: "Reduces General of Hell's cooldown by 10 seconds and gains an additional charge.",
-	},
-	"AzmodanMasteryGluttony": {
-		Name: "Gluttony",
-		Text: "All Shall Burn heals Azmodan for 25% of the damage dealt.",
-	},
-	"AzmodanMasteryHedonism": {
-		Name: "Hedonism",
-		Text: "Reduces Globe of Annihilation's Mana cost by 30.",
-	},
-	"AzmodanMasteryHellforgedArmor": {
-		Name: "Hellforged Armor",
-		Text: "Demon Warriors deal 10 damage to nearby enemies every second and are granted 50 Armor against non-Heroic sources, decreasing the damage they take 50%.",
-	},
-	"AzmodanMasteryInfernalGlobe": {
-		Name: "Infernal Globe",
-		Text: "Globe of Annihilation's cast time is decreased by 40% and its missile speed is increased by 40%.",
-	},
-	"AzmodanMasteryInfusedPower": {
-		Name: "Infused Power",
-		Text: "All Shall Burn's damage growth maximum is increased by 40%.",
-	},
-	"AzmodanMasteryMarchOfSin": {
-		Name: "March of Sin",
-		Text: "Increases Azmodan's Movement Speed while channeling All Shall Burn to 80% of normal speed.",
-	},
-	"AzmodanMasteryMasterOfDestruction": {
+	"AzmodanMasterofDestruction": {
 		Name: "Master of Destruction",
-		Text: "Reduces the Mana cost from 16 to 10 per second. Every 1.5 seconds spent channeling increases the range by 8.5%, to a maximum of 25%.",
+		Text: "All Shall Burn's final damage applies to all enemies in an area around the target and grants 2 Annihilation per Hero hit.",
 	},
-	"AzmodanMasteryPerishingFlame": {
-		Name: "Perishing Flame",
-		Text: "When the Grunts die they explode, dealing 68 damage to nearby enemies. Deals 100% increased damage to Minions, Mercenaries, Monsters, and Structures.",
+	"AzmodanPride": {
+		Name: "Pride",
+		Text: "After gaining 400 Annihilation, the area of Globe of Annihilation is increased by 15% and it deals 100 additional damage.",
 	},
-	"AzmodanMasterySiegingWrath": {
-		Name: "Sieging Wrath",
-		Text: "Quest: Every time Globe of Annihilation hits a Hero, its damage is increased by 3, up to 90.\nReward: After hitting 30 Heroes, the range of Globe of Annihilation is increased by 33% and its damage is increased by an additional 100.",
-	},
-	"AzmodanMasteryTasteForBlood": {
-		Name: "Taste for Blood",
-		Text: "Quest: Kill enemy Minions and Heroes within 1.5 seconds of being hit by Globe of Annihilation.\nReward: Enemy Minions that die increase its damage by 2.\nReward: Enemy Heroes that die increase its damage by 10.\nMaximum bonus damage of 500.",
-	},
-	"AzmodanSinforSin": {
-		Name: "Sin for Sin",
-		Text: "Activate to deal 10% of target enemy Hero's Max Health and heal for twice that amount. Can be cast while channeling All Shall Burn.",
+	"AzmodanSiegebreaker": {
+		Name: "Siegebreaker",
+		Text: "Azmodan's Demons deal 50% increased damage to Structures.",
 	},
 	"AzmodanSinsGrasp": {
 		Name: "Sin's Grasp",
-		Text: "Activate to curse an enemy Hero, dealing 248 damage over 8 seconds. Minion kills reduce this cooldown by 10 seconds. Can be cast while channeling All Shall Burn.",
+		Text: "Increases the range of All Shall Burn by 20%. If All Shall Burn Channels for its full duration, its cooldown is reduced by +Inf%.",
+	},
+	"AzmodanTideOfSin": {
+		Name: "Tide of Sin",
+		Text: "Activate to make the next Globe of Annihilation cost no Mana and deal 50% more damage.",
+	},
+	"AzmodanTotalAnnihilation": {
+		Name: "Total Annihilation",
+		Text: "Globe of Annihilation damages Heroes for an additional 5% of their maximum Health.",
+	},
+	"AzmodanTrample": {
+		Name: "Trample",
+		Text: "Activate to charge a short distance, dealing 240 damage and Slowing enemies caught in the path by 60% for 1 second.",
+	},
+	"AzmodanWrath": {
+		Name: "Wrath",
+		Text: "Basic Attacks against Heroes under 75% Health grant 1 Annihilation. \nQuest: After gaining 200 Annihilation, hitting a Hero with Globe of Annihilation increases the damage of Azmodan's next Basic Attack against them within 4 seconds by the amount of Annihilation he has.",
 	},
 	"BarbarianArreatCrater": {
 		Name: "Arreat Crater",
@@ -3519,7 +3507,7 @@ var talentData = map[string]talentText{
 	},
 	"GuldanChaoticEnergy": {
 		Name: "Chaotic Energy",
-		Text: "Increases the cast range of Drain Life by 25%.\nQuest: The healing provided by Regen Globes is increased by 50%.\nReward: After gathering 20 Regen Globes Gul'dan's Basic Ability Mana costs are permanently reduced by 20.",
+		Text: "Increases the cast range of Drain Life by 25% and the healing provided by Regen Globes by 50%.\nQuest: Gather 20 Regen Globes.\nReward: Basic Ability Mana costs are permanently reduced by 20.",
 	},
 	"GuldanConsumeSoul": {
 		Name: "Consume Soul",
@@ -3603,7 +3591,7 @@ var talentData = map[string]talentText{
 	},
 	"GuldanLifeTapImprovedLifeTap": {
 		Name: "Improved Life Tap",
-		Text: "Life Tap now restores 35% Mana",
+		Text: "Increase the Mana restored by Life Tap to 35%.",
 	},
 	"GuldanRainOfDestruction": {
 		Name: "Rain of Destruction",
@@ -3815,7 +3803,7 @@ var talentData = map[string]talentText{
 	},
 	"JainaFingersOfFrost": {
 		Name: "Fingers of Frost",
-		Text: "Quest: Gathering Regeneration Globes to increase Jaina's Mana regeneration by 0.1 per second, up to 2 per second. \nReward: After gathering 20 Globes, the damage bonus from Frostbite is increased by 10%.",
+		Text: "Quest: Gather Regeneration Globes to increase Jaina's Mana regeneration by 0.1 per second, up to 2 per second. \nReward: After gathering 20 Globes, the damage bonus from Frostbite is increased by 10%.",
 	},
 	"JainaFrigidTransmission": {
 		Name: "Ice Blink",
@@ -4447,7 +4435,7 @@ var talentData = map[string]talentText{
 	},
 	"LostVikingsHeroicAbilityTheSequel": {
 		Name: "The Sequel!",
-		Text: "Reduces the Lost Vikings' death timer by 50%.",
+		Text: "Reduces the Lost Vikings's death timer by 50%.",
 	},
 	"LostVikingsMasteryBaleogTheFierce": {
 		Name: "Baleog the Fierce",
@@ -4511,7 +4499,7 @@ var talentData = map[string]talentText{
 	},
 	"LostVikingsMasteryTheSequel": {
 		Name: "The Sequel!",
-		Text: "Reduces the Lost Vikings' death timer by 50%.",
+		Text: "Reduces the Lost Vikings's death timer by 50%.",
 	},
 	"LostVikingsMasteryVikingBribery": {
 		Name: "Viking Bribery",
@@ -5653,73 +5641,93 @@ var talentData = map[string]talentText{
 		Name: "Flames of Sulfuron",
 		Text: "Sulfuras Smash slows enemies by 50% for 2 seconds, and enemies in the center are stunned for an additional 0.5 seconds.",
 	},
-	"RaynorACardToPlay": {
-		Name: "A Card to Play",
-		Text: "Whenever an allied or enemy Hero dies, Raynor's Heroic Ability cooldown is reduced by 15 seconds.",
+	"RaynorAceInTheHole": {
+		Name: "Ace In The Hole",
+		Text: "Deal 30% more damage to Stunned or Slowed Heroes.",
+	},
+	"RaynorBasicAttackExecute": {
+		Name: "Execute",
+		Text: "Increase Attack Speed by 20%. Basic Attack damage is increased by 25% against targets below 50% Health.",
+	},
+	"RaynorBasicAttackSustainingRounds": {
+		Name: "Sustaining Rounds",
+		Text: "Give 'Em Some Pepper heals Raynor for 3% of his maximum Health, increased to 6% if the primary target is a Hero.",
+	},
+	"RaynorBehemothArmor": {
+		Name: "Behemoth Armor",
+		Text: "Gain 250 bonus maximum Health. \n Quest: Every time Give 'Em Some Pepper's primary target is a Hero, gain an additional 5 maximum Health.",
+	},
+	"RaynorBountyHunter": {
+		Name: "Bounty Hunter",
+		Text: "If Give 'Em Some Pepper's target is a Hero, it deals an additional 3% of their maximum Health as damage and grants Raynor 5 Armor for 3 seconds. \nActivate Give 'Em Some Pepper to apply it to Raynor's next Basic Attack.",
+	},
+	"RaynorDuskWing": {
+		Name: "Dusk Wing",
+		Text: "Increase the damage, Health, and leash range of Raynor's Raider by 100%. When it dies, both Inspire and Adrenaline Rush are activated for free.",
+	},
+	"RaynorGiveEmSomePepperExterminator": {
+		Name: "Exterminator",
+		Text: "Basic Attacks deal 50% more damage to Minions, Mercenaries, and Monsters. This is increased to 100% while Inspire is active.",
+	},
+	"RaynorGiveEmSomePepperUnstableCompound": {
+		Name: "Unstable Compound",
+		Text: "Increase the area of Give 'Em Some Pepper by 15%, and enemies hit by it are Slowed by 10% for 3 seconds.",
+	},
+	"RaynorGiveEmSomePepperWeakSpotAcquired": {
+		Name: "Weak Spot Acquired",
+		Text: "Enemy Heroes that are the primary target of Give 'Em Some Pepper have their Armor reduced by 25 for 2 seconds.",
 	},
 	"RaynorHeroicAbilityHyperion": {
 		Name: "Hyperion",
-		Text: "Order the Hyperion to make a strafing run dealing 66 damage a second, hitting up to 4 enemies. Also occasionally fires its Yamato Cannon on Structures for 794 damage. Lasts 12 seconds.",
+		Text: "Order the Hyperion to make a strafing run for 12 seconds, hitting up to 4 enemies for 66 damage every second. Every 4 seconds, it can fire its Yamato Cannon at a Structure, dealing 794 damage.",
 	},
 	"RaynorHeroicAbilityRaynorsRaiders": {
-		Name: "Raynor's Raiders",
-		Text: "Summon two Stealthed Banshees that attack an enemy. Each Banshee deals 50 damage a second and lasts 22 seconds. Can reactivate the Ability to retarget the Banshees.",
+		Name: "Raynor's Raider",
+		Text: "Summon a Banshee that assists Raynor. The Banshee deals 96 damage per second and regenerates 75 Health per second if it hasn't taken damage in the last 4 seconds. Can reactivate to retarget or move the Banshee.\nThe Banshee respawns automatically after 45 seconds. ",
 	},
 	"RaynorHyperionGroundStrafe": {
 		Name: "Scorched Earth",
 		Text: "An additional set of lasers blast the ground 5 times per second, dealing 40 damage in an area.",
 	},
-	"RaynorInspireConfidentAim": {
-		Name: "Confident Aim",
-		Text: "Lowers the cooldown of Penetrating Round by 4 seconds if it hits an enemy Hero.",
+	"RaynorHyperionIndomitableResolve": {
+		Name: "Indomitable Resolve",
+		Text: "Give 'Em Some Pepper lowers the cooldown of Hyperion by 5 seconds if the primary target is a Hero. Inspire grants Raynor Unstoppable for 2 seconds.",
 	},
-	"RaynorInspireSteelResolve": {
-		Name: "Steel Resolve",
-		Text: "Increases Inspire's duration by 50% and causes Adrenaline Rush to also apply Inspire.",
+	"RaynorInspireFuelTheRush": {
+		Name: "Fuel The Rush",
+		Text: "While Inspire is active, increase Adrenaline Rush's cooldown reduction from Basic Attacks by 200%.",
 	},
-	"RaynorLeadFromTheFrontPuttinOnAClinic": {
-		Name: "Puttin' On a Clinic",
-		Text: "Whenever an enemy Minion Raynor has recently damaged is destroyed, his Ability cooldowns are reduced by 1.5 seconds.",
+	"RaynorInspireGiddyUp": {
+		Name: "Giddy-Up",
+		Text: "Gain 10% Movement Speed while mounted and unmounted. Inspire grants 10% more Movement Speed.",
 	},
-	"RaynorMasteryActivatedRushAdrenalineRush": {
-		Name: "Activated Rush",
-		Text: "Lowers the cooldown of Adrenaline Rush by 10 seconds, and it can be manually activated.",
-	},
-	"RaynorMasteryBullseyePenetratingRound": {
-		Name: "Bullseye",
-		Text: "The first enemy hit by Penetrating Round is stunned for 1 second.",
-	},
-	"RaynorMasteryClusterRoundPenetratingRound": {
-		Name: "Cluster Round",
-		Text: "Penetrating Round damage is increased by 20% for each additional target hit up to 100%, and the width is increased by 50%.",
-	},
-	"RaynorMasteryDuskWingsRaynorsBanshees": {
-		Name: "Dusk Wings",
-		Text: "Banshees remain Stealthed while attacking and fire 50% more frequently.",
+	"RaynorInspireRallyingCry": {
+		Name: "Rallying Cry",
+		Text: "Increase the duration of Inspire by 1 second. Casting Inspire grants nearby allied Heroes 10% Movement and Attack Speed for its duration.",
 	},
 	"RaynorMasteryFightorFlightAdrenalineRush": {
 		Name: "Fight or Flight",
-		Text: "Whenever Adrenaline Rush activates, it gives 25 Armor, reducing damage taken by 25% for 4 seconds.  Adrenaline Rush can also be manually activated.",
+		Text: "Reduce Adrenaline Rush's cooldown by 10 seconds. Casting Adrenaline Rush grants 25 Armor for 4 seconds.",
 	},
 	"RaynorMasteryGiveMeMoreAdrenalineRush": {
 		Name: "Give Me More!",
-		Text: "Increases Adrenaline Rush healing by 50%.",
+		Text: "Increase Adrenaline Rush healing by 50%. While Inspire is active, gain 1 Basic Attack range.",
 	},
-	"RaynorMasteryInspireRevolutionOverdrive": {
-		Name: "Revolution Overdrive",
-		Text: "Gain 10% Movement Speed while affected by Inspire.  Increase this bonus by 5% for each allied Hero nearby when Inspire is cast.",
+	"RaynorPenetratingRoundDebilitatingRounds": {
+		Name: "Debilitating Rounds",
+		Text: "Decrease the cooldown of Penetrating Round by 3 seconds. While Inspire is active, Penetrating Round's Slow is increased by 20%.",
 	},
-	"RaynorPenetratingRoundDoubleBarreled": {
-		Name: "Double-Barreled",
-		Text: "Penetrating Round gains a second charge.",
+	"RaynorPenetratingRoundHeavySlugs": {
+		Name: "Heavy Slugs",
+		Text: "Activate to increase the distance of the next Penetrating Round by 30% and increase its Slow duration to 6 seconds.",
 	},
-	"RaynorPenetratingRoundHamstringShot": {
-		Name: "Hamstring Shot",
-		Text: "Enemies hit by Penetrating Round have a 20% Movement Speed slow for 3 seconds.",
+	"RaynorPenetratingRoundPaintThemRed": {
+		Name: "Paint Them Red",
+		Text: "Increase the damage of Penetrating Round by 50% and heal for 100% of the damage it deals to Heroes.",
 	},
-	"RaynorRelentlessLeader": {
-		Name: "Relentless Leader",
-		Text: "Being Stunned or Rooted knocks away nearby enemies.\nThis effect has an 8 second cooldown.\nPassive: The cooldown of Adrenaline Rush is reduced by 10 seconds.",
+	"RaynorVeteranMarksman": {
+		Name: "Veteran Marksman",
+		Text: "Quest: Every time the primary target of Give 'Em Some Pepper is a Hero, permanently increase its damage bonus by 0.75%.",
 	},
 	"RehgarAncestralHealing": {
 		Name: "Ancestral Healing",
