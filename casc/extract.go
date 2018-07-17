@@ -238,9 +238,9 @@ func extract() error {
 						img = iconClean(fmt.Sprintf(`Assets\Textures\storm_ui_ingame_hero_leaderboard_%s.dds`, img))
 					}
 					makeTalentIcon(img, filepath.Join("hero", h.Slug+".png"),
-						"-resize", "40x40!", "-gravity", "center", "-extent", "40x40",
+						"-resize", "40x40^", "-gravity", "center", "-extent", "40x40",
 					)
-					makeTalentIcon(img, filepath.Join("hero_full", h.Slug+".png"), "-resize", "100x56!")
+					makeTalentIcon(img, filepath.Join("hero_full", h.Slug+".png"), "-resize", "100x56")
 				}
 				/*
 					{
