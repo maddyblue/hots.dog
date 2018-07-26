@@ -1097,17 +1097,13 @@ var talentData = map[string]talentText{
 		Name: "Subterranean Shield",
 		Text: "Burrow Charge also grants a 345 point Shield for 5 seconds.",
 	},
-	"ArtanisBladeDashPsionicSynergy": {
-		Name: "Psionic Synergy",
-		Text: "Increases Blade Dash's cooldown reduction of Shield Overload by hitting Heroes by 2 seconds.",
-	},
 	"ArtanisBladeDashSolariteReaper": {
 		Name: "Solarite Reaper",
 		Text: "Increases the damage of the first dash of Blade Dash by 150%.",
 	},
 	"ArtanisBladeDashTemplarsZeal": {
 		Name: "Templar's Zeal",
-		Text: "Blade Dash cooldown recharges 300% faster while below 50% Health.",
+		Text: "Reduce the Mana cost of Blade Dash from 50 to 25. Each time that Shield Overload activates, reduce the cooldown of Blade Dash by 5 seconds.",
 	},
 	"ArtanisHeroicAbilitySpearofAdunPurifierBeam": {
 		Name: "Purifier Beam",
@@ -1123,27 +1119,31 @@ var talentData = map[string]talentText{
 	},
 	"ArtanisPhasePrismGravitonVortex": {
 		Name: "Graviton Vortex",
-		Text: "Phase Prism pulls and damages an additional enemy Hero near the first, and its cooldown is reduced by 5 seconds.",
+		Text: "Reduce the Mana cost of Phase Prism from 70 to 35. Hitting an enemy Hero with Basic Attacks or Blade Dash reduces the cooldown of Phase Prism by 1.25 seconds.",
+	},
+	"ArtanisPhasePrismPsionicSynergy": {
+		Name: "Psionic Synergy",
+		Text: "Hitting an enemy Hero with Phase Prism grants 15 Armor for 3 seconds.",
 	},
 	"ArtanisPhasePrismWarpSickness": {
 		Name: "Warp Sickness",
-		Text: "Phase Prism also slows the enemy's Movement Speed by 35% for 4 seconds.",
+		Text: "Phase Prism also Slows the enemy's Movement Speed by 35% for 4 seconds.",
 	},
 	"ArtanisPlasmaBurn": {
 		Name: "Plasma Burn",
-		Text: "While Shield Overload is active, deal 55 damage per second to nearby enemies.",
+		Text: "While Shield Overload is active, deal 60 damage per second to nearby enemies.",
 	},
 	"ArtanisShieldOverloadForceofWill": {
 		Name: "Force of Will",
-		Text: "Increases Shield Overload's cooldown reduction from Basic Attacks to 6 seconds.",
+		Text: "Casting Basic Abilities reduces the cooldown of Shield Overload by 5 seconds.",
 	},
 	"ArtanisShieldOverloadPhaseBulwark": {
 		Name: "Phase Bulwark",
-		Text: "When Shield Overload activates, gain 50 Spell Armor for 4 seconds, reducing Ability Damage taken by 50%.",
+		Text: "Shield Overload grants 50 Spell Armor while active and for 2 seconds after it expires.",
 	},
 	"ArtanisShieldOverloadShieldBattery": {
 		Name: "Shield Battery",
-		Text: "Shield Overload's cooldown recharges 50% faster while its shield is active, and the shield duration is increased by 1 second.",
+		Text: "Shield Overload's cooldown recharges 100% faster while its Shield is active, and the Shield duration is increased by 1 second.",
 	},
 	"ArtanisShieldOverloadShieldSurge": {
 		Name: "Shield Surge",
@@ -1151,7 +1151,7 @@ var talentData = map[string]talentText{
 	},
 	"ArtanisSpearofAdunPurifierBeamTargetPurified": {
 		Name: "Target Purified",
-		Text: "If the target of Purifier Beam dies, it automatically recasts on the nearest visible enemy Hero.",
+		Text: "Increase the speed of Purifier Beam by 15%. If the target of Purifier Beam dies, it automatically recasts on the nearest visible enemy Hero.",
 	},
 	"ArtanisSpearofAdunSuppressionPulseOrbitalBombardment": {
 		Name: "Orbital Bombardment",
@@ -1160,6 +1160,10 @@ var talentData = map[string]talentText{
 	"ArtanisTwinBladesAmateurOpponent": {
 		Name: "Amateur Opponent",
 		Text: "Twin Blades attacks deal 150% bonus damage to non-Heroes.",
+	},
+	"ArtanisTwinBladesBladesofaTemplar": {
+		Name: "Blades of a Templar",
+		Text: "Increase Attack Speed by 30%. Basic Attacks Slow by 20% for 1.25 seconds.",
 	},
 	"ArtanisTwinBladesPsionicWound": {
 		Name: "Psionic Wound",
@@ -1171,7 +1175,7 @@ var talentData = map[string]talentText{
 	},
 	"ArtanisTwinBladesTitanKiller": {
 		Name: "Titan Killer",
-		Text: "Twin Blades attacks against Heroes deal an additional 2% of the target's maximum Health in damage.",
+		Text: "Basic Attacks against Heroes deal bonus damage equal to 0.5% of the target's maximum Health in damage, increased to 1.5% when empowered by Twin Blades.",
 	},
 	"ArtanisTwinBladesTripleStrike": {
 		Name: "Triple Strike",
@@ -1363,11 +1367,11 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanArtOfChaos": {
 		Name: "Art of Chaos",
-		Text: "If Globe of Annihilation hits 2 or more Heroes, restore 30 Mana. If it hits 3 or more Heroes, gain an extra 5 Annihilation.",
+		Text: "If Globe of Annihilation hits 2 or more Heroes, restore 30 Mana and gain an extra 4 Annihilation.",
 	},
 	"AzmodanBattleborn": {
 		Name: "Battleborn",
-		Text: "Azmodan's Basic Attacks reduce the cooldown of Summon Demon Warrior by 0.5 seconds and Demon Lieutenant by 1 second.",
+		Text: "Azmodan's Basic Attacks reduce the cooldown of Summon Demon Warrior by 0.75 seconds and Demon Lieutenant by 1.5 seconds.",
 	},
 	"AzmodanBlackPool": {
 		Name: "Black Pool",
@@ -1379,11 +1383,11 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanBrutishVanguard": {
 		Name: "Brutish Vanguard",
-		Text: "Demon Warriors gain 25% increased Health and Slow nearby enemies by 20%.",
+		Text: "Demon Warriors and Lieutenants gain 25% increased Health. Demon Warriors Slow nearby enemies by 20%.",
 	},
 	"AzmodanChainOfCommand": {
 		Name: "Chain of Command",
-		Text: "Demon Lieutenants also grant 25% increased damage to nearby friendly Minions, Mercenaries, and Azmodan's summoned Demons.",
+		Text: "The cooldown of Demon Lieutenants' Demonic Smite is reduced by 2 seconds and they grant 25% increased damage to nearby friendly Minions, Mercenaries, and Azmodan's summoned Demons.",
 	},
 	"AzmodanCydaeasKiss": {
 		Name: "Cydaea's Kiss",
@@ -1399,15 +1403,15 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanHellRift": {
 		Name: "Hell Rift",
-		Text: "If All Shall Burn Channels for its full duration, a Demon Warrior is summoned at the target's location and all Demon Warriors deal 100% increased damage for 4 seconds.",
+		Text: "If All Shall Burn Channels for its full duration, a Demon Warrior is summoned at the target's location and all Demon Warriors deal 100% increased damage for 6 seconds.",
 	},
 	"AzmodanHellforgedArmor": {
 		Name: "Hellforged Armor",
-		Text: "Demon Warriors and Lieutenants gain 35 Armor and last 4 seconds longer.",
+		Text: "Demon Warriors and Lieutenants gain 30 Armor and last 4 seconds longer.",
 	},
 	"AzmodanHeroicAbilityDemonicInvasion": {
 		Name: "Demonic Invasion",
-		Text: "Rain a small army of Demonic Grunts down on enemies, dealing 65 damage per impact. Grunts deal 42 damage, have 750 health and last up to 8 seconds. When Grunts die they explode, dealing 65 damage to nearby enemies.",
+		Text: "Rain a small army of Demonic Grunts down on enemies, dealing 65 damage per impact. Grunts deal 42 damage, have 750 health and last up to 10 seconds. When Grunts die they explode, dealing 98 damage to nearby enemies.",
 	},
 	"AzmodanMasterofDestruction": {
 		Name: "Master of Destruction",
@@ -1415,7 +1419,7 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanPride": {
 		Name: "Pride",
-		Text: "After gaining 400 Annihilation, the area of Globe of Annihilation is increased by 15% and it deals 100 additional damage.",
+		Text: "After gaining 400 Annihilation, the area of Globe of Annihilation is increased by 15% and it deals 125 additional damage.",
 	},
 	"AzmodanSiegebreaker": {
 		Name: "Siegebreaker",
@@ -1423,7 +1427,7 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanSinsGrasp": {
 		Name: "Sin's Grasp",
-		Text: "Increases the range of All Shall Burn by 20%. If All Shall Burn Channels for its full duration, its cooldown is reduced by +Inf%.",
+		Text: "Increases the range of All Shall Burn by 20%. If All Shall Burn Channels for its full duration, its cooldown is reduced by 50%.",
 	},
 	"AzmodanTideOfSin": {
 		Name: "Tide of Sin",
@@ -1439,7 +1443,7 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanWrath": {
 		Name: "Wrath",
-		Text: "Basic Attacks against Heroes under 75% Health grant 1 Annihilation. \nQuest: After gaining 200 Annihilation, hitting a Hero with Globe of Annihilation increases the damage of Azmodan's next Basic Attack against them within 4 seconds by the amount of Annihilation he has.",
+		Text: "Basic Attacks against Heroes under 75% Health grant 1 Annihilation. \nQuest: After gaining 200 Annihilation, hitting a Hero with Globe of Annihilation increases the damage of Azmodan's next Basic Attack against them within 3 seconds by the amount of Annihilation he has.",
 	},
 	"BarbarianArreatCrater": {
 		Name: "Arreat Crater",
@@ -1847,7 +1851,7 @@ var talentData = map[string]talentText{
 	},
 	"ChoSurgingDash": {
 		Name: "Surging Dash",
-		Text: "While channeling Surging Fist, Cho is Unstoppable and heals for 150 Health per second.",
+		Text: "While channeling Surging Fist, Cho heals for 150 Health per second.",
 	},
 	"ChoTalentMoltenBlock": {
 		Name: "Molten Block",
@@ -2151,7 +2155,7 @@ var talentData = map[string]talentText{
 	},
 	"DeckardAncientBlessings": {
 		Name: "Ancient Blessings",
-		Text: "Activate Fortitude of the Faithful to empower nearby allied Hero Basic Attacks for 8 seconds, causing them to deal an additional 72 damage in an area and heal for 106 for each Hero hit. This effect can only occur once per second.",
+		Text: "Activate Fortitude of the Faithful to empower nearby allied Hero Basic Attacks for 8 seconds, causing them to deal an additional 68 damage in an area and heal for 100 for each Hero hit. This effect can only occur once per second.",
 	},
 	"DeckardBottomlessFlask": {
 		Name: "Bottomless Flask",
@@ -2451,7 +2455,7 @@ var talentData = map[string]talentText{
 	},
 	"DiabloHeroicAbilityLightningBreath": {
 		Name: "Lightning Breath",
-		Text: "After 0.5 seconds, become Unstoppable and Channel for up to 4 seconds, dealing 50 damage every 0.25 seconds to enemies in front of Diablo. Enemies affected are Slowed by 5% for 2 seconds, up to 50%. \nLightning Breath's direction changes with your mouse cursor position.",
+		Text: "After 0.5 seconds, become Unstoppable and Channel for up to 4 seconds, dealing 50 damage every 0.25 seconds to enemies in front of Diablo. Enemies affected are Slowed by 4% for 2 seconds, up to 40%. \nLightning Breath's direction changes with your mouse cursor position.",
 	},
 	"DiabloLifeLeech": {
 		Name: "Life Leech",
@@ -2815,7 +2819,7 @@ var talentData = map[string]talentText{
 	},
 	"FenixArsenalSynergy": {
 		Name: "Arsenal Synergy",
-		Text: "After hitting enemy Heroes with Basic Attacks 3 times while Repeater Cannon is active, the next Basic Attack with Phase Bomb deals 175% more damage and splashes in a 50% larger area.",
+		Text: "After hitting enemy Heroes with Basic Attacks 3 times while Repeater Cannon is active, the next Basic Attack with Phase Bomb deals 150% more damage and splashes in a 50% larger area.",
 	},
 	"FenixAuxiliaryShields": {
 		Name: "Auxiliary Shields",
@@ -2851,7 +2855,7 @@ var talentData = map[string]talentText{
 	},
 	"FenixMobileOffense": {
 		Name: "Mobile Offense",
-		Text: "After moving, Fenix's next Basic Attack deals 30% more damage to Heroes.",
+		Text: "After moving, Fenix's next Basic Attack deals 35% more damage to Heroes.",
 	},
 	"FenixOffensiveCadence": {
 		Name: "Offensive Cadence",
@@ -2947,7 +2951,7 @@ var talentData = map[string]talentText{
 	},
 	"FirebatNeuralStimpack": {
 		Name: "Neural Stimpack",
-		Text: "Activate to gain 50 Mana and cause Ability cooldowns to recharge 100% faster for 5 seconds.",
+		Text: "Activate to gain 50 Mana and cause Basic Ability cooldowns to recharge 100% faster for 5 seconds.",
 	},
 	"FirebatNewHabits": {
 		Name: "New Habits",
@@ -3371,7 +3375,7 @@ var talentData = map[string]talentText{
 	},
 	"GenjiDragonbladeTheDragonBecomesMe": {
 		Name: "The Dragon Becomes Me",
-		Text: "Each time Dragonblade hits an enemy Hero, the duration of Dragonblade is increased by 0.5 seconds. If a Hero is killed within 2 seconds of being hit by Dragonblade, Swift Strike's cooldown is reset.",
+		Text: "Each time Dragonblade hits an enemy Hero, the duration of Dragonblade is increased by 0.5 seconds. If a Hero is killed within 1.5 seconds of being hit by Dragonblade, Swift Strike's cooldown is reset.",
 	},
 	"GenjiHeroicDragonblade": {
 		Name: "Dragonblade",
@@ -3651,7 +3655,7 @@ var talentData = map[string]talentText{
 	},
 	"HanzoPerfectAgility": {
 		Name: "Perfect Agility",
-		Text: "Natural Agility gains a 2nd charge and its cooldown is reduced by 5 seconds.",
+		Text: "Natural Agility gains a 2nd charge and its cooldown is reduced by 10 seconds.",
 	},
 	"HanzoPiercingArrows": {
 		Name: "Piercing Arrows",
@@ -4763,7 +4767,11 @@ var talentData = map[string]talentText{
 	},
 	"MalfurionRegrowthNaturesSwiftness": {
 		Name: "Nature's Swiftness",
-		Text: "Malfurion gains 4% Movement Speed per ally Hero affected by Regrowth.",
+		Text: "Malfurion gains 6% Movement Speed for every active Regrowth.",
+	},
+	"MalfurionRejuvenation": {
+		Name: "Rejuvenation",
+		Text: "Malfurion regenerates 5 Health per second for every active Regrowth.",
 	},
 	"MalfurionRevitalizeInnervateTalent": {
 		Name: "Revitalize",
@@ -5243,7 +5251,7 @@ var talentData = map[string]talentText{
 	},
 	"MurkyFishTank": {
 		Name: "Fish Tank",
-		Text: "Basic Attacks against Heroes grant Murky 75 Physical Armor against Heroes for 3 seconds.",
+		Text: "Murky is healed for 25% of the damage he deals with Basic Attacks and Basic Abilities.",
 	},
 	"MurkyHeroicAbilityMarchoftheMurlocs": {
 		Name: "March of the Murlocs",
@@ -5643,7 +5651,7 @@ var talentData = map[string]talentText{
 	},
 	"RaynorAceInTheHole": {
 		Name: "Ace In The Hole",
-		Text: "Deal 30% more damage to Stunned or Slowed Heroes.",
+		Text: "Deal 20% more damage to Stunned or Slowed Heroes.",
 	},
 	"RaynorBasicAttackExecute": {
 		Name: "Execute",
@@ -5655,7 +5663,7 @@ var talentData = map[string]talentText{
 	},
 	"RaynorBehemothArmor": {
 		Name: "Behemoth Armor",
-		Text: "Gain 250 bonus maximum Health. \n Quest: Every time Give 'Em Some Pepper's primary target is a Hero, gain an additional 5 maximum Health.",
+		Text: "Gain 200 bonus maximum Health. \n Quest: Every time Give 'Em Some Pepper's primary target is a Hero, gain an additional 5 maximum Health.",
 	},
 	"RaynorBountyHunter": {
 		Name: "Bounty Hunter",
@@ -5671,7 +5679,7 @@ var talentData = map[string]talentText{
 	},
 	"RaynorGiveEmSomePepperUnstableCompound": {
 		Name: "Unstable Compound",
-		Text: "Increase the area of Give 'Em Some Pepper by 15%, and enemies hit by it are Slowed by 10% for 3 seconds.",
+		Text: "Increase the area of Give 'Em Some Pepper by 15%, and enemies hit by it are Slowed by 10% for 2.5 seconds.",
 	},
 	"RaynorGiveEmSomePepperWeakSpotAcquired": {
 		Name: "Weak Spot Acquired",
@@ -5683,7 +5691,7 @@ var talentData = map[string]talentText{
 	},
 	"RaynorHeroicAbilityRaynorsRaiders": {
 		Name: "Raynor's Raider",
-		Text: "Summon a Banshee that assists Raynor. The Banshee deals 96 damage per second and regenerates 75 Health per second if it hasn't taken damage in the last 4 seconds. Can reactivate to retarget or move the Banshee.\nThe Banshee respawns automatically after 45 seconds. ",
+		Text: "Summon a Banshee that assists Raynor. The Banshee deals 84 damage per second and regenerates 75 Health per second if it hasn't taken damage in the last 4 seconds. Can reactivate to retarget or move the Banshee.\nThe Banshee respawns automatically after 45 seconds. ",
 	},
 	"RaynorHyperionGroundStrafe": {
 		Name: "Scorched Earth",
@@ -5707,7 +5715,7 @@ var talentData = map[string]talentText{
 	},
 	"RaynorMasteryFightorFlightAdrenalineRush": {
 		Name: "Fight or Flight",
-		Text: "Reduce Adrenaline Rush's cooldown by 10 seconds. Casting Adrenaline Rush grants 25 Armor for 4 seconds.",
+		Text: "Reduce Adrenaline Rush's cooldown by 10 seconds. Casting Adrenaline Rush grants 25 Armor for 3 seconds.",
 	},
 	"RaynorMasteryGiveMeMoreAdrenalineRush": {
 		Name: "Give Me More!",
@@ -6015,7 +6023,7 @@ var talentData = map[string]talentText{
 	},
 	"SgtHammerHeroicAbilityBluntForceGun": {
 		Name: "Blunt Force Gun",
-		Text: "Fire a missile across the battlefield, dealing 500 damage to enemies in its path.",
+		Text: "Fire a missile across the battlefield, dealing 500 damage to non-Structure enemies in its path.",
 	},
 	"SgtHammerHeroicAbilityNapalmStrike": {
 		Name: "Napalm Strike",
@@ -6627,7 +6635,7 @@ var talentData = map[string]talentText{
 	},
 	"TracerFocusFire": {
 		Name: "Focus Fire",
-		Text: "If an entire ammo magazine is unloaded on an enemy, the last bullet will deal 98 bonus damage.  This is equal to 36% of the total magazine.",
+		Text: "If an entire ammo magazine is unloaded on an enemy, the last bullet will deal 91 bonus damage.  This is equal to 35% of the total magazine.",
 	},
 	"TracerGetStuffedMelee": {
 		Name: "Get Stuffed!",
@@ -6663,7 +6671,7 @@ var talentData = map[string]talentText{
 	},
 	"TracerQuantumSpike": {
 		Name: "Quantum Spike",
-		Text: "Pulse Bomb deals an additional 8% of the primary target's maximum Health.",
+		Text: "Pulse Bomb deals an additional 7% of the primary target's maximum Health.",
 	},
 	"TracerRicochetHeroWeapon": {
 		Name: "Ricochet",
@@ -7467,7 +7475,7 @@ var talentData = map[string]talentText{
 	},
 	"YrelDivineSteed": {
 		Name: "Divine Steed",
-		Text: "Mounting is instant and grants 80% Movement Speed that decays over 3 seconds.",
+		Text: "Mounting is instant and grants 60% Movement Speed that decays over 3 seconds.",
 	},
 	"YrelHandOfFreedom": {
 		Name: "Hand of Freedom",
@@ -7475,11 +7483,11 @@ var talentData = map[string]talentText{
 	},
 	"YrelHolyWrath": {
 		Name: "Holy Wrath",
-		Text: "After casting a Basic Ability, Yrel's next Basic Attack splashes for 30% increased damage around the target.",
+		Text: "After casting a Basic Ability, Yrel's next Basic Attack splashes for 20% increased damage around the target.",
 	},
 	"YrelMaraadsInsight": {
 		Name: "Maraad's Insight",
-		Text: "After casting a Basic Ability, Yrel's next Basic Attack heals her for 148.",
+		Text: "After casting a Basic Ability, Yrel's next Basic Attack heals her for 128.",
 	},
 	"YrelRighteousHammerRighteousMomentum": {
 		Name: "Righteous Momentum",
@@ -7487,7 +7495,7 @@ var talentData = map[string]talentText{
 	},
 	"YrelRighteousHammerTemplarsVerdict": {
 		Name: "Templar's Verdict",
-		Text: "Righteous Hammer reduces the Armor of enemy Heroes hit by 20 for 4 seconds.",
+		Text: "Righteous Hammer reduces the Armor of enemy Heroes hit by 20 for 4 seconds and deals bonus damage equal to 4% of their maximum Health.",
 	},
 	"YrelSacredGround": {
 		Name: "Sacred Ground",
