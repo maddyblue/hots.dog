@@ -110,7 +110,7 @@ spec:
       - name: cockroachdb
         #image: gcr.io/hots-cockroach/cockroach:latest
         #image: cockroachdb/cockroach:v2.0.1
-        image: cockroachdb/cockroach-unstable:v2.1.0-alpha.20180604
+        image: cockroachdb/cockroach-unstable:v2.1.0-alpha.20180730
         imagePullPolicy: Always
         resources:
           limits:
