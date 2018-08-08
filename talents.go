@@ -528,6 +528,13 @@ var heroData = []Hero{
 		MultiRole: []string{"Warrior", "Damage"},
 	},
 	{
+		Name:      "Whitemane",
+		ID:        "Whitemane",
+		Slug:      "whitemane",
+		Role:      "Support",
+		MultiRole: []string{"Support"},
+	},
+	{
 		Name:      "Xul",
 		ID:        "Necromancer",
 		Slug:      "xul",
@@ -811,7 +818,7 @@ var talentData = map[string]talentText{
 	},
 	"AlexstraszaLifebinder": {
 		Name: "Life-Binder",
-		Text: "Bind Alexstrasza's life force with an allied Hero. Both her and her target are healed for 600 Health over 2 seconds. Afterwards, the Hero with a lower percentage of Health is set to the same Health percentage as the other Hero.",
+		Text: "Bind Alexstrasza's life force with an allied Hero. Both her and her target are healed for 600 Health over 2 seconds. Afterwards, the Hero with a lower percentage of Health is healed to the same Health percentage as the other Hero.",
 	},
 	"AlexstraszaLifeblossomGiftOfLife": {
 		Name: "Lifeblossom",
@@ -1533,10 +1540,6 @@ var talentData = map[string]talentText{
 		Name: "Blessed Momentum",
 		Text: "Basic Attacks reduce Johanna's Basic Ability cooldowns by 0.5 seconds.",
 	},
-	"BattleMomentumKerrigan": {
-		Name: "Bladed Momentum",
-		Text: "Basic Attacks reduce Kerrigan's Basic Ability cooldowns by 0.6 seconds.",
-	},
 	"BattleMomentumNova": {
 		Name: "Battle Momentum",
 		Text: "Basic Attacks reduce Ability cooldowns by 0.5 seconds.",
@@ -1699,7 +1702,7 @@ var talentData = map[string]talentText{
 	},
 	"ChenAccumulatingFlame": {
 		Name: "Accumulating Flame",
-		Text: "Quest: Every time a Hero is Ignited with Breath of Fire, increase its damage over time by 2%, up to 60%.\nReward: After Igniting 30 Heroes, gain 25 Armor for 1 second per Hero Ignited, reducing damage taken by 25%.",
+		Text: "Quest: Every time a Hero is Ignited with Breath of Fire, increase its damage over time by 2%, up to 60%.\nReward: After Igniting 30 Heroes, gain 15 Armor for every enemy Hero ignited with Breath Of Fire. This lasts for 3 seconds.",
 	},
 	"ChenAnotherRound": {
 		Name: "Another Round",
@@ -1871,7 +1874,11 @@ var talentData = map[string]talentText{
 	},
 	"ChromieBronzeTalons": {
 		Name: "Bronze Talons",
-		Text: "Increase Chromie's Basic Attack range by 35%. Using Sand Blast increases the damage of her next Basic Attack by 250%.",
+		Text: "Increase Chromie's Basic Attack range by 28%. Using Sand Blast increases the damage of her next Basic Attack by 100%.\n",
+	},
+	"ChromieDraconicBarrage": {
+		Name: "Draconic Barrage",
+		Text: "Increase the damage from Bronze Talons by an additional 100%. Hitting an enemy Hero with Sand Blast applies Bronze Talons to Chromie's next 2 Basic Attacks.",
 	},
 	"ChromieDragonsBreathDeepBreathing": {
 		Name: "Deep Breathing",
@@ -1887,7 +1894,7 @@ var talentData = map[string]talentText{
 	},
 	"ChromieDragonsBreathMobiusLoop": {
 		Name: "Mobius Loop",
-		Text: "Reduce Dragon’s Breath's Mana cost and cooldown by 50%, but also reduce its damage by 25%.",
+		Text: "If Dragon's Breath hits a Hero, reduce its cooldown by 2 seconds and restore 50 Mana.",
 	},
 	"ChromieHereAndThere": {
 		Name: "Here and There",
@@ -1907,7 +1914,7 @@ var talentData = map[string]talentText{
 	},
 	"ChromieQuantumOverdrive": {
 		Name: "Quantum Overdrive",
-		Text: "Activate to increase Spell Power by 20% for 10 seconds.",
+		Text: "Activate to increase Spell Power by 25% for 10 seconds.",
 	},
 	"ChromieReachingThroughTime": {
 		Name: "Reaching through Time",
@@ -1915,15 +1922,15 @@ var talentData = map[string]talentText{
 	},
 	"ChromieSandBlastFastForward": {
 		Name: "Fast Forward",
-		Text: "If Sand Blast travels at least 75% of its base distance and hits a Hero, its cooldown is reduced to 0.75 seconds.",
+		Text: "If Sand Blast travels at least 70% of its base distance and hits a Hero, its cooldown is reduced to 0.75 seconds.",
 	},
 	"ChromieSandBlastMountingSand": {
 		Name: "Mounting Sand",
-		Text: "Hitting 3 or more consecutive Sand Blasts without missing counts as hitting 3 Heroes.",
+		Text: "Increase the damage of Echo's Sand Blast by 40%. Hitting 3 or more consecutive Sand Blasts without missing counts as hitting 3 Heroes.  ",
 	},
 	"ChromieSandBlastPiercingSands": {
 		Name: "Piercing Sands",
-		Text: "Sand Blast will now hit all Heroes in its path. Additional hits do not grant bonus damage or Quest progress.",
+		Text: "Sand Blast will now hit all Heroes in its path. Additional hits do not grant Quest progress.",
 	},
 	"ChromieSandBlastShiftingSands": {
 		Name: "Shifting Sands",
@@ -1939,7 +1946,7 @@ var talentData = map[string]talentText{
 	},
 	"ChromieTimeOut": {
 		Name: "Time Out",
-		Text: "Activate to place Chromie in Stasis and gain Invulnerability for up to 7 seconds. Can be reactivated to end the effect early.",
+		Text: "Activate to place Chromie in Stasis and gain Invulnerability for up to 5 seconds. Can be reactivated to end the effect early.",
 	},
 	"ChromieTimeTrapAndorhalAnomaly": {
 		Name: "Andorhal Anomaly",
@@ -1947,7 +1954,7 @@ var talentData = map[string]talentText{
 	},
 	"ChromieTimeTrapChronoSickness": {
 		Name: "Chrono Sickness",
-		Text: "Reduce Time Trap's cooldown and Mana cost by 50%. After the Time Stop ends, the enemy is also Slowed by 50% for 4 seconds.",
+		Text: "Reduce Time Trap's cooldown and Mana cost by 50%. After the Time Stop ends, the enemy is also Slowed by 35% for 4 seconds.",
 	},
 	"ChromieTimeTrapTimelySurprise": {
 		Name: "Timely Surprise",
@@ -1955,7 +1962,7 @@ var talentData = map[string]talentText{
 	},
 	"ChromieTimewalkersPursuit": {
 		Name: "Timewalker's Pursuit",
-		Text: "Activate to reveal the targeted area for 2 seconds. Enemies seen are revealed for 4 seconds.\nQuest: Gathering a Regeneration Globe increases Chromie's Mana Regeneration by 0.1, up to 1.5.\nReward: After gathering 15 Globes Chromie also gains 5% Spell Power.",
+		Text: "Activate to reveal the targeted area for 2 seconds. Enemies seen are revealed for 4 seconds.\nQuest: Gather 15 Regeneration Globes.\nReward: After gathering 15 Globes, Chromie gains 5% Spell Power and her Mana Regeneration is increased by 1.",
 	},
 	"CrusaderBlessedHammer": {
 		Name: "Blessed Hammer",
@@ -2635,7 +2642,7 @@ var talentData = map[string]talentText{
 	},
 	"ETCCombatStyleEchoPedal": {
 		Name: "Echo Pedal",
-		Text: "Using a Basic or Heroic Ability releases two pulses of 15 damage.  This deals 250% bonus damage to Minions and Mercenaries. The first occurs instantly, the second occurs 2 seconds later.",
+		Text: "Using a Basic or Heroic Ability releases two pulses of 15 damage.  This deals 250% bonus damage to Minions, Mercenaries, and Monsters. The first occurs instantly, the second occurs 2 seconds later.",
 	},
 	"ETCCrowdSurfer": {
 		Name: "Crowd Surfer",
@@ -3519,7 +3526,7 @@ var talentData = map[string]talentText{
 	},
 	"GuldanCorruptionCurseOfExhaustion": {
 		Name: "Curse of Exhaustion",
-		Text: "Drain Life deals 50% more damage and slows the target's movement speed by 25% if they are afflicted by Corruption.",
+		Text: "Drain Life deals 50% more damage and Slows the target's Movement Speed by 25% if they are afflicted by Corruption.",
 	},
 	"GuldanCorruptionDemonicSight": {
 		Name: "Demonic Sight",
@@ -3855,7 +3862,7 @@ var talentData = map[string]talentText{
 	},
 	"JainaHeroicSummonWaterElemental": {
 		Name: "Summon Water Elemental",
-		Text: "Summon a Water Elemental at target location. The Water Elemental's Basic Attacks deal 78 damage, splash for 25% damage and Chill. The Ability can be reactivated to retarget the Water Elemental.  Lasts 20 seconds.",
+		Text: "Summon a Water Elemental at target location. The Water Elemental's Basic Attacks deal 62 damage, splash for 25% damage and Chill. The Ability can be reactivated to retarget the Water Elemental.  Lasts 20 seconds.",
 	},
 	"JainaIcefuryWand": {
 		Name: "Icefury Wand",
@@ -4145,9 +4152,25 @@ var talentData = map[string]talentText{
 		Name: "The Plaguelands",
 		Text: "Increase Death and Decay's duration by 1 second. After gaining 30 Blight, increase the radius of Death and Decay's pool by 30%.",
 	},
+	"KerriganAggressiveDefense": {
+		Name: "Aggressive Defense",
+		Text: "Increases base Shield amount gained from Assimilation by 100%.",
+	},
 	"KerriganAssimilationMastery": {
 		Name: "Assimilation Mastery",
 		Text: "Increases the duration of Assimilation by 100%. While Assimilation is active, Kerrigan's Health and Mana regeneration is increased by 100%.",
+	},
+	"KerriganBladeTorrentImpalingBlades": {
+		Name: "Blade Torrent",
+		Text: "Increases Impaling Blades' radius by 30%.",
+	},
+	"KerriganBladedMomentum": {
+		Name: "Bladed Momentum",
+		Text: "Basic Attacks reduce Kerrigan's Basic Ability cooldowns by 0.6 seconds.",
+	},
+	"KerriganCleanKillRavage": {
+		Name: "Clean Kill",
+		Text: "If Ravage kills the target, it restores 75% of its Mana cost and increases the damage of the next Ravage by 25%.",
 	},
 	"KerriganCombatStyleDoubleStrike": {
 		Name: "Double Strike",
@@ -4157,13 +4180,13 @@ var talentData = map[string]talentText{
 		Name: "Fury of the Swarm",
 		Text: "Kerrigan's Basic Attacks splash for 60% damage around the target.",
 	},
-	"KerriganCombatStyleLingeringEssence": {
-		Name: "Lingering Essence",
-		Text: "Increases Assimilation Shield's duration to 20 seconds.",
-	},
 	"KerriganEssenceForEssence": {
 		Name: "Essence for Essence",
 		Text: "Activate to deal 10% of target enemy Hero's Max Health and gain Assimilation Shields for twice that amount.",
+	},
+	"KerriganEviscerate": {
+		Name: "Eviscerate",
+		Text: "Increases Ravage's range by 40%.",
 	},
 	"KerriganHeroicAbilityMaelstrom": {
 		Name: "Maelstrom",
@@ -4173,45 +4196,13 @@ var talentData = map[string]talentText{
 		Name: "Summon Ultralisk",
 		Text: "Summon an Ultralisk that attacks the target to deal 100 damage. Attacks splash to nearby enemies for 50% damage. Can reactivate the Ability to retarget the Ultralisk. Lasts for 20 seconds.",
 	},
-	"KerriganMasteryAggressiveDefense": {
-		Name: "Aggressive Defense",
-		Text: "Increases base Shield amount gained from Assimilation by 100%.",
-	},
-	"KerriganMasteryEviscerate": {
-		Name: "Eviscerate",
-		Text: "Increases Ravage's range by 40%.",
-	},
-	"KerriganMasteryImpalingBladesBladeTorrent": {
-		Name: "Blade Torrent",
-		Text: "Increases Impaling Blades' radius by 30%.",
-	},
-	"KerriganMasteryImpalingBladesSharpenedBlades": {
-		Name: "Sharpened Blades",
-		Text: "Impaling Blades deals 25% more damage.",
-	},
-	"KerriganMasteryMaelstromOmegastorm": {
+	"KerriganOmegastormMaelstrom": {
 		Name: "Omegastorm",
 		Text: "Maelstrom size increased by 25% . Amount of Assimilation Shields generated by Maelstrom increased by 100%.",
 	},
-	"KerriganMasteryPrimalGraspEnergizingGrasp": {
-		Name: "Energizing Grasp",
-		Text: "Reduces the Mana cost of Primal Grasp by 75%. ",
-	},
-	"KerriganMasteryPrimalGraspPsionicPulse": {
+	"KerriganPsionicPulsePrimalGrasp": {
 		Name: "Psionic Pulse",
 		Text: "After casting Primal Grasp, deal 36 damage per second to nearby enemies. Lasts 5 seconds.",
-	},
-	"KerriganMasteryRavageCleanKill": {
-		Name: "Clean Kill",
-		Text: "If Ravage kills the target, it restores 75% of its Mana cost and increases the damage of the next Ravage by 25%.",
-	},
-	"KerriganMasteryRavageSiphoningImpact": {
-		Name: "Siphoning Impact",
-		Text: "If the targeted enemy dies within 1.5 seconds, Kerrigan heals for 10% of her maximum Health.",
-	},
-	"KerriganMasteryTorrasqueSummonUltralisk": {
-		Name: "Torrasque",
-		Text: "The Ultralisk morphs into an egg when it dies. If the egg isn't killed within 4 seconds, a new Ultralisk is born.",
 	},
 	"KerriganPsionicShift": {
 		Name: "Psionic Shift",
@@ -4220,6 +4211,18 @@ var talentData = map[string]talentText{
 	"KerriganQueensRush": {
 		Name: "Queen's Rush",
 		Text: "Activate to gain 30% Movement Speed for 4 seconds. Queen's Rush is also applied for free on Takedowns.",
+	},
+	"KerriganSharpenedBladesImpalingBlades": {
+		Name: "Sharpened Blades",
+		Text: "Impaling Blades deals 25% more damage.",
+	},
+	"KerriganSiphoningImpactRavage": {
+		Name: "Siphoning Impact",
+		Text: "If the targeted enemy dies within 1.5 seconds, Kerrigan heals for 10% of her maximum Health.",
+	},
+	"KerriganTorrasqueSummonUltralisk": {
+		Name: "Torrasque",
+		Text: "The Ultralisk morphs into an egg when it dies. If the egg isn't killed within 4 seconds, a new Ultralisk is born.",
 	},
 	"L90ETCMasteryDeathMetal": {
 		Name: "Death Metal",
@@ -4771,7 +4774,7 @@ var talentData = map[string]talentText{
 	},
 	"MalfurionRejuvenation": {
 		Name: "Rejuvenation",
-		Text: "Malfurion regenerates 5 Health per second for every active Regrowth.",
+		Text: "Malfurion gains 100% base Health regeneration for every active Regrowth.",
 	},
 	"MalfurionRevitalizeInnervateTalent": {
 		Name: "Revitalize",
@@ -5935,7 +5938,7 @@ var talentData = map[string]talentText{
 	},
 	"SamuroBurningBlade": {
 		Name: "Burning Blade",
-		Text: "Critical Strikes from Samuro and Mirror Images deal an additional 50% of their Basic Attack damage to the target and nearby enemies.",
+		Text: "Critical Strikes from Samuro and Mirror Images deal an additional 50% of their Basic Attack damage as Spell Damage to the target and nearby enemies.",
 	},
 	"SamuroCrushingBlow": {
 		Name: "Crushing Blows",
@@ -6175,7 +6178,7 @@ var talentData = map[string]talentText{
 	},
 	"StukovBioticArmor": {
 		Name: "Biotic Armor",
-		Text: "Healing Pathogen grants 50 Physical Armor to its initial target while active on them.",
+		Text: "Healing Pathogen grants 15 Physical Armor to targets while active on them. Detonating Bio-Kill Switch increases this bonus by 35 for 2.5 seconds.",
 	},
 	"StukovControlledChaos": {
 		Name: "Controlled Chaos",
@@ -6187,7 +6190,7 @@ var talentData = map[string]talentText{
 	},
 	"StukovGrowingInfestation": {
 		Name: "Growing Infestation",
-		Text: "Lurking Arm's area expands by 50% over 2.5 seconds but its cooldown is increased by 5 seconds.",
+		Text: "Lurking Arm's area expands by 50% over 2.5 seconds, but it cannot be Channeled for longer than 4 seconds.",
 	},
 	"StukovHeroicAbilityFlailingSwipe": {
 		Name: "Flailing Swipe",
@@ -6199,7 +6202,7 @@ var talentData = map[string]talentText{
 	},
 	"StukovItHungers": {
 		Name: "It Hungers",
-		Text: "Each time an enemy Hero is hit by Lurking Arm, reduce its cooldown by 0.5 seconds, up to 6.5 seconds, and restore 10 Mana.",
+		Text: "Increase the range of Lurking Arm by 20%. If Lurking Arm damages enemy Heroes 15 times, its cooldown is reset and its Mana cost is refunded.",
 	},
 	"StukovLingeringSpines": {
 		Name: "Lingering Spines",
@@ -6207,11 +6210,11 @@ var talentData = map[string]talentText{
 	},
 	"StukovLongPitch": {
 		Name: "The Long Pitch",
-		Text: "Increase the range of Weighted Pustule by 100%.",
+		Text: "Increase the range of Weighted Pustule by 50%. Detonating 2 or more Weighted Pustules causes Stukov's Bio-Kill Switch and Basic Ability cooldowns to recharge 100% faster for 3 seconds.",
 	},
 	"StukovLowBlow": {
 		Name: "Low Blow",
-		Text: "Lurking Arm deals 150% more damage to enemy Heroes below 30% Health.",
+		Text: "Lurking Arm deals 100% more damage to enemy Heroes below 30% Health.",
 	},
 	"StukovOneGoodSpread": {
 		Name: "One Good Spread...",
@@ -6219,7 +6222,7 @@ var talentData = map[string]talentText{
 	},
 	"StukovPoppinPustules": {
 		Name: "Poppin' Pustules",
-		Text: "Increase the final damage of Weighted Pustule by 50%.\nQuest: Detonate 10 Weighted Pustules without dying.\nReward: Detonating a Weighted Pustule now applies its damage and Slow in an area.",
+		Text: "Detonating Weighted Pustule with Bio-Kill Switch within 1.5 seconds of its expiration increases its damage by 100% and applies its damage and Slow in an area.",
 	},
 	"StukovPoxPopuli": {
 		Name: "Pox Populi",
@@ -6227,7 +6230,7 @@ var talentData = map[string]talentText{
 	},
 	"StukovPushComesToShove": {
 		Name: "Push Comes To Shove",
-		Text: "Massive Shove travels 25% faster. If Massive Shove pushes a target for more than 1.25 seconds, its cooldown is reduced by 15 seconds.",
+		Text: "Massive Shove slows its target by 50% for 4 seconds upon colliding with terrain. If Massive Shove pushes a target for more than 1.25 seconds, its cooldown is reduced by 15 seconds.",
 	},
 	"StukovSpineLauncher": {
 		Name: "Spine Launcher",
@@ -6243,7 +6246,7 @@ var talentData = map[string]talentText{
 	},
 	"StukovTopOff": {
 		Name: "Top Off",
-		Text: "Healing Pathogen's heal over time on its initial target is increased by 50% while they are above 60% Health.",
+		Text: "Healing Pathogen's heal over time is increased by 30% while its target is above 60% Health.",
 	},
 	"StukovUniversalCarrier": {
 		Name: "Universal Carrier",
@@ -6251,7 +6254,7 @@ var talentData = map[string]talentText{
 	},
 	"StukovVigorousReuptake": {
 		Name: "Vigorous Reuptake",
-		Text: "Quest: Detonate 50 Healing Pathogens with Bio-Kill Switch.\nReward: Increase Bio-Kill Switch's healing by 40%.",
+		Text: "Bio-Kill Switch heals for 25% more when detonating 3 or more Healing Pathogens.",
 	},
 	"StukovVirulentReaction": {
 		Name: "Virulent Reaction",
@@ -7261,6 +7264,94 @@ var talentData = map[string]talentText{
 		Name: "Victory Rush",
 		Text: "Every 30 seconds, Varian's next Basic Attack will heal him for 350 Health. When a nearby enemy Minion or Monster dies, the cooldown is reduced by 10 seconds.",
 	},
+	"WhitemaneDesperatePleaMartyrdom": {
+		Name: "Martyrdom",
+		Text: "Each stack of Desperation increases Desperate Plea's healing by 30%.",
+	},
+	"WhitemaneDesperatePleaRadiance": {
+		Name: "Radiance",
+		Text: "Upon reaching 3 stacks of Desperation, all allies with Zeal are healed for 200.",
+	},
+	"WhitemaneDesperatePleaSelfRighteous": {
+		Name: "Self-Righteous",
+		Text: "Casting Desperate Plea on an ally heals Whitemane for 125. Does not grant Zeal.",
+	},
+	"WhitemaneDesperatePleaUnwaveringFaith": {
+		Name: "Unwavering Faith",
+		Text: "Reduce Desperate Plea's Mana cost by 30.\nUpon reaching 3 stacks of Desperation, gain a 250 Shield for 5 seconds.",
+	},
+	"WhitemaneDesperatePleaZealousSpirit": {
+		Name: "Zealous Spirit",
+		Text: "Upon reaching 2 stacks of Desperation, Whitemane gains Zeal.",
+	},
+	"WhitemaneDivineReckoning": {
+		Name: "Divine Reckoning",
+		Text: "After 1 second, consecrate an area for 4 seconds, dealing 50 damage every 0.5 seconds to enemies inside.",
+	},
+	"WhitemaneDivineReckoningJudgmentDay": {
+		Name: "Judgment Day",
+		Text: "Divine Reckoning deals 50% more damage and pulls enemies to its center the first time it hits them.",
+	},
+	"WhitemaneFanaticalPower": {
+		Name: "Fanatical Power",
+		Text: "Activate to gain 50% Spell Power and lose 25 Armor for 5 seconds.",
+	},
+	"WhitemaneInquisitionClemency": {
+		Name: "Clemency",
+		Text: "Activate to cast Inquisition on an allied Hero, healing them for up to 371 over 3 seconds while Channeling.\nPassive: Reduce Inquisition's cooldown by 3 seconds.",
+	},
+	"WhitemaneInquisitionHighInquisitor": {
+		Name: "High Inquisitor",
+		Text: "Casting Inquisition instantly removes all stacks of Desperation and restores 60 Mana per stack removed.",
+	},
+	"WhitemaneInquisitionSharedPunishment": {
+		Name: "Shared Punishment",
+		Text: "Upon casting, Inquisition can chain to an additional enemy Hero near its target, dealing 35 damage every 0.5 seconds.",
+	},
+	"WhitemaneInquisitionSubjugation": {
+		Name: "Subjugation",
+		Text: "Inquisition reduces all damage the target deals by 75%.",
+	},
+	"WhitemaneIntercession": {
+		Name: "Intercession",
+		Text: "Activate to make an ally Unstoppable for 1 second and gain 1 stack of Desperation.",
+	},
+	"WhitemanePurgeTheWicked": {
+		Name: "Purge the Wicked",
+		Text: "Activate to blast an enemy Hero with holy fire, reducing their Armor by 25 and dealing 300 damage over 4 seconds.",
+	},
+	"WhitemaneScarletAegis": {
+		Name: "Scarlet Aegis",
+		Text: "Bolster the spirits of nearby allied Heroes, healing them for 250 and granting them 40 Armor for 4 seconds.",
+	},
+	"WhitemaneScarletAegisScarletCrusade": {
+		Name: "Scarlet Crusade",
+		Text: "Scarlet Aegis heals for 50% more and makes affected allies Unstoppable for 1 second.",
+	},
+	"WhitemaneSearingLashHarshDiscipline": {
+		Name: "Harsh Discipline",
+		Text: "Hitting a Hero with Searing Lash while they are being targeted by Inquisition Roots them for 1.5 seconds.",
+	},
+	"WhitemaneSearingLashIndulgence": {
+		Name: "Indulgence",
+		Text: "Searing Lash's first strike restores 10 Mana per Hero hit, and its second strike restores 30 Mana per Hero hit.",
+	},
+	"WhitemaneSearingLashLashingOut": {
+		Name: "Lashing Out",
+		Text: "Searing Lash's second strike deals 25% more damage and reduces Searing Lash's cooldown to 1 second if it hits a Hero.",
+	},
+	"WhitemaneSearingLashRighteousFlame": {
+		Name: "Righteous Flame",
+		Text: "Searing Lash deals 50% more damage to enemies who are Stunned, Rooted, Silenced or Slowed.",
+	},
+	"WhitemaneZealGuidingLight": {
+		Name: "Guiding Light",
+		Text: "Whenever Zeal is applied to allies other than Whitemane, it grants them 20% Movement Speed for 2 seconds.",
+	},
+	"WhitemaneZealPityTheFrail": {
+		Name: "Pity the Frail",
+		Text: "Allies below 50% Health receive 25% more healing from Zeal.",
+	},
 	"WitchDoctorAnnihilatingSpirits": {
 		Name: "Annihilating Spirit",
 		Text: "Increases the range of Ravenous Spirit by 50% and Movement Speed by 30%.",
@@ -7607,7 +7698,7 @@ var talentData = map[string]talentText{
 	},
 	"ZagaraMasteryTyrantMaw": {
 		Name: "Tyrant Maw",
-		Text: "Devouring Maw deals 50% more damage and getting a Takedown reduce its cooldown by 25 seconds.",
+		Text: "Devouring Maw deals 50% more damage. Takedowns reduce its cooldown by 25 seconds.",
 	},
 	"ZagaraMasteryVolatileAcid": {
 		Name: "Volatile Acid",
