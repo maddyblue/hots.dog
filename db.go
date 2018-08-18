@@ -11,6 +11,7 @@ import (
 	"log"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/lib/pq"
 	servertiming "github.com/mitchellh/go-server-timing"
@@ -96,7 +97,9 @@ func (c *conn) BeginTx(ctx context.Context, opts driver.TxOptions) (driver.Tx, e
 	return c.Conn.(driver.ConnBeginTx).BeginTx(ctx, opts)
 }
 
-func (c *conn) QueryContext(ctx context.Context, query string, args []driver.NamedValue) (driver.Rows, error) {
+func (c *conn) QueryContext(
+	ctx context.Context, query string, args []driver.NamedValue,
+) (driver.Rows, error) {
 	c.ExplainNamed(query, args)
 	defer addTiming(ctx, "QUERY", query, args)()
 	return c.Conn.(driver.QueryerContext).QueryContext(ctx, query, args)
@@ -112,7 +115,9 @@ func (c *conn) Exec(query string, args []driver.Value) (driver.Result, error) {
 	return c.Conn.(driver.Execer).Exec(query, args)
 }
 
-func (c *conn) ExecContext(ctx context.Context, query string, args []driver.NamedValue) (sql.Result, error) {
+func (c *conn) ExecContext(
+	ctx context.Context, query string, args []driver.NamedValue,
+) (sql.Result, error) {
 	c.logQuery(query, args)
 	defer addTiming(ctx, "EXEC", query, args)()
 	return c.Conn.(driver.ExecerContext).ExecContext(ctx, query, args)
@@ -126,13 +131,16 @@ func (c *conn) ExplainNamed(query string, args []driver.NamedValue) {
 	c.Explain(query, values)
 }
 
+var outputLock sync.Mutex
+
 func (c *conn) Explain(query string, args []driver.Value) {
 	if !c.log {
 		return
 	}
+	outputLock.Lock()
 	fmt.Println("EXPLAIN", query, args)
 	if err := func() error {
-		rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN "+query, args)
+		rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN (opt)"+query, args)
 		if err != nil {
 			return err
 		}
@@ -146,31 +154,34 @@ func (c *conn) Explain(query string, args []driver.Value) {
 			} else if err != nil {
 				return err
 			}
-			fmt.Println("EXPLAIN", values)
+			fmt.Print("\t", values, "\n")
 		}
 	}(); err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
-	if err := func() error {
-		rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN (distsql) "+query, args)
-		if err != nil {
-			return err
-		}
-		defer rows.Close()
-		var level int64
-		var typ, field, description string
-		values := []driver.Value{level, typ, field, description}
-		for {
-			if err := rows.Next(values); err == io.EOF {
-				return nil
-			} else if err != nil {
+	/*
+		if err := func() error {
+			rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN (distsql) "+query, args)
+			if err != nil {
 				return err
 			}
-			fmt.Println("EXPLAIN (distsql)", values)
+			defer rows.Close()
+			var level int64
+			var typ, field, description string
+			values := []driver.Value{level, typ, field, description}
+			for {
+				if err := rows.Next(values); err == io.EOF {
+					return nil
+				} else if err != nil {
+					return err
+				}
+				fmt.Println("EXPLAIN (distsql)", values)
+			}
+		}(); err != nil {
+			fmt.Println(err)
 		}
-	}(); err != nil {
-		panic(err)
-	}
+	*/
+	outputLock.Unlock()
 }
 
 func makeValues(numArgs, start int) string {
