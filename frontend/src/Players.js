@@ -426,7 +426,7 @@ class Player extends Component<
 						{this.makeTable('Game Mode', 'Modes', m => this.props.Modes[m])}
 						{this.makeTable('Role', 'Roles')}
 						{this.makeTable('Hero', 'Heroes', v => (
-							<HeroImg name={v} slug={this.props.HeroMap[v].Slug} />
+							<HeroImg name={v} map={this.props.HeroMap} />
 						))}
 						{this.makeTable('Map', 'Maps')}
 					</table>
@@ -650,7 +650,7 @@ class PlayerMatchups extends Component<
 				headers={[
 					{
 						name: 'header',
-						cell: v => <HeroImg name={v} slug={this.props.HeroMap[v].Slug} />,
+						cell: v => <HeroImg name={v} map={this.props.HeroMap} />,
 						header: [
 							<div key="anchor" className="anchor" id={prop.toLowerCase()} />,
 							<span key="name">{name.toLowerCase()}</span>,
@@ -879,11 +879,7 @@ class Game extends Component<
 						{
 							name: 'Hero',
 							cell: v => (
-								<HeroImg
-									name={v}
-									slug={this.props.HeroMap[v].Slug}
-									link={baseSearch}
-								/>
+								<HeroImg name={v} map={this.props.HeroMap} link={baseSearch} />
 							),
 						},
 						{
