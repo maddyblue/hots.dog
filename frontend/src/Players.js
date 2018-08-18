@@ -87,6 +87,7 @@ class MMRChart extends Component<
 
 type Props = {
 	match: any,
+	history: any,
 };
 
 class Players extends Component<
@@ -129,6 +130,11 @@ class Players extends Component<
 				this.state.region,
 			data => {
 				if (this.state.name === name) {
+					if (data.length === 1) {
+						const row = data[0];
+						this.props.history.push('/players/' + row.Region + '/' + row.ID);
+						return;
+					}
 					this.setState({ ids: data, loading: false });
 				}
 			}
@@ -166,7 +172,7 @@ class Players extends Component<
 		return (
 			<div>
 				<Helmet>
-					<title>Search for player by name</title>
+					<title>Search for player</title>
 				</Helmet>
 				<form onSubmit={this.onSubmit}>
 					<div className="row">
