@@ -1130,7 +1130,7 @@ var talentData = map[string]talentText{
 	},
 	"ArtanisPhasePrismPsionicSynergy": {
 		Name: "Psionic Synergy",
-		Text: "Hitting an enemy Hero with Phase Prism grants 15 Armor for 3 seconds.",
+		Text: "Hitting an enemy Hero with Phase Prism grants 20 Armor for 3 seconds.",
 	},
 	"ArtanisPhasePrismWarpSickness": {
 		Name: "Warp Sickness",
@@ -1138,7 +1138,7 @@ var talentData = map[string]talentText{
 	},
 	"ArtanisPlasmaBurn": {
 		Name: "Plasma Burn",
-		Text: "While Shield Overload is active, deal 60 damage per second to nearby enemies.",
+		Text: "While Shield Overload is active, deal 70 damage per second to nearby enemies.",
 	},
 	"ArtanisShieldOverloadForceofWill": {
 		Name: "Force of Will",
@@ -1406,15 +1406,15 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanGreed": {
 		Name: "Greed",
-		Text: "Increase the time Minions will grant Annihilation from 1.5 to 3 seconds.\nQuest: After gaining 200 Annihilation, Globe of Annihilation's range is increased by 33% and it deals 20% more damage to Minions and Mercenaries.",
+		Text: "Increase the time Minions will grant Annihilation from 1.5 to 3 seconds.\nQuest: After gaining 200 Annihilation, Globe of Annihilation's range is increased by 33% and it deals 20% more damage to non-Heroic targets.",
 	},
 	"AzmodanHellRift": {
 		Name: "Hell Rift",
-		Text: "If All Shall Burn Channels for its full duration, a Demon Warrior is summoned at the target's location and all Demon Warriors deal 100% increased damage for 6 seconds.",
+		Text: "If All Shall Burn Channels for its full duration, a Demon Warrior is summoned at the target's location and all Demon Warriors deal 100% increased damage for 5 seconds.",
 	},
 	"AzmodanHellforgedArmor": {
 		Name: "Hellforged Armor",
-		Text: "Demon Warriors and Lieutenants gain 30 Armor and last 4 seconds longer.",
+		Text: "Demon Warriors and Lieutenants gain 25 Armor and last 4 seconds longer.",
 	},
 	"AzmodanHeroicAbilityDemonicInvasion": {
 		Name: "Demonic Invasion",
@@ -1442,7 +1442,7 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanTotalAnnihilation": {
 		Name: "Total Annihilation",
-		Text: "Globe of Annihilation damages Heroes for an additional 5% of their maximum Health.",
+		Text: "Globe of Annihilation damages Heroes for an additional 4% of their maximum Health.",
 	},
 	"AzmodanTrample": {
 		Name: "Trample",
@@ -1450,7 +1450,7 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanWrath": {
 		Name: "Wrath",
-		Text: "Basic Attacks against Heroes under 75% Health grant 1 Annihilation. \nQuest: After gaining 200 Annihilation, hitting a Hero with Globe of Annihilation increases the damage of Azmodan's next Basic Attack against them within 3 seconds by the amount of Annihilation he has.",
+		Text: "Basic Attacks against Heroes under 75% Health grant 1 Annihilation. \nQuest: After gaining 200 Annihilation, hitting a Hero with Globe of Annihilation increases the damage of Azmodan's next Basic Attack against them within 3 seconds by 75% the amount of Annihilation he has.",
 	},
 	"BarbarianArreatCrater": {
 		Name: "Arreat Crater",
@@ -1470,7 +1470,7 @@ var talentData = map[string]talentText{
 	},
 	"BarbarianGiantSlammer": {
 		Name: "Giant Slammer",
-		Text: "Seismic Slam deals an additional 2% of Heroes' maximum Health as damage.",
+		Text: "Basic Attacks and Seismic Slam deal an additional 1.25% of Heroes' maximum Health as damage.",
 	},
 	"BarbarianHeroicAbilityLeap": {
 		Name: "Leap",
@@ -1518,7 +1518,7 @@ var talentData = map[string]talentText{
 	},
 	"BarbarianShatteredGround": {
 		Name: "Shattered Ground",
-		Text: "Increase the length of Seismic Slam's splash by 66% and increase its splash damage to 75% of its base damage.",
+		Text: "Increase the length of Seismic Slam's splash by 66% and increase its splash damage to 100% of its base damage.",
 	},
 	"BarbarianShotOfFury": {
 		Name: "Shot Of Fury",
@@ -1874,7 +1874,7 @@ var talentData = map[string]talentText{
 	},
 	"ChromieBronzeTalons": {
 		Name: "Bronze Talons",
-		Text: "Increase Chromie's Basic Attack range by 28%. Using Sand Blast increases the damage of her next Basic Attack by 100%.\n",
+		Text: "Increase Chromie's Basic Attack range by 28%. Using Sand Blast increases the damage of her next Basic Attack by 125%.\n",
 	},
 	"ChromieDraconicBarrage": {
 		Name: "Draconic Barrage",
@@ -2162,11 +2162,11 @@ var talentData = map[string]talentText{
 	},
 	"DeckardAncientBlessings": {
 		Name: "Ancient Blessings",
-		Text: "Activate Fortitude of the Faithful to empower nearby allied Hero Basic Attacks for 8 seconds, causing them to deal an additional 68 damage in an area and heal for 100 for each Hero hit. This effect can only occur once per second.",
+		Text: "Activate Fortitude of the Faithful to empower nearby allied Hero Basic Attacks for 8 seconds, causing them to deal an additional 62 damage in an area and heal for 90 for each Hero hit. This effect can only occur once per second.",
 	},
 	"DeckardBottomlessFlask": {
 		Name: "Bottomless Flask",
-		Text: "After use, Healing Potions recharge after 6 seconds.",
+		Text: "After use, Healing Potions recharge after 8 seconds.",
 	},
 	"DeckardCubeMastery": {
 		Name: "Cube Mastery",
@@ -2210,7 +2210,7 @@ var talentData = map[string]talentText{
 	},
 	"DeckardPotionOfRevival": {
 		Name: "Potion of Revival",
-		Text: "When a Healing Potion is picked up, it also heals all nearby allied Heroes for 30% of the healing amount.",
+		Text: "When a Healing Potion is picked up, it also heals all nearby allied Heroes for 35% of the healing amount.",
 	},
 	"DeckardPotionOfShielding": {
 		Name: "Potion of Shielding",
@@ -2242,7 +2242,7 @@ var talentData = map[string]talentText{
 	},
 	"DeckardSuperHealingPotion": {
 		Name: "Super Healing Potion",
-		Text: "If a Healing Potion isn't picked up for at least 2 seconds, it heals for 75% more.",
+		Text: "If a Healing Potion isn't picked up for at least 2 seconds, it heals for 80% more.",
 	},
 	"DehakaAdaptationChangeIsSurvivalTalent": {
 		Name: "Change Is Survival",
@@ -4066,11 +4066,11 @@ var talentData = map[string]talentText{
 	},
 	"KelThuzadAcceleratedDecay": {
 		Name: "Accelerated Decay",
-		Text: "Each time a Hero is hit by Death and Decay's pool, they take 25% more periodic damage from Death and Decay for the next 4 seconds, stacking up to 6 times.",
+		Text: "Each time a Hero is hit by Death and Decay's pool, they take 20% more periodic damage from Death and Decay for the next 4 seconds, stacking up to 6 times.",
 	},
 	"KelThuzadArcaneEchoes": {
 		Name: "Arcane Echoes",
-		Text: "Whenever Kel'Thuzad hits an enemy Hero with Death and Decay's explosion, its cooldown is reduced by 1.25 seconds.",
+		Text: "Whenever Kel'Thuzad hits an enemy Hero with Death and Decay's explosion, its cooldown is reduced by 1.5 seconds.",
 	},
 	"KelThuzadArchlichArmor": {
 		Name: "Armor of the Archlich",
@@ -4082,11 +4082,11 @@ var talentData = map[string]talentText{
 	},
 	"KelThuzadBlightedFrost": {
 		Name: "Blighted Frost",
-		Text: "Frost Nova deals 50% more damage to enemies in the center. After gaining 30 Blight, increase Frost Nova's Root duration by 0.5 seconds.",
+		Text: "Frost Nova deals 75% more damage to enemies in the center. After gaining 30 Blight, increase Frost Nova's Root duration by 0.5 seconds.",
 	},
 	"KelThuzadChainLink": {
 		Name: "Chain-Link",
-		Text: "Pulling 2 Heroes together with Chains of Kel'Thuzad reduces its cooldown by 4 seconds and refunds its Mana cost.",
+		Text: "Pulling a Hero with Chains of Kel'Thuzad reduces its cooldown by 5 seconds and refunds its Mana cost.",
 	},
 	"KelThuzadChainsOfIce": {
 		Name: "Chains of Ice",
@@ -4102,7 +4102,7 @@ var talentData = map[string]talentText{
 	},
 	"KelThuzadFrozenTomb": {
 		Name: "Frost Blast",
-		Text: "Launch a meteor of ice at an enemy Hero. Upon impact, the meteor deals 100 damage to its target and 275 damage to enemies in the area. All enemies hit by Frost Blast are Rooted for 1.5 seconds.",
+		Text: "Launch a meteor of ice at an enemy Hero. Upon impact, the meteor deals 115 damage to its target and 275 damage to enemies in the area. All enemies hit by Frost Blast are Rooted for 1.5 seconds.",
 	},
 	"KelThuzadGlacialSpike": {
 		Name: "Glacial Spike",
@@ -4110,11 +4110,15 @@ var talentData = map[string]talentText{
 	},
 	"KelThuzadHungeringCold": {
 		Name: "Hungering Cold",
-		Text: "Enemy Heroes Rooted by Frost Nova take an additional 55 damage each time they are damaged by Kel'Thuzad during the next 4 seconds.",
+		Text: "Enemies that are Rooted take an additional 55 damage each time they are damaged by Kel'Thuzad.",
+	},
+	"KelThuzadIceCold": {
+		Name: "Ice Cold",
+		Text: "Reduce the cooldown of Glacial Spike by 5 seconds and increase its damage by 250%. ",
 	},
 	"KelThuzadIcyGrasp": {
 		Name: "Icy Grasp",
-		Text: "Increase Frost Nova's Slow duration by 2 seconds.",
+		Text: "Increase Frost Nova's Slow by 10%. Each time Kel'thuzad damages enemies Slowed by Frost Nova, its Slow duration is increased by 0.5 seconds.",
 	},
 	"KelThuzadMasterOfTheColdDark": {
 		Name: "Master of the Cold Dark",
@@ -4134,7 +4138,7 @@ var talentData = map[string]talentText{
 	},
 	"KelThuzadShadowFissure": {
 		Name: "Shadow Fissure",
-		Text: "Create a fissure anywhere on the Battleground that explodes after 1.5 seconds, dealing 400 damage to enemy Heroes in its area.",
+		Text: "Create a fissure anywhere on the Battleground that explodes after 1.5 seconds, dealing 360 damage to enemy Heroes in its area.",
 	},
 	"KelThuzadShiftingMalice": {
 		Name: "Shifting Malice",
@@ -4142,7 +4146,7 @@ var talentData = map[string]talentText{
 	},
 	"KelThuzadStripShields": {
 		Name: "Strip Shields",
-		Text: "Pulling a Hero with Chains of Kel'Thuzad grants Kel'Thuzad a permanent 120 Shield, stacking up to 2 times.\nAdditionally, Chains of Kel'Thuzad deals up to 270 bonus damage to Heroes' Shields.",
+		Text: "Pulling a Hero with Chains of Kel'Thuzad grants Kel'Thuzad a permanent 128 Shield, stacking up to 2 times.\nAdditionally, Chains of Kel'Thuzad deals up to 270 bonus damage to Heroes' Shields.",
 	},
 	"KelThuzadTheDamnedReturn": {
 		Name: "The Damned Return",
@@ -4374,7 +4378,7 @@ var talentData = map[string]talentText{
 	},
 	"LiLiMasteryBlindingWindGaleForce": {
 		Name: "Gale Force",
-		Text: "Increase Blinding Wind's duration by 1 second. Li Li's Basic Attacks against Blinded Heroes deal 75% increased damage.",
+		Text: "Increase Blinding Wind's duration by 0.8 second. Li Li's Basic Attacks against Blinded Heroes deal 75% increased damage.",
 	},
 	"LiLiMasteryBlindingWindMassVortex": {
 		Name: "Mass Vortex",
@@ -4414,7 +4418,7 @@ var talentData = map[string]talentText{
 	},
 	"LiLiMistweaver": {
 		Name: "Mistweaver",
-		Text: "Activate to heal nearby allied Heroes for 165. Basic Attacks and Cloud Serpent attacks reduce the cooldown of Mistweaver by 1 second.",
+		Text: "Activate to heal nearby allied Heroes for 149. Basic Attacks and Cloud Serpent attacks reduce the cooldown of Mistweaver by 1 second.",
 	},
 	"LiLiPickMeUp": {
 		Name: "Pick Me Up",
@@ -5654,7 +5658,7 @@ var talentData = map[string]talentText{
 	},
 	"RaynorAceInTheHole": {
 		Name: "Ace In The Hole",
-		Text: "Deal 20% more damage to Stunned or Slowed Heroes.",
+		Text: "Deal 15% more damage to Stunned or Slowed Heroes.",
 	},
 	"RaynorBasicAttackExecute": {
 		Name: "Execute",
@@ -5710,7 +5714,7 @@ var talentData = map[string]talentText{
 	},
 	"RaynorInspireGiddyUp": {
 		Name: "Giddy-Up",
-		Text: "Gain 10% Movement Speed while mounted and unmounted. Inspire grants 10% more Movement Speed.",
+		Text: "Gain 8% Movement Speed while mounted and unmounted. Inspire grants 8% more Movement Speed.",
 	},
 	"RaynorInspireRallyingCry": {
 		Name: "Rallying Cry",
@@ -5734,7 +5738,7 @@ var talentData = map[string]talentText{
 	},
 	"RaynorPenetratingRoundPaintThemRed": {
 		Name: "Paint Them Red",
-		Text: "Increase the damage of Penetrating Round by 50% and heal for 100% of the damage it deals to Heroes.",
+		Text: "Increase the damage of Penetrating Round by 50% and heal for 90% of the damage it deals to Heroes.",
 	},
 	"RaynorVeteranMarksman": {
 		Name: "Veteran Marksman",
@@ -6254,7 +6258,7 @@ var talentData = map[string]talentText{
 	},
 	"StukovVigorousReuptake": {
 		Name: "Vigorous Reuptake",
-		Text: "Bio-Kill Switch heals for 25% more when detonating 3 or more Healing Pathogens.",
+		Text: "Bio-Kill Switch heals for 30% more when detonating 3 or more Healing Pathogens.",
 	},
 	"StukovVirulentReaction": {
 		Name: "Virulent Reaction",
@@ -6742,7 +6746,7 @@ var talentData = map[string]talentText{
 	},
 	"TychusMasteryLeadRain": {
 		Name: "Lead Rain",
-		Text: "Overkill also slows enemy movement speed by 20%.",
+		Text: "Overkill also slows enemy movement speed by 30%.",
 	},
 	"TychusMasteryOdinBigRedButton": {
 		Name: "Big Red Button",
@@ -7270,7 +7274,7 @@ var talentData = map[string]talentText{
 	},
 	"WhitemaneDesperatePleaRadiance": {
 		Name: "Radiance",
-		Text: "Upon reaching 3 stacks of Desperation, all allies with Zeal are healed for 200.",
+		Text: "Upon reaching 3 stacks of Desperation, all allies with Zeal are healed for 175.",
 	},
 	"WhitemaneDesperatePleaSelfRighteous": {
 		Name: "Self-Righteous",
@@ -7278,7 +7282,7 @@ var talentData = map[string]talentText{
 	},
 	"WhitemaneDesperatePleaUnwaveringFaith": {
 		Name: "Unwavering Faith",
-		Text: "Reduce Desperate Plea's Mana cost by 30.\nUpon reaching 3 stacks of Desperation, gain a 250 Shield for 5 seconds.",
+		Text: "Reduce Desperate Plea's Mana cost by 15.\nUpon reaching 3 stacks of Desperation, gain a 250 Shield for 5 seconds.",
 	},
 	"WhitemaneDesperatePleaZealousSpirit": {
 		Name: "Zealous Spirit",
@@ -7290,7 +7294,7 @@ var talentData = map[string]talentText{
 	},
 	"WhitemaneDivineReckoningJudgmentDay": {
 		Name: "Judgment Day",
-		Text: "Divine Reckoning deals 50% more damage and pulls enemies to its center the first time it hits them.",
+		Text: "Divine Reckoning deals 30% more damage and pulls enemies to its center the first time it hits them.",
 	},
 	"WhitemaneFanaticalPower": {
 		Name: "Fanatical Power",
@@ -7298,11 +7302,11 @@ var talentData = map[string]talentText{
 	},
 	"WhitemaneInquisitionClemency": {
 		Name: "Clemency",
-		Text: "Activate to cast Inquisition on an allied Hero, healing them for up to 371 over 3 seconds while Channeling.\nPassive: Reduce Inquisition's cooldown by 3 seconds.",
+		Text: "Activate to cast Inquisition on an allied Hero, healing them for up to 371 over 3 seconds while Channeling.\nPassive: Reduce Inquisition's cooldown by 4 seconds.",
 	},
 	"WhitemaneInquisitionHighInquisitor": {
 		Name: "High Inquisitor",
-		Text: "Casting Inquisition instantly removes all stacks of Desperation and restores 60 Mana per stack removed.",
+		Text: "Casting Inquisition instantly removes all stacks of Desperation and restores 75 Mana per stack removed.",
 	},
 	"WhitemaneInquisitionSharedPunishment": {
 		Name: "Shared Punishment",
@@ -7334,7 +7338,7 @@ var talentData = map[string]talentText{
 	},
 	"WhitemaneSearingLashIndulgence": {
 		Name: "Indulgence",
-		Text: "Searing Lash's first strike restores 10 Mana per Hero hit, and its second strike restores 30 Mana per Hero hit.",
+		Text: "Searing Lash's first strike restores 10 Mana per Hero hit, and its second strike restores 25 Mana per Hero hit.",
 	},
 	"WhitemaneSearingLashLashingOut": {
 		Name: "Lashing Out",
