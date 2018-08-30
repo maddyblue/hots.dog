@@ -387,7 +387,9 @@ func resultToBytes(res interface{}) (data, gzipped []byte, err error) {
 	return data, gz.Bytes(), nil
 }
 
-func (h *hotsContext) CheckCache(ctx context.Context, start time.Time, w http.ResponseWriter, r *http.Request, path, url string) (done bool) {
+func (h *hotsContext) CheckCache(
+	ctx context.Context, start time.Time, w http.ResponseWriter, r *http.Request, path, url string,
+) (done bool) {
 	if !enableMemCache[path] && !enableDBCache[path] {
 		return false
 	}
@@ -730,7 +732,9 @@ type build struct {
 	Winrate float64
 }
 
-func (h *hotsContext) getBuildWinrates(ctx context.Context, init initData, args map[string]string) (map[int]map[string]Total, []build, []build, error) {
+func (h *hotsContext) getBuildWinrates(
+	ctx context.Context, init initData, args map[string]string,
+) (map[int]map[string]Total, []build, []build, error) {
 	if args["build"] == "" {
 		return nil, nil, nil, errors.New("build required")
 	}
@@ -1389,7 +1393,9 @@ func (h *hotsContext) GetHero(ctx context.Context, r *http.Request) (interface{}
 	return res, err
 }
 
-func (h *hotsContext) getHero(ctx context.Context, init initData, build, hero string) (heroRelativeData, error) {
+func (h *hotsContext) getHero(
+	ctx context.Context, init initData, build, hero string,
+) (heroRelativeData, error) {
 	params := []interface{}{
 		build,
 		hero,
@@ -1465,7 +1471,9 @@ func (h *hotsContext) getHero(ctx context.Context, init initData, build, hero st
 	return res, err
 }
 
-func (h *hotsContext) countWins(ctx context.Context, nameFn func(string) string, query string, params []interface{}) (map[string]Total, error) {
+func (h *hotsContext) countWins(
+	ctx context.Context, nameFn func(string) string, query string, params []interface{},
+) (map[string]Total, error) {
 	tally := make(map[string]Total)
 	var winrates []struct {
 		Counter string
@@ -1537,7 +1545,9 @@ func (h *hotsContext) GetWinrates(ctx context.Context, r *http.Request) (interfa
 
 const defaultHerolevel = "5"
 
-func (h *hotsContext) getWinrates(ctx context.Context, init initData, args map[string]string) (map[string]Total, error) {
+func (h *hotsContext) getWinrates(
+	ctx context.Context, init initData, args map[string]string,
+) (map[string]Total, error) {
 	if args["build"] == "" {
 		return nil, errors.New("build required")
 	}
@@ -1579,7 +1589,9 @@ func (h *hotsContext) getWinrates(ctx context.Context, init initData, args map[s
 	return h.countWins(ctx, init.lookups["hero"], buf.String(), params)
 }
 
-func setSkillParams(init initData, wheres *[]string, params *[]interface{}, args map[string]string) error {
+func setSkillParams(
+	init initData, wheres *[]string, params *[]interface{}, args map[string]string,
+) error {
 	if m, sl, sh := args["mode"], args["skill_low"], args["skill_high"]; m != "" && (sl != "" || sh != "") {
 		i, err := strconv.Atoi(m)
 		if err != nil {
