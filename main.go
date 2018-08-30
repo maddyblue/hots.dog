@@ -868,6 +868,7 @@ func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (inter
 	if region == "" {
 		return nil, errors.New("no region parameter")
 	}
+
 	type entry struct {
 		ID     int64
 		Region int
@@ -880,13 +881,13 @@ func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (inter
 	for len(res) < 10 {
 		var e entry
 		err := h.x.GetContext(ctx, &e, `
-			SELECT blizzid AS id, battletag AS name, region
+			SELECT blizzid AS id, battletag AS name, $3 AS region
 			FROM players
 			WHERE
 				battletag >= $1 COLLATE en_u_ks_level1
 				AND battletag > $2 COLLATE en_u_ks_level1
 				AND region = $3
-			ORDER BY region, battletag
+			ORDER BY battletag
 			LIMIT 1
 		`, name, last, region)
 		if err == sql.ErrNoRows {
@@ -904,14 +905,32 @@ func (h *hotsContext) GetPlayerName(ctx context.Context, r *http.Request) (inter
 		seen[e.ID] = true
 		res = append(res, e)
 	}
+
+	args := make([]interface{}, len(res)+1)
 	for i, e := range res {
-		if err := h.x.GetContext(ctx, &res[i], `
-			SELECT count(*) AS games
-			FROM players
-			WHERE region = $1 AND blizzid = $2
-		`, e.Region, e.ID); err != nil {
-			return nil, err
+		args[i+1] = e.ID
+	}
+	args[0] = region
+	var games []entry
+	if err := h.x.SelectContext(ctx, &games, fmt.Sprintf(`
+		SELECT count(*) AS games, blizzid AS id
+		FROM players
+		WHERE region = $1 AND blizzid IN %s
+		GROUP BY blizzid
+	`, makeValues(len(res), 2)), args...); err != nil {
+		return nil, err
+	}
+	gm := make(map[int64]entry, len(games))
+	for _, g := range games {
+		gm[g.ID] = g
+	}
+	for i := range res {
+		r := &res[i]
+		g, ok := gm[r.ID]
+		if !ok {
+			return nil, errors.New("unfound id")
 		}
+		r.Games = g.Games
 	}
 	return res, nil
 }
