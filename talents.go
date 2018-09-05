@@ -339,6 +339,13 @@ var heroData = []Hero{
 		MultiRole: []string{"Specialist"},
 	},
 	{
+		Name:      "Mephisto",
+		ID:        "Mephisto",
+		Slug:      "mephisto",
+		Role:      "Damage",
+		MultiRole: []string{"Damage"},
+	},
+	{
 		Name:      "Muradin",
 		ID:        "Muradin",
 		Slug:      "muradin",
@@ -818,7 +825,7 @@ var talentData = map[string]talentText{
 	},
 	"AlexstraszaLifebinder": {
 		Name: "Life-Binder",
-		Text: "Bind Alexstrasza's life force with an allied Hero. Both her and her target are healed for 600 Health over 2 seconds. Afterwards, the Hero with a lower percentage of Health is healed to the same Health percentage as the other Hero.",
+		Text: "Bind Alexstrasza's life force with an allied Hero. Both her and her target are healed for 480 Health over 2 seconds. Afterwards, the Hero with a lower percentage of Health is healed to the same Health percentage as the other Hero.",
 	},
 	"AlexstraszaLifeblossomGiftOfLife": {
 		Name: "Lifeblossom",
@@ -2230,7 +2237,7 @@ var talentData = map[string]talentText{
 	},
 	"DeckardScrollOfIdentify": {
 		Name: "Scroll of Identify",
-		Text: "Quest: Hitting an enemy Hero with Scroll of Sealing reveals them for 8 seconds.\nReward: After hitting 20 Heroes, Scroll of Sealing also reduces Armor by 15 for 4 seconds and the reveal duration is doubled.",
+		Text: "Quest: Hitting an enemy Hero with Scroll of Sealing reveals them for 8 seconds.\nReward: After hitting 20 Heroes, Scroll of Sealing also reduces Armor of Heroes hit by 15 for 4 seconds and the reveal duration is doubled.",
 	},
 	"DeckardScrollOfStoneCurse": {
 		Name: "Scroll of Stone Curse",
@@ -2534,7 +2541,7 @@ var talentData = map[string]talentText{
 	},
 	"DryadChokingPollen": {
 		Name: "Choking Pollen",
-		Text: "Noxious Blossom deals 75% more damage to Heroes afflicted by Nature's Toxin, increased to 125% against enemies with 3 stacks.  ",
+		Text: "Noxious Blossom deals 75% more damage to enemies afflicted by Nature's Toxin, increased to 125% against enemies with 3 stacks.  ",
 	},
 	"DryadCruelSpores": {
 		Name: "Cruel Spores",
@@ -4754,7 +4761,7 @@ var talentData = map[string]talentText{
 	},
 	"MalfurionMasteryTenaciousRootsEntanglingRoots": {
 		Name: "Tenacious Roots",
-		Text: "Increase the Root duration of Entangling Roots by 0.3 seconds. When Malfurion is Stunned, the cooldown of Entangling Roots instantly reset. This can only occur every 10 seconds.",
+		Text: "Increase the Root duration of Entangling Roots by 25%. When Malfurion is Stunned, the cooldown of Entangling Roots is instantly reset. This can only occur every 10 seconds.",
 	},
 	"MalfurionMasteryVengefulRoots": {
 		Name: "Vengeful Roots",
@@ -5068,6 +5075,94 @@ var talentData = map[string]talentText{
 		Name: "Winds of Celerity",
 		Text: "Increases Raven Form's Movement Speed bonus by 50%.",
 	},
+	"MephistoAnimosity": {
+		Name: "Animosity",
+		Text: "Activate to extend the duration of Lightning Nova by 2.5 seconds.\nPassive: Basic Attacks while Lightning Nova is active cause an immediate pulse of Lightning Nova damage.",
+	},
+	"MephistoConsumeSouls": {
+		Name: "Consume Souls",
+		Text: "Channel for 2.5 seconds, revealing all enemy Heroes. After the Channel completes, all enemy Heroes take 357 damage and are Slowed by 40% for 2.5 seconds.",
+	},
+	"MephistoConsumeSoulsConsumedByHatred": {
+		Name: "Consumed by Hatred",
+		Text: "Consume Souls deals bonus damage equal to 10% of the target's missing Health. If Consume Souls initial cast kills a Hero it will cast 1 additional time.",
+	},
+	"MephistoDuranceOfHate": {
+		Name: "Durance of Hate",
+		Text: "After 1 second, unleash a wave of evil spirits that Root the first enemy Hero hit for 2 seconds and deal 160 damage to them over the same duration.\nDurance of Hate spreads outwards from its initial target, Rooting and damaging additional nearby enemy Heroes.",
+	},
+	"MephistoDuranceOfHateUnspeakableHorror": {
+		Name: "Unspeakable Horror",
+		Text: "Durance of Hate Silences enemies for 3 seconds after its Root expires.",
+	},
+	"MephistoLightningNovaFuriousSpark": {
+		Name: "Furious Spark",
+		Text: "Every 5th hit from Lightning Nova against the same target deals 90 bonus damage.",
+	},
+	"MephistoLightningNovaMimic": {
+		Name: "Mimic",
+		Text: "While both Shade of Mephisto and Lightning Nova are active, Lightning Nova also casts from the Shade's location.",
+	},
+	"MephistoLightningNovaStaticBarrier": {
+		Name: "Static Barrier",
+		Text: "At the end of its duration, Lightning Nova grants Mephisto a Shield equal to 50% of the damage it dealt to Heroes. Lasts 7 seconds.",
+	},
+	"MephistoLightningNovaStaticField": {
+		Name: "Static Field",
+		Text: "When Lightning Nova's damage bonus reaches 40%, enemy Heroes within its radius take damage equal to 12% of their maximum Health.",
+	},
+	"MephistoLordOfHatredAnger": {
+		Name: "Anger",
+		Text: "Basic Attacks against enemy Heroes also activate Lord of Hatred, reducing Basic Ability cooldowns by 0.75 seconds.",
+	},
+	"MephistoLordOfHatredHysteria": {
+		Name: "Hysteria",
+		Text: "Lord of Hatred also reduces the cooldown of Mephisto's Heroic Ability.",
+	},
+	"MephistoShadeOfMephistoFrostStorm": {
+		Name: "Frost Storm",
+		Text: "Enemies near Shade of Mephisto are Slowed by 50% for 2 seconds. Hitting enemies with Skull Missile while Shade of Mephisto is active increases its Slow to 50%.",
+	},
+	"MephistoShadeOfMephistoGhastlyArmor": {
+		Name: "Ghastly Armor",
+		Text: "Shade of Mephisto grants 20 Armor while active and for 2.5 seconds after it ends.",
+	},
+	"MephistoShadeOfMephistoMaliciousIntent": {
+		Name: "Malicious Intent",
+		Text: "Shade of Mephisto grants 20% Spell Power while active and for 2.5 seconds after ending.",
+	},
+	"MephistoShadeOfMephistoShadeLord": {
+		Name: "Shade Lord",
+		Text: "Activate to swap locations with Shade of Mephisto and refresh its duration.\nPassive: Shade of Mephisto benefits from all of Mephisto's level 7 Talents.",
+	},
+	"MephistoShadeOfMephistoTrickery": {
+		Name: "Trickery",
+		Text: "Shade of Mephisto grants 20% Movement Speed while active and for 2.5 seconds after it ends. After Shade of Mephisto expires, all Slows and Roots are removed from Mephisto.",
+	},
+	"MephistoShardOfHate": {
+		Name: "Shard of Hate",
+		Text: "Basic Attacks hit enemies near the primary target.",
+	},
+	"MephistoSkullMissileAbhorredSkull": {
+		Name: "Abhorred Skull",
+		Text: "Hitting a Hero with Skull Missile grants 20% Spell Power for 6 seconds.",
+	},
+	"MephistoSkullMissileHatefulMending": {
+		Name: "Hateful Mending",
+		Text: "Skull Missile heals Mephisto for 50% of the damage it deals to Heroes.",
+	},
+	"MephistoSkullMissileLightningReaction": {
+		Name: "Lightning Reaction",
+		Text: "Skull Missile explodes on contact with Lightning Nova, dealing 144 damage to nearby enemies.",
+	},
+	"MephistoSkullMissileUnyieldingPower": {
+		Name: "Unyielding Power",
+		Text: "Quest: Hit Heroes with Skull Missile.\nReward: After hitting 20 Heroes, increase Skull Missile's damage by 60.\nReward: After hitting 40 Heroes, Skull Missile's cooldown is permanently reduced to 5 seconds.",
+	},
+	"MephistoSpite": {
+		Name: "Spite",
+		Text: "Increase Regeneration Globe healing duration by 60%. Every tick of Regeneration Globe healing activates Lord of Hatred, reducing Basic Ability cooldowns by 0.5 seconds.",
+	},
 	"MonkAirAlly": {
 		Name: "Air Ally",
 		Text: "Place an Air Ally that grants vision and reveals a large area around it. Has 75 Health and lasts 40 seconds. Kharazim can Radiant Dash to Air Allies.\nStores up to 2 charges.",
@@ -5190,7 +5285,7 @@ var talentData = map[string]talentText{
 	},
 	"MuradinMasteryHaymakerGrandSlam": {
 		Name: "Grand Slam",
-		Text: "Haymaker gains a 2nd charge and its damage its increased by 25%. If a Hero dies within 3 seconds of being hit by Haymaker, instantly gain 1 charge.",
+		Text: "Haymaker gains a 2nd charge and its damage is increased by 25%. If a Hero dies within 3 seconds of being hit by Haymaker, instantly gain 1 charge.",
 	},
 	"MuradinMasteryPassiveStoneform": {
 		Name: "Stoneform",
@@ -5906,7 +6001,7 @@ var talentData = map[string]talentText{
 	},
 	"RexxarSpiritBondPrimalIntimidation": {
 		Name: "Primal Intimidation",
-		Text: "Activate to slow the Attack Speed by 50% and Movement Speed by 20% of nearby Heroes and Summons near Rexxar and Misha for 2.5 seconds.\nPassive: Heroes and Summons that attack Rexxar or Misha have their Attack Speed slowed by 20% for 2.5 seconds.",
+		Text: "Activate to slow the Attack Speed by 50% and Movement Speed by 20% of Heroes and Summons near Rexxar and Misha for 2.5 seconds.\nPassive: Heroes and Summons that attack Rexxar or Misha have their Attack Speed slowed by 20% for 2.5 seconds.",
 	},
 	"RexxarSpiritBondWildfireBear": {
 		Name: "Wildfire Bear",
@@ -6096,6 +6191,10 @@ var talentData = map[string]talentText{
 		Name: "Cannibalize",
 		Text: "Basic Attacks against Heroes heal Stitches for 5% of his maximum Health.",
 	},
+	"StitchesChewYourFood": {
+		Name: "Chew Your Food",
+		Text: "Using Devour also heals Stitches for 10% of his max Health over 3 seconds.",
+	},
 	"StitchesCombatStyleTenderizer": {
 		Name: "Tenderizer",
 		Text: "Basic Attacks slow enemy Movement Speed by 25% for 1.5 seconds.",
@@ -6104,9 +6203,17 @@ var talentData = map[string]talentText{
 		Name: "Vile Cleaver",
 		Text: "Basic Attacks create a cloud of Vile Gas on the target.",
 	},
+	"StitchesFishingHook": {
+		Name: "Fishing Hook",
+		Text: "Hook has an additional 40% range.",
+	},
 	"StitchesFleaBag": {
 		Name: "Flea Bag",
 		Text: "Whenever Stitches is stunned or rooted, his Basic Ability cooldowns are reduced by 6 seconds.",
+	},
+	"StitchesHeavySlam": {
+		Name: "Heavy Slam",
+		Text: "Slam damage increased by 40%.",
 	},
 	"StitchesHeroicAbilityGorge": {
 		Name: "Gorge",
@@ -6116,61 +6223,49 @@ var talentData = map[string]talentText{
 		Name: "Putrid Bile",
 		Text: "Emit bile that deals 37 damage per second to enemies within, slowing them by 35%. Stitches gains 20% Movement Speed while emitting bile. Lasts 8 seconds.",
 	},
+	"StitchesHungryHungryStitchesGorge": {
+		Name: "Hungry Hungry Stitches",
+		Text: "For 4 seconds after using Gorge, Stitches can teleport a short distance to additional targets and Gorge them.",
+	},
 	"StitchesHungryforMore": {
 		Name: "Hungry for More",
 		Text: "Quest: Gathering a Regeneration Globe increases Stitches's maximum Health by 30, up to 900. \nReward: Upon gathering 30 Globes, increase Movement Speed by 10%.",
 	},
-	"StitchesMasteryChewYourFood": {
-		Name: "Chew Your Food",
-		Text: "Using Devour also heals Stitches for 10% of his max Health over 3 seconds.",
-	},
-	"StitchesMasteryFishingHook": {
-		Name: "Fishing Hook",
-		Text: "Hook has an additional 40% range.",
-	},
-	"StitchesMasteryHeavySlam": {
-		Name: "Heavy Slam",
-		Text: "Slam damage increased by 40%.",
-	},
-	"StitchesMasteryHungryHungryStitchesGorge": {
-		Name: "Hungry Hungry Stitches",
-		Text: "For 4 seconds after using Gorge, Stitches can teleport a short distance to additional targets and Gorge them.",
-	},
-	"StitchesMasteryIndigestionDevour": {
+	"StitchesIndigestionDevour": {
 		Name: "Indigestion",
 		Text: "Using Devour also creates a Retchling that applies Vile Gas Poison when it attacks.",
 	},
-	"StitchesMasteryLastBiteDevour": {
+	"StitchesLastBiteDevour": {
 		Name: "Last Bite",
 		Text: "If an enemy dies within 3 seconds of being damaged by Devour, its cooldown is reduced by 12 seconds.",
 	},
-	"StitchesMasteryMegaSmashSlam": {
+	"StitchesMegaSmashSlam": {
 		Name: "Mega Smash",
 		Text: "Range and arc of Slam increased by 25%.",
-	},
-	"StitchesMasteryPulverizeSlam": {
-		Name: "Pulverize",
-		Text: "Decreases Slam's cooldown by 2 seconds and it also slows enemies by 75% for 1 second.",
-	},
-	"StitchesMasteryPutridGroundSlam": {
-		Name: "Putrid Ground",
-		Text: "Enemies hit by Slam are infected with Vile Gas.",
-	},
-	"StitchesMasterySavorTheFlavorDevour": {
-		Name: "Savor the Flavor",
-		Text: "Quest: Using Devour on an enemy Hero permanently increases Stitches's Health Regeneration by 2 per second.",
-	},
-	"StitchesMasteryShishKabobHook": {
-		Name: "Shish Kabob",
-		Text: "Hook can pull up to 2 targets.",
 	},
 	"StitchesPotentBile": {
 		Name: "Potent Bile",
 		Text: "Putrid Bile lasts 6 seconds longer and its slow amount is increased from 35% to 45%.",
 	},
+	"StitchesPulverizeSlam": {
+		Name: "Pulverize",
+		Text: "Decreases Slam's cooldown by 2 seconds and it also slows enemies by 75% for 1 second.",
+	},
+	"StitchesPutridGroundSlam": {
+		Name: "Putrid Ground",
+		Text: "Enemies hit by Slam are infected with Vile Gas.",
+	},
 	"StitchesRestorativeFumes": {
 		Name: "Restorative Fumes",
 		Text: "Whenever Vile Gas damages an enemy Hero, Stitches is healed for 27 Health.",
+	},
+	"StitchesSavortheFlavorDevour": {
+		Name: "Savor the Flavor",
+		Text: "Quest: Using Devour on an enemy Hero permanently increases Stitches's Health Regeneration by 2 per second.",
+	},
+	"StitchesShishKabobHook": {
+		Name: "Shish Kabob",
+		Text: "Hook can pull up to 2 targets.",
 	},
 	"StitchesToxicGas": {
 		Name: "Toxic Gas",
@@ -6234,7 +6329,7 @@ var talentData = map[string]talentText{
 	},
 	"StukovPushComesToShove": {
 		Name: "Push Comes To Shove",
-		Text: "Massive Shove slows its target by 50% for 4 seconds upon colliding with terrain. If Massive Shove pushes a target for more than 1.25 seconds, its cooldown is reduced by 15 seconds.",
+		Text: "Massive Shove Slows its target by 50% for 4 seconds upon colliding with terrain. If Massive Shove pushes a target for more than 1.25 seconds, its cooldown is reduced by 15 seconds.",
 	},
 	"StukovSpineLauncher": {
 		Name: "Spine Launcher",
@@ -6906,39 +7001,39 @@ var talentData = map[string]talentText{
 	},
 	"TyrandeCelestialAttunement": {
 		Name: "Celestial Attunement",
-		Text: "Light of Elune removes Stuns and Silences from its target. When a Stun or Silence is removed this way, Light of Elune may be used for free within 4 seconds. This free cast cannot benefit from Celestial Attunement.",
+		Text: "Light of Elune removes Stuns, Silences, and Slows from its target.",
 	},
 	"TyrandeDarnassianArchery": {
 		Name: "Darnassian Archery",
-		Text: "Basic Attacks against enemy Heroes grant a stacking 5% increased Attack Damage bonus for 4 seconds. This bonus is lost when Basic Attacking non-Heroes.",
+		Text: "Basic Attacks against enemy Heroes grant a stacking 10% increased Attack Damage bonus for 8 seconds. This bonus is lost when Basic Attacking non-Heroes.",
 	},
 	"TyrandeElunesChosen": {
 		Name: "Elune's Chosen",
-		Text: "Activate to make Tyrande's Basic Attacks heal the target ally for 200% of the damage dealt. Lasts for 5 seconds.",
+		Text: "Activate to make Tyrande's Basic Attacks heal the target ally for 200% of the damage dealt. Lasts for 10 seconds.",
 	},
 	"TyrandeEmpower": {
 		Name: "Empower",
-		Text: "Reduce Sentinel's cooldown by 2 seconds. Every time it hits a Hero, reduce its cooldown by an additional 4 seconds.",
+		Text: "Reduce Sentinel's cooldown by 3 seconds. The first Hero hit by Sentinel takes bonus damage equal to 7% of their maximum Health.",
 	},
 	"TyrandeEyesOfTheHuntress": {
 		Name: "Eyes of the Huntress",
-		Text: "After casting Shadowstalk, reveal all enemy Heroes for 3 seconds.",
+		Text: "Shadowstalk reveals all enemy Heroes for 2 seconds and heals allies below 50% Health for 50% more.",
 	},
 	"TyrandeHarshMoonlight": {
 		Name: "Harsh Moonlight",
-		Text: "Sentinel Slows the target by 25% and reduces their damage dealt by 25% for 4 seconds.",
+		Text: "Sentinel Slows the first target hit by 40% and reduces their damage dealt by 40% for 4 seconds.",
 	},
 	"TyrandeHeroicAbilityShadowstalk": {
 		Name: "Shadowstalk",
-		Text: "Stealth and gain 30% Movement Speed. Remaining stationary for at least 1.5 seconds while Stealthed grants Invisible.\nWhen Shadowstalk's Stealth is broken, gain 50% Attack Speed and retain its Movement Speed bonus for 5 seconds.",
+		Text: "Grant all allied Heroes Stealth for 10 seconds and heal them for 400 Health over 10 seconds. Remaining stationary for at least 1.5 seconds while Stealthed grants Invisible.",
 	},
 	"TyrandeHeroicAbilityStarfall": {
 		Name: "Starfall",
-		Text: "Deal 176 damage per second and slow enemies by 20% in an area. Lasts 6 seconds.",
+		Text: "Deal 176 damage per second and Slow enemies by 20% in an area. Lasts 6 seconds.",
 	},
 	"TyrandeHuntressFury": {
 		Name: "Huntress' Fury",
-		Text: "Increase the cast range of Hunter's Mark by 50%. Tyrande's Basic Attacks against targets with Hunter's Mark splash to nearby Heroes and Mercenaries.",
+		Text: "Increase the cast range and duration of Hunter's Mark by 25%. Tyrande's Basic Attacks against targets with Hunter's Mark splash to nearby enemies.",
 	},
 	"TyrandeIcebladeArrows": {
 		Name: "Iceblade Arrows",
@@ -6946,7 +7041,11 @@ var talentData = map[string]talentText{
 	},
 	"TyrandeKaldoreiResistance": {
 		Name: "Kaldorei Resistance",
-		Text: "Light of Elune grants the target 15 Spell Armor for 6 seconds. This effect stacks up to 3 times.",
+		Text: "Light of Elune grants the target 15 Spell Armor for 3 seconds. This effect stacks up to 2 times.",
+	},
+	"TyrandeLightOfEluneEverlastingLight": {
+		Name: "Everlasting Light",
+		Text: "If Light of Elune's second charge is cast on a different target from the first, it heals for 40% more.",
 	},
 	"TyrandeMarkofMending": {
 		Name: "Mark of Mending",
@@ -6954,19 +7053,15 @@ var talentData = map[string]talentText{
 	},
 	"TyrandeMasteryLightofEluneQuickeningBlessing": {
 		Name: "Quickening Blessing",
-		Text: "Light of Elune increases the target's Movement Speed by 30% for 3 seconds.",
+		Text: "Gain 10% Movement Speed. Light of Elune increases the target's Movement Speed by 20% for 3 seconds.",
 	},
 	"TyrandeMasteryLunarBlaze": {
 		Name: "Lunar Blaze",
-		Text: "Repeatable Quest: Hitting Heroes with Lunar Flare increases its damage by 3%.\nReward: After hitting 10 Heroes, Lunar Flare no longer has a Mana cost.\nReward: After hitting 20 Heroes, increase the range of Lunar Flare by 40%.",
+		Text: "Increase Lunar Flare's range by 50%.\nQuest: Hitting a Hero with Lunar Flare increases its damage by 5%, up to 100%.",
 	},
 	"TyrandeMasteryLunarFlareShootingStar": {
 		Name: "Shooting Star",
-		Text: "Lunar Flare does 50% more damage. Hitting an enemy Hero will also refund the Mana cost.",
-	},
-	"TyrandeMasterySentinelPierce": {
-		Name: "Pierce",
-		Text: "Sentinel no longer stops at the first Hero hit, affecting all enemy Heroes along the path.",
+		Text: "Lunar Flare deals extra damage and refunds Mana on hit",
 	},
 	"TyrandeMasteryStarfallCelestialWrath": {
 		Name: "Celestial Wrath",
@@ -6974,27 +7069,23 @@ var talentData = map[string]talentText{
 	},
 	"TyrandeMoonlitArrows": {
 		Name: "Moonlit Arrows",
-		Text: "Basic Attacks decrease the cooldown of Light of Elune by an additional 0.75 seconds.",
-	},
-	"TyrandeOverflowingLight": {
-		Name: "Overflowing Light",
-		Text: "While Tyrande is above 60% Health, Light of Elune's healing is increased by 30%.",
+		Text: "Basic Attacks decrease the cooldown of Light of Elune by an additional 0.25 seconds.",
 	},
 	"TyrandeRanger": {
 		Name: "Ranger",
-		Text: "Sentinel's width is increased by 25% and deals more damage based on the distance traveled, up to 75%.\nRepeatable Quest: Hitting enemy Heroes with Sentinel increases the maximum damage bonus by 3%.",
+		Text: "Activate to make the next Sentinel pierce through all Heroes hit.\nPassive: Sentinel's width is increased by 25% and deals up to 150% more damage based on distance traveled.",
 	},
 	"TyrandeRangersMark": {
 		Name: "Ranger's Mark",
-		Text: "Basic Attacks reduce the cooldown of Hunter's Mark by 1 second.\nRepeatable Quest: Every 50 Basic Attacks against enemy Heroes increase the duration of Hunter's Mark by 1 second.",
+		Text: "Basic Attacks reduce the cooldown of Hunter's Mark by 1 second. Basic Attacks against marked targets increase the duration of Hunter's Mark by 0.5 seconds.",
 	},
 	"TyrandeShootingStar": {
 		Name: "Shooting Star",
-		Text: "Increase Basic Attack range by 1.1. Every 10th Basic Attack against Heroes casts a free Lunar Flare at a random Hero near Tyrande's position.",
+		Text: "Increase Basic Attack range by 1. Every 8th Basic Attack casts a free Lunar Flare at a random enemy near Tyrande's position. This prefers Heroic targets.",
 	},
 	"TyrandeTrueshotAura": {
 		Name: "Trueshot Aura",
-		Text: "Gain Attack Damage aura",
+		Text: "Gain Attack Damage, reset Hunter's Mark",
 	},
 	"UtherBeaconOfLight": {
 		Name: "Beacon of Light",
