@@ -141,7 +141,7 @@ func extract() error {
 				// Already generated.
 				// return
 			}
-			cargs := []string{input, "-strip"}
+			cargs := []string{input, "-strip", "-background", "black"}
 			cargs = append(cargs, args...)
 			cargs = append(cargs, output)
 			if out, err := exec.Command("convert", cargs...).CombinedOutput(); err != nil {
