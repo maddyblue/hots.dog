@@ -1647,6 +1647,8 @@ type Total struct {
 }
 
 func (h *hotsContext) GetCompareHero(ctx context.Context, r *http.Request) (interface{}, error) {
+	return nil, nil
+
 	init := h.getInit()
 	args := map[string]string{
 		"build":     init.config.build(r.FormValue("build")),

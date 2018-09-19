@@ -212,6 +212,7 @@ const HeroHeader = (props: {
 				to={'/talents/' + encHero + props.history.location.search}
 			>
 				talents
+				{/*
 			</Link>{' '}
 			<Link
 				key="compare"
@@ -219,6 +220,7 @@ const HeroHeader = (props: {
 				to={'/compare/' + encHero + props.history.location.search}
 			>
 				hero comparison
+			*/}
 			</Link>
 		</div>
 	);
