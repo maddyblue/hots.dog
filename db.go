@@ -42,9 +42,6 @@ func (d drv) Open(name string) (driver.Conn, error) {
 		Conn: c,
 		log:  *flagInit,
 	}
-	if err == nil {
-		_, err = c.(driver.Execer).Exec("SET experimental_force_lookup_join = true", nil)
-	}
 	return c, err
 }
 
