@@ -247,15 +247,16 @@ func (h *hotsContext) Import(bucket string, max int) error {
 				INDEX (region, blizzid, time DESC),
 				INDEX (region, battletag),
 
+				-- skill is only needed in conjunction with mode
 				INDEX (build, map, mode, hero_level) STORING (hero, winner, skill),
 				INDEX (build, map, hero_level) STORING (hero, winner),
 				INDEX (build, mode, hero_level) STORING (hero, winner, skill),
 				INDEX (build, hero_level) STORING (hero, winner),
 				INDEX (build, hero) STORING (winner, hero_level, length, map, mode),
-				INDEX (build, hero, map, mode, hero_level) STORING (winner, talents, skill),
-				INDEX (build, hero, map, hero_level) STORING (winner, talents),
-				INDEX (build, hero, mode, hero_level) STORING (winner, talents, skill),
-				INDEX (build, hero, hero_level) STORING (winner, talents)
+				INDEX (build, hero, map, mode, hero_level) STORING (winner, talents, team, skill),
+				INDEX (build, hero, map, hero_level) STORING (winner, talents, team),
+				INDEX (build, hero, mode, hero_level) STORING (winner, talents, team, skill),
+				INDEX (build, hero, hero_level) STORING (winner, talents, team)
 			) CSV DATA %s
 		`, makeValues(count, 1)),
 		args...); err != nil {
