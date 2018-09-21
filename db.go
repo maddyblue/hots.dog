@@ -137,7 +137,7 @@ func (c *conn) Explain(query string, args []driver.Value) {
 	outputLock.Lock()
 	fmt.Println("EXPLAIN", query, args)
 	if err := func() error {
-		rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN (opt)"+query, args)
+		rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN "+query, args)
 		if err != nil {
 			return err
 		}
