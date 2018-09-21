@@ -57,7 +57,8 @@ func (h *hotsContext) cron() error {
 				return nil
 			}
 			if err != nil {
-				return errors.Wrap(err, u)
+				log.Printf("err: %s: %v", u, err)
+				return nil
 			}
 			data, gzip, err := resultToBytes(res)
 			if err != nil {
