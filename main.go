@@ -1647,8 +1647,6 @@ type Total struct {
 }
 
 func (h *hotsContext) GetCompareHero(ctx context.Context, r *http.Request) (interface{}, error) {
-	return nil, nil
-
 	init := h.getInit()
 	args := map[string]string{
 		"build":     init.config.build(r.FormValue("build")),
@@ -1688,84 +1686,58 @@ func (h *hotsContext) GetCompareHero(ctx context.Context, r *http.Request) (inte
 	}); err != nil {
 		return nil, err
 	}
-	var games []struct {
-		Game   int64
-		Team   int
-		Winner bool
-	}
-	if err := h.x.SelectContext(ctx, &games, fmt.Sprintf(`
-		SELECT game, team, winner
+	gameQuery := fmt.Sprintf(`
+		SELECT game, team
 		FROM players
 		WHERE %s
 		`, strings.Join(wheres, " AND "),
-	), params...); err != nil {
-		return nil, err
-	}
+	)
 	var total Total
-	team0 := make([]interface{}, 0, len(games))
-	team1 := make([]interface{}, 0, len(games))
-	for _, g := range games {
-		if g.Team == 0 {
-			team0 = append(team0, g.Game)
-		} else {
-			team1 = append(team1, g.Game)
-		}
-		if g.Winner {
-			total.Wins++
-		} else {
-			total.Losses++
-		}
-	}
 	sameTeam := make(map[string]Total)
 	otherTeam := make(map[string]Total)
-	getGames := func(team int, ids []interface{}) error {
-		for len(ids) > 0 {
-			limit := 1000
-			if limit > len(ids) {
-				limit = len(ids)
+	query := fmt.Sprintf(`
+		SELECT p.hero, p.team = g.team as sameteam, p.winner, count(*) as count
+		FROM players p,
+			(%s) g
+		WHERE p.game = g.game
+		GROUP BY p.hero, p.team, p.winner, g.team
+		`,
+		gameQuery,
+	)
+	var res []struct {
+		Hero     string
+		Sameteam bool
+		Winner   bool
+		Count    int
+	}
+	if err := h.x.SelectContext(ctx, &res, query, params...); err != nil {
+		return nil, err
+	}
+	hero := args["hero"]
+	for _, r := range res {
+		if r.Hero == hero {
+			if !r.Sameteam {
+				continue
 			}
-			params := append([]interface{}{team, args["hero"]}, ids[:limit]...)
-			query := fmt.Sprintf(`
-					SELECT hero, team = $1 as sameteam, winner, count(*) as count
-					FROM players
-					WHERE
-						game IN %s
-						AND hero != $2
-					GROUP BY hero, team, winner
-					`, makeValues(limit, 3),
-			)
-			var res []struct {
-				Hero     string
-				Sameteam bool
-				Winner   bool
-				Count    int
+			if r.Winner {
+				total.Wins += r.Count
+			} else {
+				total.Losses += r.Count
 			}
-			if err := h.x.SelectContext(ctx, &res, query, params...); err != nil {
-				return errors.Wrap(err, "select")
-			}
-			for _, r := range res {
-				team := sameTeam
-				if !r.Sameteam {
-					team = otherTeam
-				}
-				hero := init.lookups["hero"](r.Hero)
-				t := team[hero]
-				if r.Winner == r.Sameteam {
-					t.Wins += r.Count
-				} else {
-					t.Losses += r.Count
-				}
-				team[hero] = t
-			}
-			ids = ids[limit:]
+			continue
 		}
-		return nil
-	}
-	if err := getGames(0, team0); err != nil {
-		return nil, err
-	}
-	if err := getGames(1, team1); err != nil {
-		return nil, err
+		team := sameTeam
+		if !r.Sameteam {
+			team = otherTeam
+		}
+		hero := init.lookups["hero"](r.Hero)
+		t := team[hero]
+		if r.Winner == r.Sameteam {
+			t.Wins += r.Count
+		} else {
+			t.Losses += r.Count
+		}
+		team[hero] = t
 	}
 	return struct {
 		SameTeam  map[string]Total
