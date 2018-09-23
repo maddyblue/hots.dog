@@ -281,8 +281,15 @@ func extract() error {
 	})
 
 	// Verify we have data for all current talents.
-	for _, talents := range heroTalents {
+	heroTalentLookup := map[string][7][]string{}
+	for hero, talents := range heroTalents {
+		var t [7][]string
 		for _, talent := range talents {
+			tier := t[talent.Tier-1]
+			if talent.Column != len(tier)+1 {
+				panic(talent)
+			}
+			t[talent.Tier-1] = append(tier, talent.Talent)
 			face := talentFaces[talent.Talent]
 			if face == "" {
 				panic(talent.Talent)
@@ -294,6 +301,7 @@ func extract() error {
 				panic(fmt.Errorf("%s: %s", talent.Talent, face))
 			}
 		}
+		heroTalentLookup[hero] = t
 	}
 
 	var keys []string
@@ -345,6 +353,7 @@ type Hero struct {
 	Slug      string
 	Role      string
 	MultiRole []string
+	Talents   [7][]string
 }
 
 var heroData = []Hero{`)
@@ -357,7 +366,8 @@ var heroData = []Hero{`)
 		Slug:      %q,
 		Role:      %q,
 		MultiRole: %#v,
-	},`, h.Name, h.ID, h.Slug, h.Role, h.MultiRole)
+		Talents:   %#v,
+	},`, h.Name, h.ID, h.Slug, h.Role, h.MultiRole, heroTalentLookup[h.ID])
 	}
 
 	fmt.Fprint(out, `
@@ -389,7 +399,10 @@ var talentData = map[string]talentText{`)
 }
 `)
 	wg.Wait()
-	return ioutil.WriteFile("../talents.go", out.Bytes(), 0666)
+	if err := ioutil.WriteFile("../talents.go", out.Bytes(), 0666); err != nil {
+		return err
+	}
+	return exec.Command("gofmt", "-w", "-s", "../talents.go").Run()
 }
 
 var (

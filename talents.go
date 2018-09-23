@@ -6,6 +6,7 @@ type Hero struct {
 	Slug      string
 	Role      string
 	MultiRole []string
+	Talents   [7][]string
 }
 
 var heroData = []Hero{
@@ -15,6 +16,7 @@ var heroData = []Hero{
 		Slug:      "abathur",
 		Role:      "Specialist",
 		MultiRole: []string{"Specialist"},
+		Talents:   [7][]string{{"AbathurMasteryPressurizedGlands", "AbathurCombatStyleSurvivalInstincts", "AbathurMasteryRegenerativeMicrobes", "AbathurMasteryEnvenomedNestsToxicNest"}, {"AbathurMasteryProlificDispersal", "AbathurMasteryBallistospores", "AbathurSymbioteCarapaceSustainedCarapace", "AbathurSymbioteAdrenalOverload"}, {"AbathurMasteryNeedlespine", "AbathurMasteryVileNestsToxicNest", "AbathurSymbioteCarapaceNetworkedCarapace", "GenericTalentCalldownMULE"}, {"AbathurHeroicAbilityUltimateEvolution", "AbathurHeroicAbilityEvolveMonstrosity"}, {"AbathurCombatStyleAssaultStrain", "AbathurCombatStyleBombardStrain", "AbathurMasterySpatialEfficiency", "AbathurSymbioteSpikeBurstSomaTransference"}, {"AbathurMasteryEnvenomedSpikes", "AbathurMasteryAdrenalineBoost", "AbathurCombatStyleLocustBrood", "AbathurVolatileMutation"}, {"AbathurUltimateEvolutionEvolutionaryLink", "AbathurMasteryEvolutionComplete", "AbathurSymbioteHivemind", "AbathurMasteryLocustMaster"}},
 	},
 	{
 		Name:      "Alarak",
@@ -22,6 +24,7 @@ var heroData = []Hero{
 		Slug:      "alarak",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"AlarakSustainingPower", "AlarakExtendedLightning", "AlarakRuthlessMomentum"}, {"AlarakChaosReigns", "AlarakNegativelyCharged", "AlarakShowofForce"}, {"AlarakDissonance", "AlarakHinderedMotion", "AlarakAppliedForce"}, {"AlarakDeadlyChargeFirstHeroic", "AlarakHeroicAbilityCounterStrike"}, {"AlarakBladeoftheHighlord", "AlarakPureMalice", "AlarakRiteofRakShir"}, {"AlarakLethalOnslaughtDiscordStrike", "AlarakLightningBarrage", "AlarakMockingStrikes"}, {"AlarakCounterStrikeItem", "AlarakDeadlyChargeSecondHeroic", "AlarakLastLaugh", "AlarakHastyBargain"}},
 	},
 	{
 		Name:      "Alexstrasza",
@@ -29,6 +32,7 @@ var heroData = []Hero{
 		Slug:      "alexstrasza",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
+		Talents:   [7][]string{{"AlexstraszaLiveAndLetLiveGiftOfLife", "AlexstraszaCircleOfLifeAbundance", "AlexstraszaFlamesOfFuryFlameBuffet"}, {"AlexstraszaSurgeOfVitalityAbundance", "AlexstraszaHeatExhaustionFlameBuffet", "AlexstraszaExuberance"}, {"AlexstraszaLifeblossomGiftOfLife", "AlexstraszaVerdantFlourishAbundance", "AlexstraszaFireWithinFlameBuffet"}, {"AlexstraszaLifebinder", "AlexstraszaCleansingFlame"}, {"AlexstraszaDragonScales", "AlexstraszaPacify", "AlexstraszaLifeUnbound"}, {"AlexstraszaToughLoveGiftOfLife", "AlexstraszaOverprotectiveAbundance", "AlexstraszaDraconicDisciplineDragonqueen"}, {"AlexstraszaRitualOfLife", "AlexstraszaOnRubyWingsCleansingFlame", "AlexstraszaAncientFlameFlameBuffet", "AlexstraszaBlessingOfTheRed"}},
 	},
 	{
 		Name:      "Ana",
@@ -36,6 +40,7 @@ var heroData = []Hero{
 		Slug:      "ana",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
+		Talents:   [7][]string{{"AnaBioticGrenadeGrenadeCalibration", "AnaPiercingDarts", "AnaDetachableBoxMagazine"}, {"AnaOverdose", "AnaAimDownSights", "AnaBioticGrenadeAirStrike"}, {"AnaSleepingDartTemporaryBlindness", "AnaMindNumbingAgent", "AnaDebilitatingDart"}, {"AnaHeroicAbilityNanaBoost", "AnaHeroicAbilityEyeOfHorus"}, {"AnaHealingDartSpeedSerum", "AnaHealingDartPurifyingDarts", "AnaHealingDartSmellingSalts"}, {"AnaHealingDartSharpshooter", "AnaHealingDartConcentratedDoses", "AnaBioticGrenadeContactHealing"}, {"AnaNanoInfusion", "AnaEyeOfHorusBallisticAdvantage", "AnaSomnolentDoses", "AnaDynamicShooting", "AnaAimDownSightsCustomOptics"}},
 	},
 	{
 		Name:      "Anub'arak",
@@ -43,6 +48,7 @@ var heroData = []Hero{
 		Slug:      "anubarak",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"AnubarakResilientScarabs", "AnubarakNerubianArmor", "GenericTalentRegenerationMaster"}, {"AnubarakMasteryBedOfBarbs", "AnubarakMasteryShedExoskeletonHardenCarapace", "AnubarakMasteryUnderkingBurrowCharge", "AnubarakCombatStyleLegionOfBeetles"}, {"AnubarakCombatStyleChitinousPlating", "AnubarakSubterraneanShield", "AnubarakMasteryLeechingScarabs"}, {"AnubarakLocustSwarm", "AnubarakHeroicAbilityCocoon"}, {"GenericTalentBurningRage", "AnubarakMasteryUrticatingSpines", "AnubarakAcidDrenchedMandibles"}, {"AnubarakMasteryEpicenterBurrowCharge", "AnubarakDebilitation", "AnubarakScarabHostBeetleJuiced"}, {"AnubarakLocustSwarmHiveMaster", "AnubarakCocoonCryptweave", "GenericTalentHardenedShield", "GenericTalentRewind"}},
 	},
 	{
 		Name:      "Artanis",
@@ -50,6 +56,7 @@ var heroData = []Hero{
 		Slug:      "artanis",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"ArtanisTwinBladesReactiveParry", "ArtanisTwinBladesAmateurOpponent", "GenericTalentSeasonedMarksman"}, {"ArtanisPhasePrismPsionicSynergy", "ArtanisShieldOverloadShieldBattery", "ArtanisShieldOverloadShieldSurge"}, {"ArtanisBladeDashSolariteReaper", "ArtanisPhasePrismWarpSickness", "ArtanisPhasePrismChronoSurge", "GenericTalentFollowThrough"}, {"ArtanisHeroicAbilitySpearofAdunSuppressionPulse", "ArtanisHeroicAbilitySpearofAdunPurifierBeam"}, {"ArtanisBladeDashTemplarsZeal", "ArtanisTwinBladesTripleStrike", "ArtanisPhasePrismGravitonVortex", "ArtanisShieldOverloadPhaseBulwark"}, {"ArtanisTwinBladesTitanKiller", "ArtanisShieldOverloadForceofWill", "ArtanisTwinBladesBladesofaTemplar"}, {"ArtanisSpearofAdunSuppressionPulseOrbitalBombardment", "ArtanisSpearofAdunPurifierBeamTargetPurified", "ArtanisTwinBladesZealotCharge", "ArtanisPlasmaBurn"}},
 	},
 	{
 		Name:      "Arthas",
@@ -57,6 +64,7 @@ var heroData = []Hero{
 		Slug:      "arthas",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"ArthasMasteryEternalHungerFrostmourneHungers", "ArthasMasteryFrostPresenceHowlingBlast", "ArthasRime"}, {"ArthasMasteryFrozenWastesFrozenTempest", "ArthasIcyTalons", "ArthasDeathlord"}, {"ArthasRuneTap", "ArthasMasteryImmortalCoilDeathCoil", "ArthasIceboundFortitude"}, {"ArthasHeroicAbilityArmyoftheDead", "ArthasHeroicAbilitySummonSindragosa"}, {"ArthasShatteredArmor", "ArthasMasteryFrostStrikeFrostmourneHungers", "ArthasMasteryBitingColdFrozenTempest"}, {"ArthasMasteryRemorselessWinterFrozenTempest", "ArthasMasteryFrostmourneFeedsFrostmourneHungers", "ArthasMasteryEmbraceDeathDeathCoil"}, {"ArthasMasteryLegionOfNorthrendArmyoftheDead", "ArthasMasteryAbsoluteZeroSummonSindragosa", "ArthasDeathsAdvance", "ArthasAntiMagicShell"}},
 	},
 	{
 		Name:      "Auriel",
@@ -64,6 +72,7 @@ var heroData = []Hero{
 		Slug:      "auriel",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
+		Talents:   [7][]string{{"AurielSwiftSweepSacredSweepTalent", "AurielIncreasingClaritySacredSweepTalent", "AurielRighteousAssaultSacredSweepTalent", "AurielSearingLightRayOfHeavenTalent"}, {"AurielMajesticSpanSacredSweepTalent", "AurielHeavyBurdenDetainmentStrikeTalent", "AurielRepeatedOffenseDetainmentStrikeTalent"}, {"AurielGlimmerofHopeRayOfHeavenTalent", "AurielEmpathicLinkBestowHopeTalent", "AurielEnergizedCordRayOfHeavenTalent"}, {"AurielHeroicResurrect", "AurielHeroicCrystalAegis"}, {"AurielBlindingFlashSacredSweepTalent", "AurielConvergingForceSacredSweepTalent", "AurielPiercingLashDetainmentStrikeTalent"}, {"AurielReservoirofHopeRayOfHeavenTalent", "AurielWillofHeavenBestowHopeTalent", "AurielWrathofHeavenBestowHopeTalent"}, {"AurielLightSpeedResurrectTalent", "AurielDiamondResolveCrystalAegisTalent", "AurielAngelicFlightTalent", "AurielShieldOfHopeTalent"}},
 	},
 	{
 		Name:      "Azmodan",
@@ -71,6 +80,7 @@ var heroData = []Hero{
 		Slug:      "azmodan",
 		Role:      "Specialist",
 		MultiRole: []string{"Specialist"},
+		Talents:   [7][]string{{"AzmodanGreed", "AzmodanGluttony", "AzmodanWrath"}, {"AzmodanArmyOfHell", "AzmodanHellforgedArmor", "AzmodanBattleborn"}, {"AzmodanArtOfChaos", "AzmodanBombardment", "AzmodanMasterofDestruction"}, {"AzmodanHeroicAbilityDemonicInvasion", "AzmodanTideOfSin"}, {"AzmodanBrutishVanguard", "AzmodanCydaeasKiss", "AzmodanChainOfCommand"}, {"AzmodanTotalAnnihilation", "AzmodanHellRift", "AzmodanSinsGrasp"}, {"AzmodanSiegebreaker", "AzmodanBlackPool", "AzmodanPride", "AzmodanTrample"}},
 	},
 	{
 		Name:      "Blaze",
@@ -78,6 +88,7 @@ var heroData = []Hero{
 		Slug:      "blaze",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"FirebatAdrenalineStimpack", "FirebatEnduranceStimpack", "FirebatNeuralStimpack", "FirebatNewHabits"}, {"FirebatFlameStreamFeedingtheFlame", "FirebatOilSpillAdhesivePetroleum", "FirebatOilSpillOilDispersal", "FirebatIgniteMeltdown"}, {"FirebatFlameStreamCrossfire", "FirebatOilSpillGrillandKill", "FirebatWeaponIncineratorGauntlets"}, {"FirebatHeroicAbilityBunkerDrop", "FirebatHeroicAbilityCombustion"}, {"FirebatFlameStreamSuppressiveFire", "FirebatOilSpillNanomachineCoating", "FirebatJetPropulsionFuelLeak"}, {"FirebatJetPropulsionThermalProtection", "FirebatIgniteHeatTreatment", "FirebatActiveJuggernautPlating"}, {"FirebatBunkerDropFortifiedBunker", "FirebatCombustionFlashFire", "FirebatWeaponBurnNotice"}},
 	},
 	{
 		Name:      "Brightwing",
@@ -85,6 +96,7 @@ var heroData = []Hero{
 		Slug:      "brightwing",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
+		Talents:   [7][]string{{"BrightwingDreamShotArcaneFlare", "BrightwingPhaseShiftHyperShift", "BrightwingPixieCharm"}, {"BrightwingUnstableAnomalyPolymorph", "BrightwingManicPixiePixieDust", "BrightwingPhaseShiftPeekaboo"}, {"BrightwingMistifiedSoothingMist", "BrightwingPhaseShiftPhaseShield", "GenericTalentCleanse"}, {"FaerieDragonHeroicAbilityBlinkHeal", "FaerieDragonHeroicAbilityEmeraldWind"}, {"FaerieDragonMasteryStickyFlare", "BrightwingPixieBoostPixieDust", "FaerieDragonMasteryShieldDust", "GenericTalentIceBlock"}, {"BrightwingGreaterPolymorphPolymorph", "FaerieDragonMasteryCritterize", "BrightwingBouncyDustPixieDust", "FaerieDragonHardenedFocus"}, {"BrightwingDoubleWyrmholeBlinkHeal", "FaerieDragonMasteryContinuousWinds", "BrightwingRevitalizingMistSoothingMist", "GenericTalentStormShield"}},
 	},
 	{
 		Name:      "Cassia",
@@ -92,6 +104,7 @@ var heroData = []Hero{
 		Slug:      "cassia",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"AmazonThunderstroke", "AmazonSeraphsHymn", "AmazonChargedStrikes"}, {"AmazonInnerLight", "AmazonRingoftheLeech", "AmazonPlateoftheWhale"}, {"AmazonImpale", "AmazonWarTraveler", "AmazonSurgeOfLight"}, {"AmazonBallLightning", "AmazonValkyrie"}, {"AmazonGroundingBolt", "AmazonThundergodsVigor", "AmazonLungingStrike"}, {"AmazonPierce", "AmazonPenetrate", "AmazonMartialLaw"}, {"AmazonInfiniteLightning", "AmazonImprisoningLight", "AmazonTitansRevenge"}},
 	},
 	{
 		Name:      "Chen",
@@ -99,6 +112,7 @@ var heroData = []Hero{
 		Slug:      "chen",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"ChenAccumulatingFlame", "ChenFreshestIngredients", "ChenElusiveBrawler"}, {"ChenDeadlyStrike", "ChenKegToss", "ChenRingofFire"}, {"ChenBrewmastersBalance", "ChenBolderFlavor", "ChenPurifyingBrew"}, {"ChenHeroicAbilityWanderingKeg", "ChenHeroicAbilityStormEarthFire"}, {"ChenPressurePoint", "ChenMasteryKegSmashATouchOfHoney", "ChenWitheringFlames"}, {"ChenFlyingLeap", "ChenAnotherRound", "ChenMasteryFortifyingBrewEnoughToShare"}, {"ChenMasteryWanderingKegUntappedPotential", "ChenElementalConduit", "ChenStormstoutSecretRecipe"}},
 	},
 	{
 		Name:      "Cho",
@@ -106,6 +120,7 @@ var heroData = []Hero{
 		Slug:      "cho",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"ChoConsumingFire", "ChoFuelForTheFlame", "ChoCallousedHide"}, {"ChoUppercut", "ChoRollback", "ChoSearedFlesh"}, {"ChoPowerSurge", "ChoFirestarter", "ChoEnragedRegeneration"}, {"ChoHeroicAbilityHammerOfTwilight", "ChoHeroicAbilityUpheaval"}, {"ChoFrenziedFists", "ChoRunicFeedback", "ChoRunedGauntlet"}, {"ChoSurgingDash", "ChoTwilightVeil", "ChoTalentMoltenBlock"}, {"ChoCthunsGift", "ChoFavorOfTheOldGods", "ChoTheWillofCho", "ChoHourofTwilight"}},
 	},
 	{
 		Name:      "Chromie",
@@ -113,6 +128,7 @@ var heroData = []Hero{
 		Slug:      "chromie",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"ChromieSandBlastMountingSand", "ChromieDragonsBreathDeepBreathing", "ChromieTimewalkersPursuit"}, {"ChromieDraconicBarrage", "ChromieDragonsBreathEnvelopingAssault", "ChromieTimeTrapTimelySurprise"}, {"ChromieDragonsBreathMobiusLoop", "ChromieDragonsBreathDragonsEye", "ChromieTimeTrapChronoSickness"}, {"ChromieHeroicAbilitySlowingSands", "ChromieHeroicAbilityTemporalLoop"}, {"ChromiePortBackToBaseByeBye", "ChromieHereAndThere", "ChromieTimeOut"}, {"ChromieSandBlastShiftingSands", "ChromieSandBlastFastForward", "ChromieQuantumOverdrive"}, {"ChromieSlowingSandsPocketOfTime", "ChromieTemporalLoopStuckInALoop", "ChromieSandBlastPiercingSands", "ChromieTimeTrapAndorhalAnomaly"}},
 	},
 	{
 		Name:      "D.Va",
@@ -120,6 +136,7 @@ var heroData = []Hero{
 		Slug:      "dva",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"DVaBoostersRushdown", "DVaBoostersHitTheNitrous", "DVaBoostersCrashCourse", "DVaMechProMoves"}, {"DVaDefenseMatrixDivertingPower", "DVaDefenseMatrixGetThroughThis", "DVaDefenseMatrixFusionGenerator", "DVaSelfDestructBringItOn"}, {"DVaBoostersComingThrough", "DVaDefenseMatrixDazerZone", "DVaDefenseMatrixAggressionMatrix", "DVaSelfDestructNuclearOption"}, {"DVaBunnyHop", "DVaBigShot"}, {"DVaMechExpensivePlating", "DVaMechEmergencyShielding", "DVaMechAblativeArmor"}, {"DVaPilotTorpedoDash", "DVaPilotGGWP", "DVaPilotNanoweaveSuit", "DVaPilotSuppressingFire"}, {"DVaBunnyHopStopAndPop", "DVaBigShotPewPewPew", "DVaPilotConcussivePulse", "DVaPilotCallMechMEKAfall"}},
 	},
 	{
 		Name:      "Deckard",
@@ -127,6 +144,7 @@ var heroData = []Hero{
 		Slug:      "deckard",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
+		Talents:   [7][]string{{"DeckardScrollOfIdentify", "DeckardFieldStudy", "DeckardGemSapphire"}, {"DeckardPotionOfShielding", "DeckardRejuvenationPotion", "DeckardGemRuby"}, {"DeckardCubeMastery", "DeckardKanaisCube", "DeckardGemEmerald"}, {"DeckardStayAWhileAndListen", "DeckardLorenado"}, {"DeckardSuperHealingPotion", "DeckardPotionOfRevival", "DeckardAncientBlessings"}, {"DeckardScrollOfStoneCurse", "DeckardSafetyInNumbers", "DeckardHoradricStaff"}, {"DeckardRespectTheElderly", "DeckardMorenados", "DeckardBottomlessFlask", "DeckardPerfectGems"}},
 	},
 	{
 		Name:      "Dehaka",
@@ -134,6 +152,7 @@ var heroData = []Hero{
 		Slug:      "dehaka",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"DehakaDarkSwarmTalentEnduringSwarm", "DehakaEssenceCollectionTalentTissueRegeneration", "DehakaEssenceCollectionTalentEnhancedAgility"}, {"DehakaBurrowTalentLurkerStrain", "DehakaEssenceCollectionOneWhoCollectsTalent", "DehakaEssenceCollectionTalentHeroStalker"}, {"DehakaDragTalentFeedingFrenzy", "DehakaDragTalentConstriction", "DehakaDarkSwarmTalentSymbiosis"}, {"DehakaHeroicAbilityIsolation", "DehakaHeroicAbilityAdaptation"}, {"DehakaPrimalRage", "DehakaBrushstalkerFerociousStalker", "DehakaPrimalSwarm"}, {"DehakaDragTalentParalyzingEnzymes", "DehakaDragTalentElongatedTongue", "DehakaTunnelingClaws"}, {"DehakaIsolationTalentContagion", "DehakaAdaptationChangeIsSurvivalTalent", "DehakaBrushstalkerApexPredator", "DehakaEssenceClaws"}},
 	},
 	{
 		Name:      "Diablo",
@@ -141,6 +160,7 @@ var heroData = []Hero{
 		Slug:      "diablo",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"DiabloMasteryFeastOnFearBlackSoulstone", "DiabloMasteryDevilsDueBlackSoulstone", "DiabloSoulShield"}, {"DiabloShadowChargeSacrificialSoul", "DiabloFireStompSoulsToTheFlame", "DiabloLifeLeech"}, {"DiabloShadowChargeOverpowerEternalFlames", "DiabloMalevolence", "DiabloDiabolicalMomentum"}, {"DiabloHeroicAbilityApocalypse", "DiabloHeroicAbilityLightningBreath"}, {"DiabloDevastatingCharge", "DiabloShadowChargeOverpowerCruelty", "DiabloHellfire"}, {"DiabloTalentDominationOverpower", "DiabloDebilitatingFlames", "DiabloOverpowerOverpoweringNightmare"}, {"DiabloMasteryDyingBreathApocalypse", "DiabloMasteryHellstormLightningBreath", "DiabloTalentLordOfTerror", "DiabloHellgate"}},
 	},
 	{
 		Name:      "E.T.C.",
@@ -148,6 +168,7 @@ var heroData = []Hero{
 		Slug:      "etc",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"ETCMasteryGuitarHero", "ETCMasteryProgRock", "ETCBlockParty"}, {"ETCCrowdSurfer", "L90ETCMasteryFaceMeltLoudSpeakers", "ETCMasterySpeedMetal"}, {"L90ETCMasteryFaceMeltPinballWizard", "ETCCombatStyleEchoPedal", "ETCMasteryHammeron"}, {"ETCHeroicAbilityMoshPit", "ETCHeroicAbilityStageDive"}, {"ETCMasteryMicCheck", "ETCMasteryEncore", "ETCMasteryFaceSmelt"}, {"ETCMasteryShowStopper", "ETCMasteryGuitarSoloAggressiveShredding", "GenericTalentImposingPresence"}, {"L90ETCMasteryMoshPitTourBus", "L90ETCMasteryStageDiveCrowdPleaser", "L90ETCMasteryDeathMetal", "GenericTalentStormShield", "GenericTalentFlashoftheStorms"}},
 	},
 	{
 		Name:      "Falstad",
@@ -155,6 +176,7 @@ var heroData = []Hero{
 		Slug:      "falstad",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"FalstadHammerangGatheringStorm", "GenericTalentSeasonedMarksman", "FalstadWingman"}, {"FalstadMasteryLightningRodStaticShield", "FalstadMasteryUpdraftBarrelRoll", "FalstadTalentHammerGains"}, {"FalstadMasteryHammerangSecretWeapon", "FalstadHammerangBOOMerang", "FalstadMasteryLightningRodChargedUp"}, {"FalstadHeroicAbilityHinterlandBlast", "FalstadHeroicAbilityMightyGust"}, {"FalstadMasteryLightningRodThunderstrikes", "FalstadMasteryBarrelRollFlowRider", "GenericTalentGiantKiller"}, {"FalstadMasteryCripplingHammerHammerang", "FalstadMasteryAerieGustsTailwind", "FalstadMasteryAfterburner"}, {"FalstadMasteryCalloftheWildhammerHinterlandBlast", "FalstadMasteryMightyGustWindTunnel", "GenericTalentNexusFrenzy", "FalstadMasteryFlightEpicMount"}},
 	},
 	{
 		Name:      "Fenix",
@@ -162,6 +184,7 @@ var heroData = []Hero{
 		Slug:      "fenix",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"FenixAdvancedTargeting", "FenixArsenalSynergy", "FenixMobileOffense"}, {"FenixTargetAcquired", "FenixInhibitingEnergy", "FenixWarpConduit", "FenixEmergencyProtocol"}, {"FenixCombatAdvantage", "FenixWarpWarfare", "FenixDivertPowerWeaponsTalent"}, {"FenixHeroicAbilityPurificationSalvo", "FenixHeroicAbilityPlanetCracker"}, {"FenixAdaniumShell", "FenixDampeningField", "FenixRapidRecharge", "FenixAuxiliaryShields"}, {"FenixOffensiveCadence", "FenixPhotonicWeaponry", "FenixArsenalOvercharge"}, {"FenixSecondaryFire", "FenixSingularityCharge", "FenixUnconqueredSpirit"}},
 	},
 	{
 		Name:      "Gall",
@@ -169,6 +192,7 @@ var heroData = []Hero{
 		Slug:      "gall",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"GallKeepMoving", "GallTaskmaster", "GallWeSeeYou"}, {"GallDoubleBack", "GallRunicPersistence", "GallBombsAway"}, {"GallEdgeOfMadness", "GallDoubleTrouble", "GallOgreRampage"}, {"GallHeroicAbilityShadowboltVolley", "GallHeroicAbilityTwistingNether"}, {"GallSearingShadows", "GallRisingDread", "GallTwilightNova"}, {"GallShadowsnare", "GallLeadenOrb", "GallDeafeningBlast"}, {"GallShadowboltVolleyShadowfury", "GallShiftingNether", "GallTheWillofGall", "GallPsychoticBreak"}},
 	},
 	{
 		Name:      "Garrosh",
@@ -176,6 +200,7 @@ var heroData = []Hero{
 		Slug:      "garrosh",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"GarroshGroundbreakerWarbreaker", "GarroshWreckingBallUnrivaledStrength", "GarroshArmorUpBodyCheck"}, {"GarroshBloodthirstInFortheKill", "GarroshBloodthirstThirstforBattle", "GarroshIndomitable"}, {"GarroshGroundbreakerIntimidation", "GarroshOppressor", "GarroshBodyCheckBruteForce", "GarroshWreckingBallIntotheFray"}, {"GarroshHeroicAbilityWarlordsChallenge", "GarroshHeroicAbilityDecimate"}, {"GarroshGroundbreakerDefensiveMeasures", "GarroshBloodthirstBloodcraze", "GarroshArmorUpDoubleUp"}, {"GarroshGroundbreakerRoughLanding", "GarroshGroundbreakerMortalCombo", "GarroshWreckingBallEarthshaker"}, {"GarroshWarlordsChallengeDeathWish", "GarroshDecimateDeadlyCalm", "GarroshWreckingBallTitanicMight", "GarroshArmorUpInnerRage"}},
 	},
 	{
 		Name:      "Gazlowe",
@@ -183,6 +208,7 @@ var heroData = []Hero{
 		Slug:      "gazlowe",
 		Role:      "Specialist",
 		MultiRole: []string{"Specialist"},
+		Talents:   [7][]string{{"TinkerMasteryExtraTNT", "TinkerCombatStyleScrapoMaticSmelter", "TinkerCombatStyleBreakitDown", "TinkerGoblinRepairs"}, {"TinkerCombatStyleClockwerkSteamFists", "TinkerMasteryARKReaktor", "TinkerCombatStyleReduceReuseRecycle", "TinkerHiredGoons"}, {"TinkerMasteryRockitTurretXL", "TinkerMasteryEngineGunk", "TinkerMasteryHyperfocusCoils"}, {"TinkerHeroicAbilityRoboGoblin", "TinkerHeroicAbilityGravOBomb3000"}, {"TinkerMasteryEZPZDimensionalRipper", "TinkerMasteryGoblinFusion", "TinkerMasteryXTraLargeBombs"}, {"TinkerMasteryTurretStorage", "TinkerSuperiorSchematics", "TinkerMasteryQuikReleaseCharge"}, {"TinkerMasteryMechaLord", "TinkerMasteryMiniatureBlackHole", "TinkerTalentFirinMahLazorz", "TinkerItsRainingScrap"}},
 	},
 	{
 		Name:      "Genji",
@@ -190,6 +216,7 @@ var heroData = []Hero{
 		Slug:      "genji",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"GenjiSwiftStrikeSwiftAsTheWind", "GenjiCyberAgilityAgileDismount", "GenjiCyberAgilityPathfinder"}, {"GenjiShurikenShurikenMastery", "GenjiSwiftStrikeStrikeAtTheHeart", "GenjiDeflectDragonClaw"}, {"GenjiDeflectAugmentedGuard", "GenjiDeflectPerfectDefense", "GenjiCyberAgilityCyberShield", "GenjiDodge"}, {"GenjiHeroicDragonblade", "GenjiHeroicXStrike"}, {"GenjiShurikenShingan", "GenjiSwiftStrikeFlowLikeWater", "GenjiCyberAgilityDoubleJump"}, {"GenjiDeflectReflect", "GenjiSwiftStrikeFinalCut", "GenjiSwiftStrikeSteadyBlade"}, {"GenjiDragonbladeTheDragonBecomesMe", "GenjiXStrikeLivingWeapon", "GenjiShurikenSharpenedStars", "GenjiDeflectZanshin"}},
 	},
 	{
 		Name:      "Greymane",
@@ -197,6 +224,7 @@ var heroData = []Hero{
 		Slug:      "greymane",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"GreymaneInnerBeastWolfheart", "GreymaneGilneanCocktailPerfectAim", "GreymaneInnerBeastViciousness"}, {"GreymaneDarkflightThickSkin", "GreymaneDisengageEyesInTheDark", "GreymaneInnerBeastInsatiable"}, {"GreymaneWorgenFormQuicksilverBullets", "GreymaneGilneanCocktailIncendiaryElixir", "GreymaneWizenedDuelist"}, {"GreymaneHeroicAbilityGoForTheThroat", "GreymaneHeroicAbilityCursedBullet"}, {"GreymaneDarkflightDisengageRunningWild", "GreymaneRazorSwipeUnfetteredAssault", "GreymaneInnerBeastOnTheProwl"}, {"GreymaneEagerWolf", "HeroGenericExecutionerPassive", "GreymaneWorgenFormAlphaKiller"}, {"GreymaneGoForTheThroatUnleashed", "GreymaneCursedBulletGilneanRoulette", "GreymaneHuntersBlunderbuss", "GreymaneToothAndClaw"}},
 	},
 	{
 		Name:      "Gul'dan",
@@ -204,6 +232,7 @@ var heroData = []Hero{
 		Slug:      "guldan",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"GuldanFelFlamePursuitOfFlame", "GuldanChaoticEnergy", "GuldanCorruptionEchoedCorruption"}, {"GuldanDrainLifeHealthFunnel", "GuldanLifeTapImprovedLifeTap", "GuldanConsumeSoul"}, {"GuldanFelFlameBoundByShadow", "GuldanCorruptionCurseOfExhaustion", "GuldanLifeTapHungerforPower"}, {"GuldanHorrify", "GuldanRainOfDestruction"}, {"GuldanFelFlameFelArmor", "GuldanDrainLifeHarvestLife", "GuldanDarkBargain", "GuldanHealthstone"}, {"GuldanFelFlameRampantHellfire", "GuldanCorruptionRuinousAffliction", "GuldanLifeTapDarknessWithin"}, {"GuldanHorrifyHaunt", "GuldanRainOfDestructionDeepImpact", "GuldanDemonicCircle"}},
 	},
 	{
 		Name:      "Hanzo",
@@ -211,6 +240,7 @@ var heroData = []Hero{
 		Slug:      "hanzo",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"HanzoTargetPractice", "HanzoSimpleGeometry", "HanzoRedemption"}, {"HanzoExplosiveArrows", "HanzoSerratedArrows", "HanzoIgnoreAllDistractions"}, {"HanzoTheDragonHungers", "HanzoNeverOutmatched", "HanzoSharpenedArrowheads"}, {"HanzoDragonstrike", "HanzoDragonsArrow"}, {"HanzoFleetofFoot", "HanzoNinjaAssassin", "HanzoMountedArchery"}, {"HanzoFlawlessTechnique", "HanzoPiercingArrows", "HanzoGiantSlayer"}, {"HanzoTheDragonAwakens", "HanzoPOTG", "HanzoBullseye", "HanzoPerfectAgility"}},
 	},
 	{
 		Name:      "Illidan",
@@ -218,6 +248,7 @@ var heroData = []Hero{
 		Slug:      "illidan",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"IllidanMasteryImmolationSweepingStrike", "IllidanMasteryBatteredAssaultSweepingStrike", "IllidanUnendingHatredPassive"}, {"IllidanMasteryRapidChaseDive", "IllidanMasteryFriendOrFoeDive", "IllidanMasteryUnboundSweepingStrike"}, {"IllidanReflexiveBlock", "IllidanSweepingStrikesThirstingBlade", "IllidanCombatStyleHuntersOnslaught"}, {"IllidanHeroicAbilityMetamorphosis", "IllidanHeroicAbilityTheHunt"}, {"IllidanNimbleDefender", "IllidanElusiveStrike", "IllidanMasterySixthSenseEvasion"}, {"IllidanMasteryMarkedforDeathDive", "IllidanFieryBrand", "IllidanBladesOfAzzinoth"}, {"IllidanMasteryDemonicFormMetamorphosis", "IllidanMasteryNowhereToHideTheHunt", "GenericTalentNexusBlades", "GenericTalentFlashoftheStorms"}},
 	},
 	{
 		Name:      "Jaina",
@@ -225,6 +256,7 @@ var heroData = []Hero{
 		Slug:      "jaina",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"JainaFrostboltWintersReach", "JainaFrostbiteLingeringChill", "JainaFingersOfFrost"}, {"JainaFrostboltFrostShards", "JainaFrostbiteArcaneIntellect", "JainaFrostbiteFrostArmor"}, {"JainaConeOfColdIceFloes", "JainaFrostboltIceLance", "JainaIcefuryWand"}, {"JainaHeroicRingOfFrost", "JainaHeroicSummonWaterElemental"}, {"JainaBlizzardStormFront", "JainaFrostbiteIceBarrier", "JainaIcyVeins"}, {"JainaBlizzardSnowstorm", "JainaConeOfColdNorthernExposure", "JainaConeOfColdNumbingBlast"}, {"JainaRingOfFrostColdSnap", "JainaSummonWaterElementalWintermute", "JainaFrigidTransmission", "JainaFrostbiteDeepChill"}},
 	},
 	{
 		Name:      "Johanna",
@@ -232,6 +264,7 @@ var heroData = []Hero{
 		Slug:      "johanna",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"CrusaderMasteryIronSkinReinforce", "CrusaderMasteryIronSkinHoldYourGround", "CrusaderMasteryLawsOfHope"}, {"CrusaderMasteryCondemnEternalRetaliation", "CrusaderMasteryCondemnConviction", "CrusaderMasteryShieldGlareSinsExposed"}, {"CrusaderMasteryPunishSubdue", "CrusaderZealousGlare", "BattleMomentumCrusader"}, {"CrusaderHeroicAbilityFallingSword", "CrusaderHeroicAbilityBlessedShield"}, {"CrusaderMasteryPunishRoar", "CrusaderHolyFury", "CrusaderBlessedHammer"}, {"CrusaderMasteryShieldGlareHolyRenewal", "CrusaderMasteryIronSkinFanaticism", "GenericTalentImposingPresence"}, {"CrusaderMasteryFallingSwordHeavensFury", "CrusaderMasteryBlessedShieldRadiatingFaith", "CrusaderHeroicMasteryIndestructable", "CrusaderBlindedByTheLight"}},
 	},
 	{
 		Name:      "Junkrat",
@@ -239,6 +272,7 @@ var heroData = []Hero{
 		Slug:      "junkrat",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"JunkratFragLauncherPutSomeEnglishOnIt", "JunkratFragLauncherExtraWoundTimers", "JunkratFragLauncherBouncyBouncy"}, {"JunkratFragLauncherTasteForExplosions", "JunkratConcussionMineBonzerHits", "JunkratSteelTrapGottaTrapEmAll"}, {"JunkratFragLauncherTrickyShuffles", "JunkratSteelTrapBigAs", "JunkratSteelTrapStickyWicket"}, {"JunkratRIPTire", "JunkratRocketRide"}, {"JunkratConcussionMineRipperAir", "JunkratConcussionMineBoggedDown", "JunkratSteelTrapChatteringTeeth"}, {"JunkratFragLauncherBurstFire", "JunkratFragLauncherEndlessNades", "JunkratFragLauncherSpreadVolley"}, {"JunkratRIPTireExtraOomph", "JunkratRocketRidePuckishScamp", "JunkratFragLauncherCannonball", "JunkratConcussionMineBOOMPOW"}},
 	},
 	{
 		Name:      "Kael'thas",
@@ -246,6 +280,7 @@ var heroData = []Hero{
 		Slug:      "kaelthas",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"KaelthasFlamestrikeConvection", "KaelthasVerdantSpheresFelInfusion", "KaelthasManaAddict"}, {"KaelthasGravityLapseNetherWind", "KaelthasGravityLapseEnergyRoil", "KaelthasFlamestrikeManaTap"}, {"KaelthasFlamestrikeBurnedFlesh", "KaelthasLivingBombSunKingsFury", "KaelthasMasterySunfireEnchantment"}, {"KaelthasHeroicAbilityPhoenix", "KaelthasHeroicAbilityPyroblast"}, {"KaelthasLivingBombPyromaniac", "KaelthasLivingBombBackdraft", "KaelthasLivingBombFissionBomb"}, {"KaelthasFlamestrikeFuryOfTheSunwell", "KaelthasLivingBombIgnite", "KaelthasTwinSpheres"}, {"KaelthasPhoenixRebirth", "KaelthasPyroblastPresenceOfMind", "KaelthasMasterOfFlames", "KaelthasMasteryFlamethrower"}},
 	},
 	{
 		Name:      "Kel'Thuzad",
@@ -253,6 +288,7 @@ var heroData = []Hero{
 		Slug:      "kelthuzad",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"KelThuzadThePlaguelands", "KelThuzadBlightedFrost", "KelThuzadBarbedChains"}, {"KelThuzadStripShields", "KelThuzadPhylactery", "KelThuzadArchlichArmor"}, {"KelThuzadAcceleratedDecay", "KelThuzadChillingTouch", "KelThuzadIceCold"}, {"KelThuzadFrozenTomb", "KelThuzadShadowFissure"}, {"KelThuzadIcyGrasp", "KelThuzadChainsOfIce", "KelThuzadChainLink"}, {"KelThuzadArcaneEchoes", "KelThuzadHungeringCold", "KelThuzadPowerOfIcecrown"}, {"KelThuzadDeathchill", "KelThuzadMightOfTheScourge", "KelThuzadShiftingMalice", "KelThuzadTheDamnedReturn"}},
 	},
 	{
 		Name:      "Kerrigan",
@@ -260,6 +296,7 @@ var heroData = []Hero{
 		Slug:      "kerrigan",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"KerriganSiphoningImpactRavage", "KerriganSharpenedBladesImpalingBlades", "GenericTalentBlock"}, {"KerriganCleanKillRavage", "KerriganPsionicPulsePrimalGrasp", "KerriganCombatStyleFuryoftheSwarm", "GenericTalentEnvenom"}, {"KerriganBladeTorrentImpalingBlades", "KerriganAssimilationMastery", "KerriganBladedMomentum"}, {"KerriganHeroicAbilityMaelstrom", "KerriganHeroicAbilitySummonUltralisk"}, {"KerriganEviscerate", "KerriganCombatStyleDoubleStrike", "KerriganQueensRush"}, {"KerriganAggressiveDefense", "KerriganEssenceForEssence", "GenericTalentOverdrive"}, {"KerriganOmegastormMaelstrom", "KerriganTorrasqueSummonUltralisk", "GenericTalentNexusBlades", "KerriganPsionicShift"}},
 	},
 	{
 		Name:      "Kharazim",
@@ -267,6 +304,7 @@ var heroData = []Hero{
 		Slug:      "kharazim",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
+		Talents:   [7][]string{{"MonkTranscendence", "MonkIronFists", "MonkInsight"}, {"MonkSpiritAlly", "MonkEarthAlly", "MonkAirAlly"}, {"MonkBlindingSpeedRadiantDash", "MonkHeavenlyZealBreathofHeaven", "MonkBlazingFistsDeadlyReach"}, {"MonkHeroicAbilityDivinePalm", "MonkHeroicAbilitySevenSidedStrike"}, {"MonkQuicksilverRadiantDash", "MonkFistsofFuryDeadlyReach", "GenericTalentSpellShield", "MonkSixthSense"}, {"MonkCleansingTouchRadiantDash", "MonkWayoftheHundredFistsRadiantDash", "MonkEchoofHeavenBreathofHeaven", "MonkDashofLight"}, {"MonkPeacefulReposeDivinePalm", "MonkElevenSidedStrikeSevenSidedStrike", "GenericTalentStormShield", "MonkEpiphany"}},
 	},
 	{
 		Name:      "Leoric",
@@ -274,6 +312,7 @@ var heroData = []Hero{
 		Slug:      "leoric",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"LeoricMasteryConsumeVitalitySkeletalSwing", "LeoricMasteryFealtyUntoDeathUndying", "LeoricMasteryOsseinRenewal"}, {"LeoricMasteryGhastlyReachSkeletalSwing", "LeoricMasteryParalyzingRageSkeletalSwing", "LeoricSkeletalSwingKneelPeasantsTalent"}, {"LeoricMasteryWillingVesselDrainHope", "LeoricMasteryDrainMomentumDrainHope", "LeoricMasteryHopelessnessDrainHope"}, {"LeoricHeroicAbilityEntomb", "LeoricHeroicAbilityMarchoftheBlackKing"}, {"LeoricMasteryUnyieldingDespairDrainHope", "LeoricDrainHopeHardenedBonesTalent", "LeoricWraithWalkOminousWraithTalent"}, {"LeoricDrainHopeCrushingHopeTalent", "LeoricMasteryRoyalFocusWraithWalk", "LeoricMithrilMaceTalent"}, {"LeoricMasteryBuriedAliveEntomb", "LeoricMasteryDeathMarchMarchoftheBlackKing", "LeoricMasterySpectralLeech", "LeoricBurningDespairTalent", "LeoricShroudoftheDeadKingTalent"}},
 	},
 	{
 		Name:      "Li Li",
@@ -281,6 +320,7 @@ var heroData = []Hero{
 		Slug:      "lili",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
+		Talents:   [7][]string{{"LiLiFreeDrinks", "LiLiWindSerpent", "LiLiEagerAdventurer"}, {"LiLiMasteryCloudSerpentSerpentSidekick", "LiLiHinderingWinds", "LiLiMasteryFastFeetSafetySprint"}, {"LiLiMasteryHealingBrewTheGoodStuff", "LiLiMasteryCloudSerpentLightningSerpent", "LiLiLetsGo"}, {"LiLiHeroicAbilityJugof1000Cups", "LiLiHeroicAbilityWaterDragon"}, {"LiLiMasteryBlindingWindGaleForce", "LiLiMasteryBlindingWindSurgingWinds", "LiLiMasteryBlindingWindMassVortex"}, {"LiLiMasteryHealingBrewTwoForOne", "LiLiPickMeUp", "LiLiBlessingsOfYulon"}, {"LiLiMasteryJugof1000CupsJugof1000000Cups", "LiLiMasteryWaterDragonDoubleDragon", "LiLiMistweaver", "LiLiShakeItOff"}},
 	},
 	{
 		Name:      "Li-Ming",
@@ -288,6 +328,7 @@ var heroData = []Hero{
 		Slug:      "liming",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"WizardAstralPresence", "WizardPowerHungry", "WizardForceArmor", "WizardAetherWalker"}, {"WizardMagicMissilesChargedBlast", "WizardArcaneOrbTriumvirate", "WizardDominance"}, {"WizardMagicMissilesSeeker", "WizardArcaneOrbZeisVengeance", "WizardTeleportCalamity"}, {"WizardHeroicAbilityDisintegrate", "WizardHeroicAbilityWaveOfForce"}, {"WizardCannoneer", "WizardGlassCannon", "WizardTeleportIllusionist"}, {"WizardFireflies", "WizardMagicMissilesMirrorball", "WizardArcaneOrbArcaneOrbit", "WizardTeleportDiamondSkin"}, {"WizardDisintegrateTemporalFlux", "WizardWaveOfForceRepulsion", "WizardTalRashasElements", "WizardArchonPurePower"}},
 	},
 	{
 		Name:      "Lt. Morales",
@@ -295,6 +336,7 @@ var heroData = []Hero{
 		Slug:      "ltmorales",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
+		Talents:   [7][]string{{"MedicCaduceusFeedback", "MedicLifeSupport", "MedicClear"}, {"MedicCellularReactor", "MedicTraumaTrigger", "MedicBlastShield"}, {"MedicPhysicalTherapy", "MedicVanadiumPlating", "MedicProlongedSafeguard"}, {"MedicHeroicAbilityStimDrone", "MedicHeroicAbilityMedivacDropship"}, {"MedicEMPGrenade", "MedicSystemShock", "MedicSecondOpinion"}, {"MedicExtendedCare", "MedicFirstResponder", "MedicShieldSequencer"}, {"MedicHyperactivity", "MedicSafeZone", "MedicReinforcements", "MedicCaduceusReactor2dot0"}},
 	},
 	{
 		Name:      "Lunara",
@@ -302,6 +344,7 @@ var heroData = []Hero{
 		Slug:      "lunara",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"DryadSentinelWisp", "DryadNaturalPerspective", "DryadHippityHop"}, {"DryadBlossomSwell", "DryadSiphoningToxin", "DryadNaturesCulling"}, {"DryadSplinteredSpear", "DryadChokingPollen", "DryadWildVigor"}, {"DryadHeroicAbilityThornwoodVine", "DryadHeroicAbilityLeapingStrike"}, {"DryadEndlessSpores", "DryadLetThemWither", "DryadGreaterSpellShield", "DryadAbolishMagic"}, {"DryadAcceleratedContamination", "DryadStarWoodSpear", "DryadInvigoratingSpores", "DryadUnfairAdvantage"}, {"DryadForestsWrath", "DryadBoundlessStrideTalent", "DryadIntensifyingToxin", "DryadGallopingGait"}},
 	},
 	{
 		Name:      "Lúcio",
@@ -309,6 +352,7 @@ var heroData = []Hero{
 		Slug:      "lucio",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
+		Talents:   [7][]string{{"LucioCrossfadeSpeedBoostWeMoveTogether", "LucioAmpItUpMaximumTempoQuest", "LucioWallRideAccelerando", "LucioWallRideSlip"}, {"LucioSoundwaveSubwoofer", "LucioSoundwaveOffTheWall", "LucioSoundwaveChaseTheBassQuest"}, {"LucioCrossfadePartyMixQuest", "LucioAmpItUpSonicAmplifier", "LucioBoombox"}, {"LucioSoundBarrier", "LucioReverseAmp"}, {"LucioCrossfadeBeatMixing", "LucioWallRideCantStopWontStop", "LucioWallRideHardStyle", "LucioBackInTheMix"}, {"LucioAmpItUpRejuvenescencia", "LucioAmpItUpBringItTogether", "LucioAmpItUpUpTheFrequency"}, {"LucioSoundBarrierBossaNova", "LucioReverseAmpNonstopRemix", "LucioAmptItUpBonusTrack", "LucioAmpItUpSynaesthesiaAuditiva"}},
 	},
 	{
 		Name:      "Maiev",
@@ -316,6 +360,7 @@ var heroData = []Hero{
 		Slug:      "maiev",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"MaievUmbralBindBondsOfJustice", "MaievUmbralBindPursuitOfVengeance", "MaievFanOfKnivesNaishasMemento"}, {"MaievFanOfKnivesPinDown", "MaievFanOfKnivesBladeDance", "MaievSpiritOfVengeanceSuddenVengeance"}, {"MaievFanOfKnivesElunesWrath", "MaievUmbralBindBondsOfCorruption", "MaievSpiritOfVengeanceRuthlessSpirit"}, {"MaievContainmentDisc", "MaievWardensCage"}, {"MaievFanOfKnivesBladedArmor", "MaievUmbralBindChainGang", "MaievSpiritOfVengeanceShadowArmor"}, {"MaievUmbralBindCruelChain", "MaievSpiritOfVengeanceVengefulKnives", "MaievArmoredAssault"}, {"MaievSpiritOfVengeanceShadowOrbVengeance", "MaievShadowOrbHuntress", "MaievShadowOrbShadowStrike"}},
 	},
 	{
 		Name:      "Malfurion",
@@ -323,6 +368,7 @@ var heroData = []Hero{
 		Slug:      "malfurion",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
+		Talents:   [7][]string{{"MalfurionRejuvenation", "MalfurionCelestialAlignment", "MalfurionCombatStyleShandosClarity"}, {"MalfurionMasteryStranglingVinesEntanglingRoots", "MalfurionEntanglingRootsDeepRootsTalent", "MalfurionMasteryVengefulRoots"}, {"MalfurionWildGrowthTalent", "MalfurionMasteryTenaciousRootsEntanglingRoots", "MalfurionNaturesCureRegrowth"}, {"MalfurionHeroicAbilityTranquility", "MalfurionHeroicAbilityTwilightDream"}, {"MalfurionRegrowthNaturesSwiftness", "MalfurionMasteryHinderingMoonfire", "MalfurionRevitalizeInnervateTalent"}, {"MalfurionYserasGift", "MalfurionRegrowthNaturesBalance", "MalfurionMoonfireMoonlitHarmonyTalent"}, {"MalfurionMasterySerenity", "MalfurionMasteryAstralCommunion", "MalfurionLifebloomRegrowth", "MalfurionMasteryLunarShower"}},
 	},
 	{
 		Name:      "Malthael",
@@ -330,6 +376,7 @@ var heroData = []Hero{
 		Slug:      "malthael",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"MalthaelDeathsReach", "MalthaelOnAPaleHorse", "MalthaelFearTheReaper"}, {"MalthaelDieAlone", "MalthaelThrowingShade", "MalthaelBlackHarvest"}, {"MalthaelColdHand", "MalthaelMassacre", "MalthaelTouchOfDeath"}, {"MalthaelTormentedSouls", "MalthaelLastRites"}, {"MalthaelSoulSiphon", "MalthaelEtherealExistence", "MalthaelInevitableEnd", "MalthaelShroudOfWisdom"}, {"MalthaelSoulCollector", "MalthaelMortality", "MalthaelMementoMori"}, {"MalthaelReaperOfSouls", "MalthaelAngelOfDeath", "MalthaelFinalCurtain", "MalthaelNoOneCanStopDeath"}},
 	},
 	{
 		Name:      "Medivh",
@@ -337,6 +384,7 @@ var heroData = []Hero{
 		Slug:      "medivh",
 		Role:      "Specialist",
 		MultiRole: []string{"Specialist"},
+		Talents:   [7][]string{{"MedivhTransformRavenWindsOfCelerity", "MedivhTransformRavenRavensIntellect", "MedivhPortalPortalMastery"}, {"MedivhPortalMageArmor", "MedivhPortalRavenFamiliar", "MedivhDustOfAppearance"}, {"MedivhMysticAssault", "MedivhForceOfWillArcaneExplosion", "MedivhForceofMagic"}, {"MedivhPolyBomb", "MedivhLeyLineSeal"}, {"MedivhForceOfWillCircleOfProtection", "MedivhForceOfWillEnduringWill", "MedivhForceOfWillReabsorption"}, {"MedivhArcaneRiftArcaneCharge", "MedivhTemporalFlux", "MedivhPortalStablePortal"}, {"MedivhPolyBombGlyphOfPolyBomb", "MedivhLeyLineSealMedivhCheats", "MedivhArcaneRiftGuardianOfTirisfal", "MedivhArcaneBrilliance", "MedivhDustofDisappearance"}},
 	},
 	{
 		Name:      "Mephisto",
@@ -344,6 +392,7 @@ var heroData = []Hero{
 		Slug:      "mephisto",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"MephistoSkullMissileUnyieldingPower", "MephistoLightningNovaFuriousSpark", "MephistoShadeOfMephistoMaliciousIntent", "MephistoLordOfHatredAnger"}, {"MephistoSkullMissileHatefulMending", "MephistoLightningNovaStaticBarrier", "MephistoSpite"}, {"MephistoShadeOfMephistoGhastlyArmor", "MephistoShadeOfMephistoFrostStorm", "MephistoShadeOfMephistoTrickery"}, {"MephistoConsumeSouls", "MephistoDuranceOfHate"}, {"MephistoSkullMissileAbhorredSkull", "MephistoLordOfHatredHysteria", "MephistoShardOfHate"}, {"MephistoSkullMissileLightningReaction", "MephistoLightningNovaStaticField", "MephistoAnimosity"}, {"MephistoConsumeSoulsConsumedByHatred", "MephistoDuranceOfHateUnspeakableHorror", "MephistoLightningNovaMimic", "MephistoShadeOfMephistoShadeLord"}},
 	},
 	{
 		Name:      "Muradin",
@@ -351,6 +400,7 @@ var heroData = []Hero{
 		Slug:      "muradin",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"GenericTalentBlock", "MuradinStormboltPerfectStorm", "MuradinCombatStyleThirdWind"}, {"MuradinMasteryStormhammerSledgehammer", "MuradinMasteryThunderclapReverberation", "MuradinMasteryThunderburn"}, {"MuradinMasteryDwarfTossHeavyImpact", "MuradinGiveEmTheAxeExecutioner60DamageBonus", "MuradinCombatStyleSkullcracker"}, {"MuradinHeroicAbilityAvatar", "MuradinHeroicAbilityHaymaker"}, {"MuradinMasteryThunderclapHealingStatic", "MuradinMasteryThunderclapThunderstrike", "MuradinBronzebeardRage"}, {"MuradinMasteryDwarfTossDwarfLaunch", "GenericTalentImposingPresence", "MuradinMasteryPassiveStoneform"}, {"MuradinMasteryAvatarUnstoppableForce", "MuradinMasteryHaymakerGrandSlam", "GenericTalentHardenedShield", "GenericTalentRewind"}},
 	},
 	{
 		Name:      "Murky",
@@ -358,6 +408,7 @@ var heroData = []Hero{
 		Slug:      "murky",
 		Role:      "Specialist",
 		MultiRole: []string{"Specialist"},
+		Talents:   [7][]string{{"MurkyFishEye", "MurkyEggHunt", "MurkyAFishyDeal"}, {"MurkySlimeTime", "MurkyMasteryTufferfish", "MurkyLivingtheDream"}, {"MurkyBlackLagoon", "MurkySlipperyWhenWet", "MurkyTimetoKrill"}, {"MurkyHeroicAbilityMarchoftheMurlocs", "MurkyHeroicAbilityOctoGrab"}, {"MurkyMasteryRejuvenatingBubble", "MurkyEggShell", "MurkyFishTank"}, {"MurkyToxicBuildup", "MurkyFishOil", "MurkyMasteryWrathOfCod"}, {"MurkyMasteryNeverEndingMurlocs", "MurkyMasteryAndASharkToo", "MurkyBigTunaKahuna", "MurkyMakingInky"}},
 	},
 	{
 		Name:      "Nazeebo",
@@ -365,6 +416,7 @@ var heroData = []Hero{
 		Slug:      "nazeebo",
 		Role:      "Specialist",
 		MultiRole: []string{"Specialist"},
+		Talents:   [7][]string{{"WitchDoctorWidowmakers", "WitchDoctorPandemic", "WitchDoctorThingOfTheDeep"}, {"WitchDoctorHexedCrawlers", "WitchDoctorBigVoodoo", "WitchDoctorBloodRitual"}, {"WitchDoctorSpiritofArachyr", "WitchDoctorDeadRush", "WitchDoctorToadsofHugeness"}, {"WitchDoctorHeroicAbilityGargantuan", "WitchDoctorHeroicAbilityRavenousSpirits"}, {"WitchDoctorGuardianToads", "WitchDoctorSuperstition", "GenericTalentIceBlock"}, {"WitchDoctorSpiderColony", "WitchDoctorRingOfPoison", "WitchDoctorSoulHarvest"}, {"WitchDoctorHumongoid", "WitchDoctorAnnihilatingSpirits", "GenericTalentFuryoftheStorm", "WitchDoctorVileInfection"}},
 	},
 	{
 		Name:      "Nova",
@@ -372,6 +424,7 @@ var heroData = []Hero{
 		Slug:      "nova",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"NovaMasteryLongshot", "NovaCovertOps", "NovaAdvancedCloaking"}, {"NovaRapidProjection", "NovaHoloStability", "NovaCovertMission"}, {"NovaMasteryPerfectShotSnipe", "NovaCombatStyleOneintheChamber", "NovaCombatStyleAntiArmorShells"}, {"NovaHeroicAbilityTripleTap", "NovaHeroicAbilityPrecisionStrike"}, {"NovaMasteryPsionicEfficiency", "NovaMasteryDoubleTap", "NovaIonicForceField"}, {"NovaMasteryExplosiveShot", "NovaMasteryCripplingShot", "NovaMasteryLethalDecoy"}, {"NovaMasteryFastReload", "NovaMasteryPrecisionBarrage", "NovaApolloSuit", "GenericTalentRewind"}},
 	},
 	{
 		Name:      "Probius",
@@ -379,6 +432,7 @@ var heroData = []Hero{
 		Slug:      "probius",
 		Role:      "Specialist",
 		MultiRole: []string{"Specialist"},
+		Talents:   [7][]string{{"ProbiusEchoPulseDisruptionPulse", "ProbiusWarpResonanceWarpRiftQuest", "ProbiusGatherMineralsPhotonCannonQuest"}, {"ProbiusPhotonBarrierPhotonCannon", "ProbiusTurboChargedWorkerRush", "ProbiusShieldCapacitor"}, {"ProbiusParticleAcceleratorDisruptionPulse", "ProbiusRiftShockWarpRift", "ProbiusTowerDefensePhotonCannon"}, {"ProbiusPylonOverchargeHeroic", "ProbiusNullGateHeroic"}, {"ProbiusAggressiveMatrixWarpInPylon", "ProbiusPowerOverflowingWarpInPylon", "ProbiusShieldBatteryWarpInPylon"}, {"ProbiusQuantumEntanglementWarpRift", "ProbiusGravityWellWarpRift", "ProbiusRepulsorWarpRift", "ProbiusInterferenceWarpRift"}, {"ProbiusConstructAdditionalPylonsPylonOvercharge", "ProbiusGateKeeperNullGate", "ProbiusShootEmUptoRiftsDisruptionPulse", "ProbiusProbiusLoopWarpRift"}},
 	},
 	{
 		Name:      "Ragnaros",
@@ -386,6 +440,7 @@ var heroData = []Hero{
 		Slug:      "ragnaros",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"RagnarosEmpowerSulfurasSulfurasHungers", "RagnarosLivingMeteorShiftingMeteor", "RagnarosBlastWaveEngulfingFlame"}, {"RagnarosLivingMeteorFireWard", "RagnarosBlastWaveSlowBurn", "RagnarosCatchingFire"}, {"RagnarosEmpowerSulfurasHandOfRagnaros", "RagnarosLivingMeteorMoltenPower", "RagnarosBlisteringAttacks"}, {"RagnarosSulfurasSmash", "RagnarosLavaWave"}, {"RagnarosEmpowerSulfurasCauterizeWounds", "RagnarosBlastWaveTemperedFlame", "RagnarosResilientFlame"}, {"RagnarosEmpowerSulfurasGiantScorcher", "RagnarosLivingMeteorMeteorBomb", "RagnarosBlastWaveBlastEcho"}, {"RagnarosSulfurasSmashFlamesOfSulfuron", "RagnarosLavaWaveLavaSurge", "RagnarosMoltenCoreHeroicDifficulty", "RagnarosSubmerge"}},
 	},
 	{
 		Name:      "Raynor",
@@ -393,6 +448,7 @@ var heroData = []Hero{
 		Slug:      "raynor",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"RaynorVeteranMarksman", "RaynorAceInTheHole", "RaynorGiveEmSomePepperExterminator"}, {"RaynorMasteryFightorFlightAdrenalineRush", "RaynorBasicAttackSustainingRounds", "RaynorBehemothArmor"}, {"RaynorInspireFuelTheRush", "RaynorGiveEmSomePepperUnstableCompound", "RaynorPenetratingRoundHeavySlugs"}, {"RaynorHeroicAbilityHyperion", "RaynorHeroicAbilityRaynorsRaiders"}, {"RaynorPenetratingRoundDebilitatingRounds", "RaynorInspireRallyingCry", "RaynorInspireGiddyUp"}, {"RaynorPenetratingRoundPaintThemRed", "RaynorMasteryGiveMeMoreAdrenalineRush", "RaynorBountyHunter"}, {"RaynorHyperionIndomitableResolve", "RaynorDuskWing", "RaynorGiveEmSomePepperWeakSpotAcquired", "RaynorBasicAttackExecute"}},
 	},
 	{
 		Name:      "Rehgar",
@@ -400,6 +456,7 @@ var heroData = []Hero{
 		Slug:      "rehgar",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
+		Talents:   [7][]string{{"RehgarEarthbindTotemColossalTotem", "RehgarLightningShieldElectricCharge", "RehgarWolfRun"}, {"RehgarMasterySpiritwalkersGrace", "RehgarFeralHeart", "RehgarLightningShieldStormcaller", "RehgarHealingTotem"}, {"RehgarBloodAndThunder", "RehgarFarsight", "GenericTalentCleanse", "RehgarTotemicProjection"}, {"RehgarAncestralHealing", "RehgarBloodlust"}, {"RehgarLightningShieldEarthShield", "RehgarMasteryTidalWaves", "RehgarEarthlivingEnchant"}, {"RehgarEarthbindTotemEarthgraspTotem", "RehgarHungerOfTheWolf", "RehgarLightningShieldRisingStorm"}, {"RehgarAncestralHealingFarseersBlessing", "RehgarGladiatorsWarShout", "GenericTalentRewind", "GenericTalentStormShield"}},
 	},
 	{
 		Name:      "Rexxar",
@@ -407,6 +464,7 @@ var heroData = []Hero{
 		Slug:      "rexxar",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"RexxarSpiritBondEasyPrey", "RexxarSpiritSwoopBirdOfPrey", "RexxarFlare"}, {"RexxarHungryBear", "RexxarHunterGatherer", "RexxarSpiritBondGrizzledFortitude", "RexxarAnimalHusbandry"}, {"RexxarAspectoftheBeastCharge", "RexxarSpiritSwoopCripplingTalons", "RexxarTakingFlightSpiritSwoop"}, {"RexxarHeroicAbilityBestialWrath", "RexxarHeroicAbilityUnleashTheBoars"}, {"RexxarSpiritBondWildfireBear", "RexxarAspectOfTheHawkSpiritSwoop", "RexxarDireBeast"}, {"RexxarThrilloftheHunt", "RexxarSpiritBondPrimalIntimidation", "RexxarFeignDeath"}, {"RexxarSpiritBond", "RexxarUnleashTheBoarsKillCommand", "RexxarFrenzyofKalimdor", "RexxarHardenedSkin"}},
 	},
 	{
 		Name:      "Samuro",
@@ -414,6 +472,7 @@ var heroData = []Hero{
 		Slug:      "samuro",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"SamuroWayOfIllusion", "SamuroMirrorImageWayOfTheBlade", "SamuroWayOfTheWind"}, {"SamuroMirage", "SamuroWindwalkOneWithTheWind", "SamuroAdvancingStrikesDeflection"}, {"SamuroBurningBlade", "SamuroPhantomPain", "SamuroCrushingBlow"}, {"SamuroHeroicAbilityBladestorm", "SamuroHeroicAbilityIllusionMaster"}, {"SamuroMirroredSteel", "SamuroWindwalkKawarimi", "SamuroShukuchi"}, {"SamuroMercilessStrikes", "SamuroHarshWinds", "SamuroPressTheAttack"}, {"SamuroWhirlwindStorm", "SamuroThreeBladeStyle", "SamuroWindStrider", "SamuroBlademastersPursuit"}},
 	},
 	{
 		Name:      "Sgt. Hammer",
@@ -421,6 +480,7 @@ var heroData = []Hero{
 		Slug:      "sgthammer",
 		Role:      "Specialist",
 		MultiRole: []string{"Specialist"},
+		Talents:   [7][]string{{"SgtHammerAmbush", "SgtHammerSiegeModeAdvancedArtillery", "SgtHammerSiegeModeMaelstromRounds"}, {"SgtHammerMasteryFlakCannons", "SgtHammerNeosteelPlatingSiegeTactics", "SgtHammerSiegeModeRegenerativeBioSteel"}, {"SgtHammerSpiderMinesPulseDetonationCore", "SgtHammerMasteryHoverSiegeMode", "SgtHammerGraduatingRange"}, {"SgtHammerHeroicAbilityBluntForceGun", "SgtHammerHeroicAbilityNapalmStrike"}, {"SgtHammerSpiderMinesTacticalMineDeployment", "SgtHammerConcussiveBlastEntrenched", "SgtHammerHyperCoolingEngines"}, {"SgtHammerNeosteelPlatingMechanicalKnowhow", "HeroGenericExecutionerPassive", "GenericTalentGiantKillerSgtHammer"}, {"SgtHammerMasteryOrbitalBFGBluntForceGun", "SgtHammerMasteryAdvancedLavaStrikeNapalmStrike", "SgtHammerSpiderMinesShrapnelMines", "SgtHammerSiegeModeUltraCapacitors"}},
 	},
 	{
 		Name:      "Sonya",
@@ -428,6 +488,7 @@ var heroData = []Hero{
 		Slug:      "sonya",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"BarbarianFuriousBlow", "BarbarianWarPaint", "BarbarianToughAsNails"}, {"BarbarianShatteredGround", "BarbarianHurricane", "BarbarianShotOfFury"}, {"BarbarianPoisonedSpear", "BarbarianLifeFunnel", "BarbarianBattleRage"}, {"BarbarianHeroicAbilityLeap", "BarbarianHeroicAbilityWrathoftheBerserker"}, {"BarbarianMysticalSpear", "BarbarianRuthless", "BarbarianNoEscape"}, {"BarbarianGiantSlammer", "BarbarianRampage", "BarbarianNervesOfSteel"}, {"BarbarianArreatCrater", "BarbarianStridingGiant", "BarbarianCompositeSpear", "BarbarianIgnorePain"}},
 	},
 	{
 		Name:      "Stitches",
@@ -435,6 +496,7 @@ var heroData = []Hero{
 		Slug:      "stitches",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"StitchesChewYourFood", "GenericDampenMagic", "StitchesHungryforMore", "StitchesHeavySlam"}, {"GenericTalentAmplifiedHealing", "StitchesRestorativeFumes", "StitchesPutridGroundSlam"}, {"StitchesSavortheFlavorDevour", "StitchesLastBiteDevour", "StitchesCombatStyleTenderizer", "StitchesToxicGas"}, {"StitchesHeroicAbilityPutridBile", "StitchesHeroicAbilityGorge"}, {"StitchesFleaBag", "StitchesMegaSmashSlam", "StitchesIndigestionDevour"}, {"StitchesPulverizeSlam", "StitchesFishingHook", "StitchesShishKabobHook", "GenericTalentStoneskin"}, {"StitchesPotentBile", "StitchesHungryHungryStitchesGorge", "GenericTalentHardenedShield", "StitchesCannibalize"}},
 	},
 	{
 		Name:      "Stukov",
@@ -442,6 +504,7 @@ var heroData = []Hero{
 		Slug:      "stukov",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
+		Talents:   [7][]string{{"StukovSpineLauncher", "StukovFetidTouch", "StukovLowBlow", "StukovPoppinPustules"}, {"StukovOneGoodSpread", "StukovBioticArmor", "StukovVigorousReuptake"}, {"StukovLongPitch", "StukovGrowingInfestation", "StukovTargetedExcision"}, {"StukovHeroicAbilityFlailingSwipe", "StukovHeroicAbilityMassiveShove"}, {"StukovWeightedPustuleReactiveBallistospores", "StukovItHungers", "StukovLingeringSpines", "StukovVirulentReaction"}, {"StukovSuperstrain", "StukovUniversalCarrier", "StukovPoxPopuli"}, {"StukovControlledChaos", "StukovPushComesToShove", "StukovTopOff", "StukovBioExplosionSwitch"}},
 	},
 	{
 		Name:      "Sylvanas",
@@ -449,6 +512,7 @@ var heroData = []Hero{
 		Slug:      "sylvanas",
 		Role:      "Specialist",
 		MultiRole: []string{"Specialist"},
+		Talents:   [7][]string{{"SylvanasTalentOverflowingQuiver", "SylvanasDreadfulWake", "SylvanasTalentMercenaryQueen"}, {"SylvanasTalentWitheringBarrage", "SylvanasTalentWithTheWind", "SylvanasTalentLostSoul"}, {"SylvanasTalentWitheringFireBarbedShot", "SylvanasTalentUnstablePoison", "SylvanasHeroicAbilityPossession"}, {"SylvanasHeroicAbilityWailingArrow", "SylvanasHeroicAbilityMindControl"}, {"SylvanasTalentLifeDrain", "SylvanasTalentWindrunnerHauntingWave", "SylvanasTalentWillOfTheForsaken", "GenericTalentSpellShield"}, {"SylvanasTalentWitheringFireEvasiveFire", "SylvanasTalentColdEmbrace", "SylvanasTalentOverwhelmingAffliction", "SylvanasTalentRemorseless"}, {"SylvanasWailingArrowDeafeningBlast", "SylvanasTalentDarkLadysCallMindControl", "GenericTalentFuryoftheStorm", "GenericTalentFlashoftheStorms"}},
 	},
 	{
 		Name:      "Tassadar",
@@ -456,6 +520,7 @@ var heroData = []Hero{
 		Slug:      "tassadar",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
+		Talents:   [7][]string{{"TassadarPsionicStormPsiInfusion", "TassadarTemplarsWill", "TassadarKhaydarinResonance"}, {"TassadarKhalasCelerityPlasmaShield", "TassadarKhalasEmbrace", "TassadarKhalasLight"}, {"TassadarPsionicProjection", "TassadarResonation", "TassadarMasteryMentalAcuity"}, {"TassadarHeroicAbilityArchon", "TassadarHeroicAbilityForceWall"}, {"TassadarDeepShift", "TassadarAdunsWisdom", "TassadarNullification"}, {"TassadarPhaseDisruption", "TassadarPsionicEcho", "TassadarFocusedBeam"}, {"TassadarMasteryTwilightArchon", "TassadarMasteryForceBarrier", "TassadarPrismaticLink", "TassadarShieldBattery"}},
 	},
 	{
 		Name:      "The Butcher",
@@ -463,6 +528,7 @@ var heroData = []Hero{
 		Slug:      "thebutcher",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"ButcherMasteryHamstringInvigoration", "GenericTalentBlock", "ButcherMasteryHamstringChopMeat"}, {"ButcherMasteryHamstringFlailAxe", "ButcherMasteryRuthlessOnslaughtUnrelentingPursuit", "ButcherMasteryHamstringCheapShot"}, {"ButcherMasteryButchersBrandInsatiableBlade", "ButcherMasteryFreshMeatVictuals", "ButcherMeatShield"}, {"ButcherHeroicAbilityButcherFurnaceBlast", "ButcherHeroicAbilityLambToTheSlaughter"}, {"ButcherCleaver", "ButcherMasteryRuthlessOnslaughtSavageCharge", "ButcherMasteryHamstringBrutalStrike"}, {"ButcherMasteryHamstringCripplingSlam", "ButcherTalentEnraged", "ButcherMasteryFreshMeatBloodFrenzy"}, {"ButcherMasteryFiresofHell", "ButcherMasterySlaughterhouse", "GenericTalentNexusBlades", "GenericTalentFlashoftheStorms"}},
 	},
 	{
 		Name:      "The Lost Vikings",
@@ -470,6 +536,7 @@ var heroData = []Hero{
 		Slug:      "thelostvikings",
 		Role:      "Specialist",
 		MultiRole: []string{"Specialist"},
+		Talents:   [7][]string{{"LostVikingsMasteryOlafTheStout", "LostVikingsMasterySpyGames", "LostVikingsMasteryExplosiveAttacks", "LostVikingsMasteryVikingBribery"}, {"LostVikingsMasteryPainDontHurt", "LostVikingsMasteryErikTheSwift", "LostVikingsMasteryItsASabotage", "GenericTalentMercenaryLord"}, {"LostVikingsMasteryBaleogTheFierce", "LostVikingsMasterySpinToWin", "LostVikingsMasteryNorseForce"}, {"LostVikingsHeroicAbilityLongboatRaid", "LostVikingsHeroicAbilityPlayAgain"}, {"LostVikingsMasteryHunkaBurningOlaf", "LostVikingsMasteryJump", "LostVikingsMasteryNordicAttackSquad"}, {"LostVikingsMasteryLargeAndInCharge", "LostVikingsMasteryImpatienceIsAVirtue", "LostVikingsGoGoGo64KBMarathon", "HeroGenericExecutionerPassive"}, {"LostVikingsMasteryWereOnABoat", "LostVikingsMasteryCheckpointReached", "LostVikingsMasteryTheSequel", "LostVikingsTalentFuryoftheStorm"}},
 	},
 	{
 		Name:      "Thrall",
@@ -477,6 +544,7 @@ var heroData = []Hero{
 		Slug:      "thrall",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"ThrallEchooftheElements", "ThrallCrashLightning", "ThrallMasteryRollingThunder"}, {"ThrallFeralResilience", "ThrallFrostwolfPack", "ThrallMasteryManaTide"}, {"ThrallMaelstromWeapon", "ThrallAncestralWrath", "GenericTalentFollowThrough"}, {"ThrallHeroicAbilitySundering", "ThrallHeroicAbilityEarthquake"}, {"ThrallMasteryGraceOfAir", "ThrallMasteryFrostwolfsGrace", "ThrallSpiritShield"}, {"ThrallMasteryTempestFury", "ThrallThunderstorm", "ThrallAlphaWolf"}, {"ThrallMasteryWorldbreaker", "ThrallMasteryEarthenShields", "GenericTalentNexusBlades", "ThrallWindRush"}},
 	},
 	{
 		Name:      "Tracer",
@@ -484,6 +552,7 @@ var heroData = []Hero{
 		Slug:      "tracer",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"TracerPulseStrikeMelee", "TracerSlipstreamRecall", "TracerTracerRounds"}, {"TracerPartingGift", "TracerIsthataHealthPack", "TracerUntouchable"}, {"TracerJumper", "TracerBulletTime", "TracerSpatialEcho"}, {"TracerStickyBomb", "TracerQuantumSpike", "TracerPulseRounds"}, {"TracerBulletSprayMelee", "TracerRicochetHeroWeapon", "TracerLeechingRounds"}, {"TracerSleightofHand", "TracerFocusFire", "TracerLockedandLoaded"}, {"TracerGetStuffedMelee", "TracerTotalRecallRecall", "TracerCompositionBPulseBomb"}},
 	},
 	{
 		Name:      "Tychus",
@@ -491,6 +560,7 @@ var heroData = []Hero{
 		Slug:      "tychus",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"TychusPressTheAdvantage", "TychusMasteryRunandGunDash", "TychusCombatTactician"}, {"TychusInTheRhythm", "TychusTheBiggerTheyAre", "TychusMasterAssassin"}, {"TychusMasteryQuarterback", "TychusMasteryFragGrenadeConcussionGrenade", "TychusRelentlessSoldier"}, {"TychusHeroicAbilityCommandeerOdin", "TychusHeroicAbilityDrakkenLaserDrill"}, {"TychusThatsTheStuff", "TychusNeosteelCoating", "TychusMasterySprayNPray"}, {"TychusMasteryFragGrenadeTitanGrenade", "TychusMasteryLeadRain", "TychusMasteryOverkillArmorPiercingRounds"}, {"TychusMasteryOdinBigRedButton", "TychusMasteryDrakkenLaserFocusingDiodes", "TychusSizzlinAttacks", "TychusRunAndGunBobAndWeave"}},
 	},
 	{
 		Name:      "Tyrael",
@@ -498,6 +568,7 @@ var heroData = []Hero{
 		Slug:      "tyrael",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"TyraelSalvation", "TyraelJusticeForAll", "TyraelArdentRestoration"}, {"TyraelStalwartAngel", "TyraelElDruinsMightBoundByLaw", "TyraelDivineVigor"}, {"TyraelMasteryRighteousnessReciprocate", "TyraelMasteryPurgeEvil", "TyraelMasterySwiftRetribution"}, {"TyraelHeroicAbilityJudgement", "TyraelHeroicAbilitySanctification"}, {"TyraelMasteryElDruinsMightSwordOfJustice", "TyraelMasteryHolyGround", "TyraelMasteryLawAndOrder"}, {"TyraelHoradricReforging", "TyraelBurningHalo", "TyraelSmiteTheWicked"}, {"TyraelMasteryJudgmentAngelofJustice", "TyraelMasterySanctificationHolyArena", "TyraelDefenseOfTheAngels", "TyraelSealOfElDruin"}},
 	},
 	{
 		Name:      "Tyrande",
@@ -505,6 +576,7 @@ var heroData = []Hero{
 		Slug:      "tyrande",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
+		Talents:   [7][]string{{"TyrandeMoonlitArrows", "TyrandeCelestialAttunement", "TyrandeKaldoreiResistance"}, {"TyrandeRanger", "TyrandeMasteryLunarBlaze", "TyrandeTrueshotAura"}, {"TyrandeLightOfEluneEverlastingLight", "TyrandeMarkofMending", "TyrandeElunesChosen"}, {"TyrandeHeroicAbilityShadowstalk", "TyrandeHeroicAbilityStarfall"}, {"TyrandeMasteryLightofEluneQuickeningBlessing", "TyrandeHarshMoonlight", "TyrandeRangersMark"}, {"TyrandeEmpower", "TyrandeHuntressFury", "TyrandeDarnassianArchery"}, {"TyrandeEyesOfTheHuntress", "TyrandeMasteryStarfallCelestialWrath", "TyrandeShootingStar", "TyrandeIcebladeArrows"}},
 	},
 	{
 		Name:      "Uther",
@@ -512,6 +584,7 @@ var heroData = []Hero{
 		Slug:      "uther",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
+		Talents:   [7][]string{{"UtherHolyLightSilverTouch", "UtherMasteryWaveofLightHolyRadiance", "UtherCombatStyleHammerOfTheLightbringer"}, {"UtherMasteryHolyShock", "UtherHammerOfJusticePursuitOfJustice", "UtherHolyFire"}, {"UtherEternalDevotionArmorOfFaith", "UtherEternalDevotionGuardianOfAncientKings", "UtherHandOfProtection"}, {"UtherHeroicAbilityDivineShield", "UtherHeroicAbilityDivineStorm"}, {"UtherMasteryBlessedChampion", "UtherHammerOfJusticeWellMet", "GenericTalentSpellShield"}, {"UtherBeaconOfLight", "UtherHolyRadianceTyrsDeliverance", "UtherMasteryBenediction"}, {"UtherMasteryBulwarkOfLightDivineShield", "UtherMasteryDivineHurricaneDivineStorm", "UtherMasteryRedemption", "UtherEternalDevotionDivineProtection"}},
 	},
 	{
 		Name:      "Valeera",
@@ -519,6 +592,7 @@ var heroData = []Hero{
 		Slug:      "valeera",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"ValeeraVigor", "ValeeraVanishSubtlety", "ValeeraCombatReadiness", "ValeeraCripplingPoison"}, {"ValeeraSinisterStrikeRelentlessStrikes", "ValeeraGarroteHemorrhage", "ValeeraVanishInitiative", "ValeeraWoundPoison"}, {"ValeeraSinisterStrikeMutilate", "ValeeraBladeFlurryFatalFinesse", "ValeeraEviscerateSliceAndDice"}, {"ValeeraSmokeBomb", "ValeeraCloakOfShadows"}, {"ValeeraAmbushDeathFromAbove", "ValeeraCheapShotBlind", "ValeeraGarroteStrangle"}, {"ValeeraSinisterStrikeSealFate", "ValeeraAmbushAssassinate", "ValeeraThistleTea"}, {"ValeeraSmokeBombAdrenalineRush", "ValeeraCloakOfShadowsEnvelopingShadows", "ValeeraGarroteRupture", "ValeeraVanishElusiveness"}},
 	},
 	{
 		Name:      "Valla",
@@ -526,6 +600,7 @@ var heroData = []Hero{
 		Slug:      "valla",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"DemonHunterMasteryMonsterHunterHungeringArrow", "DemonHunterMasteryCaltrops", "DemonHunterCombatStyleHotPursuit"}, {"DemonHunterMasteryPuncturingArrow", "DemonHunterPunishment", "DemonHunterCreedoftheHunter"}, {"DemonHunterMasteryArsenal", "DemonHunterDeathDealer", "DemonHunterMasteryRepeatingArrowVault"}, {"DemonHunterHeroicAbilityStrafe", "DemonHunterHeroicAbilityRainofVengeance"}, {"DemonHunterMasterySiphoningArrow", "DemonHunterCombatStyleTemperedByDiscipline", "DemonHunterGloom"}, {"DemonHunterMasteryFrostShot", "DemonHunterSeethingHatred", "DemonHunterManticore"}, {"DemonHunterMasteryDeathSiphon", "DemonHunterMasteryStormofVengeance", "DemonHunterCombatStyleRancor", "DemonHunterFarflightQuiver"}},
 	},
 	{
 		Name:      "Varian",
@@ -533,6 +608,7 @@ var heroData = []Hero{
 		Slug:      "varian",
 		Role:      "Multiclass",
 		MultiRole: []string{"Warrior", "Damage"},
+		Talents:   [7][]string{{"VarianLionsFangLionsMawQuest", "VarianParryOverpower", "VarianHighKingsQuestQuest"}, {"VarianTaunt", "VarianColossusSmash", "VarianTwinBladesOfFury"}, {"VarianLionsFangLionheart", "VarianSecondWind", "VarianVictoryRush"}, {"VarianParryShieldWall", "VarianChargeWarbringer"}, {"VarianChargeJuggernaut", "VarianMortalStrike", "VarianShatteringThrow"}, {"VarianBannerOfStormwind", "VarianBannerOfIronforge", "VarianBannerOfDalaran"}, {"VarianTauntVigilance", "VarianColossusSmashMasterAtArms", "VarianTwinBladesOfFuryFrenzy", "VarianBannersGloryToTheAlliance", "VarianDemoralizingShout"}},
 	},
 	{
 		Name:      "Whitemane",
@@ -540,6 +616,7 @@ var heroData = []Hero{
 		Slug:      "whitemane",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
+		Talents:   [7][]string{{"WhitemaneDesperatePleaMartyrdom", "WhitemaneInquisitionClemency", "WhitemaneSearingLashRighteousFlame", "WhitemaneZealPityTheFrail"}, {"WhitemaneDesperatePleaUnwaveringFaith", "WhitemaneInquisitionHighInquisitor", "WhitemaneSearingLashIndulgence"}, {"WhitemaneDesperatePleaZealousSpirit", "WhitemaneFanaticalPower", "WhitemaneIntercession"}, {"WhitemaneScarletAegis", "WhitemaneDivineReckoning"}, {"WhitemaneDesperatePleaSelfRighteous", "WhitemaneSearingLashHarshDiscipline", "WhitemaneZealGuidingLight"}, {"WhitemaneDesperatePleaRadiance", "WhitemaneInquisitionSharedPunishment", "WhitemaneSearingLashLashingOut"}, {"WhitemaneScarletAegisScarletCrusade", "WhitemaneDivineReckoningJudgmentDay", "WhitemaneInquisitionSubjugation", "WhitemanePurgeTheWicked"}},
 	},
 	{
 		Name:      "Xul",
@@ -547,6 +624,7 @@ var heroData = []Hero{
 		Slug:      "xul",
 		Role:      "Specialist",
 		MultiRole: []string{"Specialist"},
+		Talents:   [7][]string{{"NecromancerTalentBoneArmorBacklash", "NecromancerTalentBoneArmorShackler", "NecromancerTalentBoneArmorShade"}, {"NecromancerTalentReapersToll", "NecromancerTalentGrimScythe", "NecromancerTalentJailors"}, {"NecromancerTalentHarvestVitality", "NecromancerTalentWeaken", "NecromancerTalentTragOulsEssence"}, {"NecromancerHeroicAbilityPoisonNova", "NecromancerHeroicAbilitySkeletalMages"}, {"NecromancerTalentEchoesOfDeath", "NecromancerTalentRapidHarvest", "HeroGenericExecutionerPassive"}, {"NecromancerTalentAmplifyDamage", "NecromancerTalentCorpseExplosion", "NecromancerTalentBoneSpear"}, {"NecromancerTalentAndarielsVisage", "NecromancerTalentColdHandOfDeath", "NecromancerTalentMortalWound", "NecromancerTalentKalansEdict"}},
 	},
 	{
 		Name:      "Yrel",
@@ -554,6 +632,7 @@ var heroData = []Hero{
 		Slug:      "yrel",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"YrelVindicationLightOfKarabor", "YrelDauntless", "YrelMaraadsInsight"}, {"YrelAvengingWrathAegisOfLight", "YrelDivinePurposeGiftOfTheNaaru", "YrelHandOfFreedom"}, {"YrelRighteousHammerRighteousMomentum", "YrelAvengingWrathHolyAvenger", "YrelDivineSteed", "YrelSamaarasLight"}, {"YrelArdentDefender", "YrelSacredGround"}, {"YrelVindicationAldorPeacekeeper", "YrelAvengingWrathRepentance", "YrelVelensChosen"}, {"YrelRighteousHammerTemplarsVerdict", "YrelDivinePurposeDivineFavor", "YrelHolyWrath"}, {"YrelArdentDefenderWordOfGlory", "YrelSacredGroundHallowedGround", "YrelBubbleHearth", "YrelSeraphim"}},
 	},
 	{
 		Name:      "Zagara",
@@ -561,6 +640,7 @@ var heroData = []Hero{
 		Slug:      "zagara",
 		Role:      "Specialist",
 		MultiRole: []string{"Specialist"},
+		Talents:   [7][]string{{"ZagaraMasteryVolatileAcid", "ZagaraMasteryCorpseFeeders", "ZagaraMasteryInfest"}, {"ZagaraMasteryEnvenomedSpines", "ZagaraCombatStyleMedusaBlades", "ZagaraMasterySerratedSpines"}, {"ZagaraMasteryBanelingMassacre", "ZagaraViscousAcid", "ZagaraMasteryBileDrop"}, {"ZagaraHeroicAbilityDevouringMaw", "ZagaraHeroicAbilityNydusAssault"}, {"ZagaraMasteryHydraliskTransfusion", "ZagaraMasteryProtectiveCoating", "GenericTalentSpellShield"}, {"ZagaraMasteryBroodExpansion", "ZagaraMasteryCorrosiveSaliva", "ZagaraMasteryMutalisk"}, {"ZagaraMasteryTyrantMaw", "ZagaraMasteryEndlessCreep", "GenericTalentFuryoftheStorm"}},
 	},
 	{
 		Name:      "Zarya",
@@ -568,6 +648,7 @@ var heroData = []Hero{
 		Slug:      "zarya",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"ZaryaParticleGrenadeDemolitionsExpertQuest", "ZaryaShieldAllyTogetherWeAreStrong", "ZaryaWeaponFeelTheHeat", "ZaryaEnergyMaximumChargeQuest"}, {"ZaryaPersonalBarrierIAmTheStrongest", "ZaryaShieldAllyGiveMeTwentyQuest", "ZaryaShieldAllySpeedBarrier", "ZaryaDefensiveShielding"}, {"ZaryaParticleGrenadePinpointAccuracy", "ZaryaPersonalBarrierExplosiveBarrier", "ZaryaWeaponToTheLimit", "ZaryaEnergyHitMe"}, {"ZaryaHeroicAbilityGravitonSurge", "ZaryaHeroicAbilityExpulsionZone"}, {"ZaryaPersonalBarrierUnstoppableCompetitor", "ZaryaPersonalBarrierSpellBarrier", "ZaryaEnergyEnduranceTraining", "ZaryaPainIsTemporary"}, {"ZaryaParticleGrenadePlasmaShock", "ZaryaShieldAllyCleansingShield", "ZaryaShieldAllyGainTrain", "ZaryaEnergyBornInBattle"}, {"ZaryaGravitonSurgeGravityKills", "ZaryaExpulsionZoneClearOut", "ZaryaParticleGrenadeGrenadier", "ZaryaUnyieldingDefender"}},
 	},
 	{
 		Name:      "Zeratul",
@@ -575,6 +656,7 @@ var heroData = []Hero{
 		Slug:      "zeratul",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"ZeratulMasteryGreaterCleaveCleave", "ZeratulShadowHunter", "ZeratulMoveUnseen"}, {"ZeratulRendingCleave", "ZeratulPsionicStrength", "ZeratulDarknessDescends"}, {"ZeratulWormhole", "ZeratulSeekerInTheDark", "ZeratulWarpSkirmisherTalent"}, {"ZeratulMightOfTheNerazim", "ZeratulHeroicAbilityVoidPrison"}, {"ZeratulShroudofAdun", "ZeratulMendingStrikes", "GenericTalentSpellShield"}, {"ZeratulMasterWarpBlade", "ZeratulVoidSlash", "ZeratulSentencedtoDeath"}, {"ZeratulTwilightFalls", "ZeratulGiftoftheXelNaga", "GenericTalentNexusBlades", "ZeratulShadowMending"}},
 	},
 	{
 		Name:      "Zul'jin",
@@ -582,6 +664,7 @@ var heroData = []Hero{
 		Slug:      "zuljin",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"ZuljinBoneslicer", "ZuljinRecklessness", "ZuljinHeadhunter"}, {"ZuljinTrollsBlood", "ZuljinVoodooShuffle", "Zul'jinAmaniRageAmaniHide"}, {"ZuljinViciousAssault", "ZuljinArcaniteAxes", "ZuljinFerocity"}, {"ZuljinTazdingo", "ZuljinGuillotine"}, {"ZuljinLacerate", "ZuljinEyeOfZuljin", "ZuljinEnsnare"}, {"ZuljinNoMercyTalent", "ZuljinWrongPlaceWrongTime", "ZuljinLetTheKillingBegin"}, {"ZuljinAmaniResilience", "ZuljinBuzzsaw", "ZuljinForestMedicine"}},
 	},
 }
 
