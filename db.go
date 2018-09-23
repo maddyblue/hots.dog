@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"os/exec"
 	"strconv"
 	"strings"
 	"sync"
@@ -130,12 +131,20 @@ func (c *conn) ExplainNamed(query string, args []driver.NamedValue) {
 
 var outputLock sync.Mutex
 
+func sqlfmt(query string) string {
+	out, err := exec.Command("./cockroach", "sqlfmt", "-e", query).Output()
+	if err == nil {
+		return string(out)
+	}
+	return query
+}
+
 func (c *conn) Explain(query string, args []driver.Value) {
 	if !c.log {
 		return
 	}
 	outputLock.Lock()
-	fmt.Println("EXPLAIN", query, args)
+	fmt.Print(sqlfmt("explain "+query), args, "\n")
 	if err := func() error {
 		rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN "+query, args)
 		if err != nil {
@@ -156,28 +165,26 @@ func (c *conn) Explain(query string, args []driver.Value) {
 	}(); err != nil {
 		fmt.Println(err)
 	}
-	/*
-		if err := func() error {
-			rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN (distsql) "+query, args)
-			if err != nil {
+	if err := func() error {
+		rows, err := c.Conn.(driver.Queryer).Query("EXPLAIN ANALYZE (distsql) "+query, args)
+		if err != nil {
+			return err
+		}
+		defer rows.Close()
+		var level int64
+		var typ, field, description string
+		values := []driver.Value{level, typ, field, description}
+		for {
+			if err := rows.Next(values); err == io.EOF {
+				return nil
+			} else if err != nil {
 				return err
 			}
-			defer rows.Close()
-			var level int64
-			var typ, field, description string
-			values := []driver.Value{level, typ, field, description}
-			for {
-				if err := rows.Next(values); err == io.EOF {
-					return nil
-				} else if err != nil {
-					return err
-				}
-				fmt.Println("EXPLAIN (distsql)", values)
-			}
-		}(); err != nil {
-			fmt.Println(err)
+			fmt.Println("EXPLAIN ANALYZE (distsql)", values)
 		}
-	*/
+	}(); err != nil {
+		fmt.Println(err)
+	}
 	outputLock.Unlock()
 }
 
