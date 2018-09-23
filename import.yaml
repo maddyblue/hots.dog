@@ -10,6 +10,5 @@ spec:
       containers:
       - name: import
         image: gcr.io/hots-cockroach/website:latest
-        command: ["/website", "-importnum", "7730000", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
-        imagePullPolicy: Always
+        command: ["/website", "-importnum", "12280000", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
       restartPolicy: Never
