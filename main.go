@@ -129,6 +129,9 @@ func main() {
 	}
 
 	if *flagElo {
+		if err := h.syncConfig(*flagImport); err != nil {
+			log.Fatalf("%+v", err)
+		}
 		if err := h.elo(); err != nil {
 			log.Fatalf("%+v", err)
 		}
