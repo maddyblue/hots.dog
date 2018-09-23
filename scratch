@@ -1,7 +1,7 @@
 docker build -t gcr.io/hots-cockroach/website:latest .
 docker push gcr.io/hots-cockroach/cockroach:latest
 docker push gcr.io/hots-cockroach/website:latest
-gcloud container clusters get-credentials website
+gcloud container clusters get-credentials --zone us-central1-a cluster
 kubectl set image deployment/website 'website=gcr.io/hots-cockroach/website:v2017-12-21'
 kubectl get events
 
