@@ -126,20 +126,15 @@ func (h *hotsContext) updateDBNext(bucket *storage.BucketHandle) error {
 	if _, err := h.db.Exec(`DELETE FROM games WHERE ID >= $1 AND ID < $1 + $2`, start, perFile); err != nil {
 		return errors.Wrap(err, "clear games")
 	}
-	for {
-		res, err := h.db.Exec(`DELETE FROM players WHERE game >= $1 AND game < $1 + $2 limit 1000`, start, perFile)
-		if err != nil {
-			return errors.Wrap(err, "clear players")
-		}
-		count, err := res.RowsAffected()
-		if err != nil {
-			return errors.Wrap(err, "clear players")
-		}
-		if count == 0 {
-			break
-		}
-		fmt.Println("CLEARED", count, "players")
+	res, err := h.db.Exec(`DELETE FROM players WHERE game >= $1 AND game < $1 + $2`, start, perFile)
+	if err != nil {
+		return errors.Wrap(err, "clear players")
 	}
+	count, err := res.RowsAffected()
+	if err != nil {
+		return errors.Wrap(err, "clear players")
+	}
+	fmt.Println("CLEARED", count, "players")
 
 	copyin := func(data [][]string, table string, cols []string) error {
 		const size = 500
@@ -228,7 +223,9 @@ func updateNew(bucketName string) error {
 
 var ErrNotEnough = errors.New("not enough results")
 
-func updateNextGroup(ctx context.Context, bucket *storage.BucketHandle, config *groupConfig) (int, error) {
+func updateNextGroup(
+	ctx context.Context, bucket *storage.BucketHandle, config *groupConfig,
+) (int, error) {
 	start := config.NextID
 	until := start + perFile
 	fmt.Println("UNG", start, until)
