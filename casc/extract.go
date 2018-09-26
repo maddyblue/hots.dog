@@ -21,6 +21,7 @@ import (
 	"golang.org/x/text/transform"
 	"golang.org/x/text/unicode/norm"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/pkg/errors"
 )
 
@@ -43,8 +44,8 @@ func extract() error {
 	tooltips := make(map[string]string)
 	var x XML
 	stringsWalk := func(path string, info os.FileInfo, err error) error {
-		switch info.Name() {
-		case "GameStrings.txt":
+		switch strings.ToLower(info.Name()) {
+		case "gamestrings.txt":
 			f, err := os.Open(path)
 			if err != nil {
 				return err
@@ -95,7 +96,7 @@ func extract() error {
 				"VOData",
 				"VoiceOverData",
 			} {
-				if strings.Contains(path, s) {
+				if strings.Contains(strings.ToLower(path), strings.ToLower(s)) {
 					return nil
 				}
 			}
@@ -128,14 +129,15 @@ func extract() error {
 		return filepath.Join(parts...)
 	}
 	makeTalentIcon := func(input, output string, args ...string) {
-		input = filepath.Join("mods/heroes.stormmod/base.stormassets", input)
+		input = filepath.Join("mods/heroes.stormmod/base.stormassets", strings.ToLower(input))
 		output = filepath.Join("..", "frontend", "public", "img", output)
 		wg.Add(1)
 		go func() {
 			lock <- true
 			defer func() { <-lock; wg.Done() }()
 			if _, err := os.Stat(input); err != nil {
-				panic(input)
+				fmt.Println(input)
+				panic(err)
 			}
 			if _, err := os.Stat(output); err == nil {
 				// Already generated.
@@ -228,6 +230,10 @@ func extract() error {
 					Role: chero.CollectionCategory.Value,
 				}
 				if h.Name == "" {
+					spew.Dump("H", h)
+					spew.Dump("VCHERO", v.CHero)
+					spew.Dump("CHERO", chero)
+					spew.Dump("NAMES", names)
 					panic(chero.Id)
 				}
 				{
@@ -235,7 +241,7 @@ func extract() error {
 					if v := chero.ScoreScreenImage.Value; v != "" {
 						img = iconClean(v)
 					} else {
-						img = iconClean(fmt.Sprintf(`Assets\Textures\storm_ui_ingame_hero_leaderboard_%s.dds`, img))
+						img = iconClean(fmt.Sprintf(`assets\textures\storm_ui_ingame_hero_leaderboard_%s.dds`, img))
 					}
 					makeTalentIcon(img, filepath.Join("hero", h.Slug+".png"),
 						"-resize", "40x40^", "-gravity", "center", "-extent", "40x40",
@@ -248,7 +254,7 @@ func extract() error {
 						if v := chero.ScoreScreenImage.Value; v != "" {
 							img = iconClean(v)
 						} else {
-							img = iconClean(fmt.Sprintf(`Assets\Textures\storm_ui_ingame_hero_loadingscreen_%s.dds`, img))
+							img = iconClean(fmt.Sprintf(`assets\textures\storm_ui_ingame_hero_loadingscreen_%s.dds`, img))
 						}
 						makeTalentIcon(img, filepath.Join("hero_loading", h.Slug+".png"))
 					}
