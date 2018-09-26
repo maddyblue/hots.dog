@@ -96,7 +96,7 @@ var heroData = []Hero{
 		Slug:      "brightwing",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
-		Talents:   [7][]string{{"BrightwingDreamShotArcaneFlare", "BrightwingPhaseShiftHyperShift", "BrightwingPixieCharm"}, {"BrightwingUnstableAnomalyPolymorph", "BrightwingManicPixiePixieDust", "BrightwingPhaseShiftPeekaboo"}, {"BrightwingMistifiedSoothingMist", "BrightwingPhaseShiftPhaseShield", "GenericTalentCleanse"}, {"FaerieDragonHeroicAbilityBlinkHeal", "FaerieDragonHeroicAbilityEmeraldWind"}, {"FaerieDragonMasteryStickyFlare", "BrightwingPixieBoostPixieDust", "FaerieDragonMasteryShieldDust", "GenericTalentIceBlock"}, {"BrightwingGreaterPolymorphPolymorph", "FaerieDragonMasteryCritterize", "BrightwingBouncyDustPixieDust", "FaerieDragonHardenedFocus"}, {"BrightwingDoubleWyrmholeBlinkHeal", "FaerieDragonMasteryContinuousWinds", "BrightwingRevitalizingMistSoothingMist", "GenericTalentStormShield"}},
+		Talents:   [7][]string{{"BrightwingGreaterPolymorphPolymorph", "BrightwingPhaseShiftHyperShift", "BrightwingPixieCharm"}, {"BrightwingDreamShotArcaneFlare", "BrightwingUnstableAnomalyPolymorph", "BrightwingMagicSpit"}, {"BrightwingArcaneFlareStickyFlare", "BrightwingPhaseShiftPeekaboo", "BrightwingCriticalMistCalmingMist"}, {"FaerieDragonHeroicAbilityBlinkHeal", "FaerieDragonHeroicAbilityEmeraldWind"}, {"BrightwingPixieBoostPixieDust", "BrightwingPixieDustSafetyDust", "BrightwingPixieDustPixiePower"}, {"BrightwingArcaneFlareHush!", "FaerieDragonMasteryCritterize", "BrightwingPhaseOut"}, {"BrightwingInvisibleFriends", "BrightwingIntensiveWinds", "BrightwingSpeedyDragon", "BrightwingFaerieProtector"}},
 	},
 	{
 		Name:      "Cassia",
@@ -296,7 +296,7 @@ var heroData = []Hero{
 		Slug:      "kerrigan",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
-		Talents:   [7][]string{{"KerriganSiphoningImpactRavage", "KerriganSharpenedBladesImpalingBlades", "GenericTalentBlock"}, {"KerriganCleanKillRavage", "KerriganPsionicPulsePrimalGrasp", "KerriganCombatStyleFuryoftheSwarm", "GenericTalentEnvenom"}, {"KerriganBladeTorrentImpalingBlades", "KerriganAssimilationMastery", "KerriganBladedMomentum"}, {"KerriganHeroicAbilityMaelstrom", "KerriganHeroicAbilitySummonUltralisk"}, {"KerriganEviscerate", "KerriganCombatStyleDoubleStrike", "KerriganQueensRush"}, {"KerriganAggressiveDefense", "KerriganEssenceForEssence", "GenericTalentOverdrive"}, {"KerriganOmegastormMaelstrom", "KerriganTorrasqueSummonUltralisk", "GenericTalentNexusBlades", "KerriganPsionicShift"}},
+		Talents:   [7][]string{{"KerriganRavageSiphoningImpact", "KerriganAssimilationMastery", "KerriganFuryOfTheSwarm"}, {"KerriganRavageSharpenedBlades", "KerriganImpalingBladesKineticFulmination", "KerriganPrimalGraspPsionicPulse"}, {"KerriganRavageQueenOfBlades", "KerriganRavageBoundlessFury", "KerriganBladedMomentum"}, {"KerriganHeroicAbilityMaelstrom", "KerriganHeroicAbilitySummonUltralisk"}, {"KerriganPrimalGraspPsionicBarrier", "KerriganAssimilationVolatilePower", "KerriganChrysalis"}, {"KerriganRavageMountingPotency", "KerriganImpalingBladesPainfulSpikes", "KerriganUnbridledEnergy"}, {"KerriganOmegastormMaelstrom", "KerriganTorrasqueSummonUltralisk", "KerriganAssimilationAssimilationBlades", "KerriganPsionicShift"}},
 	},
 	{
 		Name:      "Kharazim",
@@ -824,7 +824,7 @@ var talentData = map[string]talentText{
 	},
 	"AlarakLastLaugh": {
 		Name: "Last Laugh",
-		Text: "Activate teleport to the chosen location and remove all Roots, Slows, and damage over time effects. If Alarak fails to hit enemy Heroes 3 times with Basic Abilities within 4 seconds of using Last Laugh, his Health is reduced to 1.",
+		Text: "Activate to teleport to the chosen location and remove all Roots, Slows, and damage over time effects. If Alarak fails to hit enemy Heroes 3 times with Basic Abilities within 4 seconds of using Last Laugh, his Health is reduced to 1.",
 	},
 	"AlarakLethalOnslaughtDiscordStrike": {
 		Name: "Lethal Onslaught",
@@ -1052,7 +1052,7 @@ var talentData = map[string]talentText{
 	},
 	"AnaDebilitatingDart": {
 		Name: "Debilitating Dart",
-		Text: "Activate to fire a dart which slows the movement speed and reduces the damage dealt by the first enemy Hero it hits by 50% for 3 seconds.",
+		Text: "Activate to fire a dart which Slows the Movement Speed and reduces the damage dealt by the first enemy Hero it hits by 50% for 3 seconds.",
 	},
 	"AnaDetachableBoxMagazine": {
 		Name: "Detachable Box Magazine",
@@ -1646,9 +1646,21 @@ var talentData = map[string]talentText{
 		Name: "Arcane Barrage",
 		Text: "Increases the range of Arcane Flare by 50%.",
 	},
+	"BrightwingArcaneFlareHush!": {
+		Name: "Hush!",
+		Text: "Enemy Heroes hit by the center of Arcane Flare are Silenced for 1 second and deal 25% less damage for 3 seconds.",
+	},
+	"BrightwingArcaneFlareStickyFlare": {
+		Name: "Sticky Flare",
+		Text: "Enemy Heroes hit by Arcane Flare have their Movement Speed Slowed by 20% for 3 seconds. Increase the Slow to 40% if they are hit by the center portion.",
+	},
 	"BrightwingBouncyDustPixieDust": {
 		Name: "Bouncy Dust",
 		Text: "Pixie Dust bounces to another nearby ally upon impact.",
+	},
+	"BrightwingCriticalMistCalmingMist": {
+		Name: "Critical Mist",
+		Text: "If Soothing Mist removes a disabling effect from an ally, heal them for 200.",
 	},
 	"BrightwingDoubleWyrmholeBlinkHeal": {
 		Name: "Double Wyrmhole",
@@ -1656,51 +1668,71 @@ var talentData = map[string]talentText{
 	},
 	"BrightwingDreamShotArcaneFlare": {
 		Name: "Dream Shot",
-		Text: "Increase the range of Arcane Flare by 50%. If an enemy Hero is hit by the inner radius, reduce its cooldown to 1 second.",
+		Text: "Increase Arcane Flare's range by 50%. Hitting a Hero with Arcane Flare's center reduces its cooldown to 2 seconds.",
+	},
+	"BrightwingFaerieProtector": {
+		Name: "Faerie Protector",
+		Text: "Activate to apply Pixie Dust to all nearby Heroes.",
 	},
 	"BrightwingGreaterPolymorphPolymorph": {
 		Name: "Greater Polymorph",
-		Text: "Increases the duration of Polymorph by 0.75 seconds.",
+		Text: "Increase Polymorph's range by 30%. Hero Takedowns refresh the cooldown of Polymorph.",
+	},
+	"BrightwingIntensiveWinds": {
+		Name: "Intensive Winds",
+		Text: "Permanently reduce Emerald Wind's cooldown to 5 seconds and increase its Mana cost to 200.",
+	},
+	"BrightwingInvisibleFriends": {
+		Name: "Invisible Friends",
+		Text: "Blink Heal grants Stealth to Brightwing. If Blink Heal is cast on a Hero, they are also granted Stealth. While Stealthed by Invisible Friends, Heroes heal for 20 Health per second and are Unrevealable for the first 0.5 seconds\nRemaining stationary for at least 1.5 seconds while Stealthed grants Invisible.",
+	},
+	"BrightwingMagicSpit": {
+		Name: "Magic Spit",
+		Text: "Increase Basic Attack range by 1.1. Basic Attacks against Heroes reduce the cooldown of Soothing Mist by 5 seconds.",
 	},
 	"BrightwingManicPixiePixieDust": {
 		Name: "Manic Pixie",
 		Text: "When Soothing Mist heals an ally with Pixie Dust on them, they heal for an additional 104 over 4 seconds.",
 	},
-	"BrightwingMistifiedSoothingMist": {
-		Name: "Mistified",
-		Text: "Reduces the cooldown of Soothing Mist by 0.5 seconds every time Brightwing casts a Basic Ability.",
+	"BrightwingPhaseOut": {
+		Name: "Phase Out",
+		Text: "Activate to place Brightwing in Stasis for 0.75 seconds.",
 	},
 	"BrightwingPhaseShiftHyperShift": {
 		Name: "Hyper Shift",
-		Text: "Each allied Hero healed by Soothing Mist reduces the cooldown of Phase Shift by 3 seconds.",
+		Text: "Increase Phase Shift's healing by an additional 10% of the target's maximum Health. Nearby enemy Minion deaths reduce Phase Shift's cooldown by 2 seconds.",
 	},
 	"BrightwingPhaseShiftPeekaboo": {
 		Name: "Peekaboo!",
-		Text: "Phase Shifting to an ally casts a free Pixie Dust on them and reveals a large area around them and all enemies in it for 6 seconds.",
+		Text: "Phase Shifting to an ally grants both Brightwing and her target a 335 point Shield and reveals a large area around them for 5 seconds.",
 	},
 	"BrightwingPhaseShiftPhaseShield": {
 		Name: "Phase Shield",
-		Text: "After finishing the teleport, both Brightwing and her target gain a 335 point Shield for 10 seconds.",
+		Text: "After finishing the teleport, both Brightwing and her target gain a 335 point Shield for 5 seconds.",
 	},
 	"BrightwingPixieBoostPixieDust": {
 		Name: "Pixie Boost",
-		Text: "Pixie Dust gives 50% bonus Move Speed, decaying to 20% over 1.5 seconds.",
+		Text: "Pixie Dust gives 40% bonus Movement Speed, decaying to 20% over 3 seconds.",
 	},
 	"BrightwingPixieCharm": {
 		Name: "Pixie Charm",
-		Text: "Each time Brightwing heals an Allied Hero with Soothing Mist, she gains a stack of Bribe. Use 20 stacks to bribe a Mercenary, instantly defeating them. Does not work on Bosses. Maximum of 80 stacks.",
+		Text: "Activate to consume 20 stacks of Bribe to instantly defeat an uncaptured Mercenary.\nPassive: Gain 1 stack of Bribe when a nearby enemy Minion dies, and 5 stacks when hitting an enemy Hero with Arcane Flare's center. Maximum 80 stacks.",
 	},
-	"BrightwingRevitalizingMistSoothingMist": {
-		Name: "Revitalizing Mist",
-		Text: "Healing another Hero with Soothing Mist increases their healing received from Soothing Mist by 25% for 6 seconds. Stacks 3 times.",
+	"BrightwingPixieDustPixiePower": {
+		Name: "Pixie Power",
+		Text: "Reduce the cooldown of Pixie Dust by 3 seconds and increase the Spell Armor granted by 25.",
 	},
-	"BrightwingUnfurlingSpraySoothingMist": {
-		Name: "Unfurling Spray",
-		Text: "Increases Soothing Mist's range by 20%.",
+	"BrightwingPixieDustSafetyDust": {
+		Name: "Safety Dust",
+		Text: "Increase Pixie Dust's duration by 1 second. Brightwing heals allies with an active Pixie Dust for 25% more.",
+	},
+	"BrightwingSpeedyDragon": {
+		Name: "Speedy Dragon",
+		Text: "Permanently gain 20% Movement Speed.",
 	},
 	"BrightwingUnstableAnomalyPolymorph": {
 		Name: "Unstable Anomaly",
-		Text: "When Polymorph ends, deal 108 damage to the target and all nearby enemies.",
+		Text: "Increase Polymorph's Slow by 15%. Upon expiration, Polymorph deals damage to nearby enemy Heroes equal to 2% of their maximum Health.",
 	},
 	"BrightwingWoundedAnimalPolymorph": {
 		Name: "Wounded Animal",
@@ -1964,7 +1996,7 @@ var talentData = map[string]talentText{
 	},
 	"ChromieBronzeTalons": {
 		Name: "Bronze Talons",
-		Text: "Increase Chromie's Basic Attack range by 28%. Using Sand Blast increases the damage of her next Basic Attack by 125%.\n",
+		Text: "Increase Chromie's Basic Attack range by 28%. Using Sand Blast increases the damage of her next Basic Attack by 140%.\n",
 	},
 	"ChromieDraconicBarrage": {
 		Name: "Draconic Barrage",
@@ -1972,7 +2004,7 @@ var talentData = map[string]talentText{
 	},
 	"ChromieDragonsBreathDeepBreathing": {
 		Name: "Deep Breathing",
-		Text: "Quest: Every time Dragon's Breath hits a Hero increase its damage by 3, up to 60.\nReward: After hitting 20 Heroes, increase its damage by an additional 140 and also increase Chromie's sight radius by 100%.",
+		Text: "Quest: Every time Dragon's Breath hits a Hero increase its damage by 5, up to 60.\nReward: After hitting 12 Heroes, increase its damage by an additional 140 and also increase Chromie's sight radius by 100%.",
 	},
 	"ChromieDragonsBreathDragonsEye": {
 		Name: "Dragon’s Eye",
@@ -1984,7 +2016,7 @@ var talentData = map[string]talentText{
 	},
 	"ChromieDragonsBreathMobiusLoop": {
 		Name: "Mobius Loop",
-		Text: "If Dragon's Breath hits a Hero, reduce its cooldown by 2 seconds and restore 50 Mana.",
+		Text: "If Dragon's Breath hits a Hero, reduce its cooldown by 3 seconds and restore 100 Mana.",
 	},
 	"ChromieHereAndThere": {
 		Name: "Here and There",
@@ -2016,7 +2048,7 @@ var talentData = map[string]talentText{
 	},
 	"ChromieSandBlastMountingSand": {
 		Name: "Mounting Sand",
-		Text: "Increase the damage of Echo's Sand Blast by 40%. Hitting 3 or more consecutive Sand Blasts without missing counts as hitting 3 Heroes.  ",
+		Text: "Increase the damage of Echo's Sand Blast by 50%. Hitting 3 or more consecutive Sand Blasts without missing counts as hitting 3 Heroes.  ",
 	},
 	"ChromieSandBlastPiercingSands": {
 		Name: "Piercing Sands",
@@ -2304,7 +2336,7 @@ var talentData = map[string]talentText{
 	},
 	"DeckardPotionOfShielding": {
 		Name: "Potion of Shielding",
-		Text: "Whenever an ally is healed by a Healing Potion, they gain a 135 Shield for 6 seconds.",
+		Text: "Whenever an ally is healed by a Healing Potion, they gain a 122 Shield for 6 seconds.",
 	},
 	"DeckardRejuvenationPotion": {
 		Name: "Rejuvenation Potion",
@@ -2796,11 +2828,11 @@ var talentData = map[string]talentText{
 	},
 	"FaerieDragonHeroicAbilityBlinkHeal": {
 		Name: "Blink Heal",
-		Text: "Teleport to a nearby ally, healing them for 200.\nStores up to 2 charges.",
+		Text: "Teleport to a nearby ally. When teleporting to a Hero, heal them for 200.\nStores up to 2 charges.",
 	},
 	"FaerieDragonHeroicAbilityEmeraldWind": {
 		Name: "Emerald Wind",
-		Text: "After 0.5 seconds, create an expanding nova of wind, dealing 303 damage and pushing enemies away. \nPassive: Increases the healing of Soothing Mist by 5%.",
+		Text: "After 0.5 seconds, create an expanding nova of wind, dealing 225 damage and pushing enemies away.",
 	},
 	"FaerieDragonMasteryContinuousWinds": {
 		Name: "Continuous Winds",
@@ -2812,11 +2844,7 @@ var talentData = map[string]talentText{
 	},
 	"FaerieDragonMasteryShieldDust": {
 		Name: "Shield Dust",
-		Text: "Pixie Dust grants 50 Physical Armor for 3 seconds, reducing Physical damage taken by 50%.",
-	},
-	"FaerieDragonMasteryStickyFlare": {
-		Name: "Sticky Flare",
-		Text: "Enemies hit by Arcane Flare have their Movement Speed slowed by 40% for 2 seconds.",
+		Text: "Pixie Dust grants 0 Physical Armor for 0 seconds, reducing Physical damage taken by 0%.",
 	},
 	"FalstadHammerangBOOMerang": {
 		Name: "BOOMerang",
@@ -3008,7 +3036,7 @@ var talentData = map[string]talentText{
 	},
 	"FirebatEnduranceStimpack": {
 		Name: "Endurance Stimpack",
-		Text: "Activate to gain a Shield that absorbs 450 damage over 5 seconds.",
+		Text: "Activate to gain a Shield that absorbs 480 damage over 5 seconds.",
 	},
 	"FirebatFlameStreamCrossfire": {
 		Name: "Crossfire",
@@ -3024,11 +3052,11 @@ var talentData = map[string]talentText{
 	},
 	"FirebatHeroicAbilityBunkerDrop": {
 		Name: "Bunker Drop",
-		Text: "After 0.5 seconds, deploy and enter a Bunker with 1435 Health. Blaze and his allies can enter and exit the Bunker at will. While in the Bunker, occupants gain access to Flamethrower, dealing 179 damage to enemies in a line. \nExiting the Bunker grants 25 Armor for 2 seconds. Bunkers last 10 seconds, or until destroyed.",
+		Text: "After 0.5 seconds, deploy and enter a Bunker with 1435 Health. Blaze and his allies can enter and exit the Bunker at will. While in the Bunker, occupants gain access to Flamethrower, dealing 170 damage to enemies in a line. \nExiting the Bunker grants 25 Armor for 2 seconds. Bunkers last 10 seconds, or until destroyed.",
 	},
 	"FirebatHeroicAbilityCombustion": {
 		Name: "Combustion",
-		Text: "Channel for up to 2.6 seconds. Upon ending, Slow nearby enemies by 60% and deal 52 damage to them every 0.5 seconds. Combustion's Slow and damage over time duration is extended the longer Blaze Channels, from 1 second up to 5 seconds.\nBlaze's Movement Speed is reduced by 50% while Channeling.",
+		Text: "Channel for up to 2.6 seconds. Upon ending, Slow nearby enemies by 60% and deal 55 damage to them every 0.5 seconds. Combustion's Slow and damage over time duration is extended the longer Blaze Channels, from 1 second up to 5 seconds.\nBlaze's Movement Speed is reduced by 40% while Channeling.",
 	},
 	"FirebatIgniteHeatTreatment": {
 		Name: "Heat Treatment",
@@ -3044,15 +3072,15 @@ var talentData = map[string]talentText{
 	},
 	"FirebatJetPropulsionThermalProtection": {
 		Name: "Thermal Protection",
-		Text: "Each enemy hit by Jet Propulsion grants 10 Armor for 3 seconds and reduces its cooldown by 2 seconds.",
+		Text: "Each enemy hit by Jet Propulsion grants 10 Armor for 3 seconds and reduces its cooldown by 1.5 seconds.",
 	},
 	"FirebatNeuralStimpack": {
 		Name: "Neural Stimpack",
-		Text: "Activate to gain 50 Mana and cause Basic Ability cooldowns to recharge 100% faster for 5 seconds.",
+		Text: "Activate to gain 30 Mana and cause Basic Ability cooldowns to recharge 100% faster for 5 seconds.",
 	},
 	"FirebatNewHabits": {
 		Name: "New Habits",
-		Text: "Collecting Regeneration Globes reduces the cooldown of Pyromania by 5 seconds.\nQuest: Collect 15 Regeneration Globes.\nReward: Pyromania grants Unstoppable for 2 seconds.",
+		Text: "Collecting Regeneration Globes reduces the cooldown of Pyromania by 8 seconds.\nQuest: Collect 15 Regeneration Globes.\nReward: Pyromania grants Unstoppable for 2 seconds.",
 	},
 	"FirebatOilSpillAdhesivePetroleum": {
 		Name: "Adhesive Petroleum",
@@ -3064,7 +3092,7 @@ var talentData = map[string]talentText{
 	},
 	"FirebatOilSpillNanomachineCoating": {
 		Name: "Nanomachine Coating",
-		Text: "Enemies standing in Oil Spills and Ignited Oil Spills have their Attack Speed reduced by 40% for 2.5 seconds.",
+		Text: "Enemies standing in Oil Spills and Ignited Oil Spills have their Attack Speed reduced by 50% for 2.5 seconds.",
 	},
 	"FirebatOilSpillOilDispersal": {
 		Name: "Oil Dispersal",
@@ -3097,10 +3125,6 @@ var talentData = map[string]talentText{
 	"GallEdgeOfMadness": {
 		Name: "Edge of Madness",
 		Text: "Every subsequent hit of Shadowflame against the same enemy Hero deals an additional 8% damage, to a maximum of 40%. These bonuses are lost if the Hero has not been hit for 4 seconds.",
-	},
-	"GallEyeOfKilrogg": {
-		Name: "Eye of Kilrogg",
-		Text: "Place an eye, granting vision of a large area around it for 45 seconds. The eye can be killed by enemies with 2 Basic Attacks. Stores up to 2 charges.",
 	},
 	"GallHeroicAbilityShadowboltVolley": {
 		Name: "Shadow Bolt Volley",
@@ -3962,10 +3986,6 @@ var talentData = map[string]talentText{
 		Name: "Icy Veins",
 		Text: "Activate to make Jaina's Basic Abilities' cooldowns recharge 200% faster and reduce their Mana cost by 50% for 5 seconds.",
 	},
-	"JainaImprovedIceBlock": {
-		Name: "Improved Ice Block",
-		Text: "Activate to place Jaina in Stasis and gain Invulnerability for 2.5 seconds. When this effect expires, nearby enemies are Chilled.",
-	},
 	"JainaRingOfFrostColdSnap": {
 		Name: "Cold Snap",
 		Text: "The center area of Ring of Frost deals 310 damage and Roots enemies after the outer ring expires. Each enemy Hero hit reduces its cooldown by 10 seconds.",
@@ -4246,41 +4266,29 @@ var talentData = map[string]talentText{
 		Name: "The Plaguelands",
 		Text: "Increase Death and Decay's duration by 1 second. After gaining 30 Blight, increase the radius of Death and Decay's pool by 30%.",
 	},
-	"KerriganAggressiveDefense": {
-		Name: "Aggressive Defense",
-		Text: "Increases base Shield amount gained from Assimilation by 100%.",
+	"KerriganAssimilationAssimilationBlades": {
+		Name: "Assimilation Blades",
+		Text: "Damaging an enemy increases Basic Attack damage by 2% for 5 seconds, up to 40%.",
 	},
 	"KerriganAssimilationMastery": {
 		Name: "Assimilation Mastery",
-		Text: "Increases the duration of Assimilation by 100%. While Assimilation is active, Kerrigan's Health and Mana regeneration is increased by 100%.",
+		Text: "Regeneration Globe healing grants 40 points of Assimilation Shields per second while active. While Assimilation is active, Kerrigan's Health and Mana regeneration is increased by 100%.",
 	},
-	"KerriganBladeTorrentImpalingBlades": {
-		Name: "Blade Torrent",
-		Text: "Increases Impaling Blades' radius by 30%.",
+	"KerriganAssimilationVolatilePower": {
+		Name: "Volatile Power",
+		Text: "Increase the amount of Assimilation Shields granted from damage dealt by 15%, but reduce duration of Assimilation by 3 seconds.",
 	},
 	"KerriganBladedMomentum": {
 		Name: "Bladed Momentum",
-		Text: "Basic Attacks reduce Kerrigan's Basic Ability cooldowns by 0.6 seconds.",
+		Text: "Basic Attacks against enemy Heroes reduce the cooldown of Kerrigan's Basic Abilities by 0.6 seconds.",
 	},
-	"KerriganCleanKillRavage": {
-		Name: "Clean Kill",
-		Text: "If Ravage kills the target, it restores 75% of its Mana cost and increases the damage of the next Ravage by 25%.",
+	"KerriganChrysalis": {
+		Name: "Chrysalis",
+		Text: "Activate to place Kerrigan in a Chrysalis with 550 Health for 5 seconds. While inside, Kerrigan regenerates 5% of her maximum Health per second.\nEnemies can destroy the Chrysalis to end its effects early.",
 	},
-	"KerriganCombatStyleDoubleStrike": {
-		Name: "Double Strike",
-		Text: "When a Basic Ability damages an enemy, Kerrigan's next Basic Attack hits for 75% bonus damage.",
-	},
-	"KerriganCombatStyleFuryoftheSwarm": {
+	"KerriganFuryOfTheSwarm": {
 		Name: "Fury of the Swarm",
-		Text: "Kerrigan's Basic Attacks splash for 60% damage around the target.",
-	},
-	"KerriganEssenceForEssence": {
-		Name: "Essence for Essence",
-		Text: "Activate to deal 10% of target enemy Hero's Max Health and gain Assimilation Shields for twice that amount.",
-	},
-	"KerriganEviscerate": {
-		Name: "Eviscerate",
-		Text: "Increases Ravage's range by 40%.",
+		Text: "Gain 10% more Assimilation Shields from Basic Attacks. After casting Ravage, Kerrigan's next 2 Basic Attacks within 3 seconds splash for 100% damage around the target.",
 	},
 	"KerriganHeroicAbilityMaelstrom": {
 		Name: "Maelstrom",
@@ -4288,35 +4296,59 @@ var talentData = map[string]talentText{
 	},
 	"KerriganHeroicAbilitySummonUltralisk": {
 		Name: "Summon Ultralisk",
-		Text: "Summon an Ultralisk that attacks the target to deal 100 damage. Attacks splash to nearby enemies for 50% damage. Can reactivate the Ability to retarget the Ultralisk. Lasts for 20 seconds.",
+		Text: "After 0.5 seconds, summon an Ultralisk that rushes forward upon spawning, dealing 250 damage to the first enemy Hero hit and Stunning them for 0.5 seconds.\nThe Ultralisk's Basic Attacks deal 50% of their damage in an area around their target. Reactivate to retarget the Ultralisk.",
+	},
+	"KerriganImpalingBladesKineticFulmination": {
+		Name: "Kinetic Fulmination",
+		Text: "Damaging an enemy increases the damage of Kerrigan's next Impaling Blades within 10 seconds by 15%, up to 150%.",
+	},
+	"KerriganImpalingBladesPainfulSpikes": {
+		Name: "Painful Spikes",
+		Text: "Enemies hit by Impaling Blades take an additional 75 damage the next 6 times Kerrigan damages them within 5 seconds.",
 	},
 	"KerriganOmegastormMaelstrom": {
 		Name: "Omegastorm",
-		Text: "Maelstrom size increased by 25% . Amount of Assimilation Shields generated by Maelstrom increased by 100%.",
+		Text: "Maelstrom's duration is increased by 0.125 seconds every time it damages a Hero.",
 	},
-	"KerriganPsionicPulsePrimalGrasp": {
+	"KerriganPrimalGraspPsionicBarrier": {
+		Name: "Psionic Barrier",
+		Text: "Each enemy Hero hit by Primal Grasp grants 15 Spell Armor for 4 seconds.",
+	},
+	"KerriganPrimalGraspPsionicPulse": {
 		Name: "Psionic Pulse",
-		Text: "After casting Primal Grasp, deal 36 damage per second to nearby enemies. Lasts 5 seconds.",
+		Text: "Primal Grasp explodes a second time 2.5 seconds after its first explosion.",
 	},
 	"KerriganPsionicShift": {
 		Name: "Psionic Shift",
 		Text: "Activate to teleport to a nearby location, dealing 50 damage to nearby enemies. Generates 300% increased Assimilation Shields from the damage dealt.",
 	},
-	"KerriganQueensRush": {
-		Name: "Queen's Rush",
-		Text: "Activate to gain 30% Movement Speed for 4 seconds. Queen's Rush is also applied for free on Takedowns.",
+	"KerriganRavageBoundlessFury": {
+		Name: "Boundless Fury",
+		Text: "Hitting an enemy Hero with Ravage grants a charge of Ravage. Can only occur once every 10 seconds per Hero.",
 	},
-	"KerriganSharpenedBladesImpalingBlades": {
+	"KerriganRavageMountingPotency": {
+		Name: "Mounting Potency",
+		Text: "Ravage grants 5% Spell Power for 4 seconds, up to 40%.",
+	},
+	"KerriganRavageQueenOfBlades": {
+		Name: "Queen of Blades",
+		Text: "Damaging a Hero with Primal Grasp reduces Ravage's cooldown by 4 seconds.",
+	},
+	"KerriganRavageSharpenedBlades": {
 		Name: "Sharpened Blades",
-		Text: "Impaling Blades deals 25% more damage.",
+		Text: "Quest: Minions and Heroes that die within 1.5 seconds of being hit by Ravage increase its damage up to a maximum of 50.\nMinions grant 0.5 increased damage and Heroes grant 5 increased damage.\nReward: After reaching a 50 damage increase, Ravage gains 50 additional damage.",
 	},
-	"KerriganSiphoningImpactRavage": {
+	"KerriganRavageSiphoningImpact": {
 		Name: "Siphoning Impact",
-		Text: "If the targeted enemy dies within 1.5 seconds, Kerrigan heals for 10% of her maximum Health.",
+		Text: "Hitting an enemy Hero with Ravage grants 90 points of Assimilation Shields.",
 	},
 	"KerriganTorrasqueSummonUltralisk": {
 		Name: "Torrasque",
 		Text: "The Ultralisk morphs into an egg when it dies. If the egg isn't killed within 4 seconds, a new Ultralisk is born.",
+	},
+	"KerriganUnbridledEnergy": {
+		Name: "Unbridled Energy",
+		Text: "Damaging a Hero with a Heroic Ability grants 30% Spell Power for 4 seconds.",
 	},
 	"L90ETCMasteryDeathMetal": {
 		Name: "Death Metal",
@@ -4468,7 +4500,7 @@ var talentData = map[string]talentText{
 	},
 	"LiLiMasteryBlindingWindGaleForce": {
 		Name: "Gale Force",
-		Text: "Increase Blinding Wind's duration by 0.8 second. Li Li's Basic Attacks against Blinded Heroes deal 75% increased damage.",
+		Text: "Increase Blinding Wind's duration by 0.75 seconds. Li Li's Basic Attacks against Blinded Heroes deal 75% increased damage.",
 	},
 	"LiLiMasteryBlindingWindMassVortex": {
 		Name: "Mass Vortex",
@@ -5164,7 +5196,7 @@ var talentData = map[string]talentText{
 	},
 	"MephistoConsumeSouls": {
 		Name: "Consume Souls",
-		Text: "Channel for 2.5 seconds, revealing all enemy Heroes. After the Channel completes, all enemy Heroes take 357 damage and are Slowed by 40% for 2.5 seconds.",
+		Text: "Channel for 2.5 seconds, revealing all enemy Heroes. After the Channel completes, all enemy Heroes take 357 damage and are Slowed by 25% for 2.5 seconds.",
 	},
 	"MephistoConsumeSoulsConsumedByHatred": {
 		Name: "Consumed by Hatred",
@@ -5172,7 +5204,7 @@ var talentData = map[string]talentText{
 	},
 	"MephistoDuranceOfHate": {
 		Name: "Durance of Hate",
-		Text: "After 1 second, unleash a wave of evil spirits that Root the first enemy Hero hit for 2 seconds and deal 160 damage to them over the same duration.\nDurance of Hate spreads outwards from its initial target, Rooting and damaging additional nearby enemy Heroes.",
+		Text: "After 1 second, unleash a wave of evil spirits that Root the first enemy Hero hit for 2.5 seconds and deal 250 damage to them over the same duration.\nDurance of Hate spreads outwards from its initial target, Rooting and damaging additional nearby enemy Heroes.",
 	},
 	"MephistoDuranceOfHateUnspeakableHorror": {
 		Name: "Unspeakable Horror",
@@ -5188,15 +5220,15 @@ var talentData = map[string]talentText{
 	},
 	"MephistoLightningNovaStaticBarrier": {
 		Name: "Static Barrier",
-		Text: "At the end of its duration, Lightning Nova grants Mephisto a Shield equal to 50% of the damage it dealt to Heroes. Lasts 7 seconds.",
+		Text: "At the end of its duration, Lightning Nova grants Mephisto a Shield equal to 40% of the damage it dealt to Heroes. Lasts 7 seconds.",
 	},
 	"MephistoLightningNovaStaticField": {
 		Name: "Static Field",
-		Text: "When Lightning Nova's damage bonus reaches 40%, enemy Heroes within its radius take damage equal to 12% of their maximum Health.",
+		Text: "When Lightning Nova's damage bonus reaches 30%, enemy Heroes within its radius take damage equal to 10% of their maximum Health.",
 	},
 	"MephistoLordOfHatredAnger": {
 		Name: "Anger",
-		Text: "Basic Attacks against enemy Heroes also activate Lord of Hatred, reducing Basic Ability cooldowns by 0.75 seconds.",
+		Text: "Basic Attacks against enemy Heroes also activate Lord of Hatred, reducing Basic Ability cooldowns by 1 second.",
 	},
 	"MephistoLordOfHatredHysteria": {
 		Name: "Hysteria",
@@ -5236,11 +5268,11 @@ var talentData = map[string]talentText{
 	},
 	"MephistoSkullMissileLightningReaction": {
 		Name: "Lightning Reaction",
-		Text: "Skull Missile explodes on contact with Lightning Nova, dealing 144 damage to nearby enemies.",
+		Text: "Skull Missile explodes on contact with Lightning Nova, dealing 138 damage to nearby enemies.",
 	},
 	"MephistoSkullMissileUnyieldingPower": {
 		Name: "Unyielding Power",
-		Text: "Quest: Hit Heroes with Skull Missile.\nReward: After hitting 20 Heroes, increase Skull Missile's damage by 60.\nReward: After hitting 40 Heroes, Skull Missile's cooldown is permanently reduced to 5 seconds.",
+		Text: "Quest: Hit Heroes with Skull Missile.\nReward: After hitting 20 Heroes, increase Skull Missile's damage by 100.\nReward: After hitting 40 Heroes, Skull Missile's cooldown is permanently reduced to 5 seconds.",
 	},
 	"MephistoSpite": {
 		Name: "Spite",
@@ -5572,7 +5604,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaAdvancedCloaking": {
 		Name: "Advanced Cloaking",
-		Text: "After being Stealthed for 2 seconds, gain an additional 5% Movement Speed. While Stealthed, regenerate 2 Mana per second.",
+		Text: "After being Stealthed for 2 seconds, gain an additional 10% Movement Speed. While Stealthed, regenerate 2 Mana per second.",
 	},
 	"NovaApolloSuit": {
 		Name: "Apollo Suit",
@@ -5620,7 +5652,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaMasteryExplosiveShot": {
 		Name: "Explosive Round",
-		Text: "Snipe also deals 70% damage to enemies near the impact.",
+		Text: "Snipe also deals 80% damage to enemies near the impact.",
 	},
 	"NovaMasteryFastReload": {
 		Name: "Fast Reload",
@@ -5636,7 +5668,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaMasteryPerfectShotSnipe": {
 		Name: "Perfect Shot",
-		Text: "Hitting an enemy Hero with Snipe reduces the cooldown by 3 seconds and grants an additional stack of Snipe.",
+		Text: "Hitting an enemy Hero with Snipe reduces the cooldown by 4 seconds and grants an additional stack of Snipe.",
 	},
 	"NovaMasteryPrecisionBarrage": {
 		Name: "Precision Barrage",
@@ -6240,7 +6272,7 @@ var talentData = map[string]talentText{
 	},
 	"SgtHammerNeosteelPlatingSiegeTactics": {
 		Name: "Siege Tactics",
-		Text: "Using Neosteel Plating while in Siege Mode grants Unstoppable for 2 seconds.",
+		Text: "Using Neosteel Plating while in Siege Mode grants Unstoppable for 2 seconds, as long as she remains in Siege Mode.",
 	},
 	"SgtHammerSiegeModeAdvancedArtillery": {
 		Name: "Advanced Artillery",
@@ -7088,11 +7120,11 @@ var talentData = map[string]talentText{
 	},
 	"TyrandeDarnassianArchery": {
 		Name: "Darnassian Archery",
-		Text: "Basic Attacks against enemy Heroes grant a stacking 10% increased Attack Damage bonus for 8 seconds. This bonus is lost when Basic Attacking non-Heroes.",
+		Text: "Basic Attacks against enemy Heroes grant a stacking 10% increased Attack Damage bonus for 6 seconds. This bonus is lost when Basic Attacking non-Heroes.",
 	},
 	"TyrandeElunesChosen": {
 		Name: "Elune's Chosen",
-		Text: "Activate to make Tyrande's Basic Attacks heal the target ally for 200% of the damage dealt. Lasts for 10 seconds.",
+		Text: "Activate to make Tyrande's Basic Attacks heal the target ally for 200% of the damage dealt. Lasts for 8 seconds.",
 	},
 	"TyrandeEmpower": {
 		Name: "Empower",
@@ -7108,7 +7140,7 @@ var talentData = map[string]talentText{
 	},
 	"TyrandeHeroicAbilityShadowstalk": {
 		Name: "Shadowstalk",
-		Text: "Grant all allied Heroes Stealth for 10 seconds and heal them for 400 Health over 10 seconds. Remaining stationary for at least 1.5 seconds while Stealthed grants Invisible.",
+		Text: "Grant all allied Heroes Stealth for 10 seconds and heal them for 380 Health over 10 seconds. Remaining stationary for at least 1.5 seconds while Stealthed grants Invisible.",
 	},
 	"TyrandeHeroicAbilityStarfall": {
 		Name: "Starfall",
@@ -7136,11 +7168,11 @@ var talentData = map[string]talentText{
 	},
 	"TyrandeMasteryLightofEluneQuickeningBlessing": {
 		Name: "Quickening Blessing",
-		Text: "Gain 10% Movement Speed. Light of Elune increases the target's Movement Speed by 20% for 3 seconds.",
+		Text: "Gain 10% Movement Speed. Light of Elune increases the target's Movement Speed by 15% for 3 seconds.",
 	},
 	"TyrandeMasteryLunarBlaze": {
 		Name: "Lunar Blaze",
-		Text: "Increase Lunar Flare's range by 50%.\nQuest: Hitting a Hero with Lunar Flare increases its damage by 5%, up to 100%.",
+		Text: "Increase Lunar Flare's range by 40%.\nQuest: Hitting a Hero with Lunar Flare increases its damage by 5%, up to 100%.",
 	},
 	"TyrandeMasteryLunarFlareShootingStar": {
 		Name: "Shooting Star",
@@ -7152,7 +7184,7 @@ var talentData = map[string]talentText{
 	},
 	"TyrandeMoonlitArrows": {
 		Name: "Moonlit Arrows",
-		Text: "Basic Attacks decrease the cooldown of Light of Elune by an additional 0.25 seconds.",
+		Text: "Basic Attacks decrease the cooldown of Light of Elune by an additional 0.75 seconds.",
 	},
 	"TyrandeRanger": {
 		Name: "Ranger",
@@ -7512,7 +7544,7 @@ var talentData = map[string]talentText{
 	},
 	"WhitemaneSearingLashIndulgence": {
 		Name: "Indulgence",
-		Text: "Searing Lash's first strike restores 10 Mana per Hero hit, and its second strike restores 25 Mana per Hero hit.",
+		Text: "Searing Lash's first strike restores 20 Mana per Hero hit, and its second strike restores 40 Mana per Hero hit.",
 	},
 	"WhitemaneSearingLashLashingOut": {
 		Name: "Lashing Out",
@@ -7520,7 +7552,7 @@ var talentData = map[string]talentText{
 	},
 	"WhitemaneSearingLashRighteousFlame": {
 		Name: "Righteous Flame",
-		Text: "Searing Lash deals 50% more damage to enemies who are Stunned, Rooted, Silenced or Slowed.",
+		Text: "Searing Lash deals 75% more damage to enemies who are Stunned, Rooted, Silenced or Slowed.",
 	},
 	"WhitemaneZealGuidingLight": {
 		Name: "Guiding Light",
@@ -8073,10 +8105,6 @@ var talentData = map[string]talentText{
 	"ZeratulVoidSlash": {
 		Name: "Void Slash",
 		Text: "If Cleave hits more than one enemy Hero, it deals 50% increased damage and its cooldown is reduced by 3 seconds.",
-	},
-	"ZeratulVorpalBlade": {
-		Name: "Vorpal Blade",
-		Text: "Activate to teleport to Zeratul's last non-structure Basic Attack target within 3 seconds. The target is revealed during these 3 seconds.",
 	},
 	"ZeratulWarpSkirmisherTalent": {
 		Name: "Warp Skirmisher",
