@@ -114,7 +114,7 @@ spec:
         imagePullPolicy: Always
         resources:
           limits:
-            memory: "5G"
+            memory: "3G"
         ports:
         - containerPort: 26257
           name: grpc

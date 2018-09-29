@@ -124,8 +124,8 @@ func main() {
 	if *flagInit {
 		h.cacheTime = time.Second * 5
 		popularGameLimit = 2
-		leaderboardMinGames = 3
-		daysOld = int(time.Since(time.Date(2017, time.April, 1, 0, 0, 0, 0, time.UTC)) / (time.Hour * 24))
+		leaderboardMinGames = 5
+		daysOld = int(time.Since(time.Date(2017, time.June, 1, 0, 0, 0, 0, time.UTC)) / (time.Hour * 24))
 	}
 
 	if *flagElo {

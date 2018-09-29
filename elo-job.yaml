@@ -14,5 +14,5 @@ spec:
         imagePullPolicy: Always
         resources:
           limits:
-            memory: "5G"
+            memory: "2G"
       restartPolicy: Never

@@ -87,14 +87,15 @@ func (h *hotsContext) elo() error {
 		return errors.Wrap(err, "make update playerskills")
 	}
 	scores := NewScores()
-	totalGames := make(map[regionPlayer]struct {
+	totalGames := make(map[modeRegion]struct {
 		total  int
 		recent int
 	})
 
 	var daysTime = time.Hour * 24 * time.Duration(daysOld)
 	since := time.Now().Add(-daysTime)
-	fmt.Println("recent is since", since)
+	notBefore := time.Now().Add(-time.Hour * 24 * 500)
+	fmt.Println("recent is since", since, ", days:", daysOld)
 
 	for i := len(init.Builds) - 1; i >= 0; i-- {
 		build := init.Builds[i]
@@ -103,9 +104,13 @@ func (h *hotsContext) elo() error {
 		patch := init.config.build(build.ID)
 		isRecent := build.Start.After(since)
 		fmt.Println("\nstart", build.ID, "at", start, "patch", patch)
+		if build.Start.Before(notBefore) {
+			fmt.Println("skipping because too old")
+			continue
+		}
 
 		// fetch players into memory
-		players := make(map[int64][]Player, 100000)
+		players := make(map[int64][]Player, 10000)
 
 		{
 			rows, err := pool.Query("SELECT game, blizzid, winner FROM players WHERE build = $1", patch)
@@ -173,12 +178,13 @@ func (h *hotsContext) elo() error {
 						} else {
 							teams[1].AddPlayer(p.blizzid, rating)
 						}
-						tg := totalGames[rp]
+						mr := modeRegion{game.mode, rp}
+						tg := totalGames[mr]
 						tg.total++
 						if isRecent {
 							tg.recent++
 						}
-						totalGames[rp] = tg
+						totalGames[mr] = tg
 					}
 					if teams[0].PlayerCount() != 5 || teams[1].PlayerCount() != 5 {
 						continue
@@ -333,7 +339,7 @@ func (h *hotsContext) elo() error {
 		for r := range init.Regions {
 			skills = skills[:0]
 			for rp, ps := range scores[m] {
-				tg := totalGames[rp]
+				tg := totalGames[modeRegion{m, rp}]
 				if rp.region != r || tg.recent < leaderboardMinGames {
 					continue
 				}
@@ -391,6 +397,11 @@ func ratingToSkill(r skills.Rating) float64 {
 type patchscore struct {
 	score skills.Rating
 	patch string
+}
+
+type modeRegion struct {
+	mode Mode
+	rp   regionPlayer
 }
 
 type regionPlayer struct {
