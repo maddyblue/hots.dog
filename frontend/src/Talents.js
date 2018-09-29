@@ -124,11 +124,11 @@ const Builds = props => {
 			const cur = curTier[talent];
 			const prev = prevTier[talent];
 			const games = cur.Wins + cur.Losses;
-			const winRate = cur.Wins / games * 100;
+			const winRate = (cur.Wins / games) * 100;
 			let change = 0;
 			if (prev) {
 				const prevGames = prev.Wins + prev.Losses;
-				const prevWinRate = prev.Wins / prevGames * 100;
+				const prevWinRate = (prev.Wins / prevGames) * 100;
 				change = winRate - prevWinRate;
 			}
 			return {

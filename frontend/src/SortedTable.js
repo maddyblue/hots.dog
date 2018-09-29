@@ -137,11 +137,12 @@ class SortedTable extends Component<Props, State> {
 	};
 	render() {
 		const data = this.props.data;
-		data.sort((a: any, b: any): number =>
-			this.state.lookup[this.state.sort].cmp(
-				a[this.state.sort],
-				b[this.state.sort]
-			)
+		data.sort(
+			(a: any, b: any): number =>
+				this.state.lookup[this.state.sort].cmp(
+					a[this.state.sort],
+					b[this.state.sort]
+				)
 		);
 		if (this.state.sortDir) {
 			data.reverse();

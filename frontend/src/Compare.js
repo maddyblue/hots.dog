@@ -69,14 +69,14 @@ class CompareHero extends Component {
 		} else {
 			const basetotal =
 				this.state.compare.Total.Wins + this.state.compare.Total.Losses;
-			const basewr = this.state.compare.Total.Wins / basetotal * 100;
+			const basewr = (this.state.compare.Total.Wins / basetotal) * 100;
 			const sameTeam = [];
 			const otherTeam = [];
 			this.props.Heroes.forEach(hero => {
 				const st = this.state.compare.SameTeam[hero.Name];
 				if (st) {
 					const games = st.Wins + st.Losses;
-					const winrate = st.Wins / games * 100;
+					const winrate = (st.Wins / games) * 100;
 					sameTeam.push({
 						hero: hero,
 						games: games,
@@ -87,7 +87,7 @@ class CompareHero extends Component {
 				const ot = this.state.compare.OtherTeam[hero.Name];
 				if (ot) {
 					const games = ot.Wins + ot.Losses;
-					const winrate = ot.Wins / games * 100;
+					const winrate = (ot.Wins / games) * 100;
 					otherTeam.push({
 						hero: hero,
 						games: games,

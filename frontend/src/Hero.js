@@ -47,13 +47,13 @@ class Hero extends Component {
 		const elems = Object.keys(obj).map(k => {
 			const v = obj[k];
 			const total = v.Wins + v.Losses;
-			const wr = v.Wins / total * 100;
+			const wr = (v.Wins / total) * 100;
 			let change = 0;
 			if (this.state.Previous.Base) {
 				const prev = this.state.Previous[prop][k];
 				if (prev) {
 					const prevtotal = prev.Wins + prev.Losses;
-					const prevwr = prev.Wins / prevtotal * 100;
+					const prevwr = (prev.Wins / prevtotal) * 100;
 					if (prevwr) {
 						change = wr - prevwr;
 					}
@@ -116,14 +116,14 @@ class Hero extends Component {
 			const basewins = this.state.Current.Base[''].Wins;
 			const baselosses = this.state.Current.Base[''].Losses;
 			const basetotal = basewins + baselosses;
-			const basewr = basewins / basetotal * 100 || 0;
+			const basewr = (basewins / basetotal) * 100 || 0;
 
 			let change = 0;
 			if (this.state.Previous.Base) {
 				const prevwins = this.state.Previous.Base[''].Wins;
 				const prevlosses = this.state.Previous.Base[''].Losses;
 				const prevtotal = prevwins + prevlosses;
-				const prevwr = prevwins / prevtotal * 100 || 0;
+				const prevwr = (prevwins / prevtotal) * 100 || 0;
 				change = basewr - prevwr;
 			}
 

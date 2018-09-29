@@ -83,11 +83,11 @@ class HeroWinrates extends Component<
 				let change = 0;
 				if (wr) {
 					games = wr.Wins + wr.Losses;
-					winrate = wr.Wins / games * 100;
+					winrate = (wr.Wins / games) * 100;
 					const prev = wrs.Previous && wrs.Previous[hero.Name];
 					if (prev) {
 						const prevGames = prev.Wins + prev.Losses;
-						const prevWinRate = prev.Wins / prevGames * 100;
+						const prevWinRate = (prev.Wins / prevGames) * 100;
 						change = winrate - prevWinRate;
 					}
 				}

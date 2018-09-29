@@ -47,7 +47,8 @@ const About = props => {
 				The code is free on GitHub at{' '}
 				<a href="https://github.com/mjibson/hots.dog">
 					github.com/mjibson/hots.dog
-				</a>. Technical details:
+				</a>
+				. Technical details:
 			</p>
 			<ul>
 				<li>
@@ -60,9 +61,7 @@ const About = props => {
 					frontend is <a href="https://facebook.github.io/react/">React</a>
 				</li>
 				<li>
-					site is deployed with <a href="https://kubernetes.io/">
-						Kubernetes
-					</a>{' '}
+					site is deployed with <a href="https://kubernetes.io/">Kubernetes</a>{' '}
 					on{' '}
 					<a href="https://cloud.google.com/container-engine/">
 						Google Container Engine
