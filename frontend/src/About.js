@@ -39,10 +39,6 @@ const About = props => {
 				</li>
 				<li>open API for others to use</li>
 			</ul>
-			<p>Our future goals are:</p>
-			<ul>
-				<li>player MMR calculation</li>
-			</ul>
 			<p>
 				The code is free on GitHub at{' '}
 				<a href="https://github.com/mjibson/hots.dog">
