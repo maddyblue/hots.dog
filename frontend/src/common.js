@@ -88,14 +88,11 @@ const Filter = (props: {
 	const build =
 		!props.build || props.build === 'latest' ? props.Builds[0].ID : props.build;
 	const buildStats = props.BuildStats[build];
-	const modeStats = buildStats && buildStats[props.mode];
-	const disableSkill = !modeStats || !props.mode;
-	let skillTitle = 'Enabled when a game mode is selected.';
-	if (!buildStats || (!modeStats && props.mode)) {
-		skillTitle = 'Skill ratings not yet calculated for this patch.';
-	}
+	const disableSkill = !buildStats;
 	const skillTooltip = disableSkill ? (
-		<span className="tip">{skillTitle}</span>
+		<span className="tip">
+			Skill ratings not yet calculated for this patch.
+		</span>
 	) : null;
 	return (
 		<div>

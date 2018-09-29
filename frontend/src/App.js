@@ -121,16 +121,10 @@ class HotsApp extends Component<{ location: Location, history: any }, State> {
 			if (key === 'herolevel' && value === this.defaultHeroLevel) {
 				return;
 			}
-			if (
-				key === 'skill_low' &&
-				(value === this.defaultSkillLow || !this.state.mode)
-			) {
+			if (key === 'skill_low' && value === this.defaultSkillLow) {
 				return;
 			}
-			if (
-				key === 'skill_high' &&
-				(value === this.defaultSkillHigh || !this.state.mode)
-			) {
+			if (key === 'skill_high' && value === this.defaultSkillHigh) {
 				return;
 			}
 			params.push(key + '=' + encodeURIComponent(value));

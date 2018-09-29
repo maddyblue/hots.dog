@@ -1614,19 +1614,34 @@ func (h *hotsContext) getWinrates(
 func setSkillParams(
 	init initData, wheres *[]string, params *[]interface{}, args map[string]string,
 ) error {
-	if m, sl, sh := args["mode"], args["skill_low"], args["skill_high"]; m != "" && (sl != "" || sh != "") {
+	sl, sh := args["skill_low"], args["skill_high"]
+	if sl == "" && sh == "" {
+		return nil
+	}
+	var ms []Mode
+	if m := args["mode"]; m != "" {
 		i, err := strconv.Atoi(m)
 		if err != nil {
 			return err
 		}
-		modes, ok := init.BuildStats[args["build"]]
-		if !ok {
-			return errors.Errorf("unknown build: %s", args["build"])
+		ms = append(ms, Mode(i))
+	}
+	if len(ms) == 0 {
+		for m := range init.Modes {
+			ms = append(ms, m)
 		}
-		quantiles := modes[Mode(i)].Quantile
+	}
+	modes, ok := init.BuildStats[args["build"]]
+	if !ok {
+		return errors.Errorf("unknown build: %s", args["build"])
+	}
+	var allModes []string
+	for _, m := range ms {
+		var modeWhere []string
+		quantiles := modes[m].Quantile
 		if sl != "" {
-			*wheres = append(*wheres, fmt.Sprintf("skill >= $%d", len(*params)+1))
-			i, err = strconv.Atoi(sl)
+			modeWhere = append(modeWhere, fmt.Sprintf("skill >= $%d", len(*params)+1))
+			i, err := strconv.Atoi(sl)
 			if err != nil {
 				return err
 			}
@@ -1634,14 +1649,17 @@ func setSkillParams(
 			*params = append(*params, quantiles[skillQuantiles[i]])
 		}
 		if sh != "" {
-			*wheres = append(*wheres, fmt.Sprintf("skill <= $%d", len(*params)+1))
-			i, err = strconv.Atoi(sh)
+			modeWhere = append(modeWhere, fmt.Sprintf("skill <= $%d", len(*params)+1))
+			i, err := strconv.Atoi(sh)
 			if err != nil {
 				return err
 			}
 			*params = append(*params, quantiles[skillQuantiles[i+1]])
 		}
+		allModes = append(allModes, fmt.Sprintf("(mode = %d AND (%s))", m, strings.Join(modeWhere, " AND ")))
+
 	}
+	*wheres = append(*wheres, fmt.Sprintf("(%s)", strings.Join(allModes, " OR ")))
 	return nil
 }
 
