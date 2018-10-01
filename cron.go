@@ -45,7 +45,7 @@ func (h *hotsContext) cron() error {
 			case "/api/get-winrates":
 				res, err = h.GetWinrates(ctx, req)
 			case "/api/get-hero-data":
-				res, err = h.GetHero(ctx, req)
+				res, err = h.GetRelativeWinrates(ctx, req)
 			case "/api/get-build-winrates":
 				res, err = h.GetBuildWinrates(ctx, req)
 			case "/api/get-compare-hero":

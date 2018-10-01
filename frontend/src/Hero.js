@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { Fetch, pct, toLength, BuildsOpts, HeroHeader } from './common';
+import {
+	Fetch,
+	pct,
+	toLength,
+	BuildsOpts,
+	HeroHeader,
+	skillBands,
+} from './common';
 import SortedTable from './SortedTable';
 
 class Hero extends Component {
@@ -146,6 +153,12 @@ class Hero extends Component {
 						</tbody>
 					</table>
 					<table className="sorted">
+						{this.makeTable(
+							'League',
+							'Leagues',
+							basewr,
+							v => skillBands[v - 1]
+						)}
 						{this.makeTable('Map', 'Maps', basewr)}
 						{this.makeTable(
 							'Game Mode',
@@ -186,6 +199,7 @@ class Hero extends Component {
 					title={this.props}
 				/>
 				<p>
+					<a href="#leagues">[leagues]</a>
 					<a href="#maps">[maps]</a> <a href="#modes">[game modes]</a>{' '}
 					<a href="#lengths">[game lengths]</a>{' '}
 					<a href="#levels">[hero levels]</a>

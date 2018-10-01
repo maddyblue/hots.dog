@@ -238,7 +238,7 @@ func main() {
 	mux.Handle("/api/get-build-winrates", wrap(h.GetBuildWinrates))
 	mux.Handle("/api/get-compare-hero", wrap(h.GetCompareHero))
 	mux.Handle("/api/get-game-data", wrap(h.GetGameData))
-	mux.Handle("/api/get-hero-data", wrap(h.GetHero))
+	mux.Handle("/api/get-hero-data", wrap(h.GetRelativeWinrates))
 	mux.Handle("/api/get-leaderboard", wrap(h.GetLeaderboard))
 	mux.Handle("/api/get-player-by-name", wrap(h.GetPlayerName))
 	mux.Handle("/api/get-player-games", wrap(h.GetPlayerGames))
@@ -1387,12 +1387,15 @@ type heroRelativeData struct {
 	Levels  map[string]Total
 	Maps    map[string]Total
 	Modes   map[string]Total
+	Leagues map[string]Total
 }
 
-func (h *hotsContext) GetHero(ctx context.Context, r *http.Request) (interface{}, error) {
+func (h *hotsContext) GetRelativeWinrates(
+	ctx context.Context, r *http.Request,
+) (interface{}, error) {
 	init := h.getInit()
-	build := init.config.build(r.FormValue("build"))
-	hero := init.config.hero(r.FormValue("hero"))
+	build := r.FormValue("build")
+	hero := r.FormValue("hero")
 	var res struct {
 		Current  heroRelativeData
 		Previous heroRelativeData
@@ -1400,13 +1403,13 @@ func (h *hotsContext) GetHero(ctx context.Context, r *http.Request) (interface{}
 	g, ctx := errgroup.WithContext(ctx)
 	g.Go(func() error {
 		var err error
-		res.Current, err = h.getHero(ctx, init, build, hero)
+		res.Current, err = h.getRelativeWinrates(ctx, init, build, hero)
 		return errors.Wrap(err, "getHero current build")
 	})
 	g.Go(func() error {
-		if prevBuild, ok := h.getBuildBefore(init, r.FormValue("build")); ok {
+		if prevBuild, ok := h.getBuildBefore(init, build); ok {
 			var err error
-			res.Previous, err = h.getHero(ctx, init, init.config.build(prevBuild), hero)
+			res.Previous, err = h.getRelativeWinrates(ctx, init, prevBuild, hero)
 			return errors.Wrap(err, "getHero previous build")
 		}
 		return nil
@@ -1415,23 +1418,23 @@ func (h *hotsContext) GetHero(ctx context.Context, r *http.Request) (interface{}
 	return res, err
 }
 
-func (h *hotsContext) getHero(
+func (h *hotsContext) getRelativeWinrates(
 	ctx context.Context, init initData, build, hero string,
 ) (heroRelativeData, error) {
 	params := []interface{}{
-		build,
-		hero,
+		init.config.build(build),
+		init.config.hero(hero),
 	}
 	var res heroRelativeData
 	g, ctx := errgroup.WithContext(ctx)
 	g.Go(func() error {
 		var err error
 		res.Base, err = h.countWins(ctx, nil, `
-			SELECT COUNT(*) count, winner, '' counter
-			FROM players
-			WHERE build = $1 AND hero = $2
-			GROUP BY winner
-		`, params)
+				SELECT COUNT(*) count, winner, '' counter
+				FROM players
+				WHERE build = $1 AND hero = $2
+				GROUP BY winner
+			`, params)
 		if res.Base != nil && len(res.Base) == 0 {
 			res.Base[""] = Total{}
 		}
@@ -1440,54 +1443,97 @@ func (h *hotsContext) getHero(
 	g.Go(func() error {
 		var err error
 		res.Maps, err = h.countWins(ctx, init.lookups["map"], `
-			SELECT COUNT(*) count, winner, map counter
-			FROM players
-			WHERE build = $1 AND hero = $2
-			GROUP BY winner, map
-		`, params)
+				SELECT COUNT(*) count, winner, map counter
+				FROM players
+				WHERE build = $1 AND hero = $2
+				GROUP BY winner, map
+			`, params)
 		return errors.Wrap(err, "maps")
 	})
 	g.Go(func() error {
 		var err error
 		res.Modes, err = h.countWins(ctx, nil, `
-			SELECT COUNT(*) count, winner, mode counter
-			FROM players
-			WHERE build = $1 AND hero = $2
-			GROUP BY winner, mode
-		`, params)
+				SELECT COUNT(*) count, winner, mode counter
+				FROM players
+				WHERE build = $1 AND hero = $2
+				GROUP BY winner, mode
+			`, params)
 		return errors.Wrap(err, "modes")
 	})
 	g.Go(func() error {
 		var err error
 		// Group hero levels by 5s.
 		res.Levels, err = h.countWins(ctx, nil, `
-			SELECT
-				count(*) AS count,
-				winner,
-				greatest(1, counter * 5) AS counter
-			FROM
-				(
-					SELECT winner, hero_level // 5 AS counter
-					FROM players
-					WHERE build = $1 AND hero = $2
-				)
-			GROUP BY winner, counter
-		`, params)
+				SELECT
+					count(*) AS count,
+					winner,
+					greatest(1, counter * 5) AS counter
+				FROM
+					(
+						SELECT winner, hero_level // 5 AS counter
+						FROM players
+						WHERE build = $1 AND hero = $2
+					)
+				GROUP BY winner, counter
+			`, params)
 		return errors.Wrap(err, "hero level")
 	})
 	g.Go(func() error {
 		var err error
 		// Group game lengths in 5 minute blocks.
 		res.Lengths, err = h.countWins(ctx, nil, `
-			SELECT count(*) count, winner, counter * 60 * 5 as counter
-			FROM (
-				SELECT winner, round(length / 60 / 5) as counter
-				FROM players
-				WHERE build = $1 AND hero = $2
-			)
-			GROUP BY winner, counter
-		`, params)
+				SELECT count(*) count, winner, counter * 60 * 5 as counter
+				FROM (
+					SELECT winner, round(length / 60 / 5) as counter
+					FROM players
+					WHERE build = $1 AND hero = $2
+				)
+				GROUP BY winner, counter
+			`, params)
 		return errors.Wrap(err, "length")
+	})
+	g.Go(func() error {
+		modes, ok := init.BuildStats[build]
+		if !ok {
+			return errors.Errorf("unknown build: %s", build)
+		}
+		var sb strings.Builder
+		sb.WriteString("case\n")
+		for m := range init.Modes {
+			quantiles := modes[m].Quantile
+			if quantiles[99] == 0 {
+				continue
+			}
+			for i := 1; i <= len(skillQuantiles); i++ {
+				fmt.Fprintf(&sb, "WHEN mode = %d", m)
+				if i > 1 {
+					fmt.Fprintf(&sb, " AND skill > %f", quantiles[skillQuantiles[i-1]])
+				}
+				if i < len(skillQuantiles) {
+					fmt.Fprintf(&sb, " AND skill <= %f", quantiles[skillQuantiles[i]])
+				}
+				fmt.Fprintf(&sb, " THEN %d\n", i)
+			}
+		}
+		sb.WriteString("\nend")
+
+		var err error
+		res.Leagues, err = h.countWins(ctx, nil, fmt.Sprintf(`
+			SELECT
+				count(*) AS count, winner, counter
+			FROM
+				(
+					SELECT
+						winner, %s AS counter
+					FROM
+						players
+					WHERE
+						build = $1 AND hero = $2
+				)
+			GROUP BY
+				winner, counter
+		`, sb.String()), params)
+		return errors.Wrap(err, "league")
 	})
 	err := g.Wait()
 	return res, err
