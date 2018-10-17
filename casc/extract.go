@@ -29,6 +29,7 @@ func main() {
 	if err := extract(); err != nil {
 		log.Fatalf("extract error: %+v", err)
 	}
+	fmt.Println("done: success")
 }
 
 var cleanRE = regexp.MustCompile(`<.*?>`)

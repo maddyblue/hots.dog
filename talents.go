@@ -256,7 +256,7 @@ var heroData = []Hero{
 		Slug:      "jaina",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
-		Talents:   [7][]string{{"JainaFrostboltWintersReach", "JainaFrostbiteLingeringChill", "JainaFingersOfFrost"}, {"JainaFrostboltFrostShards", "JainaFrostbiteArcaneIntellect", "JainaFrostbiteFrostArmor"}, {"JainaConeOfColdIceFloes", "JainaFrostboltIceLance", "JainaIcefuryWand"}, {"JainaHeroicRingOfFrost", "JainaHeroicSummonWaterElemental"}, {"JainaBlizzardStormFront", "JainaFrostbiteIceBarrier", "JainaIcyVeins"}, {"JainaBlizzardSnowstorm", "JainaConeOfColdNorthernExposure", "JainaConeOfColdNumbingBlast"}, {"JainaRingOfFrostColdSnap", "JainaSummonWaterElementalWintermute", "JainaFrigidTransmission", "JainaFrostbiteDeepChill"}},
+		Talents:   [7][]string{{"JainaFrostboltWintersReach", "JainaFrostbiteLingeringChill", "JainaFingersOfFrost"}, {"JainaFrostboltFrostShards", "JainaFrostbiteArcaneIntellect", "JainaFrostbiteFrostArmor"}, {"JainaFrostboltIceLance", "JainaConeOfColdIceFloes", "JainaIcefuryWand"}, {"JainaHeroicRingOfFrost", "JainaHeroicSummonWaterElemental"}, {"JainaBlizzardStormFront", "JainaFrostbiteIceBarrier", "JainaIcyVeins"}, {"JainaBlizzardSnowstorm", "JainaConeOfColdNorthernExposure", "JainaConeOfColdNumbingBlast"}, {"JainaRingOfFrostColdSnap", "JainaSummonWaterElementalWintermute", "JainaFrigidTransmission", "JainaFrostbiteDeepChill"}},
 	},
 	{
 		Name:      "Johanna",
@@ -361,6 +361,14 @@ var heroData = []Hero{
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
 		Talents:   [7][]string{{"MaievUmbralBindBondsOfJustice", "MaievUmbralBindPursuitOfVengeance", "MaievFanOfKnivesNaishasMemento"}, {"MaievFanOfKnivesPinDown", "MaievFanOfKnivesBladeDance", "MaievSpiritOfVengeanceSuddenVengeance"}, {"MaievFanOfKnivesElunesWrath", "MaievUmbralBindBondsOfCorruption", "MaievSpiritOfVengeanceRuthlessSpirit"}, {"MaievContainmentDisc", "MaievWardensCage"}, {"MaievFanOfKnivesBladedArmor", "MaievUmbralBindChainGang", "MaievSpiritOfVengeanceShadowArmor"}, {"MaievUmbralBindCruelChain", "MaievSpiritOfVengeanceVengefulKnives", "MaievArmoredAssault"}, {"MaievSpiritOfVengeanceShadowOrbVengeance", "MaievShadowOrbHuntress", "MaievShadowOrbShadowStrike"}},
+	},
+	{
+		Name:      "Mal'Ganis",
+		ID:        "MalGanis",
+		Slug:      "malganis",
+		Role:      "Warrior",
+		MultiRole: []string{"Warrior"},
+		Talents:   [7][]string{{"MalGanisNecroticEmbraceWingedGuard", "MalGanisVampiricTouchVampiricAura", "MalGanisVampiricTouchTimeToFeed"}, {"MalGanisNecroticEmbraceFueledByTorment", "MalGanisNecroticEmbraceMightOfSargeras", "MalGanisNecroticEmbraceEchoOfDoom"}, {"MalGanisFelClawsBlackClaws", "MalGanisFelClawsWillOfTichondrius", "MalGanisNightRushSpreadingPlague", "MalGanisNightmareFuel"}, {"MalGanisCarrionSwarm", "MalGanisDarkConversion"}, {"MalGanisNightRushDeepSleep", "MalGanisNightRushTheNightBeckons", "MalGanisVampiricTouchBloodRush"}, {"MalGanisNecroticEmbracePlagueBats", "MalGanisVampiricTouchFrenziedAssault", "MalGanisFelClawsBlindAsABat"}, {"MalGanisCarrionSwarmSeekerSwarm", "MalGanisDarkConversionWrathOfNathreza", "MalGanisFelClawsVanquishTheWeak", "MalGanisNightRushAloneInTheDark"}},
 	},
 	{
 		Name:      "Malfurion",
@@ -1004,7 +1012,7 @@ var talentData = map[string]talentText{
 	},
 	"AmazonSurgeOfLight": {
 		Name: "Surge of Light",
-		Text: "After taking 500 damage with Avoidance active, Cassia can activate Avoidance to deal 225 damage to enemies around her.",
+		Text: "After taking 500 damage with Avoidance active, Cassia can activate Avoidance to deal 210 damage to enemies around her.",
 	},
 	"AmazonThundergodsVigor": {
 		Name: "Thundergod's Vigor",
@@ -1300,7 +1308,7 @@ var talentData = map[string]talentText{
 	},
 	"ArthasHeroicAbilitySummonSindragosa": {
 		Name: "Summon Sindragosa",
-		Text: "Deals 230 damage and slows enemies by 60% for 4 seconds.  Also disables non-Heroic enemies and Structures for 20 seconds.",
+		Text: "Deals 230 damage and Slows enemies by 60% for 4 seconds.  Also disables non-Heroic enemies and Structures for 20 seconds.",
 	},
 	"ArthasIceboundFortitude": {
 		Name: "Icebound Fortitude",
@@ -1312,7 +1320,7 @@ var talentData = map[string]talentText{
 	},
 	"ArthasMasteryAbsoluteZeroSummonSindragosa": {
 		Name: "Absolute Zero",
-		Text: "Sindragosa flies twice as far.  Enemy Heroes are rooted for 2 seconds, and then slowed by 60% for 3.5 seconds.",
+		Text: "Sindragosa flies twice as far.  Enemy Heroes are Rooted for 2 seconds, and then Slowed by 60% for 3.5 seconds.",
 	},
 	"ArthasMasteryBitingColdFrozenTempest": {
 		Name: "Biting Cold",
@@ -1320,7 +1328,7 @@ var talentData = map[string]talentText{
 	},
 	"ArthasMasteryEmbraceDeathDeathCoil": {
 		Name: "Embrace Death",
-		Text: "Death Coil deals more damage and heals more the lower Arthas's current health is, to a maximum of 100% bonus damage and healing.",
+		Text: "Death Coil deals more damage and heals more the lower Arthas's current Health is, to a maximum of 100% bonus damage and healing.",
 	},
 	"ArthasMasteryEternalHungerFrostmourneHungers": {
 		Name: "Eternal Hunger",
@@ -1328,11 +1336,11 @@ var talentData = map[string]talentText{
 	},
 	"ArthasMasteryFrostPresenceHowlingBlast": {
 		Name: "Frost Presence",
-		Text: "Quest: Root enemy Heroes with Howling Blast.\nReward: After rooting 5 Heroes, Howling Blast's cooldown is reduced by 2 seconds.\nReward: After rooting 10 Heroes, Howling Blast's range is increased by 30%.\nReward: After rooting 20 Heroes, Howling Blast also roots enemies in its path.",
+		Text: "Quest: Root enemy Heroes with Howling Blast.\nReward: After Rooting 5 Heroes, Howling Blast's cooldown is reduced by 2 seconds.\nReward: After Rooting 10 Heroes, Howling Blast's range is increased by 30%.\nReward: After Rooting 20 Heroes, Howling Blast also Roots enemies in its path.",
 	},
 	"ArthasMasteryFrostStrikeFrostmourneHungers": {
 		Name: "Frost Strike",
-		Text: "Reduces Frostmourne Hungers' cooldown by 2 seconds. Frostmourne Hungers also slows the enemy by 50% for 1.5 seconds.",
+		Text: "Reduces Frostmourne Hungers' cooldown by 2 seconds. Frostmourne Hungers also Slows the enemy by 50% for 1.5 seconds.",
 	},
 	"ArthasMasteryFrostmourneFeedsFrostmourneHungers": {
 		Name: "Frostmourne Feeds",
@@ -1340,7 +1348,7 @@ var talentData = map[string]talentText{
 	},
 	"ArthasMasteryFrozenWastesFrozenTempest": {
 		Name: "Frozen Wastes",
-		Text: "Frozen Tempest Mana cost reduced by 4 per second.\nQuest: Damage enemy Heroes with Frozen Tempest.\nReward: After damaging enemy Heroes 150 times with Frozen Tempest, the Movement and Attack Speed slows of Frozen Tempest last an extra 1.5 seconds against enemy Heroes.",
+		Text: "Frozen Tempest Mana cost reduced by 4 per second.\nQuest: Damage enemy Heroes with Frozen Tempest.\nReward: After damaging enemy Heroes 150 times with Frozen Tempest, the Movement and Attack Speed Slows of Frozen Tempest last an extra 1.5 seconds against enemy Heroes.",
 	},
 	"ArthasMasteryImmortalCoilDeathCoil": {
 		Name: "Immortal Coil",
@@ -1352,7 +1360,7 @@ var talentData = map[string]talentText{
 	},
 	"ArthasMasteryRemorselessWinterFrozenTempest": {
 		Name: "Remorseless Winter",
-		Text: "Enemy Heroes that remain within Frozen Tempest for 3 seconds are rooted for 1.25 seconds. This effect can only happen once every 10 seconds.",
+		Text: "Enemy Heroes that remain within Frozen Tempest for 3 seconds are Rooted for 1.25 seconds. This effect can only happen once every 10 seconds.",
 	},
 	"ArthasRime": {
 		Name: "Rime",
@@ -1508,11 +1516,11 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanHeroicAbilityDemonicInvasion": {
 		Name: "Demonic Invasion",
-		Text: "Rain a small army of Demonic Grunts down on enemies, dealing 65 damage per impact. Grunts deal 42 damage, have 750 health and last up to 10 seconds. When Grunts die they explode, dealing 98 damage to nearby enemies.",
+		Text: "Rain a small army of Demonic Grunts down on enemies, dealing 65 damage per impact. Grunts deal 42 damage, have 750 Health and last up to 10 seconds. When Grunts die they explode, dealing 98 damage to nearby enemies.",
 	},
 	"AzmodanMasterofDestruction": {
 		Name: "Master of Destruction",
-		Text: "All Shall Burn's final damage applies to all enemies in an area around the target and grants 2 Annihilation per Hero hit.",
+		Text: "All Shall Burn's final damage applies to all enemies in an area around the target and grants 3 Annihilation per Hero hit.",
 	},
 	"AzmodanPride": {
 		Name: "Pride",
@@ -1660,7 +1668,7 @@ var talentData = map[string]talentText{
 	},
 	"BrightwingCriticalMistCalmingMist": {
 		Name: "Critical Mist",
-		Text: "If Soothing Mist removes a disabling effect from an ally, heal them for 200.",
+		Text: "If Soothing Mist removes a disabling effect from an ally, heal them for 250.",
 	},
 	"BrightwingDoubleWyrmholeBlinkHeal": {
 		Name: "Double Wyrmhole",
@@ -2404,7 +2412,7 @@ var talentData = map[string]talentText{
 	},
 	"DehakaDragTalentParalyzingEnzymes": {
 		Name: "Paralyzing Enzymes",
-		Text: "Drag slows enemies by 50% for 2 seconds after it ends.",
+		Text: "Drag Slows enemies by 50% for 2 seconds after it ends.",
 	},
 	"DehakaEssenceClaws": {
 		Name: "Essence Claws",
@@ -2564,7 +2572,7 @@ var talentData = map[string]talentText{
 	},
 	"DiabloDiabolicalMomentum": {
 		Name: "Diabolical Momentum",
-		Text: "When Diablo's Basic Attacks damage enemies, reduce the cooldown of his Basic Abilities by 0.75 second.",
+		Text: "When Diablo's Basic Attacks damage enemies, reduce the cooldown of his Basic Abilities by 1 second.",
 	},
 	"DiabloFireStompSoulsToTheFlame": {
 		Name: "Souls to the Flame",
@@ -3708,7 +3716,7 @@ var talentData = map[string]talentText{
 	},
 	"GuldanLifeTapDarknessWithin": {
 		Name: "Darkness Within",
-		Text: "After using Life Tap, the next Ability Gul'dan casts has 25% increased Spell Power.",
+		Text: "After using Life Tap, the damage and healing of Gul'dan's next Ability is increased by 25%.",
 	},
 	"GuldanLifeTapHungerforPower": {
 		Name: "Hunger for Power",
@@ -4276,7 +4284,7 @@ var talentData = map[string]talentText{
 	},
 	"KerriganAssimilationVolatilePower": {
 		Name: "Volatile Power",
-		Text: "Increase the amount of Assimilation Shields granted from damage dealt by 15%, but reduce duration of Assimilation by 3 seconds.",
+		Text: "Increase the amount of Assimilation Shields granted from damage dealt by 10%, but reduce duration of Assimilation by 3 seconds.",
 	},
 	"KerriganBladedMomentum": {
 		Name: "Bladed Momentum",
@@ -4288,7 +4296,7 @@ var talentData = map[string]talentText{
 	},
 	"KerriganFuryOfTheSwarm": {
 		Name: "Fury of the Swarm",
-		Text: "Gain 10% more Assimilation Shields from Basic Attacks. After casting Ravage, Kerrigan's next 2 Basic Attacks within 3 seconds splash for 100% damage around the target.",
+		Text: "Gain 10% more Assimilation Shields from Basic Attacks. After casting Ravage, Kerrigan's next Basic Attack within 3 seconds splashes for 100% damage around the target.",
 	},
 	"KerriganHeroicAbilityMaelstrom": {
 		Name: "Maelstrom",
@@ -4300,15 +4308,15 @@ var talentData = map[string]talentText{
 	},
 	"KerriganImpalingBladesKineticFulmination": {
 		Name: "Kinetic Fulmination",
-		Text: "Damaging an enemy increases the damage of Kerrigan's next Impaling Blades within 10 seconds by 15%, up to 150%.",
+		Text: "Damaging an enemy increases the damage of Kerrigan's next Impaling Blades within 10 seconds by 10%, up to 100%.",
 	},
 	"KerriganImpalingBladesPainfulSpikes": {
 		Name: "Painful Spikes",
-		Text: "Enemies hit by Impaling Blades take an additional 75 damage the next 6 times Kerrigan damages them within 5 seconds.",
+		Text: "Enemies hit by Impaling Blades take an additional 70 damage the next 6 times Kerrigan damages them within 5 seconds.",
 	},
 	"KerriganOmegastormMaelstrom": {
 		Name: "Omegastorm",
-		Text: "Maelstrom's duration is increased by 0.125 seconds every time it damages a Hero.",
+		Text: "Maelstrom's duration is increased by 0.1875 seconds every time it damages a Hero.",
 	},
 	"KerriganPrimalGraspPsionicBarrier": {
 		Name: "Psionic Barrier",
@@ -4332,7 +4340,7 @@ var talentData = map[string]talentText{
 	},
 	"KerriganRavageQueenOfBlades": {
 		Name: "Queen of Blades",
-		Text: "Damaging a Hero with Primal Grasp reduces Ravage's cooldown by 4 seconds.",
+		Text: "Damaging a Hero with Primal Grasp reduces Ravage's cooldown by 6 seconds.",
 	},
 	"KerriganRavageSharpenedBlades": {
 		Name: "Sharpened Blades",
@@ -4484,7 +4492,7 @@ var talentData = map[string]talentText{
 	},
 	"LiLiHeroicAbilityJugof1000Cups": {
 		Name: "Jug of 1,000 Cups",
-		Text: "Channel for up to 6 seconds. Every 0.25 seconds, heal the lowest Health nearby allied Hero for 70 Health and increase the cooldown of Jug of 1,000 Cups by 2 seconds, up to 50.",
+		Text: "Channel for up to 6 seconds. Every 0.25 seconds, heal the lowest Health nearby allied Hero for 66 Health and increase the cooldown of Jug of 1,000 Cups by 2 seconds, up to 50.",
 	},
 	"LiLiHeroicAbilityWaterDragon": {
 		Name: "Water Dragon",
@@ -4818,6 +4826,94 @@ var talentData = map[string]talentText{
 		Name: "Warden's Cage",
 		Text: "Summon 8 Warden Avatars as a cage around Maiev. After 1.5 seconds, enemy Heroes that come in contact with an Avatar consume it and are knocked to the center of the cage. Warden Avatars last 5 seconds.",
 	},
+	"MalGanisCarrionSwarm": {
+		Name: "Carrion Swarm",
+		Text: "After 1 second, disperse into an Invulnerable swarm of bats for 3 seconds, dealing 132 damage per second to enemies.\nVampiric Touch heals for 100% of Carrion Swarm's damage to Heroes.",
+	},
+	"MalGanisCarrionSwarmSeekerSwarm": {
+		Name: "Seeker Swarm",
+		Text: "Upon expiring, Carrion Swarm's bats seek nearby enemy Heroes, dealing 132 damage and Sleeping them for 2.5 seconds.",
+	},
+	"MalGanisDarkConversion": {
+		Name: "Dark Conversion",
+		Text: "Channel on an enemy Hero for 0.75 seconds, then swap Health percentages with the target over 3 seconds.",
+	},
+	"MalGanisDarkConversionWrathOfNathreza": {
+		Name: "Wrath of Nathreza",
+		Text: "Enemy Heroes near the target suffer 75% of the transferred Health as damage over 3 seconds.\nDoes not benefit from Vampiric Touch.",
+	},
+	"MalGanisFelClawsBlackClaws": {
+		Name: "Black Claws",
+		Text: "After Mal'Ganis hits an enemy Hero with Fel Claws, his next Basic Attack deals 45% more damage.",
+	},
+	"MalGanisFelClawsBlindAsABat": {
+		Name: "Blind as a Bat",
+		Text: "Activate to erupt with blind rage, removing the cooldown and Mana cost of Fel Claws, but losing all vision. Lasts 6 seconds.",
+	},
+	"MalGanisFelClawsVanquishTheWeak": {
+		Name: "Vanquish the Weak",
+		Text: "Damage from Fel Claws and Basic Attacks Slows enemies by 15% for 1.5 seconds, and Vampiric Touch converts 10% more damage into healing versus Slowed Heroes.",
+	},
+	"MalGanisFelClawsWillOfTichondrius": {
+		Name: "Will of Tichondrius",
+		Text: "The third slash of Fel Claws steals 4% of maximum Health from enemy Heroes.",
+	},
+	"MalGanisNecroticEmbraceEchoOfDoom": {
+		Name: "Echo of Doom",
+		Text: "When Necrotic Embrace expires, it explodes again for 50 damage. If an enemy Hero is hit, Mal'Ganis retains 25 Armor for 1 more second.\nDoes not wake Sleeping targets.",
+	},
+	"MalGanisNecroticEmbraceFueledByTorment": {
+		Name: "Fueled by Torment",
+		Text: "While Necrotic Embrace is active, Mal'Ganis heals for 12 when damage is taken and Vampiric Touch converts 15% more Hero damage into healing.",
+	},
+	"MalGanisNecroticEmbraceMightOfSargeras": {
+		Name: "Might of Sargeras",
+		Text: "Necrotic Embrace's Armor is increased to 50, but the duration is reduced to 2 seconds.",
+	},
+	"MalGanisNecroticEmbracePlagueBats": {
+		Name: "Plague Bats",
+		Text: "Necrotic Embrace unleashes a wave of bats in front of Mal'Ganis, dealing 85 damage.",
+	},
+	"MalGanisNecroticEmbraceWingedGuard": {
+		Name: "Winged Guard",
+		Text: "Each time Necrotic Embrace hits an enemy Hero, gain 50 Physical Armor against the next enemy Hero Basic Attack.\nIf Winged Guard has no charges, Mal'Ganis will gain 1 charge after 6 seconds.",
+	},
+	"MalGanisNightRushAloneInTheDark": {
+		Name: "Alone in the Dark",
+		Text: "Enemy Heroes put to Sleep by Night Rush have their vision greatly reduced during the Sleep and for 2 seconds after.",
+	},
+	"MalGanisNightRushDeepSleep": {
+		Name: "Deep Sleep",
+		Text: "Increase Night Rush's Sleep duration by 0.75 seconds and its Movement Speed bonus by 10%.",
+	},
+	"MalGanisNightRushSpreadingPlague": {
+		Name: "Spreading Plague",
+		Text: "After Night Rush expires, deal 30 damage per second to nearby enemies for 4 seconds. Basic Attacks against Heroes refresh this.\nDoes not wake Sleeping targets.",
+	},
+	"MalGanisNightRushTheNightBeckons": {
+		Name: "The Night Beckons",
+		Text: "After Night Rush's Sleep ends, targets are Slowed by 30% for 2.5 seconds.",
+	},
+	"MalGanisNightmareFuel": {
+		Name: "Nightmare Fuel",
+		Text: "Basic Attacks deal 30% more damage while in a bush and for 4 seconds after leaving. They also deal 125% more damage to Sleeping targets.",
+	},
+	"MalGanisVampiricTouchBloodRush": {
+		Name: "Blood Rush",
+		Text: "When Mal'Ganis is healed by a Hero, he gains 1% Movement Speed for 8 seconds, up to 15%.",
+	},
+	"MalGanisVampiricTouchFrenziedAssault": {
+		Name: "Frenzied Assault",
+		Text: "Basic Attacks against Heroes with a higher Health percentage grant 40% Attack Speed and 10% increased Physical Damage for 3 seconds.",
+	},
+	"MalGanisVampiricTouchTimeToFeed": {
+		Name: "Time to Feed",
+		Text: "Mal'Ganis heals for 48 when damaging a nearby enemy Hero. This can occur once every 6 seconds against each enemy Hero.",
+	},
+	"MalGanisVampiricTouchVampiricAura": {
+		Name: "Vampiric Aura",
+		Text: "Mal'Ganis and nearby allied Heroes heal for 10% of Physical Damage dealt.",
+	},
 	"MalfurionCelestialAlignment": {
 		Name: "Celestial Alignment",
 		Text: "Increase Moonfire's reveal duration by 3 seconds. Malfurion's Basic Attacks against Heroes revealed by Moonfire deal 75% more damage.",
@@ -5024,7 +5120,7 @@ var talentData = map[string]talentText{
 	},
 	"MedicEMPGrenade": {
 		Name: "EMP Grenade",
-		Text: "Displacement Grenade deals an additional 80 damage over 2 seconds, and up to 400 bonus damage to Shields.",
+		Text: "Displacement Grenade deals an additional 96 damage over 2 seconds, and up to 400 bonus damage to Shields.",
 	},
 	"MedicExtendedCare": {
 		Name: "Extended Care",
@@ -5052,7 +5148,7 @@ var talentData = map[string]talentText{
 	},
 	"MedicPhysicalTherapy": {
 		Name: "Physical Therapy",
-		Text: "Safeguard removes all Slows from its target. When a Slow is removed this way, reduce the cooldown of Safeguard by 4 seconds.",
+		Text: "Safeguard removes all Slows from its target. When a Slow is removed this way, reduce the cooldown of Safeguard by 5 seconds.",
 	},
 	"MedicProlongedSafeguard": {
 		Name: "Prolonged Safeguard",
@@ -5084,7 +5180,7 @@ var talentData = map[string]talentText{
 	},
 	"MedicVanadiumPlating": {
 		Name: "Vanadium Plating",
-		Text: "While an ally affected by Safeguard is Stunned, Safeguard grants an additional 25 Armor and its duration is paused.",
+		Text: "While an ally affected by Safeguard is Rooted or Stunned, Safeguard grants an additional 25 Armor and its duration is paused.",
 	},
 	"MedivhArcaneBrilliance": {
 		Name: "Arcane Brilliance",
@@ -5120,7 +5216,7 @@ var talentData = map[string]talentText{
 	},
 	"MedivhForceOfWillEnduringWill": {
 		Name: "Enduring Will",
-		Text: "Preventing at least 268 damage with Force of Will reduces its cooldown to 3 seconds.",
+		Text: "Preventing at least 268 damage with Force of Will reduces its cooldown to 4 seconds.",
 	},
 	"MedivhForceOfWillReabsorption": {
 		Name: "Reabsorption",
@@ -5128,7 +5224,7 @@ var talentData = map[string]talentText{
 	},
 	"MedivhForceofMagic": {
 		Name: "Force of Magic",
-		Text: "Preventing at least 268 damage with a single cast of Force of Will grants 25%  Spell Power for 15 seconds. Stacks up to 2 times.",
+		Text: "Preventing at least 268 damage with a single cast of Force of Will grants 30%  Spell Power for 15 seconds. Stacks up to 2 times.",
 	},
 	"MedivhLeyLineSeal": {
 		Name: "Ley Line Seal",
@@ -5156,7 +5252,7 @@ var talentData = map[string]talentText{
 	},
 	"MedivhPortalMageArmor": {
 		Name: "Mage Armor",
-		Text: "The first time an ally uses a Portal, they gain 25 Armor for 4 seconds, reducing their damage taken by 25%.",
+		Text: "The first time an ally uses a Portal, they gain 30 Armor for 4 seconds, reducing their damage taken by 30%.",
 	},
 	"MedivhPortalPortalMastery": {
 		Name: "Portal Mastery",
@@ -5220,7 +5316,7 @@ var talentData = map[string]talentText{
 	},
 	"MephistoLightningNovaStaticBarrier": {
 		Name: "Static Barrier",
-		Text: "At the end of its duration, Lightning Nova grants Mephisto a Shield equal to 40% of the damage it dealt to Heroes. Lasts 7 seconds.",
+		Text: "At the end of its duration, Lightning Nova grants Mephisto a Shield equal to 40% of the damage it dealt to Heroes. Lasts 5 seconds.",
 	},
 	"MephistoLightningNovaStaticField": {
 		Name: "Static Field",
@@ -5244,7 +5340,7 @@ var talentData = map[string]talentText{
 	},
 	"MephistoShadeOfMephistoMaliciousIntent": {
 		Name: "Malicious Intent",
-		Text: "Shade of Mephisto grants 20% Spell Power while active and for 2.5 seconds after ending.",
+		Text: "Shade of Mephisto grants 15% Spell Power while active and for 2.5 seconds after ending.",
 	},
 	"MephistoShadeOfMephistoShadeLord": {
 		Name: "Shade Lord",
@@ -5264,7 +5360,7 @@ var talentData = map[string]talentText{
 	},
 	"MephistoSkullMissileHatefulMending": {
 		Name: "Hateful Mending",
-		Text: "Skull Missile heals Mephisto for 50% of the damage it deals to Heroes.",
+		Text: "Skull Missile heals Mephisto for 60% of the damage it deals to Heroes.",
 	},
 	"MephistoSkullMissileLightningReaction": {
 		Name: "Lightning Reaction",
@@ -5276,7 +5372,7 @@ var talentData = map[string]talentText{
 	},
 	"MephistoSpite": {
 		Name: "Spite",
-		Text: "Increase Regeneration Globe healing duration by 60%. Every tick of Regeneration Globe healing activates Lord of Hatred, reducing Basic Ability cooldowns by 0.5 seconds.",
+		Text: "Increase Regeneration Globe healing duration by 100%. Every tick of Regeneration Globe healing activates Lord of Hatred, reducing Basic Ability cooldowns by 0.5 seconds.",
 	},
 	"MonkAirAlly": {
 		Name: "Air Ally",
@@ -5352,7 +5448,7 @@ var talentData = map[string]talentText{
 	},
 	"MonkSpiritAlly": {
 		Name: "Spirit Ally",
-		Text: "Place a Spirit Ally that heals allies in a large area around it for 2% of their maximum Health every second. Has 150 Health and lasts 10 seconds. Kharazim can Radiant Dash to Spirit Allies.",
+		Text: "Place a Spirit Ally that heals allied Heroes in a large area around it for 2% of their maximum Health every second. Has 150 Health and lasts 10 seconds. Kharazim can Radiant Dash to Spirit Allies.",
 	},
 	"MonkTranscendence": {
 		Name: "Transcendence",
@@ -5996,7 +6092,7 @@ var talentData = map[string]talentText{
 	},
 	"RehgarHealingTotem": {
 		Name: "Healing Totem",
-		Text: "Activate to place a Totem that heals allies in an area for 2% of their maximum Health every second for 10 seconds.",
+		Text: "Activate to place a Totem that heals allied Heroes in an area for 2% of their maximum Health every second for 10 seconds.",
 	},
 	"RehgarHungerOfTheWolf": {
 		Name: "Hunger of the Wolf",
@@ -6004,7 +6100,7 @@ var talentData = map[string]talentText{
 	},
 	"RehgarLightningShieldEarthShield": {
 		Name: "Earth Shield",
-		Text: "Lightning Shield gives a Shield that absorbs damage equal to 12% of their maximum Health for 3 seconds.",
+		Text: "Lightning Shield gives Heroes a Shield that absorbs damage equal to 12% of their maximum Health for 3 seconds.",
 	},
 	"RehgarLightningShieldElectricCharge": {
 		Name: "Electric Charge",
@@ -6112,7 +6208,7 @@ var talentData = map[string]talentText{
 	},
 	"RexxarSpiritBondGrizzledFortitude": {
 		Name: "Grizzled Fortitude",
-		Text: "Every 7 seconds, Rexxar and Misha gain 75 Physical Armor against the next enemy Hero Basic Attack, reducing the damage taken by 75%.\nStores up to 2 charges. Both Rexxar and Misha have their own charges.",
+		Text: "Every 6 seconds, Rexxar and Misha gain 75 Physical Armor against the next enemy Hero Basic Attack, reducing the damage taken by 75%.\nStores up to 2 charges. Both Rexxar and Misha have their own charges.",
 	},
 	"RexxarSpiritBondPrimalIntimidation": {
 		Name: "Primal Intimidation",
@@ -6128,7 +6224,7 @@ var talentData = map[string]talentText{
 	},
 	"RexxarSpiritSwoopCripplingTalons": {
 		Name: "Crippling Talons",
-		Text: "Increases Spirit Swoop's slow amount to 50% and its duration to 3 seconds.",
+		Text: "Increases Spirit Swoop's slow amount to 50% and its duration to 3.5 seconds.",
 	},
 	"RexxarTakingFlightSpiritSwoop": {
 		Name: "Taking Flight",
@@ -6416,7 +6512,7 @@ var talentData = map[string]talentText{
 	},
 	"StukovItHungers": {
 		Name: "It Hungers",
-		Text: "Increase the range of Lurking Arm by 20%. If Lurking Arm damages enemy Heroes 15 times, its cooldown is reset and its Mana cost is refunded.",
+		Text: "Increase the range of Lurking Arm by 20%. If Lurking Arm damages enemy Heroes 12 times, its cooldown is reset and its Mana cost is refunded.",
 	},
 	"StukovLingeringSpines": {
 		Name: "Lingering Spines",
@@ -6788,7 +6884,7 @@ var talentData = map[string]talentText{
 	},
 	"TinkerMasteryEngineGunk": {
 		Name: "Engine Gunk",
-		Text: "Rock-It! Turret attacks slow enemies by 20% for 2 seconds.",
+		Text: "Rock-It! Turret attacks Slow enemies by 20% for 2 seconds.",
 	},
 	"TinkerMasteryExtraTNT": {
 		Name: "Extra TNT",
@@ -6956,7 +7052,7 @@ var talentData = map[string]talentText{
 	},
 	"TychusMasteryLeadRain": {
 		Name: "Lead Rain",
-		Text: "Overkill also slows enemy movement speed by 30%.",
+		Text: "Overkill also Slows enemy Movement Speed by 30%.",
 	},
 	"TychusMasteryOdinBigRedButton": {
 		Name: "Big Red Button",
@@ -7068,7 +7164,7 @@ var talentData = map[string]talentText{
 	},
 	"TyraelMasteryHolyGround": {
 		Name: "Holy Ground",
-		Text: "Create a ring for 4 seconds that blocks enemies from entering the area teleported to using El'druin's Might.",
+		Text: "Create a ring for 3 seconds that blocks enemies from entering the area teleported to using El'druin's Might.",
 	},
 	"TyraelMasteryJudgmentAngelofJustice": {
 		Name: "Angel of Justice",
@@ -7156,7 +7252,7 @@ var talentData = map[string]talentText{
 	},
 	"TyrandeKaldoreiResistance": {
 		Name: "Kaldorei Resistance",
-		Text: "Light of Elune grants the target 15 Spell Armor for 3 seconds. This effect stacks up to 2 times.",
+		Text: "Light of Elune grants the target 10 Spell Armor for 3 seconds. This effect stacks up to 2 times.",
 	},
 	"TyrandeLightOfEluneEverlastingLight": {
 		Name: "Everlasting Light",
@@ -7168,11 +7264,11 @@ var talentData = map[string]talentText{
 	},
 	"TyrandeMasteryLightofEluneQuickeningBlessing": {
 		Name: "Quickening Blessing",
-		Text: "Gain 10% Movement Speed. Light of Elune increases the target's Movement Speed by 15% for 3 seconds.",
+		Text: "Gain 5% Movement Speed. Light of Elune increases the target's Movement Speed by 15% for 3 seconds.",
 	},
 	"TyrandeMasteryLunarBlaze": {
 		Name: "Lunar Blaze",
-		Text: "Increase Lunar Flare's range by 40%.\nQuest: Hitting a Hero with Lunar Flare increases its damage by 5%, up to 100%.",
+		Text: "Increase Lunar Flare's range by 30%.\nQuest: Hitting a Hero with Lunar Flare increases its damage by 5%, up to 100%.",
 	},
 	"TyrandeMasteryLunarFlareShootingStar": {
 		Name: "Shooting Star",
@@ -7264,7 +7360,7 @@ var talentData = map[string]talentText{
 	},
 	"UtherMasteryBlessedChampion": {
 		Name: "Blessed Champion",
-		Text: "For the next 5 seconds after using Holy Light, Uther's Basic Attacks heal him and nearby allies for 15% of the total amount healed by Holy Light.",
+		Text: "For the next 5 seconds after using Holy Light, Uther's Basic Attacks heal him and nearby allied Heroes for 15% of the total amount healed by Holy Light.",
 	},
 	"UtherMasteryBulwarkOfLightDivineShield": {
 		Name: "Bulwark of Light",
@@ -7508,7 +7604,7 @@ var talentData = map[string]talentText{
 	},
 	"WhitemaneInquisitionClemency": {
 		Name: "Clemency",
-		Text: "Activate to cast Inquisition on an allied Hero, healing them for up to 371 over 3 seconds while Channeling.\nPassive: Reduce Inquisition's cooldown by 4 seconds.",
+		Text: "Activate to cast Inquisition on an allied Hero, healing them for up to 350 over 3 seconds while Channeling.\nPassive: Reduce Inquisition's cooldown by 4 seconds.",
 	},
 	"WhitemaneInquisitionHighInquisitor": {
 		Name: "High Inquisitor",
@@ -7720,7 +7816,7 @@ var talentData = map[string]talentText{
 	},
 	"WizardTalRashasElements": {
 		Name: "Tal Rasha's Elements",
-		Text: "Using Abilities grants 5% Spell Power, to a maximum of 20%.  This bonus is reset when the same Ability is used within a chain.",
+		Text: "Casting Abilities increases the damage of the next Ability by 5%, up to 20%.  This bonus is reset when the same Ability is used within a chain.",
 	},
 	"WizardTeleportCalamity": {
 		Name: "Calamity",
@@ -7748,7 +7844,7 @@ var talentData = map[string]talentText{
 	},
 	"YrelAvengingWrathAegisOfLight": {
 		Name: "Aegis of Light",
-		Text: "Upon landing, Avenging Wrath grants other nearby allied Heroes 35 Armor for 5 seconds.",
+		Text: "Upon landing, Avenging Wrath grants other nearby allied Heroes 25 Armor for 4 seconds.",
 	},
 	"YrelAvengingWrathHolyAvenger": {
 		Name: "Holy Avenger",
