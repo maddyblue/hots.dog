@@ -352,7 +352,7 @@ var heroData = []Hero{
 		Slug:      "lucio",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
-		Talents:   [7][]string{{"LucioCrossfadeSpeedBoostWeMoveTogether", "LucioAmpItUpMaximumTempoQuest", "LucioWallRideAccelerando", "LucioWallRideSlip"}, {"LucioSoundwaveSubwoofer", "LucioSoundwaveOffTheWall", "LucioSoundwaveChaseTheBassQuest"}, {"LucioCrossfadePartyMixQuest", "LucioAmpItUpSonicAmplifier", "LucioBoombox"}, {"LucioSoundBarrier", "LucioReverseAmp"}, {"LucioCrossfadeBeatMixing", "LucioWallRideCantStopWontStop", "LucioWallRideHardStyle", "LucioBackInTheMix"}, {"LucioAmpItUpRejuvenescencia", "LucioAmpItUpBringItTogether", "LucioAmpItUpUpTheFrequency"}, {"LucioSoundBarrierBossaNova", "LucioReverseAmpNonstopRemix", "LucioAmptItUpBonusTrack", "LucioAmpItUpSynaesthesiaAuditiva"}},
+		Talents:   [7][]string{{"LucioAmpItUpMaximumTempoQuest", "LucioWallRideAccelerando", "LucioWallRideSlip"}, {"LucioSoundwaveSubwoofer", "LucioSoundwaveOffTheWall", "LucioSoundwaveChaseTheBassQuest"}, {"LucioCrossfadePartyMixQuest", "LucioAmpItUpSonicAmplifier", "LucioBoombox"}, {"LucioSoundBarrier", "LucioReverseAmp"}, {"LucioCrossfadeBeatMixing", "LucioWallRideCantStopWontStop", "LucioWallRideHardStyle", "LucioBackInTheMix"}, {"LucioAmpItUpRejuvenescencia", "LucioAmpItUpBringItTogether", "LucioAmpItUpUpTheFrequency"}, {"LucioSoundBarrierBossaNova", "LucioReverseAmpNonstopRemix", "LucioAmptItUpBonusTrack", "LucioAmpItUpSynaesthesiaAuditiva"}},
 	},
 	{
 		Name:      "Maiev",
@@ -1224,7 +1224,7 @@ var talentData = map[string]talentText{
 	},
 	"ArtanisPhasePrismGravitonVortex": {
 		Name: "Graviton Vortex",
-		Text: "Reduce the Mana cost of Phase Prism from 70 to 35. Hitting an enemy Hero with Basic Attacks or Blade Dash reduces the cooldown of Phase Prism by 1.25 seconds.",
+		Text: "Reduce the Mana cost of Phase Prism from 60 to 30. Hitting an enemy Hero with Basic Attacks or Blade Dash reduces the cooldown of Phase Prism by 1.25 seconds.",
 	},
 	"ArtanisPhasePrismPsionicSynergy": {
 		Name: "Psionic Synergy",
@@ -2380,7 +2380,7 @@ var talentData = map[string]talentText{
 	},
 	"DehakaBrushstalkerApexPredator": {
 		Name: "Apex Predator",
-		Text: "Reduces Brushstalker's cooldown by 25 seconds and the cast time by 0.5 seconds.",
+		Text: "Reduces Brushstalker's cooldown by 35 seconds and the cast time by 0.5 seconds.",
 	},
 	"DehakaBrushstalkerFerociousStalker": {
 		Name: "Ferocious Stalker",
@@ -2664,7 +2664,7 @@ var talentData = map[string]talentText{
 	},
 	"DryadChokingPollen": {
 		Name: "Choking Pollen",
-		Text: "Noxious Blossom deals 75% more damage to enemies afflicted by Nature's Toxin, increased to 125% against enemies with 3 stacks.  ",
+		Text: "Noxious Blossom deals 85% more damage to enemies afflicted by Nature's Toxin, increased to 135% against enemies with 3 stacks.  ",
 	},
 	"DryadCruelSpores": {
 		Name: "Cruel Spores",
@@ -2900,7 +2900,7 @@ var talentData = map[string]talentText{
 	},
 	"FalstadMasteryFlightEpicMount": {
 		Name: "Epic Mount",
-		Text: "Reduce the cooldown of Flight to 30 seconds, reduce the cast time before flying to 0.5 seconds, and increase the speed by 50%.",
+		Text: "Reduce the cooldown of Flight by 40 seconds, reduce the cast time before flying to 0.5 seconds, and increase the speed by 50%.",
 	},
 	"FalstadMasteryHammerangPowerThrow": {
 		Name: "Power Throw",
@@ -4196,7 +4196,7 @@ var talentData = map[string]talentText{
 	},
 	"KelThuzadBarbedChains": {
 		Name: "Barbed Chains",
-		Text: "Increase Chains of Kel'Thuzad damage by 125%. After gaining 30 Blight, Chains of Kel'Thuzad reduces the Armor of pulled Heroes by 15 for 4 seconds.",
+		Text: "Increase Chains of Kel'Thuzad damage by 125%. After gaining 30 Blight, Chains of Kel'Thuzad reduces the Armor of pulled Heroes by 10 for 4 seconds.",
 	},
 	"KelThuzadBlightedFrost": {
 		Name: "Blighted Frost",
@@ -4220,7 +4220,7 @@ var talentData = map[string]talentText{
 	},
 	"KelThuzadFrozenTomb": {
 		Name: "Frost Blast",
-		Text: "Launch a meteor of ice at an enemy Hero. Upon impact, the meteor deals 115 damage to its target and 275 damage to enemies in the area. All enemies hit by Frost Blast are Rooted for 1.5 seconds.",
+		Text: "Launch a meteor of ice at an enemy Hero. Upon impact, the meteor deals 115 damage to its target and 275 damage to enemies in the area. All enemies hit by Frost Blast are Rooted for 1.75 seconds.",
 	},
 	"KelThuzadGlacialSpike": {
 		Name: "Glacial Spike",
@@ -4232,11 +4232,11 @@ var talentData = map[string]talentText{
 	},
 	"KelThuzadIceCold": {
 		Name: "Ice Cold",
-		Text: "Reduce the cooldown of Glacial Spike by 5 seconds and increase its damage by 250%. ",
+		Text: "Reduce the cooldown of Glacial Spike by 5 seconds and increase its damage by 300%. ",
 	},
 	"KelThuzadIcyGrasp": {
 		Name: "Icy Grasp",
-		Text: "Increase Frost Nova's Slow by 10%. Each time Kel'thuzad damages enemies Slowed by Frost Nova, its Slow duration is increased by 0.5 seconds.",
+		Text: "Increase Frost Nova's Slow by 15%. Each time Kel'thuzad damages enemies Slowed by Frost Nova, its Slow duration is increased by 0.5 seconds.",
 	},
 	"KelThuzadMasterOfTheColdDark": {
 		Name: "Master of the Cold Dark",
@@ -4500,7 +4500,7 @@ var talentData = map[string]talentText{
 	},
 	"LiLiHinderingWinds": {
 		Name: "Hindering Winds",
-		Text: "Blinding Wind Slows enemy Hero Movement Speed by 25% for 2 seconds.",
+		Text: "Blinding Wind Slows enemy Hero Movement Speed by 25% for 1.5 seconds.",
 	},
 	"LiLiLetsGo": {
 		Name: "Let's Go!",
@@ -4676,7 +4676,7 @@ var talentData = map[string]talentText{
 	},
 	"LucioAmpItUpUpTheFrequency": {
 		Name: "Up the Frequency",
-		Text: "Amp It Up's mana cost is reduced from 100 to 80 and dealing Basic Attack damage to enemy Heroes also reduces the cooldown of Amp It Up by 0.45 seconds.",
+		Text: "Amp It Up's mana cost is reduced from 90 to 70 and dealing Basic Attack damage to enemy Heroes also reduces the cooldown of Amp It Up by 0.45 seconds.",
 	},
 	"LucioAmptItUpBonusTrack": {
 		Name: "Bonus Track",
@@ -4700,7 +4700,7 @@ var talentData = map[string]talentText{
 	},
 	"LucioCrossfadeSpeedBoostWeMoveTogether": {
 		Name: "We Move Together",
-		Text: "Increase the base Movement Speed bonus of Crossfade's Speed Boost to 20%.",
+		Text: "Increase the base Movement Speed bonus of Crossfade's Speed Boost to 25%.",
 	},
 	"LucioReverseAmp": {
 		Name: "Reverse Amp",
@@ -4828,7 +4828,7 @@ var talentData = map[string]talentText{
 	},
 	"MalGanisCarrionSwarm": {
 		Name: "Carrion Swarm",
-		Text: "After 1 second, disperse into an Invulnerable swarm of bats for 3 seconds, dealing 132 damage per second to enemies.\nVampiric Touch heals for 100% of Carrion Swarm's damage to Heroes.",
+		Text: "After 1 second, disperse into an Invulnerable swarm of bats for 3 seconds, dealing 132 damage per second to enemies.\nVampiric Touch heals for 75% of Carrion Swarm's damage to Heroes.",
 	},
 	"MalGanisCarrionSwarmSeekerSwarm": {
 		Name: "Seeker Swarm",
@@ -4872,7 +4872,7 @@ var talentData = map[string]talentText{
 	},
 	"MalGanisNecroticEmbracePlagueBats": {
 		Name: "Plague Bats",
-		Text: "Necrotic Embrace unleashes a wave of bats in front of Mal'Ganis, dealing 85 damage.",
+		Text: "Necrotic Embrace unleashes a wave of bats in front of Mal'Ganis, dealing 81 damage.",
 	},
 	"MalGanisNecroticEmbraceWingedGuard": {
 		Name: "Winged Guard",
@@ -4896,7 +4896,7 @@ var talentData = map[string]talentText{
 	},
 	"MalGanisNightmareFuel": {
 		Name: "Nightmare Fuel",
-		Text: "Basic Attacks deal 30% more damage while in a bush and for 4 seconds after leaving. They also deal 125% more damage to Sleeping targets.",
+		Text: "Basic Attacks deal 30% more damage while in a bush and for 4 seconds after leaving. They also deal 150% more damage to Sleeping targets.",
 	},
 	"MalGanisVampiricTouchBloodRush": {
 		Name: "Blood Rush",
@@ -4904,7 +4904,7 @@ var talentData = map[string]talentText{
 	},
 	"MalGanisVampiricTouchFrenziedAssault": {
 		Name: "Frenzied Assault",
-		Text: "Basic Attacks against Heroes with a higher Health percentage grant 40% Attack Speed and 10% increased Physical Damage for 3 seconds.",
+		Text: "Basic Attacks against Heroes with a higher Health percentage grant 40% Attack Speed and 15% increased Physical Damage for 3 seconds.",
 	},
 	"MalGanisVampiricTouchTimeToFeed": {
 		Name: "Time to Feed",
@@ -7164,7 +7164,7 @@ var talentData = map[string]talentText{
 	},
 	"TyraelMasteryHolyGround": {
 		Name: "Holy Ground",
-		Text: "Create a ring for 3 seconds that blocks enemies from entering the area teleported to using El'druin's Might.",
+		Text: "Create a ring for 4 seconds that blocks enemies from entering the area teleported to using El'druin's Might.",
 	},
 	"TyraelMasteryJudgmentAngelofJustice": {
 		Name: "Angel of Justice",
@@ -7248,11 +7248,11 @@ var talentData = map[string]talentText{
 	},
 	"TyrandeIcebladeArrows": {
 		Name: "Iceblade Arrows",
-		Text: "Increase Attack Speed by 25%. Basic Attacks against enemy Heroes reduce their damage dealt by 8% for 2 seconds. This effect stacks up to 5 times.",
+		Text: "Increase Attack Speed by 20%. Basic Attacks against enemy Heroes reduce their damage dealt by 8% for 2 seconds. This effect stacks up to 5 times.",
 	},
 	"TyrandeKaldoreiResistance": {
 		Name: "Kaldorei Resistance",
-		Text: "Light of Elune grants the target 10 Spell Armor for 3 seconds. This effect stacks up to 2 times.",
+		Text: "Light of Elune grants the target 10 Spell Armor for 2 seconds. This effect stacks up to 2 times.",
 	},
 	"TyrandeLightOfEluneEverlastingLight": {
 		Name: "Everlasting Light",
@@ -7284,7 +7284,7 @@ var talentData = map[string]talentText{
 	},
 	"TyrandeRanger": {
 		Name: "Ranger",
-		Text: "Activate to make the next Sentinel pierce through all Heroes hit.\nPassive: Sentinel's width is increased by 25% and deals up to 150% more damage based on distance traveled.",
+		Text: "Activate to make the next Sentinel pierce through all Heroes hit.\nPassive: Sentinel's width is increased by 25% and deals up to 250% more damage based on distance traveled.",
 	},
 	"TyrandeRangersMark": {
 		Name: "Ranger's Mark",
@@ -7932,7 +7932,7 @@ var talentData = map[string]talentText{
 	},
 	"ZagaraHeroicAbilityNydusAssault": {
 		Name: "Nydus Network",
-		Text: "Summon a Nydus Worm on Creep anywhere that Zagara has vision. Zagara can enter a Nydus Worm and travel to any other Nydus Worm by right-clicking near it. While inside a Nydus Worm, Zagara regenerates 10% Health and Mana per second.\nStores up to 2 charges. Maximum of 10 Nydus Worms at a time.\nPassive: Creep spreads 15% farther. \nPassive: While on Creep, each Basic Attack reduces all of Zagara's cooldowns by 0.5 seconds.",
+		Text: "Summon a Nydus Worm on Creep anywhere that Zagara has vision. Zagara can enter a Nydus Worm and travel to any other Nydus Worm by right-clicking near it. While inside a Nydus Worm, Zagara regenerates 10% Health and Mana per second.\nStores up to 2 charges. Maximum of 4 Nydus Worms at a time.\nPassive: Creep spreads 15% farther. \nPassive: While on Creep, each Basic Attack reduces all of Zagara's cooldowns by 0.5 seconds.",
 	},
 	"ZagaraMasteryBanelingMassacre": {
 		Name: "Baneling Massacre",
