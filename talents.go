@@ -435,6 +435,14 @@ var heroData = []Hero{
 		Talents:   [7][]string{{"NovaMasteryLongshot", "NovaCovertOps", "NovaAdvancedCloaking"}, {"NovaRapidProjection", "NovaHoloStability", "NovaCovertMission"}, {"NovaMasteryPerfectShotSnipe", "NovaCombatStyleOneintheChamber", "NovaCombatStyleAntiArmorShells"}, {"NovaHeroicAbilityTripleTap", "NovaHeroicAbilityPrecisionStrike"}, {"NovaMasteryPsionicEfficiency", "NovaMasteryDoubleTap", "NovaIonicForceField"}, {"NovaMasteryExplosiveShot", "NovaMasteryCripplingShot", "NovaMasteryLethalDecoy"}, {"NovaMasteryFastReload", "NovaMasteryPrecisionBarrage", "NovaApolloSuit", "GenericTalentRewind"}},
 	},
 	{
+		Name:      "Orphea",
+		ID:        "Orphea",
+		Slug:      "orphea",
+		Role:      "Damage",
+		MultiRole: []string{"Damage"},
+		Talents:   [7][]string{{"OrpheaEnPointe", "OrpheaGrowingNightmare", "OrpheaAncestralStrength"}, {"OrpheaAllegrissimo", "OrpheaBackbiter", "OrpheaFright"}, {"OrpheaInsatiable", "OrpheaRavenousHunger", "OrpheaMindDevourer"}, {"OrpheaEternalFeast", "OrpheaCrushingJaws"}, {"OrpheaDetermination", "OrpheaAbyssalSymbiosis", "OrpheaInvasiveMiasma"}, {"OrpheaBondOfAnguish", "OrpheaDeadMagic", "OrpheaLurkingTerror"}, {"OrpheaMonsterWithin", "OrpheaEngulfingOblivion", "OrpheaEldritchConduit", "OrpheaFinalToccata"}},
+	},
+	{
 		Name:      "Probius",
 		ID:        "Probius",
 		Slug:      "probius",
@@ -3700,7 +3708,7 @@ var talentData = map[string]talentText{
 	},
 	"GuldanFelFlameRampantHellfire": {
 		Name: "Rampant Hellfire",
-		Text: "Fel Flame's damage is increased by 8% for 5 seconds when hitting an enemy Hero. This can stack up to 5 times.",
+		Text: "Fel Flame's damage is increased by 10% for 5 seconds when hitting an enemy Hero. This can stack up to 5 times.",
 	},
 	"GuldanHealthstone": {
 		Name: "Healthstone",
@@ -3744,7 +3752,7 @@ var talentData = map[string]talentText{
 	},
 	"HanzoDragonstrike": {
 		Name: "Dragonstrike",
-		Text: "After 1.5 seconds, summon a pair of Spirit Dragons which travel forward, dealing 70 damage every 0.25 seconds to enemy Heroes in its area.  Enemies in the center take 150% damage.",
+		Text: "After 1.5 seconds, summon a pair of Spirit Dragons which travel forward, dealing 70 damage every 0.25 seconds to enemy Heroes in its area.  Enemies in the center take 50% increased damage.",
 	},
 	"HanzoExplosiveArrows": {
 		Name: "Explosive Arrows",
@@ -4120,7 +4128,7 @@ var talentData = map[string]talentText{
 	},
 	"KaelthasHeroicAbilityPhoenix": {
 		Name: "Phoenix",
-		Text: "Launch a Phoenix to an area, dealing 78 damage to enemies along the way. The Phoenix persists for 7 seconds, attacking enemies for 78 damage and splashing for 50%.",
+		Text: "Launch a Phoenix to an area, dealing 78 damage to enemies along the way. The Phoenix persists for 7 seconds, attacking enemies for 78 damage and splashing for 39 damage.",
 	},
 	"KaelthasHeroicAbilityPyroblast": {
 		Name: "Pyroblast",
@@ -4520,7 +4528,7 @@ var talentData = map[string]talentText{
 	},
 	"LiLiMasteryCloudSerpentLightningSerpent": {
 		Name: "Lightning Serpent",
-		Text: "Cloud Serpent attacks bounce to hit 2 additional Heroes for 50% damage and healing.",
+		Text: "Cloud Serpent attacks bounce to hit 2 additional Heroes for 13 damage and 10 healing.",
 	},
 	"LiLiMasteryCloudSerpentSerpentSidekick": {
 		Name: "Serpent Sidekick",
@@ -5180,7 +5188,7 @@ var talentData = map[string]talentText{
 	},
 	"MedicVanadiumPlating": {
 		Name: "Vanadium Plating",
-		Text: "While an ally affected by Safeguard is Rooted or Stunned, Safeguard grants an additional 25 Armor and its duration is paused.",
+		Text: "While an ally affected by Safeguard is Stunned or Rooted, Safeguard grants an additional 25 Armor and its duration is paused.",
 	},
 	"MedivhArcaneBrilliance": {
 		Name: "Arcane Brilliance",
@@ -5224,7 +5232,7 @@ var talentData = map[string]talentText{
 	},
 	"MedivhForceofMagic": {
 		Name: "Force of Magic",
-		Text: "Preventing at least 268 damage with a single cast of Force of Will grants 30%  Spell Power for 15 seconds. Stacks up to 2 times.",
+		Text: "Preventing at least 268 damage with a single cast of Force of Will grants 30% Spell Power for 15 seconds. Stacks up to 2 times.",
 	},
 	"MedivhLeyLineSeal": {
 		Name: "Ley Line Seal",
@@ -5785,6 +5793,98 @@ var talentData = map[string]talentText{
 	"NovaSnipeMaster": {
 		Name: "Snipe Master",
 		Text: "Hitting an enemy Hero with Snipe permanently increases the damage of Snipe by 15%. Stacks up to 5 times. All stacks are lost if Snipe fails to hit an enemy.",
+	},
+	"OrpheaAbyssalSymbiosis": {
+		Name: "Abyssal Symbiosis",
+		Text: "Hitting a Hero with Chomp instantly grants Orphea maximum Chaos.",
+	},
+	"OrpheaAllegrissimo": {
+		Name: "Allegrissimo",
+		Text: "Hitting Heroes with the end of Shadow Waltz sets its cooldown to 1 second.",
+	},
+	"OrpheaAncestralStrength": {
+		Name: "Ancestral Strength",
+		Text: "Non-Heroic Abilities deal 25% more damage to Stunned, Rooted, Silenced or Slowed enemies and grant 1 additional Chaos when hitting Heroes.",
+	},
+	"OrpheaBackbiter": {
+		Name: "Backbiter",
+		Text: "If Chomp hits a Hero, Orphea immediately dashes a short distance backwards.",
+	},
+	"OrpheaBlackWaltz": {
+		Name: "Black Waltz",
+		Text: "[PH] Attacking a Hero with 3 Chaos increases the damage of the next Shadow Waltz by 100%.",
+	},
+	"OrpheaBondOfAnguish": {
+		Name: "Bond of Anguish",
+		Text: "Shadow Waltz deals bonus damage to Heroes equal to 3% of their maximum Health, healing Orphea for 50% of damage dealt.",
+	},
+	"OrpheaConstriction": {
+		Name: "Constriction",
+		Text: "[PH] Dread's slow amount is increased by 15% and the duration is increased by 1 second.",
+	},
+	"OrpheaCrushingJaws": {
+		Name: "Crushing Jaws",
+		Text: "After 1.25 seconds, pulls enemies in an area towards the center, dealing 275 damage and Stunning them for 0.75 seconds.",
+	},
+	"OrpheaDeadMagic": {
+		Name: "Dead Magic",
+		Text: "Basic Attacks that consume Chaos ignore Armor and deal 115 Spell Damage to all enemies around the target.",
+	},
+	"OrpheaDetermination": {
+		Name: "Determination",
+		Text: "After dashing with Shadow Waltz, Orphea gains 50 Spell Armor, stacking up to 2 times. While Orphea has Determination, her Physical damage is increased by 15%.",
+	},
+	"OrpheaEldritchConduit": {
+		Name: "Eldritch Conduit",
+		Text: "Each Chaos consumed increases Orphea's Spell Power by 3%, up to 30%. After reaching the maximum bonus, the Spell Power is further increased by an additional 30%. Lasts 10 seconds.",
+	},
+	"OrpheaEnPointe": {
+		Name: "En Pointe",
+		Text: "Shadow Waltz deals an increased 50% damage to enemies hit by its end.",
+	},
+	"OrpheaEngulfingOblivion": {
+		Name: "Engulfing Oblivion",
+		Text: "Crushing Jaws reduces the Armor of Heroes hit by 25 for 2 seconds. Takedowns set its cooldown to 5 seconds.",
+	},
+	"OrpheaEternalFeast": {
+		Name: "Eternal Feast",
+		Text: "After 1.5 seconds, deal 210 damage in an area. Eternal Feast repeats every 1 second as long as it hits an enemy Hero.",
+	},
+	"OrpheaFinalToccata": {
+		Name: "Final Toccata",
+		Text: "Activate to instantly reset the cooldown of Shadow Waltz. For the next 6 seconds, dashing with Shadow Waltz resets its cooldown.",
+	},
+	"OrpheaFright": {
+		Name: "Fright",
+		Text: "Dread's Slow also applies to enemies in Dread's path, and stacks up to 50%.",
+	},
+	"OrpheaGrowingNightmare": {
+		Name: "Growing Nightmare",
+		Text: "Each Hero hit by the wave of Dread increases the damage of its eruption by 25%.",
+	},
+	"OrpheaInsatiable": {
+		Name: "Insatiable",
+		Text: "Hitting a Hero with Chomp sets its cooldown to 2 seconds.",
+	},
+	"OrpheaInvasiveMiasma": {
+		Name: "Invasive Miasma",
+		Text: "Activate to deal 150 damage to all nearby enemies after 2 seconds. For each Hero hit, heal for 182 and gain 1 Chaos.",
+	},
+	"OrpheaLurkingTerror": {
+		Name: "Lurking Terror",
+		Text: "After Dread erupts and for 2 seconds after, activate to cast Chomp from the eruption area.\nDoes not share a cooldown with Chomp.",
+	},
+	"OrpheaMindDevourer": {
+		Name: "Mind Devourer",
+		Text: "Quest: Hitting Heroes with Dread increases its damage by 5, up to 200.\nReward: After hitting 40 Heroes, hitting an enemy Hero with Dread's eruption sets its cooldown to 6 seconds and refunds 50 Mana.",
+	},
+	"OrpheaMonsterWithin": {
+		Name: "Monster Within",
+		Text: "Eternal Feast grants 1 Chaos each time it hits a Hero. While Eternal Feast is active, Orphea's Attack Speed is increased by 50%.",
+	},
+	"OrpheaRavenousHunger": {
+		Name: "Ravenous Hunger",
+		Text: "Quest: Minions that die within 1.5 seconds of being hit by Chomp permanently increase its damage by 2 and heal Orphea for 60. \nHeroes that die increase its damage by 40 and heal Orphea for 25% of her maximum Health.",
 	},
 	"ProbiusAggressiveMatrixWarpInPylon": {
 		Name: "Aggressive Matrix",
@@ -7164,7 +7264,7 @@ var talentData = map[string]talentText{
 	},
 	"TyraelMasteryHolyGround": {
 		Name: "Holy Ground",
-		Text: "Create a ring for 4 seconds that blocks enemies from entering the area teleported to using El'druin's Might.",
+		Text: "Create a ring for 3 seconds that blocks enemies from entering the area teleported to using El'druin's Might.",
 	},
 	"TyraelMasteryJudgmentAngelofJustice": {
 		Name: "Angel of Justice",
@@ -7220,7 +7320,7 @@ var talentData = map[string]talentText{
 	},
 	"TyrandeElunesChosen": {
 		Name: "Elune's Chosen",
-		Text: "Activate to make Tyrande's Basic Attacks heal the target ally for 200% of the damage dealt. Lasts for 8 seconds.",
+		Text: "Activate to make Tyrande's Basic Attacks heal target allied Hero for 200% of the damage dealt. Lasts for 8 seconds.",
 	},
 	"TyrandeEmpower": {
 		Name: "Empower",
@@ -7736,7 +7836,7 @@ var talentData = map[string]talentText{
 	},
 	"WitchDoctorVileInfection": {
 		Name: "Vile Infection",
-		Text: "Quest: Reach 175 stacks of Voodoo Ritual.\nReward: After reaching 175 stacks of Voodoo Ritual, it can also be applied to Heroes and its damage is increased by 150%.",
+		Text: "Quest: Reach 175 stacks of Voodoo Ritual.\nReward: After reaching 175 stacks of Voodoo Ritual, it can also be applied to Heroes and its damage is increased from 67 to 167 over 6 seconds.",
 	},
 	"WitchDoctorWidowmakers": {
 		Name: "Widowmakers",
@@ -7748,7 +7848,7 @@ var talentData = map[string]talentText{
 	},
 	"WizardArcaneOrbArcaneOrbit": {
 		Name: "Arcane Orbit",
-		Text: "Arcane Orb travels 25% farther, doing up to 25% more damage. ",
+		Text: "Arcane Orb travels 25% farther, increasing it's maximum distance damage bonus from 270 to 371.",
 	},
 	"WizardArcaneOrbTriumvirate": {
 		Name: "Triumvirate",
