@@ -592,7 +592,7 @@ var heroData = []Hero{
 		Slug:      "tyrande",
 		Role:      "Support",
 		MultiRole: []string{"Support"},
-		Talents:   [7][]string{{"TyrandeMoonlitArrows", "TyrandeCelestialAttunement", "TyrandeKaldoreiResistance"}, {"TyrandeRanger", "TyrandeMasteryLunarBlaze", "TyrandeTrueshotAura"}, {"TyrandeLightOfEluneEverlastingLight", "TyrandeMarkofMending", "TyrandeElunesChosen"}, {"TyrandeHeroicAbilityShadowstalk", "TyrandeHeroicAbilityStarfall"}, {"TyrandeMasteryLightofEluneQuickeningBlessing", "TyrandeHarshMoonlight", "TyrandeRangersMark"}, {"TyrandeEmpower", "TyrandeHuntressFury", "TyrandeDarnassianArchery"}, {"TyrandeEyesOfTheHuntress", "TyrandeMasteryStarfallCelestialWrath", "TyrandeShootingStar", "TyrandeIcebladeArrows"}},
+		Talents:   [7][]string{{"TyrandeLightOfEluneEverlastingLight", "TyrandeMarkofMending", "TyrandeElunesChosen"}, {"TyrandeRanger", "TyrandeMasteryLunarBlaze", "TyrandeTrueshotAura"}, {"TyrandeMoonlitArrows", "TyrandeCelestialAttunement", "TyrandeKaldoreiResistance"}, {"TyrandeHeroicAbilityShadowstalk", "TyrandeHeroicAbilityStarfall"}, {"TyrandeMasteryLightofEluneQuickeningBlessing", "TyrandeHarshMoonlight", "TyrandeRangersMark"}, {"TyrandeEmpower", "TyrandeHuntressFury", "TyrandeDarnassianArchery"}, {"TyrandeEyesOfTheHuntress", "TyrandeMasteryStarfallCelestialWrath", "TyrandeShootingStar", "TyrandeIcebladeArrows"}},
 	},
 	{
 		Name:      "Uther",
@@ -756,7 +756,7 @@ var talentData = map[string]talentText{
 	},
 	"AbathurMasteryRegenerativeMicrobes": {
 		Name: "Regenerative Microbes",
-		Text: "Symbiote's Carapace heals the target for 68 Health per second over 4 seconds.",
+		Text: "Symbiote's Carapace heals the target for 62 Health per second over 4 seconds.",
 	},
 	"AbathurMasterySpatialEfficiency": {
 		Name: "Spatial Efficiency",
@@ -852,7 +852,7 @@ var talentData = map[string]talentText{
 	},
 	"AlarakMockingStrikes": {
 		Name: "Mocking Strikes",
-		Text: "Basic Attacks against Stunned, Silenced, Slowed, or Rooted Heroes reduce the cooldown of Alarak's Basic Abilities by 2.5 seconds.",
+		Text: "Basic Attacks against Stunned, Silenced, Slowed, or Rooted Heroes reduce the cooldown of Alarak's Basic Abilities by 3 seconds.",
 	},
 	"AlarakNegativelyCharged": {
 		Name: "Negatively Charged",
@@ -868,11 +868,11 @@ var talentData = map[string]talentText{
 	},
 	"AlarakRuthlessMomentum": {
 		Name: "Ruthless Momentum",
-		Text: "Basic Abilities recharge 20% faster while above 80% Health.",
+		Text: "Basic Abilities recharge 20% faster while above 75% Health.",
 	},
 	"AlarakShowofForce": {
 		Name: "Show of Force",
-		Text: "Heroes hit with 3 of Alarak's Abilities within 2 seconds take an additional 77 damage.",
+		Text: "Heroes hit with 3 of Alarak's Abilities within 2 seconds take an additional 80 damage.",
 	},
 	"AlarakSustainingPower": {
 		Name: "Sustaining Power",
@@ -1492,7 +1492,7 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanBombardment": {
 		Name: "Bombardment",
-		Text: "After casting Globe of Annihilation, Azmodan's Basic Attacks within the next 3 seconds have an additional 2 range and can hit 2 additional targets. Hitting Heroes with Basic Attacks empowered by Bombardment grant 1 Annihilation.",
+		Text: "After casting Globe of Annihilation, Azmodan's Basic Attacks within the next 3 seconds have an additional 1.5 range and can hit 2 additional targets. Hitting Heroes with Basic Attacks empowered by Bombardment grant 1 Annihilation.",
 	},
 	"AzmodanBrutishVanguard": {
 		Name: "Brutish Vanguard",
@@ -1532,7 +1532,7 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanPride": {
 		Name: "Pride",
-		Text: "After gaining 400 Annihilation, the area of Globe of Annihilation is increased by 15% and it deals 125 additional damage.",
+		Text: "After gaining 400 Annihilation, the area of Globe of Annihilation is increased by 15% and it deals 100 additional damage.",
 	},
 	"AzmodanSiegebreaker": {
 		Name: "Siegebreaker",
@@ -3060,7 +3060,7 @@ var talentData = map[string]talentText{
 	},
 	"FirebatFlameStreamFeedingtheFlame": {
 		Name: "Feeding the Flame",
-		Text: "Each enemy Hero hit by Flame Stream reduces the cooldown of Oil Spill by 2.5 seconds.",
+		Text: "Each enemy Hero hit by Flame Stream reduces the cooldown of Oil Spill by 2 seconds and refunds 5 Mana.",
 	},
 	"FirebatFlameStreamSuppressiveFire": {
 		Name: "Suppressive Fire",
@@ -3080,7 +3080,7 @@ var talentData = map[string]talentText{
 	},
 	"FirebatIgniteMeltdown": {
 		Name: "Meltdown",
-		Text: "Hitting an enemy Hero with Pyromania reduces their damage dealt by 5% for 2.5 seconds, up to 30%.",
+		Text: "Hitting an enemy Hero with Pyromania reduces their damage dealt by 7% for 2.5 seconds, up to 35%.",
 	},
 	"FirebatJetPropulsionFuelLeak": {
 		Name: "Fuel Leak",
@@ -3112,7 +3112,7 @@ var talentData = map[string]talentText{
 	},
 	"FirebatOilSpillOilDispersal": {
 		Name: "Oil Dispersal",
-		Text: "Increase Oil Spill's area by 20% and Slow amount by 10%.",
+		Text: "Increase Oil Spill's area by 20%.",
 	},
 	"FirebatWeaponBurnNotice": {
 		Name: "Burn Notice",
@@ -3760,7 +3760,7 @@ var talentData = map[string]talentText{
 	},
 	"HanzoFlawlessTechnique": {
 		Name: "Flawless Technique",
-		Text: "Hitting Heroes with Storm Bow increases the damage of Hanzo's next Basic Attack within 5 seconds by 25%. Basic Attacks against Heroes increase the damage of Hanzo's next Storm Bow within 5 seconds by 25%.",
+		Text: "Hitting Heroes with Storm Bow increases the damage of Hanzo's next Basic Attack within 5 seconds by 30%. Basic Attacks against Heroes increase the damage of Hanzo's next Storm Bow within 5 seconds by 30%.",
 	},
 	"HanzoFleetofFoot": {
 		Name: "Fleet of Foot",
@@ -3768,7 +3768,7 @@ var talentData = map[string]talentText{
 	},
 	"HanzoGiantSlayer": {
 		Name: "Giant Slayer",
-		Text: "Enemy Heroes hit by Scatter Arrow and Basic Attacks take a bonus 1.5% of their maximum Health as damage.",
+		Text: "Enemy Heroes hit by Scatter Arrow and Basic Attacks take a bonus 2% of their maximum Health as damage.",
 	},
 	"HanzoIgnoreAllDistractions": {
 		Name: "Ignore All Distractions",
@@ -3780,7 +3780,7 @@ var talentData = map[string]talentText{
 	},
 	"HanzoNeverOutmatched": {
 		Name: "Never Outmatched",
-		Text: "Reduce Scatter Arrow's Mana cost from 40 to 20. Basic Attacks lower the cooldown of Scatter Arrow by 2.5 seconds.",
+		Text: "Reduce Scatter Arrow's Mana cost from 40 to 20. Basic Attacks against Heroes lower the cooldown of Scatter Arrow by 3 seconds.",
 	},
 	"HanzoNinjaAssassin": {
 		Name: "Ninja Assassin",
@@ -4288,7 +4288,7 @@ var talentData = map[string]talentText{
 	},
 	"KerriganAssimilationMastery": {
 		Name: "Assimilation Mastery",
-		Text: "Regeneration Globe healing grants 40 points of Assimilation Shields per second while active. While Assimilation is active, Kerrigan's Health and Mana regeneration is increased by 100%.",
+		Text: "Regeneration Globe healing grants 40 points of Assimilation Shields per second while active. While Assimilation is active, Kerrigan's Health and Mana regeneration is increased by 150%.",
 	},
 	"KerriganAssimilationVolatilePower": {
 		Name: "Volatile Power",
@@ -4300,7 +4300,7 @@ var talentData = map[string]talentText{
 	},
 	"KerriganChrysalis": {
 		Name: "Chrysalis",
-		Text: "Activate to place Kerrigan in a Chrysalis with 550 Health for 5 seconds. While inside, Kerrigan regenerates 5% of her maximum Health per second.\nEnemies can destroy the Chrysalis to end its effects early.",
+		Text: "Activate to place Kerrigan in a Chrysalis with 750 Health for 5 seconds. While inside, Kerrigan regenerates 5% of her maximum Health per second.\nEnemies can destroy the Chrysalis to end its effects early.",
 	},
 	"KerriganFuryOfTheSwarm": {
 		Name: "Fury of the Swarm",
@@ -4324,7 +4324,7 @@ var talentData = map[string]talentText{
 	},
 	"KerriganOmegastormMaelstrom": {
 		Name: "Omegastorm",
-		Text: "Maelstrom's duration is increased by 0.1875 seconds every time it damages a Hero.",
+		Text: "Maelstrom's duration is increased by 0.25 seconds every time it damages a Hero.",
 	},
 	"KerriganPrimalGraspPsionicBarrier": {
 		Name: "Psionic Barrier",
@@ -4344,7 +4344,7 @@ var talentData = map[string]talentText{
 	},
 	"KerriganRavageMountingPotency": {
 		Name: "Mounting Potency",
-		Text: "Ravage grants 5% Spell Power for 4 seconds, up to 40%.",
+		Text: "Ravage grants 5% Spell Power for 5 seconds, up to 40%.",
 	},
 	"KerriganRavageQueenOfBlades": {
 		Name: "Queen of Blades",
@@ -4352,7 +4352,7 @@ var talentData = map[string]talentText{
 	},
 	"KerriganRavageSharpenedBlades": {
 		Name: "Sharpened Blades",
-		Text: "Quest: Minions and Heroes that die within 1.5 seconds of being hit by Ravage increase its damage up to a maximum of 50.\nMinions grant 0.5 increased damage and Heroes grant 5 increased damage.\nReward: After reaching a 50 damage increase, Ravage gains 50 additional damage.",
+		Text: "Quest: Minions and Heroes that die within 1.5 seconds of being hit by Ravage increase its damage up to a maximum of 75.\nMinions grant 1 increased damage and Heroes grant 5 increased damage.\nReward: After reaching a 75 damage increase, Ravage gains 50 additional damage.",
 	},
 	"KerriganRavageSiphoningImpact": {
 		Name: "Siphoning Impact",
@@ -4364,7 +4364,7 @@ var talentData = map[string]talentText{
 	},
 	"KerriganUnbridledEnergy": {
 		Name: "Unbridled Energy",
-		Text: "Damaging a Hero with a Heroic Ability grants 30% Spell Power for 4 seconds.",
+		Text: "Damaging a Hero with a Heroic Ability grants 35% Spell Power for 4 seconds.",
 	},
 	"L90ETCMasteryDeathMetal": {
 		Name: "Death Metal",
@@ -4836,7 +4836,7 @@ var talentData = map[string]talentText{
 	},
 	"MalGanisCarrionSwarm": {
 		Name: "Carrion Swarm",
-		Text: "After 1 second, disperse into an Invulnerable swarm of bats for 3 seconds, dealing 132 damage per second to enemies.\nVampiric Touch heals for 75% of Carrion Swarm's damage to Heroes.",
+		Text: "After 1 second, disperse into an Invulnerable swarm of bats for 3 seconds, dealing 126 damage per second to enemies.\nVampiric Touch heals for 75% of Carrion Swarm's damage to Heroes.",
 	},
 	"MalGanisCarrionSwarmSeekerSwarm": {
 		Name: "Seeker Swarm",
@@ -4864,7 +4864,7 @@ var talentData = map[string]talentText{
 	},
 	"MalGanisFelClawsWillOfTichondrius": {
 		Name: "Will of Tichondrius",
-		Text: "The third slash of Fel Claws steals 4% of maximum Health from enemy Heroes.",
+		Text: "The third slash of Fel Claws steals 3% of maximum Health from enemy Heroes.",
 	},
 	"MalGanisNecroticEmbraceEchoOfDoom": {
 		Name: "Echo of Doom",
@@ -5772,7 +5772,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaMasteryPerfectShotSnipe": {
 		Name: "Perfect Shot",
-		Text: "Hitting an enemy Hero with Snipe reduces the cooldown by 4 seconds and grants an additional stack of Snipe.",
+		Text: "Hitting an enemy Hero with Snipe reduces its cooldown by 4 seconds and refunds its Mana cost.",
 	},
 	"NovaMasteryPrecisionBarrage": {
 		Name: "Precision Barrage",
@@ -5780,7 +5780,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaMasteryPsionicEfficiency": {
 		Name: "Psionic Efficiency",
-		Text: "Snipe's range is increased by 15%, and hitting a Hero with Snipe refunds its Mana cost.",
+		Text: "Snipe's range is increased by 15% and hitting a Hero grants an additional stack of Precision Sniper.",
 	},
 	"NovaNewRemoteDelivery": {
 		Name: "Remote Delivery",
@@ -5840,7 +5840,7 @@ var talentData = map[string]talentText{
 	},
 	"OrpheaEnPointe": {
 		Name: "En Pointe",
-		Text: "Shadow Waltz deals an increased 50% damage to enemies hit by its end.",
+		Text: "Shadow Waltz deals an increased 75% damage to enemies hit by its end.",
 	},
 	"OrpheaEngulfingOblivion": {
 		Name: "Engulfing Oblivion",
@@ -5872,7 +5872,7 @@ var talentData = map[string]talentText{
 	},
 	"OrpheaLurkingTerror": {
 		Name: "Lurking Terror",
-		Text: "After Dread erupts and for 2 seconds after, activate to cast Chomp from the eruption area.\nDoes not share a cooldown with Chomp.",
+		Text: "After Dread erupts and for 2 seconds after, activate to cast Chomp from the eruption area.",
 	},
 	"OrpheaMindDevourer": {
 		Name: "Mind Devourer",
@@ -7264,7 +7264,7 @@ var talentData = map[string]talentText{
 	},
 	"TyraelMasteryHolyGround": {
 		Name: "Holy Ground",
-		Text: "Create a ring for 3 seconds that blocks enemies from entering the area teleported to using El'druin's Might.",
+		Text: "Create a ring for 4 seconds that blocks enemies from entering the area teleported to using El'druin's Might.",
 	},
 	"TyraelMasteryJudgmentAngelofJustice": {
 		Name: "Angel of Justice",
@@ -7984,7 +7984,7 @@ var talentData = map[string]talentText{
 	},
 	"YrelMaraadsInsight": {
 		Name: "Maraad's Insight",
-		Text: "After casting a Basic Ability, Yrel's next Basic Attack heals her for 128.",
+		Text: "After damaging an enemy Hero with a Basic Ability, Yrel's next Basic Attack heals her for 128.",
 	},
 	"YrelRighteousHammerRighteousMomentum": {
 		Name: "Righteous Momentum",
