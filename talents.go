@@ -184,7 +184,7 @@ var heroData = []Hero{
 		Slug:      "fenix",
 		Role:      "Damage",
 		MultiRole: []string{"Damage"},
-		Talents:   [7][]string{{"FenixAdvancedTargeting", "FenixArsenalSynergy", "FenixMobileOffense"}, {"FenixTargetAcquired", "FenixInhibitingEnergy", "FenixWarpConduit", "FenixEmergencyProtocol"}, {"FenixCombatAdvantage", "FenixWarpWarfare", "FenixDivertPowerWeaponsTalent"}, {"FenixHeroicAbilityPurificationSalvo", "FenixHeroicAbilityPlanetCracker"}, {"FenixAdaniumShell", "FenixDampeningField", "FenixRapidRecharge", "FenixAuxiliaryShields"}, {"FenixOffensiveCadence", "FenixPhotonicWeaponry", "FenixArsenalOvercharge"}, {"FenixSecondaryFire", "FenixSingularityCharge", "FenixUnconqueredSpirit"}},
+		Talents:   [7][]string{{"FenixAdvancedTargeting", "FenixArsenalSynergy", "FenixMobileOffense"}, {"FenixTargetAcquired", "FenixInhibitingEnergy", "FenixEmergencyProtocol"}, {"FenixCombatAdvantage", "FenixWarpWarfare", "FenixDivertPowerWeaponsTalent"}, {"FenixHeroicAbilityPurificationSalvo", "FenixHeroicAbilityPlanetCracker"}, {"FenixAdaniumShell", "FenixDampeningField", "FenixRapidRecharge", "FenixAuxiliaryShields"}, {"FenixOffensiveCadence", "FenixPhotonicWeaponry", "FenixArsenalOvercharge"}, {"FenixSecondaryFire", "FenixSingularityCharge", "FenixUnconqueredSpirit"}},
 	},
 	{
 		Name:      "Gall",
@@ -512,7 +512,7 @@ var heroData = []Hero{
 		Slug:      "stitches",
 		Role:      "Warrior",
 		MultiRole: []string{"Warrior"},
-		Talents:   [7][]string{{"StitchesChewYourFood", "GenericDampenMagic", "StitchesHungryforMore", "StitchesHeavySlam"}, {"GenericTalentAmplifiedHealing", "StitchesRestorativeFumes", "StitchesPutridGroundSlam"}, {"StitchesSavortheFlavorDevour", "StitchesLastBiteDevour", "StitchesCombatStyleTenderizer", "StitchesToxicGas"}, {"StitchesHeroicAbilityPutridBile", "StitchesHeroicAbilityGorge"}, {"StitchesFleaBag", "StitchesMegaSmashSlam", "StitchesIndigestionDevour"}, {"StitchesPulverizeSlam", "StitchesFishingHook", "StitchesShishKabobHook", "GenericTalentStoneskin"}, {"StitchesPotentBile", "StitchesHungryHungryStitchesGorge", "GenericTalentHardenedShield", "StitchesCannibalize"}},
+		Talents:   [7][]string{{"StitchesSavortheFlavorDevour", "StitchesPatchworkCreation", "StitchesHungryforMore"}, {"StitchesSerratedEdge", "StitchesPlaytime", "StitchesChopChop"}, {"StitchesBlight", "StitchesCannibalize", "StitchesTenderizer"}, {"StitchesHeroicAbilityPutridBile", "StitchesHeroicAbilityGorge"}, {"StitchesLacerate", "StitchesDigestiveJuices", "StitchesGasFlare"}, {"StitchesFishingHook", "StitchesMeatHook", "StitchesPulverizeSlam"}, {"StitchesPotentBile", "StitchesHungryHungryStitchesGorge", "StitchesSecondHelping", "StitchesShamblingHorror"}},
 	},
 	{
 		Name:      "Stukov",
@@ -528,7 +528,7 @@ var heroData = []Hero{
 		Slug:      "sylvanas",
 		Role:      "Specialist",
 		MultiRole: []string{"Specialist"},
-		Talents:   [7][]string{{"SylvanasTalentOverflowingQuiver", "SylvanasDreadfulWake", "SylvanasTalentMercenaryQueen"}, {"SylvanasTalentWitheringBarrage", "SylvanasTalentWithTheWind", "SylvanasTalentLostSoul"}, {"SylvanasTalentWitheringFireBarbedShot", "SylvanasTalentUnstablePoison", "SylvanasHeroicAbilityPossession"}, {"SylvanasHeroicAbilityWailingArrow", "SylvanasHeroicAbilityMindControl"}, {"SylvanasTalentLifeDrain", "SylvanasTalentWindrunnerHauntingWave", "SylvanasTalentWillOfTheForsaken", "GenericTalentSpellShield"}, {"SylvanasTalentWitheringFireEvasiveFire", "SylvanasTalentColdEmbrace", "SylvanasTalentOverwhelmingAffliction", "SylvanasTalentRemorseless"}, {"SylvanasWailingArrowDeafeningBlast", "SylvanasTalentDarkLadysCallMindControl", "GenericTalentFuryoftheStorm", "GenericTalentFlashoftheStorms"}},
+		Talents:   [7][]string{{"SylvanasTalentMightOfTheBansheeQueen", "SylvanasUnfurlingShadowsShadowDagger", "SylvanasTalentOverwhelmingAffliction"}, {"SylvanasTalentUnstablePoison", "SylvanasTalentMercenaryQueen", "SylvanasHeroicAbilityPossession"}, {"SylvanasTalentWitheringFireBarbedShot", "SylvanasTalentLostSoul", "SylvanasTalentFesteringWounds"}, {"SylvanasHeroicAbilityWailingArrow", "SylvanasMindControl"}, {"SylvanasTalentColdEmbrace", "SylvanasTalentWindrunnerHauntingWave", "SylvanasTalentRemorseless"}, {"SylvanasTalentWitheringFireEvasiveFire", "SylvanasTalentLifeDrain", "SylvanasTalentWillOfTheForsaken"}, {"SylvanasWailingArrowDeafeningBlast", "SylvanasDarkLadysCall", "SylvanasTalentWitheringBarrage", "GenericTalentFlashoftheStorms"}},
 	},
 	{
 		Name:      "Tassadar",
@@ -1196,7 +1196,7 @@ var talentData = map[string]talentText{
 	},
 	"AnubarakNerubianArmor": {
 		Name: "Nerubian Armor",
-		Text: "Every 12 seconds, gain 30 Spell Armor against the next enemy Ability and subsequent Abilities for 1.5 seconds, reducing the damage taken by 30%.",
+		Text: "Increase Hardened Carapace's Spell Armor by 20.",
 	},
 	"AnubarakResilientScarabs": {
 		Name: "Resilient Scarabs",
@@ -1524,7 +1524,7 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanHeroicAbilityDemonicInvasion": {
 		Name: "Demonic Invasion",
-		Text: "Rain a small army of Demonic Grunts down on enemies, dealing 65 damage per impact. Grunts deal 42 damage, have 750 Health and last up to 10 seconds. When Grunts die they explode, dealing 98 damage to nearby enemies.",
+		Text: "Rain a small army of Demonic Grunts down on enemies, dealing 65 damage per impact. Grunts deal 42 damage, have 750 Health and last up to 10 seconds. When Grunts die they explode, dealing 98 damage to nearby enemies.\nUsable while Channeling All Shall Burn.",
 	},
 	"AzmodanMasterofDestruction": {
 		Name: "Master of Destruction",
@@ -1544,7 +1544,7 @@ var talentData = map[string]talentText{
 	},
 	"AzmodanTideOfSin": {
 		Name: "Tide of Sin",
-		Text: "Activate to make the next Globe of Annihilation cost no Mana and deal 50% more damage.",
+		Text: "Activate to make the next Globe of Annihilation cost no Mana and deal 50% more damage.\nUsable while Channeling All Shall Burn.",
 	},
 	"AzmodanTotalAnnihilation": {
 		Name: "Total Annihilation",
@@ -1732,7 +1732,7 @@ var talentData = map[string]talentText{
 	},
 	"BrightwingPixieCharm": {
 		Name: "Pixie Charm",
-		Text: "Activate to consume 20 stacks of Bribe to instantly defeat an uncaptured Mercenary.\nPassive: Gain 1 stack of Bribe when a nearby enemy Minion dies, and 5 stacks when hitting an enemy Hero with Arcane Flare's center. Maximum 80 stacks.",
+		Text: "Activate to consume 20 stacks of Bribe to instantly defeat an uncaptured non-Elite Mercenary.\nPassive: Gain 1 stack of Bribe when a nearby enemy Minion dies, and 5 stacks when hitting an enemy Hero with Arcane Flare's center. Maximum 80 stacks.",
 	},
 	"BrightwingPixieDustPixiePower": {
 		Name: "Pixie Power",
@@ -1836,7 +1836,7 @@ var talentData = map[string]talentText{
 	},
 	"ButcherTalentEnraged": {
 		Name: "Enraged",
-		Text: "While below 50% of his maximum Health, taking damage causes The Butcher to become Enraged for 10 seconds, gaining 40% Attack Speed and 15 Armor, reducing damage taken by 15%.\nThis effect has a 25 second cooldown.",
+		Text: "While below 50% of his maximum Health, taking damage causes The Butcher to become Enraged for 10 seconds, gaining 40% Attack Speed and 25 Armor, reducing damage taken by 25%.\nThis effect has a 25 second cooldown.",
 	},
 	"ChenAccumulatingFlame": {
 		Name: "Accumulating Flame",
@@ -1876,7 +1876,7 @@ var talentData = map[string]talentText{
 	},
 	"ChenGroundingBrew": {
 		Name: "Grounding Brew",
-		Text: "Fortifying Brew grants 30 Spell Armor while drinking, reducing Ability Damage taken by 30%.",
+		Text: "Fortifying Brew grants 40 Spell Armor while drinking, reducing Ability Damage taken by 40%.",
 	},
 	"ChenHeroicAbilityStormEarthFire": {
 		Name: "Storm, Earth, Fire",
@@ -1900,7 +1900,7 @@ var talentData = map[string]talentText{
 	},
 	"ChenMasteryWanderingKegUntappedPotential": {
 		Name: "Untapped Potential",
-		Text: "Wandering Keg increases Movement Speed by 100% and grants 50 Armor, reducing damage taken by 50%.",
+		Text: "Wandering Keg increases Movement Speed by 100% and grants 60 Armor, reducing damage taken by 60%.",
 	},
 	"ChenPressurePoint": {
 		Name: "Pressure Point",
@@ -1908,7 +1908,7 @@ var talentData = map[string]talentText{
 	},
 	"ChenPurifyingBrew": {
 		Name: "Purifying Brew",
-		Text: "The next Stun or Silence used against Chen has its duration reduced by 75% and resets the cooldown of Fortifying Brew. Can only trigger once every 15 seconds. While channeling Fortifying Brew gain 30 Spell Armor, reducing Ability Damage taken by 30%.",
+		Text: "The next Stun or Silence used against Chen has its duration reduced by 75% and resets the cooldown of Fortifying Brew. Can only trigger once every 15 seconds. While channeling Fortifying Brew gain 40 Spell Armor, reducing Ability Damage taken by 40%.",
 	},
 	"ChenRefreshingElixir": {
 		Name: "Refreshing Elixir",
@@ -2004,7 +2004,7 @@ var talentData = map[string]talentText{
 	},
 	"ChoTwilightVeil": {
 		Name: "Twilight Veil",
-		Text: "Activate to increase the Armor bonus of Ogre Hide by 200% for 2 seconds. If cast while Ogre Rage is active, it instantly swaps to Ogre Hide.",
+		Text: "Activate to increase the Armor bonus of Ogre Hide by 100% for 2 seconds. If cast while Ogre Rage is active, it instantly swaps to Ogre Hide.",
 	},
 	"ChoUppercut": {
 		Name: "Uppercut",
@@ -2640,7 +2640,7 @@ var talentData = map[string]talentText{
 	},
 	"DiabloShadowChargeSacrificialSoul": {
 		Name: "Sacrificial Soul",
-		Text: "Stunning a Hero with Shadow Charge grants 5 Souls and 20 Armor for 4 seconds. While at 100 Souls, increase this Armor to 40.",
+		Text: "Stunning a Hero with Shadow Charge grants 5 Souls and 25 Armor for 4 seconds. While at 100 Souls, increase this Armor to 50.",
 	},
 	"DiabloSoulShield": {
 		Name: "Soul Shield",
@@ -2832,7 +2832,7 @@ var talentData = map[string]talentText{
 	},
 	"ETCMasteryShowStopper": {
 		Name: "Show Stopper",
-		Text: "After using Powerslide, gain 15 Armor for 4 seconds, reducing all damage taken by 15%.",
+		Text: "After using Powerslide, gain 35 Armor for 4 seconds, reducing all damage taken by 35%.",
 	},
 	"ETCMasterySpeedMetal": {
 		Name: "Speed Metal",
@@ -2944,7 +2944,7 @@ var talentData = map[string]talentText{
 	},
 	"FalstadWingman": {
 		Name: "Wingman",
-		Text: "Enemy Minions killed near Falstad grant a stack of Bribe. Falstad can use 20 stacks to bribe a Mercenary, instantly defeating them and permanently increasing the damage of Lightning Rod by 5%.\nDoes not work on Bosses. Maximum of 80 stacks.\nPassive: Reduce Lightning Rod's cooldown by 3 seconds.",
+		Text: "Enemy Minions killed near Falstad grant a stack of Bribe. Falstad can use 20 stacks to bribe a Mercenary, instantly defeating them and permanently increasing the damage of Lightning Rod by 5%.\nDoes not work on Elite Mercenaries. Maximum of 80 stacks.\nPassive: Reduce Lightning Rod's cooldown by 3 seconds.",
 	},
 	"FenixAdaniumShell": {
 		Name: "Adanium Shell",
@@ -2964,7 +2964,7 @@ var talentData = map[string]talentText{
 	},
 	"FenixAuxiliaryShields": {
 		Name: "Auxiliary Shields",
-		Text: "Permanently reduce Fenix's maximum Health by 10% but increase Shield Capacitor's Shield by 20%. Basic Attacks regenerate Shields equal to 10% of the damage dealt.",
+		Text: "Permanently reduce Fenix's maximum Health by 30% but increase Shield Capacitor's Shield by 40%. Basic Attacks regenerate Shields equal to 10% of the damage dealt.",
 	},
 	"FenixCombatAdvantage": {
 		Name: "Combat Advantage",
@@ -2972,11 +2972,11 @@ var talentData = map[string]talentText{
 	},
 	"FenixDampeningField": {
 		Name: "Dampening Field",
-		Text: "Fenix gains 20 Spell Armor while he has a Shield from Shield Capacitor.",
+		Text: "Fenix gains 25 Spell Armor while he has a Shield from Shield Capacitor.",
 	},
 	"FenixDivertPowerWeaponsTalent": {
 		Name: "Divert Power: Weapons",
-		Text: "Activate to instantly drain Shield Capacitor's Shield, but increase Basic Attack damage for 5 seconds proportionate to the amount of Shields drained, up to an 80% increase.",
+		Text: "Activate to gain 40% Basic Attack damage for 5 seconds. Basic Attacking a Hero refreshes this duration. Once Divert Power: Weapons ends, drain all of Shield Capacitor's Shields.",
 	},
 	"FenixEmergencyProtocol": {
 		Name: "Emergency Protocol",
@@ -2988,11 +2988,11 @@ var talentData = map[string]talentText{
 	},
 	"FenixHeroicAbilityPurificationSalvo": {
 		Name: "Purification Salvo",
-		Text: "Channel for 1.5 seconds, sweeping a laser in front of Fenix that locks onto enemy Heroes. Once Channeling finishes, fire 5 missiles at each locked Hero, dealing 86 damage each. Deals 50% increased damage to Slowed targets.",
+		Text: "Channel for 1.5 seconds, sweeping a laser in front of Fenix that locks onto enemy Heroes. Once Channeling finishes, fire 5 missiles at each locked Hero, dealing 79 damage each. Deals 50% increased damage to Slowed targets.",
 	},
 	"FenixInhibitingEnergy": {
 		Name: "Inhibiting Energy",
-		Text: "While Phase Bomb is active, Basic Attacks against Heroes Slowed by Plasma Cutter Slow all enemies in the area by 35% for 4 seconds.",
+		Text: "While Phase Bomb is active, Basic Attacks against Slowed Heroes Slow all enemies in the area by 30% for 3 seconds. Does not spread from Inhibiting Energy's Slow.",
 	},
 	"FenixMobileOffense": {
 		Name: "Mobile Offense",
@@ -3012,7 +3012,7 @@ var talentData = map[string]talentText{
 	},
 	"FenixSecondaryFire": {
 		Name: "Secondary Fire",
-		Text: "Hitting an enemy Hero with Plasma Cutter fires a Purification Salvo missile at them after 0.5 seconds, dealing 86 damage. Deals 50% increased damage to Slowed targets.",
+		Text: "Hitting an enemy Hero with Plasma Cutter fires a Purification Salvo missile at them after 0.5 seconds, dealing 79 damage. Deals 50% increased damage to Slowed targets.",
 	},
 	"FenixSingularityCharge": {
 		Name: "Singularity Charge",
@@ -3032,7 +3032,7 @@ var talentData = map[string]talentText{
 	},
 	"FenixWarpWarfare": {
 		Name: "Warp Warfare",
-		Text: "After arriving with Warp, gain 175% Attack Speed for 4 seconds while in Repeater Cannon mode.",
+		Text: "After arriving with Warp, gain 175% Attack Speed for 4 seconds while in Repeater Cannon mode. Hero Takedowns reset Warp's cooldown.",
 	},
 	"FirebatActiveJuggernautPlating": {
 		Name: "Juggernaut Plating",
@@ -3328,7 +3328,7 @@ var talentData = map[string]talentText{
 	},
 	"GenericTalentBribe": {
 		Name: "Bribe",
-		Text: "Enemy Minions killed near you grant a stack of Bribe. Use 20 stacks to bribe a Mercenary, instantly defeating them.  Does not work on Bosses.  Maximum of 100 stacks. If a camp is defeated entirely with Bribe, the camp respawns 50% faster.",
+		Text: "Enemy Minions killed near you grant a stack of Bribe. Use 20 stacks to bribe a Mercenary, instantly defeating them.  Does not work on Elite Mercenaries.  Maximum of 100 stacks. If a camp is defeated entirely with Bribe, the camp respawns 50% faster.",
 	},
 	"GenericTalentBurningRage": {
 		Name: "Burning Rage",
@@ -3952,7 +3952,7 @@ var talentData = map[string]talentText{
 	},
 	"JainaFrostbiteArcaneIntellect": {
 		Name: "Arcane Intellect",
-		Text: "Dealing damage to a Chilled target returns Mana to Jaina. Basic Attacks return 0 Mana and Abilities return 0.",
+		Text: "Dealing damage to a Chilled target returns Mana to Jaina. Basic Attacks return 5 Mana and Abilities return 20.",
 	},
 	"JainaFrostbiteDeepChill": {
 		Name: "Deep Chill",
@@ -5176,7 +5176,7 @@ var talentData = map[string]talentText{
 	},
 	"MedicShieldSequencer": {
 		Name: "Shield Sequencer",
-		Text: "Safeguard gains a second charge. These charges cannot stack on a single target.",
+		Text: "Safeguard gains a second charge.",
 	},
 	"MedicSystemShock": {
 		Name: "System Shock",
@@ -5184,7 +5184,7 @@ var talentData = map[string]talentText{
 	},
 	"MedicTraumaTrigger": {
 		Name: "Trauma Trigger",
-		Text: "Taking damage while below 40% Health grants 30 Armor for 3 seconds.\nThis effect has a 30 second cooldown.",
+		Text: "Taking damage while below 40% Health grants 40 Armor for 3 seconds.\nThis effect has a 30 second cooldown.",
 	},
 	"MedicVanadiumPlating": {
 		Name: "Vanadium Plating",
@@ -5228,7 +5228,7 @@ var talentData = map[string]talentText{
 	},
 	"MedivhForceOfWillReabsorption": {
 		Name: "Reabsorption",
-		Text: "Increase the amount of healing from Force Of Will to 70% of the damage it absorbed.",
+		Text: "Increase the amount of healing from Force of Will to 70% of the damage it absorbed.",
 	},
 	"MedivhForceofMagic": {
 		Name: "Force of Magic",
@@ -5544,7 +5544,7 @@ var talentData = map[string]talentText{
 	},
 	"MurkyAFishyDeal": {
 		Name: "A Fishy Deal",
-		Text: "Killing a Minion with Pufferfish grants a stack of Bribe. Use 8 stacks to bribe a Mercenary, instantly defeating them. Does not work on Bosses.\nMaximum of 32 stacks of Bribe.",
+		Text: "Killing a Minion with Pufferfish grants a stack of Bribe. Use 8 stacks to bribe a Mercenary, instantly defeating them. Does not work on Elite Mercenaries.\nMaximum of 32 stacks of Bribe.",
 	},
 	"MurkyBigTunaKahuna": {
 		Name: "Big Tuna Kahuna",
@@ -5716,7 +5716,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaCombatStyleAntiArmorShells": {
 		Name: "Anti-Armor Shells",
-		Text: "Nova's Basic Attacks deal 250% damage and decrease the Physical Armor of Heroic targets by 10 for 3 seconds, but her Attack Speed is proportionally slower.",
+		Text: "Nova's Basic Attacks deal 250% damage and decrease the Physical Armor of Heroic targets by 15 for 3 seconds, but her Attack Speed is proportionally slower.",
 	},
 	"NovaCombatStyleOneintheChamber": {
 		Name: "One in the Chamber",
@@ -5724,7 +5724,7 @@ var talentData = map[string]talentText{
 	},
 	"NovaCovertMission": {
 		Name: "Covert Mission",
-		Text: "Enemy Minions killed near Nova grant a stack of Bribe. Hero Takedowns grant 10 stacks of Bribe. Use 25 stacks to bribe a Mercenary, instantly defeating them.  Does not work on Bosses.  Maximum of 100 stacks. If a camp is defeated entirely with Bribe, the camp respawns 50% faster.",
+		Text: "Enemy Minions killed near Nova grant a stack of Bribe. Hero Takedowns grant 10 stacks of Bribe. Use 25 stacks to bribe a Mercenary, instantly defeating them.  Does not work on Elite Mercenaries.  Maximum of 100 stacks. If a camp is defeated entirely with Bribe, the camp respawns 50% faster.",
 	},
 	"NovaCovertOps": {
 		Name: "Covert Ops",
@@ -5824,7 +5824,7 @@ var talentData = map[string]talentText{
 	},
 	"OrpheaCrushingJaws": {
 		Name: "Crushing Jaws",
-		Text: "After 1.25 seconds, pulls enemies in an area towards the center, dealing 275 damage and Stunning them for 0.75 seconds.",
+		Text: "After 1.25 seconds, pull enemies in an area towards the center, dealing 275 damage and Stunning them for 0.75 seconds.",
 	},
 	"OrpheaDeadMagic": {
 		Name: "Dead Magic",
@@ -5836,7 +5836,7 @@ var talentData = map[string]talentText{
 	},
 	"OrpheaEldritchConduit": {
 		Name: "Eldritch Conduit",
-		Text: "Each Chaos consumed increases Orphea's Spell Power by 3%, up to 30%. After reaching the maximum bonus, the Spell Power is further increased by an additional 30%. Lasts 10 seconds.",
+		Text: "Each Chaos consumed increases Orphea's Spell Power by 3%, up to 30%. After reaching the maximum bonus, the Spell Power is increased by an additional 30%. Lasts 10 seconds.",
 	},
 	"OrpheaEnPointe": {
 		Name: "En Pointe",
@@ -6080,7 +6080,7 @@ var talentData = map[string]talentText{
 	},
 	"RaynorBountyHunter": {
 		Name: "Bounty Hunter",
-		Text: "If Give 'Em Some Pepper's target is a Hero, it deals an additional 3% of their maximum Health as damage and grants Raynor 5 Armor for 3 seconds. \nActivate Give 'Em Some Pepper to apply it to Raynor's next Basic Attack.",
+		Text: "If Give 'Em Some Pepper's target is a Hero, it deals an additional 3% of their maximum Health as damage and grants Raynor 10 Armor for 3 seconds. \nActivate Give 'Em Some Pepper to apply it to Raynor's next Basic Attack.",
 	},
 	"RaynorDuskWing": {
 		Name: "Dusk Wing",
@@ -6292,7 +6292,7 @@ var talentData = map[string]talentText{
 	},
 	"RexxarHunterGatherer": {
 		Name: "Hunter-Gatherer",
-		Text: "Quest: Gathering a Regeneration Globe increases Rexxar's Health Regeneration by 1.25 per second, up to 25 per second. \nReward: After gathering 20 Globes, Rexxar and Misha gain 10 Armor.",
+		Text: "Quest: Gathering a Regeneration Globe increases Rexxar's Health Regeneration by 1.25 per second, up to 25 per second. \nReward: After gathering 20 Globes, Rexxar and Misha gain 15 Armor.",
 	},
 	"RexxarMendPetBloodOfTheRhino": {
 		Name: "Blood of the Rhino",
@@ -6498,33 +6498,29 @@ var talentData = map[string]talentText{
 		Name: "Tactical Mine Deployment",
 		Text: "Moving while Thrusters is active leaves a trail of up to 5 Spider Mines. Additionally, increase the Slow of Spider Mines by 15%.",
 	},
+	"StitchesBlight": {
+		Name: "Blight",
+		Text: "Activate to apply Vile Gas to all nearby enemies. Enemy Heroes hit receive 20% less healing for 5 seconds.\nPassive: Vile Gas heals Stitches for 33% of the damage dealt.",
+	},
 	"StitchesCannibalize": {
 		Name: "Cannibalize",
-		Text: "Basic Attacks against Heroes heal Stitches for 5% of his maximum Health.",
+		Text: "Hitting Heroes with Basic Attacks or the inner impact area of Slam heals Stitches for 1.75% of his maximum Health.",
 	},
-	"StitchesChewYourFood": {
-		Name: "Chew Your Food",
-		Text: "Using Devour also heals Stitches for 10% of his max Health over 3 seconds.",
+	"StitchesChopChop": {
+		Name: "Chop Chop",
+		Text: "Hitting an enemy Hero with the inner impact area of Slam grants 50% increased Attack Speed for 4 seconds.",
 	},
-	"StitchesCombatStyleTenderizer": {
-		Name: "Tenderizer",
-		Text: "Basic Attacks slow enemy Movement Speed by 25% for 1.5 seconds.",
-	},
-	"StitchesCombatStyleVileCleaver": {
-		Name: "Vile Cleaver",
-		Text: "Basic Attacks create a cloud of Vile Gas on the target.",
+	"StitchesDigestiveJuices": {
+		Name: "Digestive Juices",
+		Text: "Enemy Heroes hit by Devour deal 40% reduced damage for 4 seconds.",
 	},
 	"StitchesFishingHook": {
 		Name: "Fishing Hook",
-		Text: "Hook has an additional 40% range.",
+		Text: "Hook has an additional 50% range.",
 	},
-	"StitchesFleaBag": {
-		Name: "Flea Bag",
-		Text: "Whenever Stitches is stunned or rooted, his Basic Ability cooldowns are reduced by 6 seconds.",
-	},
-	"StitchesHeavySlam": {
-		Name: "Heavy Slam",
-		Text: "Slam damage increased by 40%.",
+	"StitchesGasFlare": {
+		Name: "Gas Flare",
+		Text: "Deals 15 damage per second to nearby enemies. Hitting an enemy Hero with Hook increases this damage by 150% for 4 seconds.",
 	},
 	"StitchesHeroicAbilityGorge": {
 		Name: "Gorge",
@@ -6532,7 +6528,7 @@ var talentData = map[string]talentText{
 	},
 	"StitchesHeroicAbilityPutridBile": {
 		Name: "Putrid Bile",
-		Text: "Emit bile that deals 37 damage per second to enemies within, slowing them by 35%. Stitches gains 20% Movement Speed while emitting bile. Lasts 8 seconds.",
+		Text: "Emit bile that deals 37 damage per second to enemies within, Slowing them by 35% for 1.5 seconds. Gain 20% Movement Speed while emitting bile. Lasts 8 seconds.",
 	},
 	"StitchesHungryHungryStitchesGorge": {
 		Name: "Hungry Hungry Stitches",
@@ -6540,47 +6536,55 @@ var talentData = map[string]talentText{
 	},
 	"StitchesHungryforMore": {
 		Name: "Hungry for More",
-		Text: "Quest: Gathering a Regeneration Globe increases Stitches's maximum Health by 30, up to 900. \nReward: Upon gathering 30 Globes, increase Movement Speed by 10%.",
+		Text: "Quest: Gathering a Regeneration Globe increases Stitches's maximum Health by 30. \nReward: Every 15 Globes gathered permanently increases Stitches's Movement Speed by 5%, up to 20%.",
 	},
 	"StitchesIndigestionDevour": {
 		Name: "Indigestion",
 		Text: "Using Devour also creates a Retchling that applies Vile Gas Poison when it attacks.",
 	},
-	"StitchesLastBiteDevour": {
-		Name: "Last Bite",
-		Text: "If an enemy dies within 3 seconds of being damaged by Devour, its cooldown is reduced by 12 seconds.",
+	"StitchesLacerate": {
+		Name: "Lacerate",
+		Text: "Slam afflicts enemies with Vile Gas, and Heroes hit by Slam have their Armor reduced by 10 for 4 seconds.",
 	},
-	"StitchesMegaSmashSlam": {
-		Name: "Mega Smash",
-		Text: "Range and arc of Slam increased by 25%.",
+	"StitchesMeatHook": {
+		Name: "Meat Hook",
+		Text: "Hitting an enemy Hero with Hook heals Stitches for 16% of his maximum Health over 4 seconds. For 4 seconds, Stitches's Basic Attacks against the Hero hit refreshes the healing duration.",
+	},
+	"StitchesPatchworkCreation": {
+		Name: "Patchwork Creation",
+		Text: "Increase regeneration effects and all healing received by 15%. Whenever a nearby enemy Minion dies, restore 30 Health. Takedowns restore 240 Health.",
+	},
+	"StitchesPlaytime": {
+		Name: "Playtime!",
+		Text: "Heroes hit by Slam reduce the cooldowns of Stitches's other Basic Abilities by 0.5 seconds, increased to 2 seconds for Heroes that are hit by its inner impact area.",
 	},
 	"StitchesPotentBile": {
 		Name: "Potent Bile",
-		Text: "Putrid Bile lasts 6 seconds longer and its slow amount is increased from 35% to 45%.",
+		Text: "Putrid Bile lasts 6 seconds longer and its Slow is increased from 35% to 45%.",
 	},
 	"StitchesPulverizeSlam": {
 		Name: "Pulverize",
-		Text: "Decreases Slam's cooldown by 2 seconds and it also slows enemies by 75% for 1 second.",
-	},
-	"StitchesPutridGroundSlam": {
-		Name: "Putrid Ground",
-		Text: "Enemies hit by Slam are infected with Vile Gas.",
-	},
-	"StitchesRestorativeFumes": {
-		Name: "Restorative Fumes",
-		Text: "Whenever Vile Gas damages an enemy Hero, Stitches is healed for 27 Health.",
+		Text: "All enemies hit by Slam are Slowed by 75% for 0.75 seconds.",
 	},
 	"StitchesSavortheFlavorDevour": {
 		Name: "Savor the Flavor",
-		Text: "Quest: Using Devour on an enemy Hero permanently increases Stitches's Health Regeneration by 2 per second.",
+		Text: "When Devour hits a Hero, Stitches heals for an additional 8% of his maximum Health and Mana over 4 seconds. \nQuest: Hitting enemy Heroes with Devour increases Stitches's Health Regeneration by 1.",
 	},
-	"StitchesShishKabobHook": {
-		Name: "Shish Kabob",
-		Text: "Hook can pull up to 2 targets.",
+	"StitchesSecondHelping": {
+		Name: "Second Helping",
+		Text: "Devour gains 1 additional charge. Enemy Heroes hit by Devour reduce the cooldown of Stitches's Heroic Ability by 5 seconds.",
 	},
-	"StitchesToxicGas": {
-		Name: "Toxic Gas",
-		Text: "Increases Vile Gas' radius by 25% and its damage by 50%.",
+	"StitchesSerratedEdge": {
+		Name: "Serrated Edge",
+		Text: "Hitting an enemy Hero with Hook deals bonus damage equal to 5% of their maximum Health, and reduces Hook's cooldown by 3 seconds.",
+	},
+	"StitchesShamblingHorror": {
+		Name: "Shambling Horror",
+		Text: "Activate to gain 50 Armor for 4 seconds.\nPassive: Stitches cannot have his Movement Speed reduced below 100%.",
+	},
+	"StitchesTenderizer": {
+		Name: "Tenderizer",
+		Text: "Basic Attacks Slow enemies by 25% for 2.5 seconds and refresh the duration of Slam's inner impact area Slow.",
 	},
 	"StukovBioExplosionSwitch": {
 		Name: "Bio-Explosion Switch",
@@ -6678,21 +6682,25 @@ var talentData = map[string]talentText{
 		Name: "Within My Reach",
 		Text: "Increase the range of Lurking Arm by 50%.",
 	},
+	"SylvanasDarkLadysCall": {
+		Name: "Dark Lady's Call",
+		Text: "Heroes hit by Mind Control have their vision radius greatly reduced for 5 seconds. Mind Control's cooldown is reduced by 30 seconds.",
+	},
 	"SylvanasDreadfulWake": {
 		Name: "Dreadful Wake",
-		Text: "Haunting Wave's application of Black Arrow on Minions and Mercenaries increases the duration to 7 seconds. Haunting Wave restores 5 Mana per Minion or Mercenary hit.",
-	},
-	"SylvanasHeroicAbilityMindControl": {
-		Name: "Mind Control",
-		Text: "After a 1 second cast, take control of an enemy Hero's movement, Silencing them and prevent them from doing anything else. Channel lasts 2.5 seconds.",
+		Text: "Haunting Wave's application of Black Arrow on Minions and Mercenaries increases the duration to 7 seconds. Haunting Wave restores 0 Mana per Minion or Mercenary hit.",
 	},
 	"SylvanasHeroicAbilityPossession": {
 		Name: "Possession",
-		Text: "Force an enemy Minion to fight for Sylvanas's team.\nStores up to 3 charges.",
+		Text: "Activate to force an enemy Minion to fight for Sylvanas's team. Catapults require 3 charges. Stores up to 3 charges.",
 	},
 	"SylvanasHeroicAbilityWailingArrow": {
 		Name: "Wailing Arrow",
-		Text: "Shoot an arrow that can be reactivated to deal 228 damage and silence enemies in an area making them unable to use Abilities for 2.5 seconds. The arrow detonates automatically if it reaches maximum range.",
+		Text: "Shoot an arrow that can be reactivated to deal 228 damage and Silence enemies in an area for 2.5 seconds. The arrow detonates automatically if it reaches maximum range.",
+	},
+	"SylvanasMindControl": {
+		Name: "Mind Control",
+		Text: "After 0.25 seconds, fire a missile that Mind Controls the first enemy Hero hit. Heroes hit are Silenced, Slowed by 30%, and forced to walk towards Sylvanas for 1.75 seconds. ",
 	},
 	"SylvanasTalentBlackArrowsParalysis": {
 		Name: "Paralysis",
@@ -6700,43 +6708,47 @@ var talentData = map[string]talentText{
 	},
 	"SylvanasTalentColdEmbrace": {
 		Name: "Cold Embrace",
-		Text: "Shadow Dagger lowers the Armor of the initial enemy by 25 for 2 seconds, causing them to take 25% more damage.",
+		Text: "Shadow Dagger reduces the Armor of the initial target by 25 and any enemy it spreads to by 10 for 2.5 seconds.",
 	},
-	"SylvanasTalentCorruption": {
-		Name: "Corruption",
-		Text: "Basic Attacks against Structures destroy 2 Ammunition.",
-	},
-	"SylvanasTalentDarkLadysCallMindControl": {
-		Name: "Dark Lady's Call",
-		Text: "Mind Controlled enemies gain 100% Movement Speed for the duration.",
+	"SylvanasTalentFesteringWounds": {
+		Name: "Festering Wounds",
+		Text: "Increase Haunting Wave's damage by 25%. Haunting Wave applies 3 stacks of Banshee's Curse.",
 	},
 	"SylvanasTalentLifeDrain": {
 		Name: "Life Drain",
-		Text: "Shadow Dagger heals Sylvanas for 37 each time it spreads to an enemy.",
+		Text: "Heal for 15% of damage dealt by Sylvanas to enemies with 3 stacks of Banshee's Curse. Healing is doubled against Heroes.",
 	},
 	"SylvanasTalentLostSoul": {
 		Name: "Lost Soul",
-		Text: "Reduce Shadow Dagger's cooldown by 1 seconds each time it spreads to a Hero.",
+		Text: "Basic Attacks against Heroes with 3 stacks of Banshee's Curse reduce the cooldown of Shadow Dagger by 1.75 seconds.",
 	},
 	"SylvanasTalentMercenaryQueen": {
 		Name: "Mercenary Queen",
-		Text: "Friendly non-Boss Mercenaries near Sylvanas deal 60% more damage.",
+		Text: "Friendly non-Elite Mercenaries near Sylvanas deal 60% more damage. Sylvanas Stuns and deals 30% additional damage to Mercenaries with 3 stacks of Banshee's Curse.",
+	},
+	"SylvanasTalentMightOfTheBansheeQueen": {
+		Name: "Might of the Banshee Queen",
+		Text: "Hitting an enemy Hero with Withering Fire increases Sylvanas's Attack Speed and Spell Power by 5% for 6 seconds, stacking up to 5 times.",
 	},
 	"SylvanasTalentOverflowingQuiver": {
 		Name: "Overflowing Quiver",
-		Text: "When a nearby enemy Minion dies, a free Withering Fire is shot. This cannot hit Heroes.",
+		Text: "[PH] Increase the number of Withering Fire shots by 2.",
 	},
 	"SylvanasTalentOverwhelmingAffliction": {
 		Name: "Overwhelming Affliction",
-		Text: "Black Arrows now also applies to Heroes, slowing their Movement Speed by 6% for the duration. Stacks up to 5 times.",
+		Text: "Enemy Heroes with 3 stacks of Banshee's Curse are Slowed by 15%. Sylvanas's Basic Attacks against Slowed enemy Heroes deal 1% of their maximum Health as damage.",
 	},
 	"SylvanasTalentRemorseless": {
 		Name: "Remorseless",
-		Text: "After using an Ability, Sylvanas's next Basic Attack within 3 seconds deals 40% additional damage.",
+		Text: "Increase Sylvanas's Basic Attack range by 1. Sylvanas's Basic Attacks against enemy Heroes with 3 stacks of Banshee's Curse shoot an untalented shot of Withering Fire. This shot of Withering Fire applies Banshee's Curse.",
 	},
 	"SylvanasTalentUnstablePoison": {
 		Name: "Unstable Poison",
-		Text: "Minions that die under the effects of Black Arrows explode, dealing 116 damage to nearby enemies.  Does not damage Heroes or Structures.",
+		Text: "Minions that die under the effects of Shadow Dagger or Sylvanas's Traits explode, dealing 130 damage to nearby Minions, Mercenaries, and Summons.",
+	},
+	"SylvanasTalentUnyieldingBlight": {
+		Name: "Unyielding Blight",
+		Text: "[PH] If Shadow Dagger's initial target is an enemy Hero that has 3 stacks of Black Arrows, then increase its damage by 100%.",
 	},
 	"SylvanasTalentWillOfTheForsaken": {
 		Name: "Will of the Forsaken",
@@ -6744,7 +6756,7 @@ var talentData = map[string]talentText{
 	},
 	"SylvanasTalentWindrunnerHauntingWave": {
 		Name: "Windrunner",
-		Text: "Teleporting with Haunting Wave fully recharges Withering Fire. Haunting Wave can be cast a second time for free within 5 seconds after teleporting.",
+		Text: "Haunting Wave can be cast a second time for free within 5 seconds after teleporting. Teleporting with Haunting Wave resets the cooldown of Withering Fire.",
 	},
 	"SylvanasTalentWithTheWind": {
 		Name: "With the Wind",
@@ -6752,19 +6764,23 @@ var talentData = map[string]talentText{
 	},
 	"SylvanasTalentWitheringBarrage": {
 		Name: "Withering Barrage",
-		Text: "Increase Withering Fire charges by 1. Charges can be fired 33% faster.",
+		Text: "Enemy Heroes hit by Withering Fire reduce its cooldown by 0.75 seconds.",
 	},
 	"SylvanasTalentWitheringFireBarbedShot": {
 		Name: "Barbed Shot",
-		Text: "Withering Fire deals 200% bonus damage to Minions, Mercenaries, and Monsters.",
+		Text: "Hitting the same enemy with 5 shots of Withering Fire causes the 5th shot to deal 350% bonus damage.",
 	},
 	"SylvanasTalentWitheringFireEvasiveFire": {
 		Name: "Evasive Fire",
-		Text: "When an enemy is hit with Withering Fire, gain 10% Movement Speed for 2 seconds, stacking up to 30%.",
+		Text: "Hitting an enemy with Withering Fire grants 6% Movement Speed for 2 seconds, up to 30%. Basic Attacks refresh this duration.",
+	},
+	"SylvanasUnfurlingShadowsShadowDagger": {
+		Name: "Unfurling Shadows",
+		Text: "Quest: Each time an enemy Hero with 3 stacks of Banshee's Curse is hit by Shadow Dagger, its damage is permanently increased by 0.5%.",
 	},
 	"SylvanasWailingArrowDeafeningBlast": {
 		Name: "Deafening Blast",
-		Text: "Enemies at the center of Wailing Arrow's explosion take 50% more damage and are silenced for twice as long.",
+		Text: "Enemies at the center of Wailing Arrow's explosion take 50% more damage and are Silenced for twice as long.",
 	},
 	"TalentNullificationShield": {
 		Name: "Nullification Shield",
@@ -6800,7 +6816,7 @@ var talentData = map[string]talentText{
 	},
 	"TassadarKhalasLight": {
 		Name: "Khala's Light",
-		Text: "Plasma Shield grants Heroes 15 Armor for 3 seconds upon breaking or expiring, causing them to take 15% less damage.",
+		Text: "Plasma Shield grants Heroes 20 Armor for 3 seconds upon breaking or expiring, causing them to take 20% less damage.",
 	},
 	"TassadarKhaydarinResonance": {
 		Name: "Khaydarin Resonance",
@@ -6964,7 +6980,7 @@ var talentData = map[string]talentText{
 	},
 	"TinkerHeroicAbilityRoboGoblin": {
 		Name: "Robo-Goblin",
-		Text: "Activate to gain 30 Armor and 30% Movement Speed for 4 seconds. \nPassive: Basic Attacks deal 100% bonus damage. ",
+		Text: "Activate to gain 40 Armor and 30% Movement Speed for 4 seconds. \nPassive: Basic Attacks deal 100% bonus damage. ",
 	},
 	"TinkerHiredGoons": {
 		Name: "Hired Goons",
@@ -7216,7 +7232,7 @@ var talentData = map[string]talentText{
 	},
 	"TyraelDefenseOfTheAngels": {
 		Name: "Defense of the Angels",
-		Text: "Activate to gain 40 Armor for 5 seconds.\nEach time Righteousness's Shield absorbs damage, Defense of the Angel's cooldown is reduced by 3 seconds.",
+		Text: "Activate to gain 50 Armor for 5 seconds.\nEach time Righteousness's Shield absorbs damage, Defense of the Angel's cooldown is reduced by 3 seconds.",
 	},
 	"TyraelDivineVigor": {
 		Name: "Divine Vigor",
@@ -7264,7 +7280,7 @@ var talentData = map[string]talentText{
 	},
 	"TyraelMasteryHolyGround": {
 		Name: "Holy Ground",
-		Text: "Create a ring for 4 seconds that blocks enemies from entering the area teleported to using El'druin's Might.",
+		Text: "Create a ring for 3 seconds that blocks enemies from entering the area teleported to using El'druin's Might.",
 	},
 	"TyraelMasteryJudgmentAngelofJustice": {
 		Name: "Angel of Justice",
@@ -7412,11 +7428,11 @@ var talentData = map[string]talentText{
 	},
 	"UtherEternalDevotionDivineProtection": {
 		Name: "Divine Protection",
-		Text: "Applying Devotion to a Hero that is already affected by Devotion increases their Armor by an additional 15.",
+		Text: "Applying Devotion to a Hero that is already affected by Devotion increases their Armor to 50.",
 	},
 	"UtherEternalDevotionGuardianOfAncientKings": {
 		Name: "Guardian of Ancient Kings",
-		Text: "Healing a Hero that is Stunned, Rooted, or Silenced increases the Armor bonus they receive from Devotion from 15 to 50.",
+		Text: "Healing a Hero that is Stunned, Rooted, or Silenced increases the Armor bonus they receive from Devotion from 25 to 50.",
 	},
 	"UtherHammerOfJusticePursuitOfJustice": {
 		Name: "Pursuit of Justice",
@@ -7548,7 +7564,7 @@ var talentData = map[string]talentText{
 	},
 	"ValeeraSmokeBomb": {
 		Name: "Smoke Bomb",
-		Text: "Create a cloud of smoke. While in the smoke, Valeera is Unrevealable, can pass through other units, and gains 25 Armor, reducing damage taken by 25%. Valeera can continue to attack and use abilities without being revealed. Lasts 5 seconds.\nUsing this Ability does not break Stealth.",
+		Text: "Create a cloud of smoke. While in the smoke, Valeera is Unrevealable, can pass through other units, and gains 30 Armor, reducing damage taken by 30%. Valeera can continue to attack and use abilities without being revealed. Lasts 5 seconds.\nUsing this Ability does not break Stealth.",
 	},
 	"ValeeraSmokeBombAdrenalineRush": {
 		Name: "Adrenaline Rush",
@@ -7848,7 +7864,7 @@ var talentData = map[string]talentText{
 	},
 	"WizardArcaneOrbArcaneOrbit": {
 		Name: "Arcane Orbit",
-		Text: "Arcane Orb travels 25% farther, increasing it's maximum distance damage bonus from 270 to 371.",
+		Text: "Arcane Orb travels 25% farther, increasing its maximum distance damage bonus from 270 to 371.",
 	},
 	"WizardArcaneOrbTriumvirate": {
 		Name: "Triumvirate",
