@@ -109,7 +109,7 @@ spec:
       containers:
       - name: cockroachdb
         #image: gcr.io/hots-cockroach/cockroach:latest
-        image: cockroachdb/cockroach
+        image: cockroachdb/cockroach:latest
         #image: cockroachdb/cockroach-unstable:v2.1.0-rc.2
         imagePullPolicy: Always
         resources:
@@ -147,4 +147,4 @@ spec:
       storageClassName: ssd
       resources:
         requests:
-          storage: 80Gi
+          storage: 1Gi
