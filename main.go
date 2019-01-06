@@ -16,7 +16,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"path/filepath"
 	"regexp"
 	"sort"
 	"strconv"
@@ -28,7 +27,6 @@ import (
 	"github.com/golang/freetype/truetype"
 	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
-	servertiming "github.com/mitchellh/go-server-timing"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/acme"
 	"golang.org/x/crypto/acme/autocert"
@@ -90,258 +88,258 @@ func main() {
 	db := mustInitDB(dbURL.String())
 	defer db.Close()
 
-	h := &hotsContext{
-		dburl: dbURL.String(),
-		db:    db,
-		x:     sqlx.NewDb(db, "postgres"),
-	}
+	//
+	//	h := &hotsContext{
+	//		dburl: dbURL.String(),
+	//		db:    db,
+	//		x:     sqlx.NewDb(db, "postgres"),
+	//	}
+	//
+	//	if *flagImportNum != -1 {
+	//		mustMigrate(db)
+	//		if err := h.Import(*flagImport, *flagImportNum); err != nil {
+	//			log.Fatalf("%+v", err)
+	//		}
+	//		return
+	//	}
+	//
+	//	/*
+	//	   The database cache has two timestamps: until and last_hit. last_hit is
+	//	   the last time a user request hit the URL. until is the time after which
+	//	   the request should be re-processed. A cron job routinely clears out
+	//	   old cache entries whose last_hit field is older than some threshold
+	//	   (2 days or so?). The same cron job also re-processes entries whose
+	//	   until time has passed, and resets the until time for some small
+	//	   threshold in the future (1 hour)?. Thus, the user code should never
+	//	   consult any timestamps in the cache table.
+	//
+	//	   When the in-memory cache is used, the table's last_hit column is not
+	//	   updated. That field is only updated when the cache table is consulted
+	//	   for a hit. This means that writes don't have to happen in most user
+	//	   requests, and at worst the last_hit field will be out-of-date for
+	//	   whatever the until length (1 hour) is.
+	//	*/
+	//	h.cacheTime = time.Hour
+	//	if *flagInit {
+	//		h.cacheTime = time.Second * 5
+	//		popularGameLimit = 2
+	//		leaderboardMinGames = 5
+	//		daysOld = int(time.Since(time.Date(2017, time.June, 1, 0, 0, 0, 0, time.UTC)) / (time.Hour * 24))
+	//	}
+	//
+	//	if *flagElo {
+	//		if err := h.syncConfig(*flagImport); err != nil {
+	//			log.Fatalf("%+v", err)
+	//		}
+	//		if err := h.elo(); err != nil {
+	//			log.Fatalf("%+v", err)
+	//		}
+	//		return
+	//	}
+	//
+	//	if *flagCron {
+	//		if err := h.cronLoop(); err != nil {
+	//			log.Fatalf("%+v", err)
+	//		}
+	//		return
+	//	}
+	//	if *flagUpdateDB {
+	//		if err := h.updateDB(); err != nil {
+	//			log.Fatalf("%+v", err)
+	//		}
+	//		return
+	//	}
+	//
+	//	h.mu.cache = make(map[string]cache)
+	//
+	//	if *flagInit {
+	//		// Don't exit on panic; prevents modd from spinning.
+	//		defer func() {
+	//			return
+	//			if r := recover(); r != nil {
+	//				fmt.Printf("%+v\n", r)
+	//				select {}
+	//			}
+	//		}()
+	//		if initDB {
+	//			time.Sleep(time.Second * 2)
+	//			mustExec(db, fmt.Sprintf("drop database if exists %s cascade; create database %[1]s", dbName))
+	//		}
+	//	}
+	//
+	//	if *flagMigrate || *flagInit {
+	//		mustMigrate(db)
+	//		if initDB {
+	//			if err := h.Import(*flagImport, *flagImportNum); err != nil {
+	//				log.Fatalf("%+v", err)
+	//			}
+	//		}
+	//		if err := h.syncConfig(*flagImport); err != nil {
+	//			log.Fatalf("%+v", err)
+	//		}
+	//		if !*flagInit {
+	//			return
+	//		}
+	//		h.ClearCache(nil, nil)
+	//	}
+	//
+	//	if err := h.updateInit(context.Background()); err != nil {
+	//		panic(fmt.Sprintf("%+v", err))
+	//	}
+	//
+	//	enableCache := !*flagInit
+	//
+	//	wrap := func(f func(context.Context, *http.Request) (interface{}, error)) http.HandlerFunc {
+	//		return func(w http.ResponseWriter, r *http.Request) {
+	//			ctx, cancel := context.WithTimeout(r.Context(), time.Second*60)
+	//			defer cancel()
+	//			var sh servertiming.Header
+	//			ctx = servertiming.NewContext(ctx, &sh)
+	//			if v, err := url.ParseQuery(r.URL.RawQuery); err == nil {
+	//				r.URL.RawQuery = v.Encode()
+	//			}
+	//			url := r.URL.String()
+	//			start := time.Now()
+	//			defer func() { fmt.Printf("%s: %s\n", url, time.Since(start)) }()
+	//			if enableCache && h.CheckCache(ctx, start, w, r, r.URL.Path, url) {
+	//				return
+	//			}
+	//			tm := servertiming.FromContext(ctx).NewMetric("req").Start()
+	//			res, err := f(ctx, r)
+	//			tm.Stop()
+	//			if len(sh.Metrics) > 0 {
+	//				if len(sh.Metrics) > 10 {
+	//					sh.Metrics = sh.Metrics[:10]
+	//				}
+	//				w.Header().Add(servertiming.HeaderKey, sh.String())
+	//			}
+	//			if err != nil {
+	//				log.Printf("%s: %+v", url, err)
+	//				http.Error(w, err.Error(), http.StatusInternalServerError)
+	//				return
+	//			}
+	//			data, gzip, err := resultToBytes(res)
+	//			if err != nil {
+	//				log.Printf("%s: %v", url, err)
+	//				http.Error(w, err.Error(), http.StatusInternalServerError)
+	//				return
+	//			}
+	//			writeDataGzip(w, r, data, gzip)
+	//			if enableCache {
+	//				go h.WriteCache(r.URL.Path, url, start, data, gzip)
+	//			}
+	//		}
+	//	}
+	//
+	//	mux := http.NewServeMux()
+	//
+	//	mux.Handle("/api/init", wrap(h.Init))
+	//	mux.Handle("/api/get-build-winrates", wrap(h.GetBuildWinrates))
+	//	mux.Handle("/api/get-compare-hero", wrap(h.GetCompareHero))
+	//	mux.Handle("/api/get-game-data", wrap(h.GetGameData))
+	//	mux.Handle("/api/get-hero-data", wrap(h.GetRelativeWinrates))
+	//	mux.Handle("/api/get-leaderboard", wrap(h.GetLeaderboard))
+	//	mux.Handle("/api/get-player-by-name", wrap(h.GetPlayerName))
+	//	mux.Handle("/api/get-player-games", wrap(h.GetPlayerGames))
+	//	mux.Handle("/api/get-player-matchups", wrap(h.GetPlayerMatchups))
+	//	mux.Handle("/api/get-player-profile", wrap(h.GetPlayerProfile))
+	//	mux.Handle("/api/get-player-friends", wrap(h.GetPlayerFriends))
+	//	mux.Handle("/api/get-winrates", wrap(h.GetWinrates))
+	//	if *flagInit {
+	//		mux.HandleFunc("/api/clear-cache", h.ClearCache)
+	//	}
+	//
+	//	fileServer := http.FileServer(http.Dir("static"))
+	//	serveFiles := func(w http.ResponseWriter, r *http.Request) {
+	//		if r.URL.Path == "/service-worker.js" {
+	//			w.Header().Add("Cache-Control", "no-cache")
+	//		} else if strings.HasPrefix(r.URL.Path, "/static") || strings.HasPrefix(r.URL.Path, "/img") {
+	//			// Two week cache for probably static assets.
+	//			w.Header().Add("Cache-Control", "max-age=1209600")
+	//		} else {
+	//			w.Header().Add("Cache-Control", "max-age=3600")
+	//		}
+	//		fileServer.ServeHTTP(w, r)
+	//	}
+	//	serveIndex := func(w http.ResponseWriter, r *http.Request) {
+	//		r.URL.Path = "/"
+	//		serveFiles(w, r)
+	//	}
+	//
+	//	talents := make(map[string]bool)
+	//	if err := filepath.Walk(filepath.Join("static", "img", "talent"), func(path string, info os.FileInfo, err error) error {
+	//		if err != nil {
+	//			log.Fatal(err)
+	//		}
+	//		talents[info.Name()] = true
+	//		return nil
+	//	}); err != nil {
+	//		log.Fatal(err)
+	//	}
+	//	mux.HandleFunc("/img/talent/", func(w http.ResponseWriter, r *http.Request) {
+	//		base := filepath.Base(r.URL.Path)
+	//		if !talents[base] {
+	//			makeTalentImg(w, r)
+	//			return
+	//		}
+	//		serveFiles(w, r)
+	//	})
+	//
+	//	mux.HandleFunc("/about/", serveIndex)
+	//	mux.HandleFunc("/compare/", serveIndex)
+	//	mux.HandleFunc("/games/", serveIndex)
+	//	mux.HandleFunc("/heroes/", serveIndex)
+	//	mux.HandleFunc("/leaderboard", serveIndex)
+	//	mux.HandleFunc("/players/", serveIndex)
+	//	mux.HandleFunc("/talents/", serveIndex)
+	//	mux.HandleFunc("/", serveFiles)
+	//
+	//	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {})
+	//
+	//	go func() {
+	//		for range time.Tick(time.Minute * 10) {
+	//			if err := h.updateInit(context.Background()); err != nil {
+	//				panic(fmt.Sprintf("%+v", err))
+	//			}
+	//			// Clear the memory cache of old entries.
+	//			h.mu.Lock()
+	//			cutoff := time.Now().Add(-time.Hour).Unix()
+	//			for s, c := range h.mu.cache {
+	//				if c.until < cutoff {
+	//					delete(h.mu.cache, s)
+	//				}
+	//			}
+	//			h.mu.Unlock()
+	//		}
+	//	}()
 
-	if *flagImportNum != -1 {
-		mustMigrate(db)
-		if err := h.Import(*flagImport, *flagImportNum); err != nil {
-			log.Fatalf("%+v", err)
-		}
-		return
-	}
-
-	/*
-	   The database cache has two timestamps: until and last_hit. last_hit is
-	   the last time a user request hit the URL. until is the time after which
-	   the request should be re-processed. A cron job routinely clears out
-	   old cache entries whose last_hit field is older than some threshold
-	   (2 days or so?). The same cron job also re-processes entries whose
-	   until time has passed, and resets the until time for some small
-	   threshold in the future (1 hour)?. Thus, the user code should never
-	   consult any timestamps in the cache table.
-
-	   When the in-memory cache is used, the table's last_hit column is not
-	   updated. That field is only updated when the cache table is consulted
-	   for a hit. This means that writes don't have to happen in most user
-	   requests, and at worst the last_hit field will be out-of-date for
-	   whatever the until length (1 hour) is.
-	*/
-	h.cacheTime = time.Hour
-	if *flagInit {
-		h.cacheTime = time.Second * 5
-		popularGameLimit = 2
-		leaderboardMinGames = 5
-		daysOld = int(time.Since(time.Date(2017, time.June, 1, 0, 0, 0, 0, time.UTC)) / (time.Hour * 24))
-	}
-
-	if *flagElo {
-		if err := h.syncConfig(*flagImport); err != nil {
-			log.Fatalf("%+v", err)
-		}
-		if err := h.elo(); err != nil {
-			log.Fatalf("%+v", err)
-		}
-		return
-	}
-
-	if *flagCron {
-		if err := h.cronLoop(); err != nil {
-			log.Fatalf("%+v", err)
-		}
-		return
-	}
-	if *flagUpdateDB {
-		if err := h.updateDB(); err != nil {
-			log.Fatalf("%+v", err)
-		}
-		return
-	}
-
-	h.mu.cache = make(map[string]cache)
-
-	if *flagInit {
-		// Don't exit on panic; prevents modd from spinning.
-		defer func() {
-			return
-			if r := recover(); r != nil {
-				fmt.Printf("%+v\n", r)
-				select {}
-			}
-		}()
-		if initDB {
-			time.Sleep(time.Second * 2)
-			mustExec(db, fmt.Sprintf("drop database if exists %s cascade; create database %[1]s", dbName))
-		}
-	}
-
-	if *flagMigrate || *flagInit {
-		mustMigrate(db)
-		if initDB {
-			if err := h.Import(*flagImport, *flagImportNum); err != nil {
-				log.Fatalf("%+v", err)
-			}
-		}
-		if err := h.syncConfig(*flagImport); err != nil {
-			log.Fatalf("%+v", err)
-		}
-		if !*flagInit {
-			return
-		}
-		h.ClearCache(nil, nil)
-	}
-
-	if err := h.updateInit(context.Background()); err != nil {
-		panic(fmt.Sprintf("%+v", err))
-	}
-
-	enableCache := !*flagInit
-
-	wrap := func(f func(context.Context, *http.Request) (interface{}, error)) http.HandlerFunc {
-		return func(w http.ResponseWriter, r *http.Request) {
-			ctx, cancel := context.WithTimeout(r.Context(), time.Second*60)
-			defer cancel()
-			var sh servertiming.Header
-			ctx = servertiming.NewContext(ctx, &sh)
-			if v, err := url.ParseQuery(r.URL.RawQuery); err == nil {
-				r.URL.RawQuery = v.Encode()
-			}
-			url := r.URL.String()
-			start := time.Now()
-			defer func() { fmt.Printf("%s: %s\n", url, time.Since(start)) }()
-			if enableCache && h.CheckCache(ctx, start, w, r, r.URL.Path, url) {
-				return
-			}
-			tm := servertiming.FromContext(ctx).NewMetric("req").Start()
-			res, err := f(ctx, r)
-			tm.Stop()
-			if len(sh.Metrics) > 0 {
-				if len(sh.Metrics) > 10 {
-					sh.Metrics = sh.Metrics[:10]
-				}
-				w.Header().Add(servertiming.HeaderKey, sh.String())
-			}
-			if err != nil {
-				log.Printf("%s: %+v", url, err)
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-			data, gzip, err := resultToBytes(res)
-			if err != nil {
-				log.Printf("%s: %v", url, err)
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-			writeDataGzip(w, r, data, gzip)
-			if enableCache {
-				go h.WriteCache(r.URL.Path, url, start, data, gzip)
-			}
-		}
-	}
-
+	// Shutdown
 	mux := http.NewServeMux()
-
-	mux.Handle("/api/init", wrap(h.Init))
-	mux.Handle("/api/get-build-winrates", wrap(h.GetBuildWinrates))
-	mux.Handle("/api/get-compare-hero", wrap(h.GetCompareHero))
-	mux.Handle("/api/get-game-data", wrap(h.GetGameData))
-	mux.Handle("/api/get-hero-data", wrap(h.GetRelativeWinrates))
-	mux.Handle("/api/get-leaderboard", wrap(h.GetLeaderboard))
-	mux.Handle("/api/get-player-by-name", wrap(h.GetPlayerName))
-	mux.Handle("/api/get-player-games", wrap(h.GetPlayerGames))
-	mux.Handle("/api/get-player-matchups", wrap(h.GetPlayerMatchups))
-	mux.Handle("/api/get-player-profile", wrap(h.GetPlayerProfile))
-	mux.Handle("/api/get-player-friends", wrap(h.GetPlayerFriends))
-	mux.Handle("/api/get-winrates", wrap(h.GetWinrates))
-	if *flagInit {
-		mux.HandleFunc("/api/clear-cache", h.ClearCache)
-	}
-
-	fileServer := http.FileServer(http.Dir("static"))
-	serveFiles := func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/service-worker.js" {
-			w.Header().Add("Cache-Control", "no-cache")
-		} else if strings.HasPrefix(r.URL.Path, "/static") || strings.HasPrefix(r.URL.Path, "/img") {
-			// Two week cache for probably static assets.
-			w.Header().Add("Cache-Control", "max-age=1209600")
-		} else {
-			w.Header().Add("Cache-Control", "max-age=3600")
-		}
-		fileServer.ServeHTTP(w, r)
-	}
-	serveIndex := func(w http.ResponseWriter, r *http.Request) {
-		r.URL.Path = "/"
-		serveFiles(w, r)
-	}
-
-	talents := make(map[string]bool)
-	if err := filepath.Walk(filepath.Join("static", "img", "talent"), func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			log.Fatal(err)
-		}
-		talents[info.Name()] = true
-		return nil
-	}); err != nil {
-		log.Fatal(err)
-	}
-	mux.HandleFunc("/img/talent/", func(w http.ResponseWriter, r *http.Request) {
-		base := filepath.Base(r.URL.Path)
-		if !talents[base] {
-			makeTalentImg(w, r)
-			return
-		}
-		serveFiles(w, r)
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, `<!DOCTYPE html>
+<html>
+<head>
+<title>hots.dog</title>
+</head>
+<body>
+hots.dog has shut down. Thanks for visiting.
+</body>
+</html>
+		`)
 	})
-
-	mux.HandleFunc("/about/", serveIndex)
-	mux.HandleFunc("/compare/", serveIndex)
-	mux.HandleFunc("/games/", serveIndex)
-	mux.HandleFunc("/heroes/", serveIndex)
-	mux.HandleFunc("/leaderboard", serveIndex)
-	mux.HandleFunc("/players/", serveIndex)
-	mux.HandleFunc("/talents/", serveIndex)
-	mux.HandleFunc("/", serveFiles)
-
-	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {})
-
-	go func() {
-		for range time.Tick(time.Minute * 10) {
-			if err := h.updateInit(context.Background()); err != nil {
-				panic(fmt.Sprintf("%+v", err))
-			}
-			// Clear the memory cache of old entries.
-			h.mu.Lock()
-			cutoff := time.Now().Add(-time.Hour).Unix()
-			for s, c := range h.mu.cache {
-				if c.until < cutoff {
-					delete(h.mu.cache, s)
-				}
-			}
-			h.mu.Unlock()
-		}
-	}()
 
 	if *flagAutocert != "" {
 		fmt.Println("AUTOCERT on:", *flagAutocert)
 		if *flagAcmedir != "" {
 			fmt.Println("ACMEDIR:", *flagAcmedir)
 		}
-		const cloudflareOrigin = "cloudflare-origin"
 		m := autocert.Manager{
 			Prompt:     autocert.AcceptTOS,
 			HostPolicy: autocert.HostWhitelist(*flagAutocert),
 			Cache:      dbCache{db},
 		}
 		tlsConfig := &tls.Config{GetCertificate: m.GetCertificate}
-		if *flagAcmedir == cloudflareOrigin {
-			var certfile, keyfile []byte
-			if err := h.x.Get(&certfile, `SELECT s FROM config WHERE key = $1`, cloudflareOrigin+"-cert"); err != nil {
-				log.Fatalf("could not get certfile origin: %v", err)
-			}
-			if err := h.x.Get(&keyfile, `SELECT s FROM config WHERE key = $1`, cloudflareOrigin+"-key"); err != nil {
-				log.Fatalf("could not get keyfile origin: %v", err)
-			}
-			cert, err := tls.X509KeyPair(certfile, keyfile)
-			if err != nil {
-				log.Fatalf("cert: %v", err)
-			}
-			tlsConfig = &tls.Config{
-				Certificates: []tls.Certificate{cert},
-			}
-		} else if *flagAcmedir != "" {
+		if *flagAcmedir != "" {
 			m.Client = &acme.Client{
 				DirectoryURL: *flagAcmedir,
 			}

@@ -9,11 +9,11 @@ spec:
       labels:
         app: website
     spec:
-      initContainers:
-      - name: migrate
-        image: gcr.io/hots-cockroach/website:latest
-        command: ["/website", "-migrate", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
-        imagePullPolicy: Always
+#      initContainers:
+#      - name: migrate
+#        image: gcr.io/hots-cockroach/website:latest
+#        command: ["/website", "-migrate", "-cockroach=postgres://root@cockroachdb-public:26257/?sslmode=disable"]
+#        imagePullPolicy: Always
       containers:
       - name: website
         image: gcr.io/hots-cockroach/website:latest
